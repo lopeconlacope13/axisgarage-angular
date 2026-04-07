@@ -42,3 +42,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Project internals (no subir al repo)
+../frontend_requirements.md
+.env
+.env.local
+.env.*.local
