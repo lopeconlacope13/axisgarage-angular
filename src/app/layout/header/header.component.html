@@ -1,0 +1,18 @@
+<!-- TODO (Día 4): maquetar header completo glassmorphism -->
+<header class="glass-header fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a routerLink="/" class="font-display font-semibold text-sm tracking-wide">AXIS GARAGE</a>
+    <nav class="hidden md:flex gap-8">
+      <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">INVENTORY</a>
+      <a routerLink="/locations" class="eyebrow hover:text-axis-gold transition-colors duration-300">ATELIERS</a>
+    </nav>
+    <div class="flex gap-3">
+      @if (!isLoggedIn) {
+        <a routerLink="/login" class="btn-outline text-xs py-2 px-4">LOG IN</a>
+      } @else {
+        <button (click)="logout()" class="btn-outline text-xs py-2 px-4">LOGOUT</button>
+      }
+      <a routerLink="/vehicles" class="btn-gold text-xs py-2 px-4">RESERVE NOW</a>
+    </div>
+  </div>
+</header>
