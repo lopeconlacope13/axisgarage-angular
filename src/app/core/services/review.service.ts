@@ -20,7 +20,6 @@ export class ReviewService {
     });
   }
 
-  // TODO (Día 13): crear review tras confirmación de reserva
   create(dto: Partial<ReviewDTO>): Observable<ReviewDTO> {
     return this.http.post<ReviewDTO>(this.base, dto);
   }

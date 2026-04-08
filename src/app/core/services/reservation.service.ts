@@ -21,7 +21,6 @@ export class ReservationService {
     return this.http.get<ReservationDTO>(`${this.base}/${id}`);
   }
 
-  // TODO (Día 10): implementar con fechas y vehicleId
   create(dto: Partial<ReservationDTO>): Observable<ReservationDTO> {
     return this.http.post<ReservationDTO>(this.base, dto);
   }

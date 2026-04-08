@@ -7,7 +7,6 @@ import { VehicleDTO, ReviewDTO } from '../../../models/types';
 
 /**
  * Vista de detalle de un vehículo: imagen panorámica, specs y selector de fechas/cobertura.
- * TODO (Día 9): conectar ReservationService para la reserva.
  */
 @Component({
   selector: 'app-vehicle-detail',

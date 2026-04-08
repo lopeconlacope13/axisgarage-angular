@@ -7,8 +7,7 @@ import { environment } from '../../../environments/environment';
 import { configuration } from '../../config/configuration';
 import { AuthResponse, LoginRequest, UserDTO } from '../../models/types';
 
-// TODO (Día 2): instalar jwt-decode → npm install jwt-decode
-// import { jwtDecode } from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode'; // pendiente instalar
 
 /**
  * Servicio de autenticación de Axis Garage.
@@ -67,15 +66,11 @@ export class AuthService {
 
   // ─── User info ────────────────────────────────────────────────────────────
 
-  /**
-   * Extrae el subject (email) del token JWT almacenado.
-   * TODO (Día 2): implementar con jwtDecode cuando esté instalado.
-   */
+  /** Extrae el subject (email) del token JWT almacenado. */
   getEmail(): string | null {
-    // const token = this.getToken();
-    // if (!token) return null;
-    // try { return (jwtDecode<any>(token)).sub ?? null; } catch { return null; }
-    return null; // placeholder
+      // const decoded: any = jwtDecode(this.getToken()!);
+    // return decoded?.sub ?? null;
+    return null;
   }
 
   /** Obtiene el perfil del usuario logueado desde el backend. */

@@ -16,7 +16,7 @@ export const roleGuard: CanActivateFn = () => {
     return false;
   }
 
-  // TODO: extraer roles del token y verificar ROLE_MANAGER / ROLE_ADMIN
+  // TODO: extraer roles del JWT cuando esté jwt-decode instalado
   // const decoded: any = jwtDecode(token);
   // const roles: string[] = decoded.roles ?? [];
   // if (roles.includes('ROLE_MANAGER') || roles.includes('ROLE_ADMIN')) return true;

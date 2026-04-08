@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // TODO (Día 6): descomentar cuando esté la API integrada
     // this.vehicleSvc.getAll(0, 3).subscribe(p => this.featuredVehicles = p.content);
     // this.locationSvc.getAll().subscribe(l => this.locations = l);
   }

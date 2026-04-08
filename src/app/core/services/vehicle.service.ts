@@ -39,7 +39,6 @@ export class VehicleService {
 
   // ─── WRITE (MANAGER+) ─────────────────────────────────────────────────────
 
-  // TODO (Día 7): implementar create / update con multipart/form-data
   create(formData: FormData): Observable<VehicleDTO> {
     return this.http.post<VehicleDTO>(this.base, formData);
   }

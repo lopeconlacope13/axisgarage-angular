@@ -18,7 +18,6 @@ export class LocationService {
     return this.http.get<LocationDTO>(`${this.base}/${id}`);
   }
 
-  // TODO (Día 12): ADMIN actions
   create(dto: LocationDTO): Observable<LocationDTO> {
     return this.http.post<LocationDTO>(this.base, dto);
   }
