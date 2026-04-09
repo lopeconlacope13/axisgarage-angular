@@ -1,0 +1,50 @@
+<div class="flex min-h-screen" style="background:#0a0a0a">
+  <!-- sidebar -->
+  <aside class="w-56 border-r flex flex-col p-6 gap-6" style="border-color:rgba(245,245,240,0.06)">
+    <div class="font-display font-semibold text-sm">AXIS GARAGE</div>
+    <nav class="flex flex-col gap-3">
+      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">RESERVATIONS</a>
+      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">VEHICLES</a>
+      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">CLIENTS</a>
+    </nav>
+  </aside>
+
+  <!-- main -->
+  <main class="flex-1 p-8">
+    <h1 class="font-display text-2xl font-semibold mb-6">Active Reservations</h1>
+
+    @if (loading) {
+      <div class="text-axis-gray">Loading...</div>
+    } @else {
+      <div class="glass-card overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <tr>
+              <th class="eyebrow text-left p-4">ID</th>
+              <th class="eyebrow text-left p-4">Vehicle</th>
+              <th class="eyebrow text-left p-4">Dates</th>
+              <th class="eyebrow text-left p-4">Status</th>
+              <th class="eyebrow text-left p-4">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of reservations; track r.id) {
+              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <td class="p-4 text-axis-gray">#{{ r.id }}</td>
+                <td class="p-4">{{ r.vehicleModel }}</td>
+                <td class="p-4 text-axis-gray">{{ r.startDate }} → {{ r.endDate }}</td>
+                <td class="p-4">
+                  <span class="eyebrow px-2 py-1 rounded text-xs"
+                        [style.color]="r.status === 'CONFIRMED' ? '#b8952a' : '#9a9a95'">
+                    {{ r.status }}
+                  </span>
+                </td>
+                <td class="p-4 font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+</div>

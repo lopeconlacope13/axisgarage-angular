@@ -1,0 +1,70 @@
+<!-- Grain -->
+<div class="grain-overlay"></div>
+<div class="vignette"></div>
+
+<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#0a0a0a 0%,#111111 60%,#0f0e0a 100%);padding:1.5rem;">
+  
+  <a routerLink="/" style="position:absolute;top:2rem;left:2rem;display:flex;align-items:center;gap:0.75rem;opacity:0.7;transition:opacity 0.3s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.7'">
+    <div style="width:2rem;height:2rem;border:1px solid var(--axis-gold);border-radius:4px;display:flex;align-items:center;justify-content:center;">
+      <span style="color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:0.9rem;">A</span>
+    </div>
+    <span class="eyebrow" style="margin:0;">BACK TO ATELIER</span>
+  </a>
+
+  <div class="glass-card animate-fade-in" style="width:100%;max-width:28rem;padding:3rem 2.5rem;position:relative;z-index:10;box-shadow:0 25px 50px -12px rgba(0,0,0,0.8);">
+    
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <h1 class="section-title" style="font-size:1.8rem;margin-bottom:0.5rem;">Access <span style="font-style:italic;color:var(--axis-gold);">Vault</span></h1>
+      <p style="color:var(--axis-gray);font-size:0.9rem;">Please identify yourself to proceed.</p>
+    </div>
+
+    <!-- Error message feedback -->
+    <div *ngIf="error" style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);color:#fca5a5;padding:0.75rem;border-radius:6px;font-size:0.8rem;margin-bottom:1.5rem;text-align:center;">
+      {{ error }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div style="margin-bottom:1.5rem;">
+        <label for="email" class="eyebrow" style="display:block;margin-bottom:0.5rem;">Private Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email" 
+          required 
+          class="input-dark" 
+          placeholder="your@email.com"
+          autocomplete="username"
+        >
+      </div>
+
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label for="password" class="eyebrow" style="margin:0;">Access Key</label>
+        </div>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          required 
+          class="input-dark" 
+          placeholder="••••••••"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-gold" 
+        style="width:100%;font-size:0.8rem;padding:0.875rem;"
+        [disabled]="loading || !loginForm.form.valid"
+        [style.opacity]="(loading || !loginForm.form.valid) ? '0.5' : '1'"
+        [style.cursor]="(loading || !loginForm.form.valid) ? 'not-allowed' : 'pointer'"
+      >
+        <span>{{ loading ? 'AUTHENTICATING...' : 'ENTER VAULT' }}</span>
+      </button>
+    </form>
+
+  </div>
+</section>

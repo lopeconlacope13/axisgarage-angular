@@ -6,8 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { configuration } from '../../config/configuration';
 import { AuthResponse, LoginRequest, UserDTO } from '../../models/types';
-
-// import { jwtDecode } from 'jwt-decode'; // pendiente instalar
+import { jwtDecode } from 'jwt-decode';
 
 /**
  * Servicio de autenticación de Axis Garage.
@@ -68,9 +67,14 @@ export class AuthService {
 
   /** Extrae el subject (email) del token JWT almacenado. */
   getEmail(): string | null {
-      // const decoded: any = jwtDecode(this.getToken()!);
-    // return decoded?.sub ?? null;
-    return null;
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded?.sub ?? null;
+    } catch {
+      return null;
+    }
   }
 
   /** Obtiene el perfil del usuario logueado desde el backend. */

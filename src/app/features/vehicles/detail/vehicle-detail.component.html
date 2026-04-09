@@ -1,0 +1,42 @@
+<div class="max-w-7xl mx-auto px-6 pt-32 pb-16" *ngIf="vehicle">
+  <div class="eyebrow mb-2 opacity-60">{{ vehicle.locationName }} · {{ vehicle.categoryName }}</div>
+  <h1 class="section-title mb-2">{{ vehicle.brand }} <span class="italic">{{ vehicle.model }}</span></h1>
+  <div class="gold-divider mb-8"></div>
+
+  <!-- imagen 16:9 -->
+  <div class="w-full vehicle-img bg-axis-surface flex items-center justify-center mb-10" style="height:420px;">
+    <span class="font-display text-3xl italic opacity-10" style="color:#b8952a">{{ vehicle.brand }}</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- specs -->
+    <div class="md:col-span-2 glass-card p-8">
+      <h2 class="font-display text-xl font-semibold mb-6">Technical Specifications</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div><div class="eyebrow mb-1">Engine</div><div class="text-axis-white">{{ vehicle.engineType }}</div></div>
+        <div><div class="eyebrow mb-1">Power</div><div class="text-axis-white">{{ vehicle.horsePower }} hp</div></div>
+        <div><div class="eyebrow mb-1">0 – 100</div><div class="text-axis-white">{{ vehicle.zeroToHundred }}s</div></div>
+        <div><div class="eyebrow mb-1">Transmission</div><div class="text-axis-white">{{ vehicle.transmission }}</div></div>
+        <div><div class="eyebrow mb-1">Drivetrain</div><div class="text-axis-white">{{ vehicle.drivetrain }}</div></div>
+        <div><div class="eyebrow mb-1">Fuel</div><div class="text-axis-white">{{ vehicle.fuelType }}</div></div>
+      </div>
+    </div>
+
+    <!-- reserva -->
+    <div class="glass-card p-6 flex flex-col gap-4">
+      <div class="eyebrow" style="color:#b8952a">RESERVE THIS ASSET</div>
+      <div>
+        <label class="eyebrow block mb-1">Pick Up</label>
+        <input type="date" class="input-dark" [(ngModel)]="startDate" />
+      </div>
+      <div>
+        <label class="eyebrow block mb-1">Drop Off</label>
+        <input type="date" class="input-dark" [(ngModel)]="endDate" />
+      </div>
+      <div class="font-display text-2xl font-bold mt-2" style="color:#b8952a">
+        €{{ totalPrice | number:'1.0-0' }}
+      </div>
+      <button class="btn-gold w-full">PROCEED TO CHECKOUT</button>
+    </div>
+  </div>
+</div>
