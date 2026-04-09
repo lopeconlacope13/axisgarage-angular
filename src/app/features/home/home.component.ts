@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { VehicleService } from '../../../core/services/vehicle.service';
-import { LocationService } from '../../../core/services/location.service';
-import { VehicleDTO, LocationDTO } from '../../../models/types';
+import { VehicleService } from '../../core/services/vehicle.service';
+import { LocationService } from '../../core/services/location.service';
+import { VehicleDTO, LocationDTO } from '../../models/types';
 
 /**
  * Página de inicio: hero, partners marquee, ateliers y vehículos destacados.

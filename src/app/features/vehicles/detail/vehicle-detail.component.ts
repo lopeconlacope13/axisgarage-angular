@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { ReviewService } from '../../../core/services/review.service';
 import { VehicleDTO, ReviewDTO } from '../../../models/types';
@@ -11,7 +12,7 @@ import { VehicleDTO, ReviewDTO } from '../../../models/types';
 @Component({
   selector: 'app-vehicle-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './vehicle-detail.component.html',
   styleUrl: './vehicle-detail.component.css'
 })

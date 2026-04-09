@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ReservationService } from '../../../core/services/reservation.service';
-import { ReservationDTO, Page } from '../../../models/types';
+import { ReservationService } from '../../core/services/reservation.service';
+import { ReservationDTO, Page } from '../../models/types';
 
 /**
  * Dashboard de administración: tabla de reservas activas.
