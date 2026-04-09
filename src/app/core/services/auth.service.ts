@@ -116,6 +116,24 @@ export class AuthService {
     }
   }
 
+  /**
+   * Extrae info básica (email, inicial, roles) sincrónicamente del token actual.
+   * Ideal para la cabecera del Navbar.
+   */
+  getCurrentUser(): { email: string, roles: string[], initial: string } | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const decoded: any = jwtDecode(token);
+      const email = decoded?.sub ?? '';
+      const roles = decoded?.roles ?? [];
+      const initial = email ? email.charAt(0).toUpperCase() : 'U';
+      return { email, roles, initial };
+    } catch {
+      return null;
+    }
+  }
+
   /** Llama a un endpoint protegido en Spring Boot para que te devuelva el DTO User (Roles, nombres, tlf, etc.) */
   getProfile(): Observable<UserDTO> {
     return this.http.get<UserDTO>(`${environment.apiUrl}/user`);

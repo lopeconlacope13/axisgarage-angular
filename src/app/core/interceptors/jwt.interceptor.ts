@@ -10,6 +10,11 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const auth  = inject(AuthService);
   const token = auth.getToken();
 
+  // No enviar token para rutas de login o registro
+  if (req.url.includes('/authenticate') || req.url.includes('/register')) {
+    return next(req);
+  }
+
   if (token) {
     const authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` }

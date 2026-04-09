@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { LocationService } from '../../core/services/location.service';
 import { VehicleDTO, LocationDTO } from '../../models/types';
+import { HeaderComponent } from '../../layout/header/header.component';
 
 /**
  * Página de inicio: hero, partners marquee, ateliers y vehículos destacados.
@@ -12,7 +13,7 @@ import { VehicleDTO, LocationDTO } from '../../models/types';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, HeaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

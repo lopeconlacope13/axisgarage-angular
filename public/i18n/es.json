@@ -1,0 +1,29 @@
+{
+  "HEADER": {
+    "INVENTORY": "CATÁLOGO",
+    "ATELIERS": "ATELIERS",
+    "BRANDS": "MARCAS",
+    "LOGIN": "ACCEDER",
+    "REGISTER": "REGISTRARSE",
+    "RESERVE": "RESERVAR AHORA",
+    "PROFILE": "Mi Cuenta",
+    "RESERVATIONS": "Mis Reservas",
+    "DASHBOARD": "Dashboard",
+    "LOGOUT": "Cerrar Sesión",
+    "WELCOME": "Bienvenido"
+  },
+  "AUTH": {
+    "LOGIN_TITLE": "Access Vault",
+    "LOGIN_DESC": "Por favor, identifíquese para acceder.",
+    "LOGIN_EMAIL": "Correo Privado",
+    "LOGIN_PASS": "Clave de Acceso",
+    "LOGIN_BTN": "ENTRAR",
+    "LOGIN_BTN_LOADING": "AUTENTICANDO...",
+    "REGISTER_LINK": "SOLICITAR INVITACIÓN",
+    "NO_ACCOUNT": "¿SIN ACCESO?",
+    "CONTINUE_WITH": "o continúa usando",
+    "GOOGLE": "Continuar con Google",
+    "FACEBOOK": "Continuar con Facebook",
+    "BACK_TO_ATELIER": "VOLVER AL ATELIER"
+  }
+}

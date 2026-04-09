@@ -1,0 +1,29 @@
+{
+  "HEADER": {
+    "INVENTORY": "INVENTORY",
+    "ATELIERS": "ATELIERS",
+    "BRANDS": "BRANDS",
+    "LOGIN": "LOG IN",
+    "REGISTER": "REGISTER",
+    "RESERVE": "RESERVE NOW",
+    "PROFILE": "My Account",
+    "RESERVATIONS": "My Reservations",
+    "DASHBOARD": "Dashboard",
+    "LOGOUT": "Log Out",
+    "WELCOME": "Welcome"
+  },
+  "AUTH": {
+    "LOGIN_TITLE": "Access Vault",
+    "LOGIN_DESC": "Please identify yourself to proceed.",
+    "LOGIN_EMAIL": "Private Email",
+    "LOGIN_PASS": "Access Key",
+    "LOGIN_BTN": "ENTER VAULT",
+    "LOGIN_BTN_LOADING": "AUTHENTICATING...",
+    "REGISTER_LINK": "REQUEST INVITATION",
+    "NO_ACCOUNT": "NO ACCESS YET?",
+    "CONTINUE_WITH": "or continue using",
+    "GOOGLE": "Continue with Google",
+    "FACEBOOK": "Continue with Facebook",
+    "BACK_TO_ATELIER": "BACK TO ATELIER"
+  }
+}

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * COMPONENTE DE LOGIN (VISTA)
@@ -14,7 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-login', // El nombre de la etiqueta HTML (<app-login>)
   standalone: true,      // Angular moderno: sin app.module
-  imports: [CommonModule, FormsModule, RouterLink], // Módulos necesarios para ngIf, ngModel y routerLink
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule], // Módulos necesarios para ngIf, ngModel y routerLink
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
