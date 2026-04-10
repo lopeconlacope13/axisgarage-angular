@@ -103,7 +103,7 @@ import { VehicleDTO, ReservationDTO } from '../../models/types';
         </svg>
         <h2 class="font-display text-2xl font-semibold mb-2 text-axis-gold">Access Granted</h2>
         <p class="text-axis-gray mb-8">Reservation #{{ confirmedId }} successfully vaulted. Our concierge will contact you shortly.</p>
-        <button class="btn-outline w-full" routerLink="/dashboard">VIEW MY GARAGE</button>
+        <button class="btn-outline w-full" routerLink="/my-reservations">VIEW MY GARAGE</button>
       </div>
     </div>
   `
