@@ -48,3 +48,13 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Scripts temporales y logs de manipulacion
+rewrite_*
+prepare_*
+run_*
+fix_*
+*.py
+*.bat
+*.sh
+*.md
