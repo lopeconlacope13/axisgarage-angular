@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { configuration } from '../../config/configuration';
-import { AuthResponse, LoginRequest, UserDTO } from '../../models/types';
+import { AuthResponse, LoginRequest, RegisterRequest, UserDTO } from '../../models/types';
 import { jwtDecode } from 'jwt-decode';
 
 /**
@@ -58,6 +58,26 @@ export class AuthService {
       // 3. (tap) intercepta la respuesta correcta ANTES de devolvérsela al componente Login.
       // Aquí guardamos el token sin bloquear el flujo original.
       tap(res => this.setToken(res.token))
+    );
+  }
+
+  // ─── REGISTRO ─────────────────────────────────────────────────────────────
+
+  /**
+   * REGISTRO DE NUEVO USUARIO
+   * ---------------------------------------------------------
+   * Envía los datos del formulario al endpoint POST /api/v1/register.
+   * El backend devuelve el UserDTO del usuario creado (sin token).
+   * Tras el registro, el usuario debe hacer login para obtener su JWT.
+   *
+   * @param data Objeto RegisterRequest con firstName, lastName, email y password
+   * @returns    Observable<UserDTO> con los datos del usuario recién creado
+   */
+  register(data: RegisterRequest): Observable<UserDTO> {
+    return this.http.post<UserDTO>(
+      `${environment.apiUrl}/v1/register`,
+      data,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   // Variables enlazadas al formulario HTML mediante [(ngModel)]
   email    = '';
@@ -35,7 +35,34 @@ export class LoginComponent {
    * 1. auth: Nuestro servicio que habla con Spring Boot.
    * 2. router: El servicio de Angular para cambiar de página (hacer redirecciones).
    */
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {}
+
+  /**
+   * NGONINIT — Captura del callback OAuth2
+   * ---------------------------------------------------------
+   * Cuando Google o Facebook redirigen de vuelta al frontend,
+   * Spring Boot inyecta el JWT en la URL de retorno:
+   *   /login?token=eyJ...  → autenticación correcta
+   *   /login?error=...     → algo falló en el proveedor externo
+   *
+   * Usamos 'snapshot' (lectura única) porque el componente se carga
+   * una sola vez desde la redirección — sin suscripción continua.
+   */
+  ngOnInit(): void {
+    const params = this.route.snapshot.queryParamMap;
+    const token  = params.get('token');
+    const error  = params.get('error');
+
+    if (token) {
+      // OAuth2 exitoso: guardamos el token y navegamos al home
+      this.auth.setToken(token);
+      this.router.navigate(['/']);
+    }
+    if (error) {
+      // OAuth2 fallido: mostramos el motivo devuelto por Spring Boot
+      this.error = error;
+    }
+  }
 
   /**
    * FUNCIÓN ONSUBMIT

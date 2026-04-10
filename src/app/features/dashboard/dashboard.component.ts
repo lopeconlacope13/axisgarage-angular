@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ReservationService } from '../../core/services/reservation.service';
 import { ReservationDTO, Page } from '../../models/types';
 
@@ -11,7 +10,7 @@ import { ReservationDTO, Page } from '../../models/types';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

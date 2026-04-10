@@ -15,6 +15,13 @@ export class AuthResponse {
   message = '';
 }
 
+export class RegisterRequest {
+  firstName = '';
+  lastName  = '';
+  email     = '';
+  password  = '';
+}
+
 // ─── User ─────────────────────────────────────────────────────────────────────
 
 export class UserDTO {
