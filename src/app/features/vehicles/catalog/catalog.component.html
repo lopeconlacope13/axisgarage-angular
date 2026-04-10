@@ -7,19 +7,27 @@
   } @else {
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       @for (v of vehicles; track v.id) {
-        <div class="vehicle-card">
-          <div class="vehicle-img bg-axis-surface flex items-center justify-center" style="height:220px">
-            <span class="font-display italic opacity-20" style="color:#b8952a">{{ v.brand }} {{ v.model }}</span>
+        <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;height:100%;">
+          <div class="vehicle-img" style="height:220px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(17,17,17,0.8), transparent);"></div>
+            <span style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(184,149,42,0.2);font-size:1.5rem;z-index:1;">{{ v.brand }}</span>
           </div>
-          <div class="p-5">
-            <div class="eyebrow mb-1 opacity-60">{{ v.locationName }}</div>
-            <h3 class="font-display text-lg font-semibold mb-3">{{ v.brand }} <span class="italic">{{ v.model }}</span></h3>
-            <div class="flex items-center justify-between">
+          <div style="padding:1.5rem;display:flex;flex-direction:column;flex:1;">
+            <div class="eyebrow" style="margin-bottom:0.5rem;opacity:0.6;">{{ v.locationName }} · {{ v.categoryName }}</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;margin-bottom:1rem;">{{ v.brand }} <span style="font-style:italic;">{{ v.model }}</span></h3>
+            
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;margin-top:auto;">
+              <div style="text-align:center;flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.horsePower }}</div><div class="eyebrow" style="font-size:0.6rem;">HP</div></div>
+              <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.zeroToHundred }}s</div><div class="eyebrow" style="font-size:0.6rem;">0-100</div></div>
+              <div style="text-align:center;flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.engineType }}</div><div class="eyebrow" style="font-size:0.6rem;">ENGINE</div></div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
               <div>
                 <div class="eyebrow" style="font-size:0.6rem">DAILY FROM</div>
-                <div class="font-display text-xl font-bold" style="color:#b8952a">€{{ v.pricePerDay }}</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:#b8952a">€{{ v.pricePerDay }}</div>
               </div>
-              <a [routerLink]="['/vehicles', v.id]" class="btn-gold py-2 px-4 text-xs">RESERVE</a>
+              <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.75rem;padding:0.5rem 1rem;">RESERVE</a>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+
 import { VehicleService } from '../../core/services/vehicle.service';
 import { LocationService } from '../../core/services/location.service';
 import { VehicleDTO, LocationDTO } from '../../models/types';
@@ -13,7 +13,7 @@ import { HeaderComponent } from '../../layout/header/header.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, HeaderComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

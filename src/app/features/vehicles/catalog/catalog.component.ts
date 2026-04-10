@@ -30,7 +30,7 @@ export class CatalogComponent implements OnInit {
 
   loadVehicles(page = 0): void {
     this.loading = true;
-    this.vehicleSvc.getAll(page).subscribe({
+    this.vehicleSvc.getAll(page, 36).subscribe({
       next: (p: Page<VehicleDTO>) => {
         this.vehicles    = p.content;
         this.totalPages  = p.totalPages;
