@@ -17,6 +17,15 @@ export class ReservationService {
     return this.http.get<Page<ReservationDTO>>(this.base, { params });
   }
 
+  /** Devuelve las reservas de un cliente concreto filtrando por su ID. */
+  getByRenterId(renterId: number, page = 0, size = 20): Observable<Page<ReservationDTO>> {
+    const params = new HttpParams()
+      .set('renterId', renterId)
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<Page<ReservationDTO>>(this.base, { params });
+  }
+
   getById(id: number): Observable<ReservationDTO> {
     return this.http.get<ReservationDTO>(`${this.base}/${id}`);
   }
