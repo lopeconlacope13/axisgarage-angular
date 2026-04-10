@@ -1,7 +1,14 @@
-<!-- Grain -->
+<!-- Grain & Filters Globales -->
 <div class="grain-overlay"></div>
 <div class="vignette"></div>
 
-<!-- El enrutador inyectará aquí HomeComponent, LoginComponent, etc. -->
-<router-outlet />
+<!-- Cabecera -->
+<app-header></app-header>
 
+<!-- Contenido dinámico (Rutas) -->
+<main style="min-height: 100vh;">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Pie de página -->
+<app-footer></app-footer>

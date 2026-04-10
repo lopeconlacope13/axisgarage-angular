@@ -1,36 +1,38 @@
-<header class="glass-header fixed" style="top:0;left:0;right:0;z-index:50;">
-  <div class="container py-4 flex items-center justify-between">
+<header class="glass-header fixed top-0 left-0 right-0 w-full" style="z-index:9999;">
+  <div class="container mx-auto px-4 md:px-6 py-4" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
 
-    <div class="flex items-center gap-3">
-      <div style="width:2rem;height:2rem;border:1px solid var(--axis-gold);border-radius:4px;display:flex;align-items:center;justify-content:center;">
+    <!-- 1. LEFT: Logo & Branding -->
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <div style="width:2rem;height:2rem;border:1px solid var(--axis-gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <span style="color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:0.9rem;">A</span>
       </div>
       <div>
-        <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.05em;">AXIS GARAGE</div>
-        <div class="eyebrow" style="font-size:0.55rem;letter-spacing:0.2em;">THE PRIVATE ATELIER</div>
+        <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.05em;white-space:nowrap;">AXIS GARAGE</div>
+        <div class="eyebrow" style="font-size:0.55rem;letter-spacing:0.2em;white-space:nowrap;">THE PRIVATE ATELIER</div>
       </div>
     </div>
 
-    <!-- Navegación central (siempre visible pero configurable) -->
-    <nav class="md:flex" style="gap:2rem;display:none;">
-      <a href="#" class="eyebrow" style="transition:color 0.3s;" onmouseenter="this.style.color='#b8952a'" onmouseleave="this.style.color=''">{{ 'HEADER.INVENTORY' | translate }}</a>
-      <a href="#" class="eyebrow" style="transition:color 0.3s;" onmouseenter="this.style.color='#b8952a'" onmouseleave="this.style.color=''">{{ 'HEADER.ATELIERS' | translate }}</a>
-      <a href="#" class="eyebrow" style="transition:color 0.3s;" onmouseenter="this.style.color='#b8952a'" onmouseleave="this.style.color=''">{{ 'HEADER.BRANDS' | translate }}</a>
+    <!-- 2. CENTER: Navigation (Desktop Only) -->
+    <nav class="hidden md:flex" style="gap:2.5rem; justify-content:center; flex:1;">
+      <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
+      <a routerLink="/locations" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
+      <a href="#" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
     </nav>
 
-    <!-- Caja de herramientas derecha -->
-    <div class="flex items-center gap-4">
+    <!-- 3. RIGHT: Toolset -->
+    <div style="display:flex; align-items:center; gap:1rem; justify-content:flex-end;">
 
-      <!-- Selector de Idioma (Siempre visible) -->
-      <div class="flex gap-2">
-        <button [style.opacity]="currentLang === 'es' ? '1' : '0.4'" (click)="switchLang('es')" style="font-size:0.8rem;cursor:pointer;">🇪🇸</button>
-        <button [style.opacity]="currentLang === 'en' ? '1' : '0.4'" (click)="switchLang('en')" style="font-size:0.8rem;cursor:pointer;">🇬🇧</button>
+      <!-- Selector de Idioma -->
+      <div class="flex gap-2 bg-axis-surface rounded" style="padding:0.25rem 0.5rem; border:1px solid rgba(255,255,255,0.05);">
+        <button [style.opacity]="currentLang === 'es' ? '1' : '0.4'" (click)="switchLang('es')" style="font-size:0.7rem;font-weight:600;cursor:pointer;transition:opacity 0.3s;background:none;border:none;color:white;">ES</button>
+        <span class="text-axis-gray" style="font-size:0.7rem;">|</span>
+        <button [style.opacity]="currentLang === 'en' ? '1' : '0.4'" (click)="switchLang('en')" style="font-size:0.7rem;font-weight:600;cursor:pointer;transition:opacity 0.3s;background:none;border:none;color:white;">EN</button>
       </div>
 
       <!-- NO logueado -->
       <ng-container *ngIf="!isLoggedIn">
-        <button routerLink="/login" class="btn-outline" style="font-size:0.72rem;padding:0.5rem 1rem;">{{ 'HEADER.LOGIN' | translate }}</button>
-        <button routerLink="/register" class="btn-gold" style="font-size:0.72rem;padding:0.5rem 1rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
+        <button routerLink="/login" class="btn-outline font-display tracking-widest uppercase hidden sm:inline-flex" style="font-size:0.7rem;padding:0.4rem 0.8rem;">{{ 'HEADER.LOGIN' | translate }}</button>
+        <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase" style="font-size:0.7rem;padding:0.4rem 0.8rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
       </ng-container>
 
       <!-- LOGUEADO -->
@@ -38,39 +40,38 @@
         <div style="position:relative;">
           
           <!-- Botón de Avatar desplegable -->
-          <div (click)="toggleDropdown()" style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;padding:0.25rem 0.5rem;border-radius:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);transition:background 0.3s;" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">
-            <span class="eyebrow" style="margin:0;font-size:0.7rem;text-transform:none;">{{ 'HEADER.WELCOME' | translate }}, <span style="color:#b8952a;font-weight:600;">{{ user.email.split('@')[0] }}</span></span>
+          <div (click)="toggleDropdown()" class="cursor-pointer rounded-full transition-colors" style="display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0.4rem 0.25rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">
             
-            <div style="width:2.2rem;height:2.2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;">
+            <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;"><span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>, <span style="color:#b8952a;font-weight:600;">{{ user.email.split('@')[0] }}</span></span>
+            
+            <div style="width:2rem;height:2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;font-size:0.9rem;flex-shrink:0;">
               {{ user.initial }}
             </div>
+
           </div>
 
           <!-- Dropdown Menú -->
-          <div *ngIf="dropdownOpen" style="position:absolute;top:120%;right:0;width:200px;background:#0d0d0c;border:1px solid rgba(184,149,42,0.3);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 25px rgba(0,0,0,0.8);z-index:100;" class="animate-fade-in">
+          <div *ngIf="dropdownOpen" style="position:absolute;top:135%;right:0;width:240px;background:#0a0a0a;border:1px solid rgba(184,149,42,0.3);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;" class="animate-fade-in">
             
-            <!-- Dashboard solo si admin -->
-            <a *ngIf="isAdmin" routerLink="/dashboard" class="eyebrow block" style="padding:0.75rem 1.25rem;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(184,149,42,0.1)'" onmouseleave="this.style.background='transparent'">
-              <span style="color:var(--axis-gold);">{{ 'HEADER.DASHBOARD' | translate }}</span>
+            <a *ngIf="isAdmin" routerLink="/dashboard" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
+              {{ 'HEADER.DASHBOARD' | translate }}
             </a>
 
-            <!-- Resto de links -->
-            <a routerLink="/profile" class="eyebrow block" style="padding:0.75rem 1.25rem;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.04)'" onmouseleave="this.style.background='transparent'">
+            <a routerLink="/profile" class="eyebrow block px-5 py-3 transition-colors text-axis-white/80" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
               {{ 'HEADER.PROFILE' | translate }}
             </a>
             
-            <a routerLink="/reservations" class="eyebrow block" style="padding:0.75rem 1.25rem;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.04)'" onmouseleave="this.style.background='transparent'">
+            <a routerLink="/reservations" class="eyebrow block px-5 py-3 transition-colors text-axis-white/80" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
               {{ 'HEADER.RESERVATIONS' | translate }}
             </a>
 
             <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
 
-            <a (click)="logout()" class="eyebrow block" style="padding:0.75rem 1.25rem;cursor:pointer;transition:background 0.2s;color:#ef4444;" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
+            <a (click)="logout()" class="eyebrow block px-5 py-3 transition-colors cursor-pointer" style="color:rgba(239,68,68,0.8);" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
               {{ 'HEADER.LOGOUT' | translate }}
             </a>
 
           </div>
-
         </div>
       </ng-container>
 

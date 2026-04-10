@@ -12,6 +12,18 @@
     "LOGOUT": "Cerrar Sesión",
     "WELCOME": "Bienvenido"
   },
+  "CATALOG": {
+    "EYEBROW": "INVENTARIO",
+    "TITLE": "Nuestra",
+    "TITLE_ITALIC": "Flota",
+    "DAILY_FROM": "DESDE AL DÍA",
+    "AVAILABLE": "DISPONIBLE",
+    "RESERVED": "RESERVADO",
+    "VIEW": "VER",
+    "EMPTY": "No hay vehículos en este momento. Vuelve pronto.",
+    "PREV": "ANTERIOR",
+    "NEXT": "SIGUIENTE"
+  },
   "AUTH": {
     "LOGIN_TITLE": "Access Vault",
     "LOGIN_DESC": "Por favor, identifíquese para acceder.",
@@ -24,6 +36,18 @@
     "CONTINUE_WITH": "o continúa usando",
     "GOOGLE": "Continuar con Google",
     "FACEBOOK": "Continuar con Facebook",
-    "BACK_TO_ATELIER": "VOLVER AL ATELIER"
+    "BACK_TO_ATELIER": "VOLVER AL ATELIER",
+    "REGISTER_TITLE": "Solicitar Acceso",
+    "REGISTER_DESC": "Únase a la élite. Complete sus datos para acceder.",
+    "REGISTER_FIRSTNAME": "Nombre",
+    "REGISTER_LASTNAME": "Apellido",
+    "REGISTER_EMAIL": "Correo Privado",
+    "REGISTER_PASS": "Clave de Acceso",
+    "REGISTER_BTN": "SOLICITAR ACCESO",
+    "REGISTER_BTN_LOADING": "PROCESANDO...",
+    "ALREADY_ACCOUNT": "¿YA TIENE ACCESO?",
+    "LOGIN_LINK": "IDENTIFICARSE",
+    "REGISTER_SUCCESS": "Registro completado. Redirigiendo al acceso...",
+    "REGISTER_ERROR": "Error al registrar. Inténtelo de nuevo."
   }
 }

@@ -15,6 +15,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register/register.component').then(m => m.RegisterComponent)
+  },
 
   // ── Catálogo público ───────────────────────────────────────────────────────
   {
@@ -29,6 +34,12 @@ export const routes: Routes = [
   },
 
   // ── Protegidas (USER+) ─────────────────────────────────────────────────────
+  {
+    path: 'checkout/:vehicleId',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/checkout/checkout.component').then(m => m.CheckoutComponent)
+  },
   {
     path: 'dashboard',
     canActivate: [authGuard, roleGuard],

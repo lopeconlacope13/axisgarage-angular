@@ -12,6 +12,18 @@
     "LOGOUT": "Log Out",
     "WELCOME": "Welcome"
   },
+  "CATALOG": {
+    "EYEBROW": "INVENTORY",
+    "TITLE": "Our",
+    "TITLE_ITALIC": "Fleet",
+    "DAILY_FROM": "DAILY FROM",
+    "AVAILABLE": "AVAILABLE",
+    "RESERVED": "RESERVED",
+    "VIEW": "VIEW",
+    "EMPTY": "No vehicles available at this time. Check back soon.",
+    "PREV": "PREVIOUS",
+    "NEXT": "NEXT"
+  },
   "AUTH": {
     "LOGIN_TITLE": "Access Vault",
     "LOGIN_DESC": "Please identify yourself to proceed.",
@@ -24,6 +36,18 @@
     "CONTINUE_WITH": "or continue using",
     "GOOGLE": "Continue with Google",
     "FACEBOOK": "Continue with Facebook",
-    "BACK_TO_ATELIER": "BACK TO ATELIER"
+    "BACK_TO_ATELIER": "BACK TO ATELIER",
+    "REGISTER_TITLE": "Request Access",
+    "REGISTER_DESC": "Join the elite. Complete your details to proceed.",
+    "REGISTER_FIRSTNAME": "First Name",
+    "REGISTER_LASTNAME": "Last Name",
+    "REGISTER_EMAIL": "Private Email",
+    "REGISTER_PASS": "Access Key",
+    "REGISTER_BTN": "REQUEST ACCESS",
+    "REGISTER_BTN_LOADING": "PROCESSING...",
+    "ALREADY_ACCOUNT": "ALREADY HAVE ACCESS?",
+    "LOGIN_LINK": "SIGN IN",
+    "REGISTER_SUCCESS": "Registration complete. Redirecting to sign in...",
+    "REGISTER_ERROR": "Registration failed. Please try again."
   }
 }
