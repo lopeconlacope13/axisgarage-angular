@@ -2,26 +2,46 @@
   <div class="eyebrow mb-3" style="color:#b8952a">INVENTORY</div>
   <h1 class="section-title mb-10">Our <span class="italic">Fleet</span></h1>
 
+  <!-- Spinner mientras el backend responde -->
   @if (loading) {
     <div class="text-axis-gray text-center py-20">Loading...</div>
   } @else {
+
+    <!-- Cuadrícula 3×3 de tarjetas de vehículos -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       @for (v of vehicles; track v.id) {
         <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;height:100%;">
+
+          <!-- Imagen del vehículo (placeholder con el nombre de la marca) -->
           <div class="vehicle-img" style="height:220px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;position:relative;">
             <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(17,17,17,0.8), transparent);"></div>
             <span style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(184,149,42,0.2);font-size:1.5rem;z-index:1;">{{ v.brand }}</span>
           </div>
+
+          <!-- Datos del vehículo -->
           <div style="padding:1.5rem;display:flex;flex-direction:column;flex:1;">
             <div class="eyebrow" style="margin-bottom:0.5rem;opacity:0.6;">{{ v.locationName }} · {{ v.categoryName }}</div>
-            <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;margin-bottom:1rem;">{{ v.brand }} <span style="font-style:italic;">{{ v.model }}</span></h3>
-            
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;margin-bottom:1rem;">
+              {{ v.brand }} <span style="font-style:italic;">{{ v.model }}</span>
+            </h3>
+
+            <!-- Especificaciones técnicas -->
             <div style="display:flex;gap:1rem;margin-bottom:1.5rem;margin-top:auto;">
-              <div style="text-align:center;flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.horsePower }}</div><div class="eyebrow" style="font-size:0.6rem;">HP</div></div>
-              <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.zeroToHundred }}s</div><div class="eyebrow" style="font-size:0.6rem;">0-100</div></div>
-              <div style="text-align:center;flex:1;"><div style="font-weight:600;font-size:0.9rem;">{{ v.engineType }}</div><div class="eyebrow" style="font-size:0.6rem;">ENGINE</div></div>
+              <div style="text-align:center;flex:1;">
+                <div style="font-weight:600;font-size:0.9rem;">{{ v.horsePower }}</div>
+                <div class="eyebrow" style="font-size:0.6rem;">HP</div>
+              </div>
+              <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);flex:1;">
+                <div style="font-weight:600;font-size:0.9rem;">{{ v.zeroToHundred }}s</div>
+                <div class="eyebrow" style="font-size:0.6rem;">0-100</div>
+              </div>
+              <div style="text-align:center;flex:1;">
+                <div style="font-weight:600;font-size:0.9rem;">{{ v.engineType }}</div>
+                <div class="eyebrow" style="font-size:0.6rem;">ENGINE</div>
+              </div>
             </div>
 
+            <!-- Precio y botón de reserva -->
             <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
               <div>
                 <div class="eyebrow" style="font-size:0.6rem">DAILY FROM</div>
@@ -30,8 +50,52 @@
               <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.75rem;padding:0.5rem 1rem;">RESERVE</a>
             </div>
           </div>
+
         </div>
       }
     </div>
+
+    <!-- ── PAGINACIÓN ────────────────────────────────────────────────────────
+         Solo se muestra si el backend nos dice que hay más de una página.
+         Cada botón llama a loadVehicles() con el número de página que le toca.
+    ─────────────────────────────────────────────────────────────────────── -->
+    @if (totalPages > 1) {
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:3rem;">
+
+        <!-- Botón ANTERIOR: deshabilitado si ya estamos en la primera página -->
+        <button
+          (click)="loadVehicles(currentPage - 1)"
+          [disabled]="currentPage === 0"
+          style="padding:0.5rem 1rem;background:transparent;border:1px solid rgba(184,149,42,0.3);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+          [style.opacity]="currentPage === 0 ? '0.3' : '1'"
+          [style.cursor]="currentPage === 0 ? 'not-allowed' : 'pointer'">
+          ← PREV
+        </button>
+
+        <!-- Un botón por cada número de página -->
+        @for (p of pages; track p) {
+          <button
+            (click)="loadVehicles(p)"
+            style="width:2.2rem;height:2.2rem;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.05em;cursor:pointer;transition:all 0.3s ease;"
+            [style.background]="p === currentPage ? 'rgba(184,149,42,0.15)' : 'transparent'"
+            [style.border]="p === currentPage ? '1px solid #b8952a' : '1px solid rgba(184,149,42,0.2)'"
+            [style.color]="p === currentPage ? '#b8952a' : 'rgba(245,240,232,0.5)'">
+            {{ p + 1 }}
+          </button>
+        }
+
+        <!-- Botón SIGUIENTE: deshabilitado si ya estamos en la última página -->
+        <button
+          (click)="loadVehicles(currentPage + 1)"
+          [disabled]="currentPage === totalPages - 1"
+          style="padding:0.5rem 1rem;background:transparent;border:1px solid rgba(184,149,42,0.3);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+          [style.opacity]="currentPage === totalPages - 1 ? '0.3' : '1'"
+          [style.cursor]="currentPage === totalPages - 1 ? 'not-allowed' : 'pointer'">
+          NEXT →
+        </button>
+
+      </div>
+    }
+
   }
 </div>
