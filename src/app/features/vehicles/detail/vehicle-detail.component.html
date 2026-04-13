@@ -1,4 +1,5 @@
-<div class="max-w-7xl mx-auto px-6 pt-32 pb-16" *ngIf="vehicle">
+@if (vehicle) {
+<div class="max-w-7xl mx-auto px-6 pt-32 pb-16">
   <div class="eyebrow mb-2 opacity-60">{{ vehicle.locationName }} · {{ vehicle.categoryName }}</div>
   <h1 class="section-title mb-2">{{ vehicle.brand }} <span class="italic">{{ vehicle.model }}</span></h1>
   <div class="gold-divider mb-8"></div>
@@ -74,3 +75,4 @@
     </div>
   </div>
 </div>
+}

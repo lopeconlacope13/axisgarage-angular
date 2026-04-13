@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { VehicleService } from '../../../core/services/vehicle.service';
-import { ReviewService } from '../../../core/services/review.service';
-import { VehicleDTO, ReviewDTO } from '../../../models/types';
+import { VehicleDTO } from '../../../models/types';
 
 /**
  * Vista de detalle de un vehículo: imagen panorámica, specs y selector de fechas/cobertura.
+ * El usuario elige fechas y nivel de cobertura; el precio total se recalcula en tiempo real.
+ * Al pulsar "Proceed to Checkout", redirige a /checkout/:id con los parámetros por query string.
  */
 @Component({
   selector: 'app-vehicle-detail',
@@ -19,7 +20,6 @@ import { VehicleDTO, ReviewDTO } from '../../../models/types';
 export class VehicleDetailComponent implements OnInit {
 
   vehicle: VehicleDTO | null = null;
-  reviews: ReviewDTO[]       = [];
   selectedCoverage: 'STANDARD' | 'PREMIUM' | 'TOTAL' = 'STANDARD';
   startDate = '';
   endDate   = '';
@@ -28,8 +28,7 @@ export class VehicleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleSvc: VehicleService,
-    private reviewSvc: ReviewService
+    private vehicleSvc: VehicleService
   ) {}
 
   ngOnInit(): void {
