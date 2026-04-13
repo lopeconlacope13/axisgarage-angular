@@ -1,1 +1,26 @@
+.sidebar-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  color: rgba(245, 240, 232, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
+.sidebar-btn:hover {
+  background: rgba(184, 149, 42, 0.08);
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.sidebar-btn.active {
+  background: rgba(184, 149, 42, 0.12);
+  color: #b8952a;
+  border-left: 2px solid #b8952a;
+  padding-left: calc(0.75rem - 2px);
+}

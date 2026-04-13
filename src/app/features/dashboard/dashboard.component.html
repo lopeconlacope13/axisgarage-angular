@@ -1,50 +1,364 @@
 <div class="flex min-h-screen" style="background:#0a0a0a">
-  <!-- sidebar -->
-  <aside class="w-56 border-r flex flex-col p-6 gap-6" style="border-color:rgba(245,245,240,0.06)">
-    <div class="font-display font-semibold text-sm">AXIS GARAGE</div>
-    <nav class="flex flex-col gap-3">
-      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">RESERVATIONS</a>
-      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">VEHICLES</a>
-      <a href="#" class="eyebrow hover:text-axis-gold transition-colors">CLIENTS</a>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       SIDEBAR — Navegación lateral con secciones según el rol del usuario
+  ══════════════════════════════════════════════════════════════════════ -->
+  <aside class="w-64 border-r flex flex-col p-6 gap-8 shrink-0" style="border-color:rgba(245,245,240,0.06);min-height:100vh;">
+
+    <!-- Marca -->
+    <div>
+      <div class="eyebrow" style="color:#b8952a;font-size:0.6rem;letter-spacing:0.2em;margin-bottom:0.3rem">AXIS GARAGE</div>
+      <div class="font-display text-lg font-semibold">Control Panel</div>
+    </div>
+
+    <!-- Tarjeta del usuario activo -->
+    <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(245,245,240,0.05);">
+      <!-- Avatar: foto subida o inicial del email -->
+      @if (photoUrl) {
+        <img [src]="photoUrl" alt="avatar"
+          style="width:2.5rem;height:2.5rem;border-radius:50%;object-fit:cover;border:1px solid rgba(184,149,42,0.4);flex-shrink:0;">
+      } @else {
+        <div style="width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(184,149,42,0.12);border:1px solid rgba(184,149,42,0.3);font-family:'Playfair Display',serif;font-style:italic;color:#b8952a;font-size:1.1rem;flex-shrink:0;">
+          {{ userEmail.charAt(0).toUpperCase() }}
+        </div>
+      }
+      <div style="overflow:hidden;">
+        <div class="text-sm font-medium" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ userEmail }}</div>
+        <div class="eyebrow" style="font-size:0.6rem;color:#b8952a;margin-top:0.1rem;">{{ roleLabel }}</div>
+      </div>
+    </div>
+
+    <!-- Navegación: secciones distintas por rol -->
+    <nav style="display:flex;flex-direction:column;gap:0.25rem;">
+
+      <!-- Secciones para ROLE_USER -->
+      @if (!isManager) {
+        <button class="sidebar-btn" [class.active]="activeSection === 'profile'" (click)="setSection('profile')">
+          MY PROFILE
+        </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'my-reservations'" (click)="setSection('my-reservations')">
+          MY RESERVATIONS
+        </button>
+      }
+
+      <!-- Secciones para ROLE_MANAGER y ROLE_ADMIN -->
+      @if (isManager) {
+        <button class="sidebar-btn" [class.active]="activeSection === 'reservations'" (click)="setSection('reservations')">
+          RESERVATIONS
+        </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'fleet'" (click)="setSection('fleet')">
+          FLEET
+        </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'clients'" (click)="setSection('clients')">
+          CLIENTS
+        </button>
+        <!-- Sección exclusiva de ROLE_ADMIN -->
+        @if (isAdmin) {
+          <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
+            OWNERS
+          </button>
+        }
+      }
+
     </nav>
   </aside>
 
-  <!-- main -->
-  <main class="flex-1 p-8">
-    <h1 class="font-display text-2xl font-semibold mb-6">Active Reservations</h1>
+  <!-- ══════════════════════════════════════════════════════════════════════
+       CONTENIDO PRINCIPAL — Cambia según la sección activa del sidebar
+  ══════════════════════════════════════════════════════════════════════ -->
+  <main class="flex-1 p-8 overflow-auto">
 
-    @if (loading) {
-      <div class="text-axis-gray">Loading...</div>
-    } @else {
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: MY PROFILE (solo ROLE_USER)
+         Datos del perfil, cambio de foto de perfil y cambio de contraseña.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'profile') {
+      <div class="eyebrow mb-2" style="color:#b8952a">ACCOUNT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Profile</span></h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Bloque izquierdo: avatar + datos del perfil -->
+        <div class="glass-card p-8">
+          <h2 class="font-display text-lg font-semibold mb-6">Identity</h2>
+
+          <!-- Avatar con botón de cambio de foto -->
+          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;">
+            @if (photoUrl) {
+              <img [src]="photoUrl" alt="avatar"
+                style="width:5rem;height:5rem;border-radius:50%;object-fit:cover;border:1px solid rgba(184,149,42,0.4);">
+            } @else {
+              <div style="width:5rem;height:5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(184,149,42,0.12);border:1px solid rgba(184,149,42,0.3);font-family:'Playfair Display',serif;font-style:italic;color:#b8952a;font-size:2rem;">
+                {{ userEmail.charAt(0).toUpperCase() }}
+              </div>
+            }
+            <div>
+              <!-- El input[type=file] está oculto; el label actúa de botón -->
+              <label class="btn-outline" style="font-size:0.65rem;padding:0.4rem 0.75rem;cursor:pointer;">
+                CHANGE PHOTO
+                <input type="file" accept="image/*" (change)="onPhotoSelected($event)" style="display:none;">
+              </label>
+              <p class="text-axis-gray" style="font-size:0.7rem;margin-top:0.5rem;">Solo en este navegador</p>
+            </div>
+          </div>
+
+          <!-- Campos del perfil en modo lectura -->
+          @if (profileData) {
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <div>
+                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">USERNAME</div>
+                <div class="text-sm">{{ profileData.username }}</div>
+              </div>
+              <div>
+                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">FULL NAME</div>
+                <div class="text-sm">{{ profileData.firstName }} {{ profileData.lastName }}</div>
+              </div>
+              <div>
+                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">EMAIL</div>
+                <div class="text-sm">{{ userEmail }}</div>
+              </div>
+              <div>
+                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">ACCESS LEVEL</div>
+                <div class="eyebrow" style="color:#b8952a;font-size:0.7rem;">{{ roleLabel }}</div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Bloque derecho: formulario de cambio de contraseña -->
+        <div class="glass-card p-8">
+          <h2 class="font-display text-lg font-semibold mb-6">Change Password</h2>
+
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">CURRENT PASSWORD</label>
+              <input type="password" class="input-dark w-full" placeholder="••••••••"
+                [(ngModel)]="pwdForm.current" name="currentPwd">
+            </div>
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">NEW PASSWORD</label>
+              <input type="password" class="input-dark w-full" placeholder="••••••••"
+                [(ngModel)]="pwdForm.newPwd" name="newPwd">
+            </div>
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">CONFIRM NEW PASSWORD</label>
+              <input type="password" class="input-dark w-full" placeholder="••••••••"
+                [(ngModel)]="pwdForm.confirm" name="confirmPwd">
+            </div>
+
+            @if (pwdError) {
+              <div style="color:rgba(239,68,68,0.8);font-size:0.8rem;">{{ pwdError }}</div>
+            }
+            @if (pwdSuccess) {
+              <div style="color:#b8952a;font-size:0.8rem;">Contraseña actualizada correctamente.</div>
+            }
+
+            <button class="btn-gold w-full" style="margin-top:0.5rem;"
+              (click)="changePassword()" [disabled]="pwdLoading">
+              {{ pwdLoading ? 'UPDATING...' : 'UPDATE PASSWORD' }}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: MY RESERVATIONS (solo ROLE_USER)
+         Historial de reservas del usuario autenticado.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'my-reservations') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MY GARAGE</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Reservations</span></h1>
+
+      @if (!myReservations.length) {
+        <div class="glass-card p-12 text-center">
+          <p class="text-axis-gray">No tienes reservas registradas aún.</p>
+        </div>
+      } @else {
+        <div class="glass-card overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+              <tr>
+                <th class="eyebrow text-left p-4">Ref.</th>
+                <th class="eyebrow text-left p-4">Vehicle</th>
+                <th class="eyebrow text-left p-4">Pick-Up</th>
+                <th class="eyebrow text-left p-4">Drop-Off</th>
+                <th class="eyebrow text-left p-4">Status</th>
+                <th class="eyebrow text-right p-4">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of myReservations; track r.id) {
+                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                  <td class="p-4 text-axis-gray">#{{ r.id }}</td>
+                  <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
+                  <td class="p-4 text-axis-gray">{{ r.startDate }}</td>
+                  <td class="p-4 text-axis-gray">{{ r.endDate }}</td>
+                  <td class="p-4">
+                    <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
+                  </td>
+                  <td class="p-4 text-right font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: RESERVATIONS (MANAGER y ADMIN)
+         Todas las reservas del sistema con datos del vehículo y del cliente.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'reservations') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">All <span class="italic">Reservations</span></h1>
+
+      @if (loading) {
+        <div class="text-axis-gray">Loading...</div>
+      } @else {
+        <div class="glass-card overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+              <tr>
+                <th class="eyebrow text-left p-4">ID</th>
+                <th class="eyebrow text-left p-4">Vehicle</th>
+                <th class="eyebrow text-left p-4">Client</th>
+                <th class="eyebrow text-left p-4">Pick-Up</th>
+                <th class="eyebrow text-left p-4">Drop-Off</th>
+                <th class="eyebrow text-left p-4">Status</th>
+                <th class="eyebrow text-right p-4">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of allReservations; track r.id) {
+                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                  <td class="p-4 text-axis-gray">#{{ r.id }}</td>
+                  <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
+                  <td class="p-4 text-axis-gray">{{ r.renterName }}</td>
+                  <td class="p-4 text-axis-gray">{{ r.startDate }}</td>
+                  <td class="p-4 text-axis-gray">{{ r.endDate }}</td>
+                  <td class="p-4">
+                    <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
+                  </td>
+                  <td class="p-4 text-right font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: FLEET (MANAGER y ADMIN)
+         Catálogo completo de vehículos con disponibilidad y precio diario.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'fleet') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Fleet <span class="italic">Inventory</span></h1>
+
       <div class="glass-card overflow-hidden">
         <table class="w-full text-sm">
           <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
             <tr>
               <th class="eyebrow text-left p-4">ID</th>
-              <th class="eyebrow text-left p-4">Vehicle</th>
-              <th class="eyebrow text-left p-4">Dates</th>
+              <th class="eyebrow text-left p-4">Brand / Model</th>
+              <th class="eyebrow text-left p-4">Category</th>
+              <th class="eyebrow text-left p-4">Location</th>
+              <th class="eyebrow text-left p-4">HP</th>
               <th class="eyebrow text-left p-4">Status</th>
-              <th class="eyebrow text-left p-4">Total</th>
+              <th class="eyebrow text-right p-4">€/Day</th>
             </tr>
           </thead>
           <tbody>
-            @for (r of reservations; track r.id) {
+            @for (v of vehicles; track v.id) {
               <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
-                <td class="p-4 text-axis-gray">#{{ r.id }}</td>
-                <td class="p-4">{{ r.vehicleModel }}</td>
-                <td class="p-4 text-axis-gray">{{ r.startDate }} → {{ r.endDate }}</td>
+                <td class="p-4 text-axis-gray">#{{ v.id }}</td>
+                <td class="p-4 font-medium">{{ v.brand }} {{ v.model }}</td>
+                <td class="p-4 text-axis-gray">{{ v.categoryName }}</td>
+                <td class="p-4 text-axis-gray">{{ v.locationName }}</td>
+                <td class="p-4 text-axis-gray">{{ v.horsePower }}</td>
                 <td class="p-4">
-                  <span class="eyebrow px-2 py-1 rounded text-xs"
-                        [style.color]="r.status === 'CONFIRMED' ? '#b8952a' : '#9a9a95'">
-                    {{ r.status }}
+                  <span class="eyebrow text-xs"
+                    [style.color]="v.available ? '#b8952a' : 'rgba(239,68,68,0.7)'">
+                    {{ v.available ? 'AVAILABLE' : 'UNAVAILABLE' }}
                   </span>
                 </td>
-                <td class="p-4 font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                <td class="p-4 text-right font-display" style="color:#b8952a">{{ v.pricePerDay }}</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
     }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: CLIENTS (MANAGER y ADMIN)
+         Lista de clientes registrados en la plataforma.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'clients') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Registered <span class="italic">Clients</span></h1>
+
+      <div class="glass-card overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <tr>
+              <th class="eyebrow text-left p-4">ID</th>
+              <th class="eyebrow text-left p-4">Name</th>
+              <th class="eyebrow text-left p-4">Email</th>
+              <th class="eyebrow text-left p-4">DNI</th>
+              <th class="eyebrow text-left p-4">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of renters; track r.id) {
+              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <td class="p-4 text-axis-gray">#{{ r.id }}</td>
+                <td class="p-4 font-medium">{{ r.name }} {{ r.lastName }}</td>
+                <td class="p-4 text-axis-gray">{{ r.email }}</td>
+                <td class="p-4 text-axis-gray">{{ r.dni }}</td>
+                <td class="p-4 text-axis-gray">{{ r.phone }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: OWNERS (solo ROLE_ADMIN)
+         Propietarios de los vehículos de la flota. Acceso exclusivo de admin.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'owners') {
+      <div class="eyebrow mb-2" style="color:#b8952a">ADMINISTRATION</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Vehicle <span class="italic">Owners</span></h1>
+
+      <div class="glass-card overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <tr>
+              <th class="eyebrow text-left p-4">ID</th>
+              <th class="eyebrow text-left p-4">Name</th>
+              <th class="eyebrow text-left p-4">Email</th>
+              <th class="eyebrow text-left p-4">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of owners; track o.id) {
+              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <td class="p-4 text-axis-gray">#{{ o.id }}</td>
+                <td class="p-4 font-medium">{{ o.name }} {{ o.lastName }}</td>
+                <td class="p-4 text-axis-gray">{{ o.email }}</td>
+                <td class="p-4 text-axis-gray">{{ o.phone }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
   </main>
 </div>
