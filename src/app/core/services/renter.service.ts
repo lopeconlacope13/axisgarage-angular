@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RenterDTO } from '../../models/types';
+import { RenterDTO, Page } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
 /**
- * Servicio para consultar el perfil de cliente (Renter) desde el backend.
- * Actualmente sólo expone la búsqueda por email, necesaria para resolver
- * el renterId durante el flujo de checkout a partir del JWT.
+ * Servicio para consumir el endpoint de clientes (Renters).
+ * GET de lista disponible para todos los roles autenticados.
+ * POST/PUT/DELETE requieren MANAGER o ADMIN.
  */
 @Injectable({ providedIn: 'root' })
 export class RenterService {
@@ -16,10 +16,13 @@ export class RenterService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Busca el perfil de cliente asociado al email proporcionado.
-   * Devuelve un Observable con el RenterDTO si existe en la base de datos.
-   */
+  /** Devuelve la lista paginada de todos los clientes registrados. */
+  getAll(page = 0, size = 20): Observable<Page<RenterDTO>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<Page<RenterDTO>>(this.base, { params });
+  }
+
+  /** Busca el perfil de cliente por email. Usado en el flujo de checkout. */
   getByEmail(email: string): Observable<RenterDTO> {
     return this.http.get<RenterDTO>(`${this.base}/by-email`, { params: { email } });
   }

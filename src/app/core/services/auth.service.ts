@@ -158,4 +158,19 @@ export class AuthService {
   getProfile(): Observable<UserDTO> {
     return this.http.get<UserDTO>(`${environment.apiUrl}/user`);
   }
+
+  /**
+   * Cambia la contraseña del usuario autenticado.
+   * El JWT interceptor añade el token automáticamente, así que no hace falta adjuntarlo aquí.
+   *
+   * @param currentPassword Contraseña actual (para verificarla en el backend).
+   * @param newPassword     Nueva contraseña que se guardará hasheada.
+   */
+  changePassword(currentPassword: string, newPassword: string): Observable<string> {
+    return this.http.put<string>(
+      `${environment.apiUrl}/user/change-password`,
+      { currentPassword, newPassword },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    );
+  }
 }
