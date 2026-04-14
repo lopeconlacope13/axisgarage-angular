@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -12,15 +11,16 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule],
+  imports: [RouterLink, TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  isLoggedIn = false;
+  isLoggedIn  = false;
   user: { email: string, roles: string[], initial: string } | null = null;
-  isAdmin = false;
+  /** Foto de perfil guardada en localStorage por el dashboard */
+  photoUrl     = '';
   dropdownOpen = false;
   currentLang = 'en';
   private authSub?: Subscription;
@@ -34,11 +34,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authSub = this.auth.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
       if (status) {
-        this.user = this.auth.getCurrentUser();
-        this.isAdmin = this.user?.roles.some(r => r === 'ROLE_ADMIN' || r === 'ROLE_MANAGER') ?? false;
+        this.user    = this.auth.getCurrentUser();
+        // Cargamos la foto de perfil si el usuario la subió desde el dashboard
+        this.photoUrl = this.user?.email
+          ? (localStorage.getItem(`axis-avatar-${this.user.email}`) ?? '')
+          : '';
       } else {
-        this.user = null;
-        this.isAdmin = false;
+        this.user     = null;
+        this.photoUrl = '';
       }
     });
     this.currentLang = this.translate.currentLang || this.translate.defaultLang || 'en';

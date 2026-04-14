@@ -15,7 +15,7 @@
     <!-- 2. CENTER: Navigation (Desktop Only) -->
     <nav class="hidden md:flex" style="gap:2.5rem; justify-content:center; flex:1;">
       <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
-      <a routerLink="/locations" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
+      <a href="#" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
       <a href="#" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
     </nav>
 
@@ -30,50 +30,58 @@
       </div>
 
       <!-- NO logueado -->
-      <ng-container *ngIf="!isLoggedIn">
+      @if (!isLoggedIn) {
         <button routerLink="/login" class="btn-outline font-display tracking-widest uppercase hidden sm:inline-flex" style="font-size:0.7rem;padding:0.4rem 0.8rem;">{{ 'HEADER.LOGIN' | translate }}</button>
         <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase" style="font-size:0.7rem;padding:0.4rem 0.8rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
-      </ng-container>
+      }
 
       <!-- LOGUEADO -->
-      <ng-container *ngIf="isLoggedIn && user">
+      @if (isLoggedIn && user) {
         <div style="position:relative;">
-          
+
           <!-- Botón de Avatar desplegable -->
-          <div (click)="toggleDropdown()" class="cursor-pointer rounded-full transition-colors" style="display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0.4rem 0.25rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">
-            
-            <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;"><span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>, <span style="color:#b8952a;font-weight:600;">{{ user.email.split('@')[0] }}</span></span>
-            
-            <div style="width:2rem;height:2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;font-size:0.9rem;flex-shrink:0;">
-              {{ user.initial }}
-            </div>
+          <div (click)="toggleDropdown()" class="cursor-pointer" style="display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0.4rem 0.25rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:100px;" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">
+
+            <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;">
+              <span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>,
+              <span style="color:#b8952a;font-weight:600;">{{ user.email.split('@')[0] }}</span>
+            </span>
+
+            <!-- Avatar: foto si está disponible, si no la inicial -->
+            @if (photoUrl) {
+              <img [src]="photoUrl" alt="avatar"
+                style="width:2rem;height:2rem;border-radius:50%;object-fit:cover;border:1px solid rgba(184,149,42,0.5);flex-shrink:0;">
+            } @else {
+              <div style="width:2rem;height:2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;font-size:0.9rem;flex-shrink:0;">
+                {{ user.initial }}
+              </div>
+            }
 
           </div>
 
           <!-- Dropdown Menú -->
-          <div *ngIf="dropdownOpen" style="position:absolute;top:135%;right:0;width:240px;background:#0a0a0a;border:1px solid rgba(184,149,42,0.3);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;" class="animate-fade-in">
-            
-            <a *ngIf="isAdmin" routerLink="/dashboard" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
-              {{ 'HEADER.DASHBOARD' | translate }}
-            </a>
+          @if (dropdownOpen) {
+            <div style="position:absolute;top:135%;right:0;width:220px;background:#0a0a0a;border:1px solid rgba(184,149,42,0.3);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;">
 
-            <a routerLink="/profile" class="eyebrow block px-5 py-3 transition-colors text-axis-white/80" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
-              {{ 'HEADER.PROFILE' | translate }}
-            </a>
-            
-            <a routerLink="/my-reservations" class="eyebrow block px-5 py-3 transition-colors text-axis-white/80" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
-              {{ 'HEADER.RESERVATIONS' | translate }}
-            </a>
+              <!-- Dashboard: visible para todos los roles autenticados -->
+              <a routerLink="/dashboard" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
+                {{ 'HEADER.DASHBOARD' | translate }}
+              </a>
 
-            <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
+              <a routerLink="/my-reservations" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 transition-colors" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
+                {{ 'HEADER.RESERVATIONS' | translate }}
+              </a>
 
-            <a (click)="logout()" class="eyebrow block px-5 py-3 transition-colors cursor-pointer" style="color:rgba(239,68,68,0.8);" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
-              {{ 'HEADER.LOGOUT' | translate }}
-            </a>
+              <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
 
-          </div>
+              <a (click)="logout()" class="eyebrow block px-5 py-3 transition-colors cursor-pointer" style="color:rgba(239,68,68,0.8);" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
+                {{ 'HEADER.LOGOUT' | translate }}
+              </a>
+
+            </div>
+          }
         </div>
-      </ng-container>
+      }
 
     </div>
   </div>
