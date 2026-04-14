@@ -52,6 +52,9 @@
         <button class="sidebar-btn" [class.active]="activeSection === 'clients'" (click)="setSection('clients')">
           CLIENTS
         </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'damage-reports'" (click)="setSection('damage-reports')">
+          DAMAGE REPORTS
+        </button>
         <!-- Sección exclusiva de ROLE_ADMIN -->
         @if (isAdmin) {
           <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
@@ -229,6 +232,7 @@
                 <th class="eyebrow text-left p-4">Drop-Off</th>
                 <th class="eyebrow text-left p-4">Status</th>
                 <th class="eyebrow text-right p-4">Total</th>
+                <th class="eyebrow text-right p-4">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -243,6 +247,12 @@
                     <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
                   </td>
                   <td class="p-4 text-right font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                  <td class="p-4 text-right">
+                    @if (r.status !== 'CANCELLED') {
+                      <button class="eyebrow" style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;border:1px solid rgba(239,68,68,0.3);border-radius:3px;"
+                        (click)="cancelReservation(r)">CANCEL</button>
+                    }
+                  </td>
                 </tr>
               }
             </tbody>
@@ -270,6 +280,7 @@
               <th class="eyebrow text-left p-4">HP</th>
               <th class="eyebrow text-left p-4">Status</th>
               <th class="eyebrow text-right p-4">€/Day</th>
+              <th class="eyebrow text-right p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -287,6 +298,14 @@
                   </span>
                 </td>
                 <td class="p-4 text-right font-display" style="color:#b8952a">{{ v.pricePerDay }}</td>
+                <td class="p-4 text-right">
+                  <button class="eyebrow" style="font-size:0.6rem;background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;border-radius:3px;"
+                    [style.color]="v.available ? 'rgba(239,68,68,0.7)' : '#b8952a'"
+                    [style.border]="v.available ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(184,149,42,0.3)'"
+                    (click)="toggleAvailability(v)">
+                    {{ v.available ? 'DISABLE' : 'ENABLE' }}
+                  </button>
+                </td>
               </tr>
             }
           </tbody>
@@ -357,6 +376,104 @@
             }
           </tbody>
         </table>
+      </div>
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: DAMAGE REPORTS (MANAGER y ADMIN)
+         Vista de todos los partes de daños + formulario para crear nuevos.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'damage-reports') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Damage <span class="italic">Reports</span></h1>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Formulario: nuevo parte de daños -->
+        <div class="glass-card p-6">
+          <h2 class="font-display text-base font-semibold mb-4">New Report</h2>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">RESERVATION ID</label>
+              <input type="number" class="input-dark w-full" placeholder="123"
+                [(ngModel)]="newReport.reservationId" min="1">
+            </div>
+
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">TYPE</label>
+              <select class="input-dark w-full" [(ngModel)]="newReport.type"
+                style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
+                <option value="PRE">PRE — Before rental</option>
+                <option value="POST">POST — After rental</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">DATE</label>
+              <input type="date" class="input-dark w-full" [(ngModel)]="newReport.reportedDate">
+            </div>
+
+            <div>
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">DESCRIPTION</label>
+              <textarea class="input-dark w-full" rows="3" placeholder="Describe the damage..."
+                [(ngModel)]="newReport.description" style="resize:none;"></textarea>
+            </div>
+
+            @if (reportError) {
+              <div style="color:rgba(239,68,68,0.8);font-size:0.8rem;">{{ reportError }}</div>
+            }
+            @if (reportSuccess) {
+              <div style="color:#b8952a;font-size:0.8rem;">Parte registrado correctamente.</div>
+            }
+
+            <button class="btn-gold w-full" style="font-size:0.7rem;" (click)="submitReport()">
+              SUBMIT REPORT
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla: partes existentes -->
+        <div class="lg:col-span-2 glass-card overflow-hidden">
+          @if (!damageReports.length) {
+            <div class="p-10 text-center text-axis-gray text-sm">
+              No hay informes de daños registrados aún.
+            </div>
+          } @else {
+            <table class="w-full text-sm">
+              <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+                <tr>
+                  <th class="eyebrow text-left p-4">ID</th>
+                  <th class="eyebrow text-left p-4">Res.</th>
+                  <th class="eyebrow text-left p-4">Type</th>
+                  <th class="eyebrow text-left p-4">Date</th>
+                  <th class="eyebrow text-left p-4">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (d of damageReports; track d.id) {
+                  <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                    <td class="p-4 text-axis-gray">#{{ d.id }}</td>
+                    <td class="p-4 text-axis-gray">#{{ d.reservationId }}</td>
+                    <td class="p-4">
+                      <span class="eyebrow text-xs"
+                        [style.color]="d.type === 'PRE' ? '#b8952a' : 'rgba(239,68,68,0.7)'">
+                        {{ d.type }}
+                      </span>
+                    </td>
+                    <td class="p-4 text-axis-gray">{{ d.reportedDate }}</td>
+                    <td class="p-4 text-axis-gray"
+                      style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                      [title]="d.description">
+                      {{ d.description }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+
       </div>
     }
 

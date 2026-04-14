@@ -6,7 +6,8 @@ import { RenterService } from '../../core/services/renter.service';
 import { ReservationService } from '../../core/services/reservation.service';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { OwnerService } from '../../core/services/owner.service';
-import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO } from '../../models/types';
+import { DamageReportService } from '../../core/services/damage-report.service';
+import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO } from '../../models/types';
 
 /**
  * Panel de control principal de Axis Garage.
@@ -48,20 +49,27 @@ export class DashboardComponent implements OnInit {
   pwdLoading = false;
 
   // ─── Datos de las secciones ───────────────────────────────────────────────
-  myReservations:  ReservationDTO[] = [];
-  allReservations: ReservationDTO[] = [];
-  vehicles:        VehicleDTO[]     = [];
-  renters:         RenterDTO[]      = [];
-  owners:          OwnerDTO[]       = [];
+  myReservations:  ReservationDTO[]  = [];
+  allReservations: ReservationDTO[]  = [];
+  vehicles:        VehicleDTO[]      = [];
+  renters:         RenterDTO[]        = [];
+  owners:          OwnerDTO[]         = [];
+  damageReports:   DamageReportDTO[]  = [];
+
+  /** Formulario para registrar un nuevo parte de daños */
+  newReport = { reservationId: 0, type: 'PRE' as 'PRE' | 'POST', description: '', reportedDate: '' };
+  reportError   = '';
+  reportSuccess = false;
 
   loading = false;
 
   constructor(
-    private authSvc:        AuthService,
-    private renterSvc:      RenterService,
-    private reservationSvc: ReservationService,
-    private vehicleSvc:     VehicleService,
-    private ownerSvc:       OwnerService
+    private authSvc:           AuthService,
+    private renterSvc:         RenterService,
+    private reservationSvc:    ReservationService,
+    private vehicleSvc:        VehicleService,
+    private ownerSvc:          OwnerService,
+    private damageReportSvc:   DamageReportService
   ) {}
 
   ngOnInit(): void {
@@ -90,12 +98,13 @@ export class DashboardComponent implements OnInit {
    */
   setSection(section: string): void {
     this.activeSection = section;
-    if (section === 'profile'         && !this.profileData)           this.loadProfile();
-    if (section === 'my-reservations' && !this.myReservations.length) this.loadMyReservations();
+    if (section === 'profile'         && !this.profileData)            this.loadProfile();
+    if (section === 'my-reservations' && !this.myReservations.length)  this.loadMyReservations();
     if (section === 'reservations'    && !this.allReservations.length) this.loadAllReservations();
     if (section === 'fleet'           && !this.vehicles.length)        this.loadVehicles();
     if (section === 'clients'         && !this.renters.length)         this.loadRenters();
     if (section === 'owners'          && !this.owners.length)          this.loadOwners();
+    if (section === 'damage-reports'  && !this.damageReports.length)   this.loadDamageReports();
   }
 
   // ─── Carga de datos por sección ───────────────────────────────────────────
@@ -142,6 +151,61 @@ export class DashboardComponent implements OnInit {
   /** Carga la lista de propietarios de vehículos (solo para ADMIN) */
   loadOwners(): void {
     this.ownerSvc.getAll(0, 50).subscribe({ next: p => this.owners = p.content });
+  }
+
+  /** Carga todos los partes de daños del sistema (MANAGER y ADMIN). */
+  loadDamageReports(): void {
+    this.damageReportSvc.getAll().subscribe({ next: list => this.damageReports = list });
+  }
+
+  // ─── Acciones de gestión ──────────────────────────────────────────────────
+
+  /**
+   * Cancela una reserva enviando el DTO completo con status = CANCELLED.
+   * El backend actualiza el estado sin modificar el resto de los datos.
+   */
+  cancelReservation(r: ReservationDTO): void {
+    if (!confirm(`¿Cancelar la reserva #${r.id}?`)) return;
+    this.reservationSvc.update(r.id, { ...r, status: 'CANCELLED' }).subscribe({
+      next: updated => {
+        const idx = this.allReservations.findIndex(x => x.id === r.id);
+        if (idx !== -1) this.allReservations[idx] = updated;
+      }
+    });
+  }
+
+  /**
+   * Alterna la disponibilidad de un vehículo llamando al endpoint PATCH.
+   * Actualiza el elemento en la lista local sin recargar toda la flota.
+   */
+  toggleAvailability(v: VehicleDTO): void {
+    this.vehicleSvc.toggleAvailability(v.id).subscribe({
+      next: updated => {
+        const idx = this.vehicles.findIndex(x => x.id === v.id);
+        if (idx !== -1) this.vehicles[idx] = updated;
+      }
+    });
+  }
+
+  /**
+   * Envía un nuevo parte de daños al backend.
+   * Valida que todos los campos estén rellenos antes de llamar al servicio.
+   */
+  submitReport(): void {
+    this.reportError   = '';
+    this.reportSuccess = false;
+    if (!this.newReport.reservationId || !this.newReport.description || !this.newReport.reportedDate) {
+      this.reportError = 'Rellena todos los campos obligatorios.';
+      return;
+    }
+    this.damageReportSvc.create(this.newReport).subscribe({
+      next: created => {
+        this.damageReports = [created, ...this.damageReports];
+        this.reportSuccess = true;
+        this.newReport = { reservationId: 0, type: 'PRE', description: '', reportedDate: '' };
+      },
+      error: () => { this.reportError = 'Error al registrar el parte. Verifica el ID de reserva.'; }
+    });
   }
 
   // ─── Foto de perfil ───────────────────────────────────────────────────────

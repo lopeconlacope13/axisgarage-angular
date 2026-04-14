@@ -47,6 +47,11 @@ export class VehicleService {
     return this.http.put<VehicleDTO>(`${this.base}/${id}`, formData);
   }
 
+  /** Alterna la disponibilidad del vehículo sin necesidad de subir imágenes. */
+  toggleAvailability(id: number): Observable<VehicleDTO> {
+    return this.http.patch<VehicleDTO>(`${this.base}/${id}/toggle-availability`, {});
+  }
+
   delete(id: number): Observable<string> {
     return this.http.delete<string>(`${this.base}/${id}`);
   }
