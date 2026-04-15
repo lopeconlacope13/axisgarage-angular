@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -27,7 +27,8 @@ import { RegisterRequest } from '../../../models/types';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
 
@@ -51,7 +52,7 @@ export class RegisterComponent {
    * @param auth   Servicio central de autenticación (login, register, token)
    * @param router Servicio de Angular para navegar entre rutas
    */
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   /**
    * ONSUBMIT — Envía el formulario de registro al backend
@@ -79,6 +80,7 @@ export class RegisterComponent {
       next: () => {
         this.success = 'AUTH.REGISTER_SUCCESS';
         this.loading = false;
+        this.cdr.markForCheck();
         // Damos 2 segundos para leer el mensaje antes de redirigir
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
@@ -87,6 +89,7 @@ export class RegisterComponent {
       error: (err) => {
         this.error   = err.error ?? 'AUTH.REGISTER_ERROR';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-forgot-password',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="grain-overlay"></div>
     <div class="vignette"></div>
@@ -107,15 +108,15 @@ export class ForgotPasswordComponent {
   sent    = false;
   loading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   onSubmit(): void {
     this.loading = true;
     // Enviamos el email al backend. Usamos responseType: 'text' porque el backend devuelve un String plano.
     this.http.post(`${environment.apiUrl}/v1/forgot-password`, { email: this.email }, { responseType: 'text' })
       .subscribe({
-        next:  () => { this.sent = true; this.loading = false; },
-        error: () => { this.sent = true; this.loading = false; } // Mismo mensaje siempre (seguridad)
+        next:  () => { this.sent = true; this.loading = false; this.cdr.markForCheck(); },
+        error: () => { this.sent = true; this.loading = false; this.cdr.markForCheck(); } // Mismo mensaje siempre (seguridad)
       });
   }
 }

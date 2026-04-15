@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,17 +17,24 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,      // Angular moderno: sin app.module
   imports: [CommonModule, FormsModule, RouterLink, TranslateModule], // Módulos necesarios para ngIf, ngModel y routerLink
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
 
   // Variables enlazadas al formulario HTML mediante [(ngModel)]
   email    = '';
   password = '';
-  
+
   // Variables auxiliares para controlar la interfaz
   error    = '';    // Guarda el mensaje de error si el login falla
   loading  = false; // Se pone en 'true' cuando estamos esperando la respuesta del servidor
+
+  /** Mensaje informativo (verde/dorado) cuando llegamos aquí porque otra ruta requería login. */
+  infoMsg  = '';
+
+  /** URL a la que volver tras un login exitoso (la pasa el authGuard via queryParams). */
+  returnUrl = '';
 
   /**
    * EL CONSTRUCTOR (Inyección de dependencias)
@@ -35,7 +42,7 @@ export class LoginComponent implements OnInit {
    * 1. auth: Nuestro servicio que habla con Spring Boot.
    * 2. router: El servicio de Angular para cambiar de página (hacer redirecciones).
    */
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   /**
    * NGONINIT — Captura del callback OAuth2
@@ -52,15 +59,21 @@ export class LoginComponent implements OnInit {
     const params = this.route.snapshot.queryParamMap;
     const token  = params.get('token');
     const error  = params.get('error');
+    const msg    = params.get('msg');
+    this.returnUrl = params.get('returnUrl') ?? '';
 
     if (token) {
-      // OAuth2 exitoso: guardamos el token y navegamos al home
+      // OAuth2 exitoso: guardamos el token y volvemos a la URL solicitada (o al home)
       this.auth.setToken(token);
-      this.router.navigate(['/']);
+      this.router.navigateByUrl(this.returnUrl || '/');
     }
     if (error) {
       // OAuth2 fallido: mostramos el motivo devuelto por Spring Boot
       this.error = error;
+    }
+    if (msg === 'auth_required') {
+      // Llegamos aquí desde un guard porque el usuario intentó algo que requiere login
+      this.infoMsg = 'Debes estar registrado para poder reservar un vehículo.';
     }
   }
 
@@ -76,18 +89,20 @@ export class LoginComponent implements OnInit {
     // 2. Llamamos a nuestro servicio pasándole el email y el password
     // Como devuelve un "Observable" (una promesa asíncrona), nos TENEMOS que suscribir (.subscribe)
     this.auth.login(this.email, this.password).subscribe({
-      
+
       // Si Spring Boot responde con un 200 OK (Credenciales correctas)
-      next: () => this.router.navigate(['/']), // Redirigimos a la página de inicio (Landing Page)
+      // Si veníamos de un guard, volvemos a la URL original; si no, al home.
+      next: () => this.router.navigateByUrl(this.returnUrl || '/'),
       
       // Si Spring Boot responde con un 401 Unauthorized (o cualquier error)
       error: () => {
         this.error   = 'Credenciales incorrectas. Inténtalo de nuevo.'; // Mostramos el mensaje en rojo
         this.loading = false; // Desbloqueamos el botón
+        this.cdr.markForCheck();
       },
-      
+
       // Pase lo que pase (haya fallado o sea exitoso), cuando acabe la petición:
-      complete: () => this.loading = false
+      complete: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 }

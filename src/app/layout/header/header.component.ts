@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,8 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [RouterLink, TranslateModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user     = null;
         this.photoUrl = '';
       }
+      // Con OnPush, Angular no detecta el cambio del Observable automáticamente.
+      // markForCheck() le indica que este componente necesita re-renderizarse.
+      this.cdr.markForCheck();
     });
     this.currentLang = this.translate.currentLang || this.translate.defaultLang || 'en';
   }

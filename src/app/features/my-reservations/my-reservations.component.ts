@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -19,6 +19,7 @@ import { ReservationDTO } from '../../models/types';
   selector: 'app-my-reservations',
   standalone: true,
   imports: [CommonModule, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="max-w-5xl mx-auto px-6 pt-32 pb-20">
 
@@ -92,7 +93,8 @@ export class MyReservationsComponent implements OnInit {
   constructor(
     private authSvc:        AuthService,
     private renterSvc:      RenterService,
-    private reservationSvc: ReservationService
+    private reservationSvc: ReservationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -104,21 +106,27 @@ export class MyReservationsComponent implements OnInit {
       return;
     }
 
-    // Paso 1: resolver el ID del cliente a partir del email del JWT
-    this.renterSvc.getByEmail(email).subscribe({
+    // Paso 1: asegurar el perfil de Renter (lo crea si no existe).
+    // ensure() es idempotente y resuelve el problema de los usuarios sin Renter previo.
+    this.renterSvc.ensure().subscribe({
       next: (renter) => {
         // Paso 2: cargar las reservas de ese cliente
         this.reservationSvc.getByRenterId(renter.id).subscribe({
           next: (page) => {
             this.reservations = page.content;
             this.loading = false;
+            this.cdr.markForCheck();
           },
-          error: () => { this.loading = false; }
+          error: () => {
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
         });
       },
       error: () => {
         this.renterNotFound = true;
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

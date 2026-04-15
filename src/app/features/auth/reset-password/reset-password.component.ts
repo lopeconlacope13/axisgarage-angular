@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-reset-password',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="grain-overlay"></div>
     <div class="vignette"></div>
@@ -127,7 +128,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -153,11 +155,13 @@ export class ResetPasswordComponent implements OnInit {
       next: () => {
         this.success = true;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         // El backend devuelve el mensaje de error en el body como texto plano
         this.error   = err.error || 'The recovery link is invalid or has expired.';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
