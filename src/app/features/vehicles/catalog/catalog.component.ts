@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
@@ -11,13 +11,19 @@ import { VehicleDTO, Page } from '../../../models/types';
  * de 9 en 9 desde el backend (paginación real del servidor).
  * Así evitamos traer los 31 coches de golpe y la respuesta
  * HTTP es mucho más ligera y rápida.
+ *
+ * NOTA DE CHANGE DETECTION:
+ * Usamos OnPush + ChangeDetectorRef.markForCheck() para que Angular
+ * actualice la vista tras recibir los datos del backend en modo Zoneless.
  */
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './catalog.component.html',
-  styleUrl: './catalog.component.css'
+  styleUrl: './catalog.component.css',
+  // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
 
@@ -33,7 +39,11 @@ export class CatalogComponent implements OnInit {
   /** Controla el spinner mientras esperamos la respuesta del servidor */
   loading = false;
 
-  constructor(private vehicleSvc: VehicleService) {}
+  constructor(
+    private vehicleSvc: VehicleService,
+    // Necesario para notificar a Angular que debe re-renderizar en modo Zoneless
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // Al entrar al catálogo siempre arrancamos desde la primera página
@@ -56,8 +66,14 @@ export class CatalogComponent implements OnInit {
         this.totalPages  = p.totalPages; // cuántas páginas existen en total
         this.currentPage = p.number;     // página actual confirmada por el servidor
         this.loading     = false;
+        // Forzamos la detección de cambios: sin Zone.js Angular no detecta
+        // que los datos han llegado y la cuadrícula se quedaría vacía
+        this.cdr.markForCheck();
       },
-      error: () => this.loading = false
+      error: () => {
+        this.loading = false;
+        this.cdr.markForCheck();
+      }
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
@@ -20,13 +20,20 @@ import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportD
  * El rol se extrae del JWT mediante AuthService, sin necesidad de llamar al backend.
  * Los datos de cada sección se cargan de forma perezosa (lazy): solo cuando el usuario
  * navega a esa sección por primera vez.
+ *
+ * NOTA DE CHANGE DETECTION:
+ * Usamos OnPush + ChangeDetectorRef.markForCheck() porque la app está en modo
+ * Zoneless (Angular 21 sin Zone.js). Sin markForCheck(), los datos que llegan
+ * de HTTP no actualizan la vista hasta que el usuario interactúa con algo.
  */
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  // OnPush: Angular solo comprueba este componente cuando llamamos markForCheck()
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
 
@@ -61,6 +68,14 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
+  // ─── Edición de vehículos (MANAGER/ADMIN) ────────────────────────────────
+  /** Vehículo seleccionado para editar (null = panel cerrado). */
+  editingVehicle: VehicleDTO | null = null;
+  /** Campos editables del formulario inline. */
+  editForm = { pricePerDay: 0, horsePower: 0, productionYear: 0, description: '' };
+  editError   = '';
+  editLoading = false;
+
   // ─── KPIs del overview ────────────────────────────────────────────────────
   /** Ingresos totales: suma de reservas CONFIRMED */
   totalRevenue      = 0;
@@ -78,7 +93,9 @@ export class DashboardComponent implements OnInit {
     private reservationSvc:    ReservationService,
     private vehicleSvc:        VehicleService,
     private ownerSvc:          OwnerService,
-    private damageReportSvc:   DamageReportService
+    private damageReportSvc:   DamageReportService,
+    // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
+    private cdr:               ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -121,7 +138,9 @@ export class DashboardComponent implements OnInit {
 
   /** Carga el perfil del usuario autenticado desde GET /api/user */
   loadProfile(): void {
-    this.authSvc.getProfile().subscribe({ next: p => this.profileData = p });
+    this.authSvc.getProfile().subscribe({
+      next: p => { this.profileData = p; this.cdr.markForCheck(); }
+    });
   }
 
   /**
@@ -130,10 +149,15 @@ export class DashboardComponent implements OnInit {
    * 2. Consulta las reservas filtradas por ese renterId.
    */
   loadMyReservations(): void {
-    this.renterSvc.getByEmail(this.userEmail).subscribe({
+    // ensure() crea el perfil de Renter si todavía no existe — evita el error
+    // "perfil no encontrado" para usuarios recién registrados.
+    this.renterSvc.ensure().subscribe({
       next: renter => {
         this.reservationSvc.getByRenterId(renter.id).subscribe({
-          next: page => { this.myReservations = page.content; }
+          next: page => {
+            this.myReservations = page.content;
+            this.cdr.markForCheck();
+          }
         });
       }
     });
@@ -143,29 +167,37 @@ export class DashboardComponent implements OnInit {
   loadAllReservations(): void {
     this.loading = true;
     this.reservationSvc.getAll(0, 50).subscribe({
-      next:  p  => { this.allReservations = p.content; this.loading = false; },
-      error: () => { this.loading = false; }
+      next:  p  => { this.allReservations = p.content; this.loading = false; this.cdr.markForCheck(); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 
   /** Carga el catálogo completo de vehículos (para MANAGER y ADMIN) */
   loadVehicles(): void {
-    this.vehicleSvc.getAll(0, 50).subscribe({ next: p => this.vehicles = p.content });
+    this.vehicleSvc.getAll(0, 50).subscribe({
+      next: p => { this.vehicles = p.content; this.cdr.markForCheck(); }
+    });
   }
 
   /** Carga la lista de clientes registrados (para MANAGER y ADMIN) */
   loadRenters(): void {
-    this.renterSvc.getAll(0, 50).subscribe({ next: p => this.renters = p.content });
+    this.renterSvc.getAll(0, 50).subscribe({
+      next: p => { this.renters = p.content; this.cdr.markForCheck(); }
+    });
   }
 
   /** Carga la lista de propietarios de vehículos (solo para ADMIN) */
   loadOwners(): void {
-    this.ownerSvc.getAll(0, 50).subscribe({ next: p => this.owners = p.content });
+    this.ownerSvc.getAll(0, 50).subscribe({
+      next: p => { this.owners = p.content; this.cdr.markForCheck(); }
+    });
   }
 
   /** Carga todos los partes de daños del sistema (MANAGER y ADMIN). */
   loadDamageReports(): void {
-    this.damageReportSvc.getAll().subscribe({ next: list => this.damageReports = list });
+    this.damageReportSvc.getAll().subscribe({
+      next: list => { this.damageReports = list; this.cdr.markForCheck(); }
+    });
   }
 
   /**
@@ -181,15 +213,17 @@ export class DashboardComponent implements OnInit {
         this.totalRevenue   = p.content
           .filter(r => r.status === 'CONFIRMED')
           .reduce((sum, r) => sum + r.totalPrice, 0);
+        // Notificamos a Angular que los KPIs cambiaron para que los pinte
+        this.cdr.markForCheck();
       }
     });
     // Vehículos: para saber cuántos están disponibles
     this.vehicleSvc.getAll(0, 50).subscribe({
-      next: p => { this.availableVehicles = p.content.filter(v => v.available).length; }
+      next: p => { this.availableVehicles = p.content.filter(v => v.available).length; this.cdr.markForCheck(); }
     });
     // Clientes registrados
     this.renterSvc.getAll(0, 200).subscribe({
-      next: p => { this.totalClients = p.totalElements; }
+      next: p => { this.totalClients = p.totalElements; this.cdr.markForCheck(); }
     });
     this.overviewLoaded = true;
   }
@@ -206,6 +240,7 @@ export class DashboardComponent implements OnInit {
       next: updated => {
         const idx = this.allReservations.findIndex(x => x.id === r.id);
         if (idx !== -1) this.allReservations[idx] = updated;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -219,7 +254,83 @@ export class DashboardComponent implements OnInit {
       next: updated => {
         const idx = this.vehicles.findIndex(x => x.id === v.id);
         if (idx !== -1) this.vehicles[idx] = updated;
+        this.cdr.markForCheck();
       }
+    });
+  }
+
+  /** Abre el panel de edición prerellenando el formulario con los datos actuales. */
+  startEditVehicle(v: VehicleDTO): void {
+    this.editError      = '';
+    this.editingVehicle = v;
+    this.editForm = {
+      pricePerDay:    v.pricePerDay,
+      horsePower:     v.horsePower,
+      productionYear: v.productionYear,
+      description:    v.description ?? ''
+    };
+  }
+
+  /** Cierra el panel de edición sin guardar. */
+  cancelEditVehicle(): void {
+    this.editingVehicle = null;
+    this.editError      = '';
+  }
+
+  /**
+   * Guarda los cambios. El backend espera multipart/form-data en PUT, así que
+   * construimos un FormData solo con los campos editables (sin tocar las imágenes).
+   * Los demás campos se envían tal cual estaban para no perder información.
+   */
+  saveEditVehicle(): void {
+    if (!this.editingVehicle) return;
+    this.editError   = '';
+    this.editLoading = true;
+
+    const v   = this.editingVehicle;
+    const fd  = new FormData();
+    fd.append('brand',          v.brand);
+    fd.append('model',          v.model);
+    fd.append('engineType',     v.engineType);
+    fd.append('transmission',   v.transmission);
+    fd.append('drivetrain',     v.drivetrain);
+    fd.append('fuelType',       v.fuelType);
+    fd.append('zeroToHundred',  String(v.zeroToHundred));
+    fd.append('torqueNm',       String(v.torqueNm));
+    fd.append('available',      String(v.available));
+    fd.append('categoryId',     String(v.categoryId));
+    fd.append('locationId',     String(v.locationId));
+    // Campos editados:
+    fd.append('pricePerDay',    String(this.editForm.pricePerDay));
+    fd.append('horsePower',     String(this.editForm.horsePower));
+    fd.append('productionYear', String(this.editForm.productionYear));
+    fd.append('description',    this.editForm.description);
+
+    this.vehicleSvc.update(v.id, fd).subscribe({
+      next: updated => {
+        const idx = this.vehicles.findIndex(x => x.id === v.id);
+        if (idx !== -1) this.vehicles[idx] = updated;
+        this.editingVehicle = null;
+        this.editLoading    = false;
+        this.cdr.markForCheck();
+      },
+      error: err => {
+        this.editError   = err?.error ?? 'Error al actualizar el vehículo.';
+        this.editLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  /**
+   * Elimina un vehículo del catálogo. Solo accesible para ADMIN.
+   * Pide confirmación porque la operación es irreversible.
+   */
+  deleteVehicle(v: VehicleDTO): void {
+    if (!confirm(`¿Eliminar definitivamente el ${v.brand} ${v.model}? Esta acción no se puede deshacer.`)) return;
+    this.vehicleSvc.delete(v.id).subscribe({
+      next: () => { this.vehicles = this.vehicles.filter(x => x.id !== v.id); this.cdr.markForCheck(); },
+      error: err => { alert(err?.error ?? 'No se pudo eliminar el vehículo. Puede tener reservas asociadas.'); }
     });
   }
 
@@ -230,7 +341,7 @@ export class DashboardComponent implements OnInit {
   deleteReport(id: number): void {
     if (!confirm('¿Eliminar este parte de daños?')) return;
     this.damageReportSvc.delete(id).subscribe({
-      next: () => { this.damageReports = this.damageReports.filter(d => d.id !== id); }
+      next: () => { this.damageReports = this.damageReports.filter(d => d.id !== id); this.cdr.markForCheck(); }
     });
   }
 
@@ -250,8 +361,12 @@ export class DashboardComponent implements OnInit {
         this.damageReports = [created, ...this.damageReports];
         this.reportSuccess = true;
         this.newReport = { reservationId: 0, type: 'PRE', description: '', reportedDate: '' };
+        this.cdr.markForCheck();
       },
-      error: () => { this.reportError = 'Error al registrar el parte. Verifica el ID de reserva.'; }
+      error: () => {
+        this.reportError = 'Error al registrar el parte. Verifica el ID de reserva.';
+        this.cdr.markForCheck();
+      }
     });
   }
 
@@ -268,6 +383,8 @@ export class DashboardComponent implements OnInit {
     reader.onload = () => {
       this.photoUrl = reader.result as string;
       localStorage.setItem(`axis-avatar-${this.userEmail}`, this.photoUrl);
+      // reader.onload es un callback fuera del ciclo de Angular → necesita markForCheck()
+      this.cdr.markForCheck();
     };
     reader.readAsDataURL(file);
   }
@@ -297,10 +414,12 @@ export class DashboardComponent implements OnInit {
         this.pwdSuccess = true;
         this.pwdLoading = false;
         this.pwdForm    = { current: '', newPwd: '', confirm: '' };
+        this.cdr.markForCheck();
       },
       error: err => {
         this.pwdError   = err?.error ?? 'Error al cambiar la contraseña.';
         this.pwdLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }
