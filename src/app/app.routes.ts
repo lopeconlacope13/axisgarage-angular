@@ -31,6 +31,18 @@ export const routes: Routes = [
       import('./features/auth/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
   },
 
+  // ── Páginas informativas públicas ─────────────────────────────────────────
+  {
+    path: 'ateliers',
+    loadComponent: () =>
+      import('./features/ateliers/ateliers.component').then(m => m.AteliersComponent)
+  },
+  {
+    path: 'brands',
+    loadComponent: () =>
+      import('./features/brands/brands.component').then(m => m.BrandsComponent)
+  },
+
   // ── Catálogo público ───────────────────────────────────────────────────────
   {
     path: 'vehicles',

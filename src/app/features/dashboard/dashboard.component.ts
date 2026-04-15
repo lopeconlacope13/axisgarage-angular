@@ -61,6 +61,15 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
+  // ─── KPIs del overview ────────────────────────────────────────────────────
+  /** Ingresos totales: suma de reservas CONFIRMED */
+  totalRevenue      = 0;
+  confirmedCount    = 0;
+  cancelledCount    = 0;
+  availableVehicles = 0;
+  totalClients      = 0;
+  overviewLoaded    = false;
+
   loading = false;
 
   constructor(
@@ -87,7 +96,7 @@ export class DashboardComponent implements OnInit {
     this.photoUrl = localStorage.getItem(`axis-avatar-${this.userEmail}`) ?? '';
 
     // Cargamos la sección inicial según el rol
-    this.setSection(this.isManager ? 'reservations' : 'profile');
+    this.setSection(this.isManager ? 'overview' : 'profile');
   }
 
   /**
@@ -98,13 +107,14 @@ export class DashboardComponent implements OnInit {
    */
   setSection(section: string): void {
     this.activeSection = section;
-    if (section === 'profile'         && !this.profileData)            this.loadProfile();
-    if (section === 'my-reservations' && !this.myReservations.length)  this.loadMyReservations();
-    if (section === 'reservations'    && !this.allReservations.length) this.loadAllReservations();
-    if (section === 'fleet'           && !this.vehicles.length)        this.loadVehicles();
-    if (section === 'clients'         && !this.renters.length)         this.loadRenters();
-    if (section === 'owners'          && !this.owners.length)          this.loadOwners();
-    if (section === 'damage-reports'  && !this.damageReports.length)   this.loadDamageReports();
+    if (section === 'overview'        && !this.overviewLoaded)          this.loadOverview();
+    if (section === 'profile'         && !this.profileData)             this.loadProfile();
+    if (section === 'my-reservations' && !this.myReservations.length)   this.loadMyReservations();
+    if (section === 'reservations'    && !this.allReservations.length)  this.loadAllReservations();
+    if (section === 'fleet'           && !this.vehicles.length)         this.loadVehicles();
+    if (section === 'clients'         && !this.renters.length)          this.loadRenters();
+    if (section === 'owners'          && !this.owners.length)           this.loadOwners();
+    if (section === 'damage-reports'  && !this.damageReports.length)    this.loadDamageReports();
   }
 
   // ─── Carga de datos por sección ───────────────────────────────────────────
@@ -158,6 +168,32 @@ export class DashboardComponent implements OnInit {
     this.damageReportSvc.getAll().subscribe({ next: list => this.damageReports = list });
   }
 
+  /**
+   * Carga los datos necesarios para el panel de resumen (MANAGER y ADMIN).
+   * Obtiene reservas y flota en paralelo para calcular los KPIs del overview.
+   */
+  loadOverview(): void {
+    // Reservas: para calcular ingresos y estado de cada una
+    this.reservationSvc.getAll(0, 200).subscribe({
+      next: p => {
+        this.confirmedCount = p.content.filter(r => r.status === 'CONFIRMED').length;
+        this.cancelledCount = p.content.filter(r => r.status === 'CANCELLED').length;
+        this.totalRevenue   = p.content
+          .filter(r => r.status === 'CONFIRMED')
+          .reduce((sum, r) => sum + r.totalPrice, 0);
+      }
+    });
+    // Vehículos: para saber cuántos están disponibles
+    this.vehicleSvc.getAll(0, 50).subscribe({
+      next: p => { this.availableVehicles = p.content.filter(v => v.available).length; }
+    });
+    // Clientes registrados
+    this.renterSvc.getAll(0, 200).subscribe({
+      next: p => { this.totalClients = p.totalElements; }
+    });
+    this.overviewLoaded = true;
+  }
+
   // ─── Acciones de gestión ──────────────────────────────────────────────────
 
   /**
@@ -184,6 +220,17 @@ export class DashboardComponent implements OnInit {
         const idx = this.vehicles.findIndex(x => x.id === v.id);
         if (idx !== -1) this.vehicles[idx] = updated;
       }
+    });
+  }
+
+  /**
+   * Elimina un parte de daños (solo ADMIN).
+   * Actualiza la lista local sin recargar del servidor.
+   */
+  deleteReport(id: number): void {
+    if (!confirm('¿Eliminar este parte de daños?')) return;
+    this.damageReportSvc.delete(id).subscribe({
+      next: () => { this.damageReports = this.damageReports.filter(d => d.id !== id); }
     });
   }
 

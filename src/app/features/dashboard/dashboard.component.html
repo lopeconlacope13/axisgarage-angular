@@ -43,6 +43,9 @@
 
       <!-- Secciones para ROLE_MANAGER y ROLE_ADMIN -->
       @if (isManager) {
+        <button class="sidebar-btn" [class.active]="activeSection === 'overview'" (click)="setSection('overview')">
+          OVERVIEW
+        </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'reservations'" (click)="setSection('reservations')">
           RESERVATIONS
         </button>
@@ -70,6 +73,67 @@
        CONTENIDO PRINCIPAL — Cambia según la sección activa del sidebar
   ══════════════════════════════════════════════════════════════════════ -->
   <main class="flex-1 p-8 overflow-auto">
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: OVERVIEW (MANAGER y ADMIN)
+         Panel de inicio con KPIs: ingresos, reservas, flota y clientes.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'overview') {
+      <div class="eyebrow mb-2" style="color:#b8952a">{{ isAdmin ? 'ADMINISTRATION' : 'MANAGEMENT' }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">
+        {{ isAdmin ? 'Admin' : 'Manager' }} <span class="italic">Overview</span>
+      </h1>
+
+      <!-- KPIs -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+        <div class="glass-card p-6" style="border-top:2px solid rgba(184,149,42,0.5);">
+          <div class="eyebrow mb-2" style="font-size:0.55rem;">CONFIRMED REVENUE</div>
+          <div class="font-display text-2xl font-bold" style="color:#b8952a;">
+            €{{ totalRevenue | number:'1.0-0' }}
+          </div>
+          <div class="text-axis-gray text-xs mt-1">Total ingresos confirmados</div>
+        </div>
+
+        <div class="glass-card p-6" style="border-top:2px solid rgba(184,149,42,0.3);">
+          <div class="eyebrow mb-2" style="font-size:0.55rem;">CONFIRMED RESERV.</div>
+          <div class="font-display text-2xl font-bold">{{ confirmedCount }}</div>
+          <div class="text-axis-gray text-xs mt-1">Reservas activas</div>
+        </div>
+
+        <div class="glass-card p-6" style="border-top:2px solid rgba(239,68,68,0.3);">
+          <div class="eyebrow mb-2" style="font-size:0.55rem;">CANCELLED</div>
+          <div class="font-display text-2xl font-bold" style="color:rgba(239,68,68,0.7);">{{ cancelledCount }}</div>
+          <div class="text-axis-gray text-xs mt-1">Reservas canceladas</div>
+        </div>
+
+        <div class="glass-card p-6" style="border-top:2px solid rgba(184,149,42,0.2);">
+          <div class="eyebrow mb-2" style="font-size:0.55rem;">AVAILABLE FLEET</div>
+          <div class="font-display text-2xl font-bold">{{ availableVehicles }}</div>
+          <div class="text-axis-gray text-xs mt-1">Vehículos disponibles</div>
+        </div>
+
+      </div>
+
+      <!-- Accesos rápidos -->
+      <div class="glass-card p-6">
+        <h2 class="font-display text-base font-semibold mb-4">Quick Access</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(184,149,42,0.1);border:1px solid rgba(184,149,42,0.3);border-radius:4px;cursor:pointer;color:#b8952a;"
+            (click)="setSection('reservations')">ALL RESERVATIONS →</button>
+          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
+            (click)="setSection('fleet')">FLEET STATUS →</button>
+          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
+            (click)="setSection('clients')">CLIENTS ({{ totalClients }}) →</button>
+          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
+            (click)="setSection('damage-reports')">DAMAGE REPORTS →</button>
+          @if (isAdmin) {
+            <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(184,149,42,0.2);border-radius:4px;cursor:pointer;color:#b8952a;"
+              (click)="setSection('owners')">OWNERS REGISTRY →</button>
+          }
+        </div>
+      </div>
+    }
 
     <!-- ────────────────────────────────────────────────────────────────────
          SECCIÓN: MY PROFILE (solo ROLE_USER)
@@ -448,6 +512,9 @@
                   <th class="eyebrow text-left p-4">Type</th>
                   <th class="eyebrow text-left p-4">Date</th>
                   <th class="eyebrow text-left p-4">Description</th>
+                  @if (isAdmin) {
+                    <th class="eyebrow text-right p-4">Actions</th>
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -467,6 +534,12 @@
                       [title]="d.description">
                       {{ d.description }}
                     </td>
+                    @if (isAdmin) {
+                      <td class="p-4 text-right">
+                        <button class="eyebrow" style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.2rem 0.5rem;cursor:pointer;"
+                          (click)="deleteReport(d.id)">DELETE</button>
+                      </td>
+                    }
                   </tr>
                 }
               </tbody>

@@ -1,8 +1,8 @@
 <header class="glass-header fixed top-0 left-0 right-0 w-full" style="z-index:9999;">
   <div class="container mx-auto px-4 md:px-6 py-4" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
 
-    <!-- 1. LEFT: Logo & Branding -->
-    <div style="display:flex; align-items:center; gap:0.75rem;">
+    <!-- 1. LEFT: Logo & Branding — routerLink lleva al home -->
+    <a routerLink="/" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
       <div style="width:2rem;height:2rem;border:1px solid var(--axis-gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <span style="color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:0.9rem;">A</span>
       </div>
@@ -10,13 +10,13 @@
         <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.05em;white-space:nowrap;">AXIS GARAGE</div>
         <div class="eyebrow" style="font-size:0.55rem;letter-spacing:0.2em;white-space:nowrap;">THE PRIVATE ATELIER</div>
       </div>
-    </div>
+    </a>
 
     <!-- 2. CENTER: Navigation (Desktop Only) -->
     <nav class="hidden md:flex" style="gap:2.5rem; justify-content:center; flex:1;">
       <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
-      <a href="#" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
-      <a href="#" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/ateliers" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
+      <a routerLink="/brands" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
     </nav>
 
     <!-- 3. RIGHT: Toolset -->
