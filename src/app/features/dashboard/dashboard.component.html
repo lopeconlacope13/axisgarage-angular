@@ -1,4 +1,4 @@
-<div class="flex min-h-screen" style="background:#0a0a0a">
+<div class="flex min-h-screen" style="background:#0a0a0a;padding-top:5rem;">
 
   <!-- ══════════════════════════════════════════════════════════════════════
        SIDEBAR — Navegación lateral con secciones según el rol del usuario
@@ -333,6 +333,64 @@
       <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Fleet <span class="italic">Inventory</span></h1>
 
+      <!-- Panel inline de edición: aparece encima de la tabla cuando se pulsa EDIT -->
+      @if (editingVehicle) {
+        <div class="glass-card" style="padding:1.75rem;margin-bottom:1.5rem;border-color:rgba(184,149,42,0.25);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+            <div>
+              <div class="eyebrow" style="color:#b8952a;">EDITING</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin-top:0.2rem;">
+                {{ editingVehicle.brand }} <span style="font-style:italic;">{{ editingVehicle.model }}</span>
+              </div>
+            </div>
+            <button (click)="cancelEditVehicle()"
+              style="background:none;border:1px solid rgba(255,255,255,0.1);color:rgba(245,245,240,0.5);padding:0.4rem 0.85rem;border-radius:4px;cursor:pointer;font-size:0.65rem;letter-spacing:0.12em;">
+              CANCEL
+            </button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.25rem;">
+            <div>
+              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">PRICE PER DAY (€)</label>
+              <input type="number" min="0" class="input-dark" style="width:100%;box-sizing:border-box;"
+                [(ngModel)]="editForm.pricePerDay" />
+            </div>
+            <div>
+              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">HORSE POWER</label>
+              <input type="number" min="0" class="input-dark" style="width:100%;box-sizing:border-box;"
+                [(ngModel)]="editForm.horsePower" />
+            </div>
+            <div>
+              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">PRODUCTION YEAR</label>
+              <input type="number" min="1900" max="2100" class="input-dark" style="width:100%;box-sizing:border-box;"
+                [(ngModel)]="editForm.productionYear" />
+            </div>
+            <div>
+              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">STATUS</label>
+              <div class="input-dark" style="opacity:0.6;cursor:not-allowed;">{{ editingVehicle.available ? 'AVAILABLE' : 'UNAVAILABLE' }}</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.25rem;">
+            <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">DESCRIPTION</label>
+            <textarea rows="3" class="input-dark" style="width:100%;box-sizing:border-box;resize:vertical;"
+              [(ngModel)]="editForm.description"></textarea>
+          </div>
+
+          @if (editError) {
+            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:4px;padding:0.6rem 0.9rem;margin-bottom:1rem;">
+              <span style="font-size:0.78rem;color:rgba(239,68,68,0.85);">{{ editError }}</span>
+            </div>
+          }
+
+          <button class="btn-gold" (click)="saveEditVehicle()" [disabled]="editLoading"
+            style="padding:0.7rem 1.5rem;font-size:0.7rem;letter-spacing:0.12em;"
+            [style.opacity]="editLoading ? '0.6' : '1'">
+            {{ editLoading ? 'SAVING...' : 'SAVE CHANGES' }}
+          </button>
+        </div>
+      }
+
       <div class="glass-card overflow-hidden">
         <table class="w-full text-sm">
           <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
@@ -362,13 +420,26 @@
                   </span>
                 </td>
                 <td class="p-4 text-right font-display" style="color:#b8952a">{{ v.pricePerDay }}</td>
-                <td class="p-4 text-right">
-                  <button class="eyebrow" style="font-size:0.6rem;background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;border-radius:3px;"
+                <td class="p-4 text-right" style="white-space:nowrap;">
+                  <button class="eyebrow"
+                    style="font-size:0.6rem;background:none;border:1px solid rgba(184,149,42,0.3);color:#b8952a;cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
+                    (click)="startEditVehicle(v)">
+                    EDIT
+                  </button>
+                  <button class="eyebrow"
+                    style="font-size:0.6rem;background:none;cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
                     [style.color]="v.available ? 'rgba(239,68,68,0.7)' : '#b8952a'"
                     [style.border]="v.available ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(184,149,42,0.3)'"
                     (click)="toggleAvailability(v)">
                     {{ v.available ? 'DISABLE' : 'ENABLE' }}
                   </button>
+                  @if (isAdmin) {
+                    <button class="eyebrow"
+                      style="font-size:0.6rem;background:none;border:1px solid rgba(239,68,68,0.4);color:rgba(239,68,68,0.85);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;"
+                      (click)="deleteVehicle(v)">
+                      DELETE
+                    </button>
+                  }
                 </td>
               </tr>
             }
