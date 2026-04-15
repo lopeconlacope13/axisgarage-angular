@@ -30,6 +30,9 @@ export class HomeComponent implements OnInit {
   /** Los tres coches más representativos de la flota */
   featuredVehicles: VehicleDTO[] = [];
 
+  /** URL base del backend para construir rutas de imágenes */
+  readonly backendUrl = 'http://localhost:8080';
+
   constructor(
     private vehicleSvc: VehicleService,
     // Necesario en modo Zoneless: notifica a Angular que debe re-renderizar
@@ -37,8 +40,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Cargamos 3 vehículos de la primera página para mostrarlos como "destacados"
-    this.vehicleSvc.getAll(0, 3, 'pricePerDay').subscribe({
+    // Cargamos 3 vehículos ordenados por precio descendente para mostrar los más exclusivos
+    this.vehicleSvc.getAll(0, 3, 'pricePerDay,desc').subscribe({
       next: p => {
         this.featuredVehicles = p.content;
         // Sin esta llamada, Angular Zoneless no sabe que los datos cambiaron
@@ -46,5 +49,19 @@ export class HomeComponent implements OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  /**
+   * Devuelve la URL completa de la primera imagen de un vehículo destacado.
+   * El backend guarda solo el nombre del archivo, así que lo completamos aquí.
+   *
+   * @param vehicle - El vehículo del que queremos la imagen
+   * @returns URL completa si existe imagen, null si no
+   */
+  getImageUrl(vehicle: VehicleDTO): string | null {
+    if (vehicle.images && vehicle.images.length > 0) {
+      return `${this.backendUrl}/uploads/${vehicle.images[0]}`;
+    }
+    return null;
   }
 }

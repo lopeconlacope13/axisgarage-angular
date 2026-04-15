@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { VehicleDTO, Page } from '../../../models/types';
@@ -19,7 +20,7 @@ import { VehicleDTO, Page } from '../../../models/types';
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
   // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
@@ -39,6 +40,17 @@ export class CatalogComponent implements OnInit {
   /** Controla el spinner mientras esperamos la respuesta del servidor */
   loading = false;
 
+  // ─── Filtros del usuario ────────────────────────────────────────────────────
+  /** Filtro por marca del vehículo (búsqueda parcial, ej: "Ferrari") */
+  filterBrand    = '';
+  /** Filtro por modelo del vehículo (búsqueda parcial, ej: "488") */
+  filterModel    = '';
+  /** Filtro de potencia mínima en caballos. 0 = sin filtro */
+  filterHorsePower = 0;
+
+  /** URL base del backend para construir rutas de imágenes */
+  readonly backendUrl = 'http://localhost:8080';
+
   constructor(
     private vehicleSvc: VehicleService,
     // Necesario para notificar a Angular que debe re-renderizar en modo Zoneless
@@ -51,16 +63,22 @@ export class CatalogComponent implements OnInit {
   }
 
   /**
-   * Pide al backend exactamente 9 vehículos de la página indicada.
-   * Se llama al entrar al componente y cada vez que el usuario
-   * pulsa un botón de paginación (anterior, número o siguiente).
+   * Pide al backend exactamente 9 vehículos de la página indicada,
+   * pasando los filtros activos en ese momento.
    *
    * @param page - Número de página a cargar (comienza en 0)
    */
   loadVehicles(page = 0): void {
     this.loading = true;
+
+    // Construimos el objeto de filtros solo con los valores que no estén vacíos
+    const filters: { brand?: string; model?: string; horsePower?: number } = {};
+    if (this.filterBrand.trim())     filters.brand      = this.filterBrand.trim();
+    if (this.filterModel.trim())     filters.model      = this.filterModel.trim();
+    if (this.filterHorsePower > 0)   filters.horsePower = this.filterHorsePower;
+
     // 9 coches por página → llenan la cuadrícula 3 columnas × 3 filas
-    this.vehicleSvc.getAll(page, 9).subscribe({
+    this.vehicleSvc.getAll(page, 9, 'brand', filters).subscribe({
       next: (p: Page<VehicleDTO>) => {
         this.vehicles    = p.content;    // coches de esta página
         this.totalPages  = p.totalPages; // cuántas páginas existen en total
@@ -75,6 +93,41 @@ export class CatalogComponent implements OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  /**
+   * Aplica los filtros actuales: resetea a la página 0 y recarga.
+   * Se llama cuando el usuario pulsa "APPLY".
+   */
+  applyFilters(): void {
+    this.loadVehicles(0);
+  }
+
+  /**
+   * Limpia todos los filtros y vuelve a cargar el catálogo completo.
+   * Se llama cuando el usuario pulsa "CLEAR".
+   */
+  clearFilters(): void {
+    this.filterBrand     = '';
+    this.filterModel     = '';
+    this.filterHorsePower = 0;
+    this.loadVehicles(0);
+  }
+
+  /**
+   * Devuelve la URL completa de la primera imagen de un vehículo.
+   * El backend guarda solo el nombre del archivo (ej: "abc123.jpg"),
+   * así que construimos la URL completa aquí en el frontend.
+   *
+   * @param vehicle - El vehículo del que queremos la imagen
+   * @returns URL completa si existe imagen, null si no
+   */
+  getImageUrl(vehicle: VehicleDTO): string | null {
+    if (vehicle.images && vehicle.images.length > 0) {
+      // El backend sirve las imágenes en /uploads/<nombre-archivo>
+      return `${this.backendUrl}/uploads/${vehicle.images[0]}`;
+    }
+    return null;
   }
 
   /**

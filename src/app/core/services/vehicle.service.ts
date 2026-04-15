@@ -22,14 +22,17 @@ export class VehicleService {
     page = 0,
     size = 9,
     sort = 'brand',
-    filters: { model?: string; horsePower?: number } = {}
+    filters: { brand?: string; model?: string; horsePower?: number; categoryId?: number } = {}
   ): Observable<Page<VehicleDTO>> {
     let params = new HttpParams()
       .set('page', page)
       .set('size', size)
       .set('sort', sort);
+    // Solo añadimos el parámetro si el usuario ha introducido un valor real
+    if (filters.brand)      params = params.set('brand', filters.brand);
     if (filters.model)      params = params.set('model', filters.model);
     if (filters.horsePower) params = params.set('horsePower', filters.horsePower);
+    if (filters.categoryId) params = params.set('categoryId', filters.categoryId);
     return this.http.get<Page<VehicleDTO>>(this.base, { params });
   }
 
