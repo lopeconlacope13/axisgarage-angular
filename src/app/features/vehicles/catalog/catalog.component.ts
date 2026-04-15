@@ -2,8 +2,10 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { VehicleDTO, Page } from '../../../models/types';
+import { environment } from '../../../../environments/environment';
 
 /**
  * CATÁLOGO DE VEHÍCULOS
@@ -47,6 +49,14 @@ export class CatalogComponent implements OnInit {
   filterModel    = '';
   /** Filtro de potencia mínima en caballos. 0 = sin filtro */
   filterHorsePower = 0;
+  /** Filtro por categoría: 0 significa "todas las categorías" */
+  filterCategoryId = 0;
+
+  /**
+   * Lista de categorías cargadas desde el backend.
+   * Cada categoría tiene id y name para mostrarlas en el <select>.
+   */
+  categories: { id: number; name: string }[] = [];
 
   /** URL base del backend para construir rutas de imágenes */
   readonly backendUrl = 'http://localhost:8080';
@@ -54,10 +64,18 @@ export class CatalogComponent implements OnInit {
   constructor(
     private vehicleSvc: VehicleService,
     // Necesario para notificar a Angular que debe re-renderizar en modo Zoneless
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    // HttpClient para cargar las categorías directamente desde el componente
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+    // Cargamos las categorías del backend para el desplegable de filtros
+    this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
+      next: cats => { this.categories = cats; this.cdr.markForCheck(); },
+      error: () => { /* Si falla, el select simplemente no muestra opciones */ }
+    });
+
     // Al entrar al catálogo siempre arrancamos desde la primera página
     this.loadVehicles(0);
   }
@@ -72,10 +90,11 @@ export class CatalogComponent implements OnInit {
     this.loading = true;
 
     // Construimos el objeto de filtros solo con los valores que no estén vacíos
-    const filters: { brand?: string; model?: string; horsePower?: number } = {};
+    const filters: { brand?: string; model?: string; horsePower?: number; categoryId?: number } = {};
     if (this.filterBrand.trim())     filters.brand      = this.filterBrand.trim();
     if (this.filterModel.trim())     filters.model      = this.filterModel.trim();
     if (this.filterHorsePower > 0)   filters.horsePower = this.filterHorsePower;
+    if (this.filterCategoryId > 0)   filters.categoryId = this.filterCategoryId;
 
     // 9 coches por página → llenan la cuadrícula 3 columnas × 3 filas
     this.vehicleSvc.getAll(page, 9, 'brand', filters).subscribe({
@@ -108,9 +127,10 @@ export class CatalogComponent implements OnInit {
    * Se llama cuando el usuario pulsa "CLEAR".
    */
   clearFilters(): void {
-    this.filterBrand     = '';
-    this.filterModel     = '';
-    this.filterHorsePower = 0;
+    this.filterBrand       = '';
+    this.filterModel       = '';
+    this.filterHorsePower  = 0;
+    this.filterCategoryId  = 0;
     this.loadVehicles(0);
   }
 

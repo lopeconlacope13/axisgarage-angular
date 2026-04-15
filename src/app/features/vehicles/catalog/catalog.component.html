@@ -49,6 +49,22 @@
         />
       </div>
 
+      <!-- Select: Categoría -->
+      <div style="flex:1;min-width:140px;">
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">CATEGORY</label>
+        <select
+          [(ngModel)]="filterCategoryId"
+          class="input-dark"
+          style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+          <!-- Opción por defecto: sin filtro de categoría -->
+          <option [value]="0">All categories</option>
+          <!-- Una opción por cada categoría recibida del backend -->
+          @for (cat of categories; track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
       <!-- Botones APPLY + CLEAR -->
       <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0;">
         <button
