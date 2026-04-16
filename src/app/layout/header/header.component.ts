@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -6,7 +6,8 @@ import { Subscription } from 'rxjs';
 
 /**
  * Header sticky glassmorphism.
- * Soporta i18n y Menú Desplegable con Avatar y Roles.
+ * Soporta i18n, menú desplegable con avatar y roles,
+ * y menú hamburguesa para dispositivos móviles.
  */
 @Component({
   selector: 'app-header',
@@ -23,6 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /** Foto de perfil guardada en localStorage por el dashboard */
   photoUrl     = '';
   dropdownOpen = false;
+  /** Controla si el menú móvil está abierto o cerrado */
+  menuOpen     = false;
   currentLang = 'en';
   private authSub?: Subscription;
 
@@ -60,6 +63,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
+  /** Abre o cierra el menú hamburguesa en móvil */
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+    this.cdr.markForCheck();
+  }
+
+  /** Cierra el menú móvil — se llama al pulsar un enlace */
+  closeMenu(): void {
+    this.menuOpen = false;
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Escucha clics en todo el documento.
+   * Si el clic no es dentro del header, cierra el menú móvil.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    // Si el clic es fuera del header, cerramos el menú
+    if (!target.closest('app-header')) {
+      this.menuOpen = false;
+      this.cdr.markForCheck();
+    }
+  }
+
   switchLang(lang: string): void {
     this.translate.use(lang);
     this.currentLang = lang;
@@ -67,6 +96,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.dropdownOpen = false;
+    this.menuOpen = false;
     this.auth.logout();
   }
 }
