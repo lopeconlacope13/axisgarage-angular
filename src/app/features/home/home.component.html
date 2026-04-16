@@ -1,19 +1,22 @@
 <!-- ══ HERO ════════════════════════════════════════════════ -->
 <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
 
-  <!-- Fondo: gradiente oscuro con velo dorado superior y lineas geométricas decorativas -->
-  <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0a0a0a 0%,#0f0d08 40%,#0a0a0a 100%);z-index:0;"></div>
+  <!-- Imagen de fondo: hombre con Ferrari en el Puerto de Mónaco (estética Old Money) -->
+  <!-- background-size:cover ocupa toda la sección; background-position:center centra la imagen -->
+  <div style="position:absolute;inset:0;background-image:url('/testimonial_client.jpg');background-size:cover;background-position:center;z-index:0;"></div>
 
-  <!-- Rejilla diagonal decorativa (profundidad) -->
-  <div style="position:absolute;inset:0;z-index:0;opacity:0.03;background-image:linear-gradient(rgba(184,149,42,1) 1px,transparent 1px),linear-gradient(90deg,rgba(184,149,42,1) 1px,transparent 1px);background-size:80px 80px;"></div>
+  <!-- Overlay oscuro encima de la foto para mantener legibilidad del texto -->
+  <!-- El gradiente es más opaco abajo (0.85) donde está el texto, más transparente arriba (0.55) -->
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.85) 100%);z-index:1;"></div>
 
-  <!-- Glow dorado central -->
-  <div style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;border-radius:50%;opacity:0.04;background:radial-gradient(ellipse, #b8952a 0%, transparent 65%);z-index:0;pointer-events:none;"></div>
+  <!-- Rejilla diagonal decorativa (profundidad) — sobre el overlay -->
+  <div style="position:absolute;inset:0;z-index:1;opacity:0.03;background-image:linear-gradient(rgba(184,149,42,1) 1px,transparent 1px),linear-gradient(90deg,rgba(184,149,42,1) 1px,transparent 1px);background-size:80px 80px;"></div>
 
   <!-- Línea dorada superior -->
-  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(184,149,42,0.4),transparent);z-index:1;"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(184,149,42,0.4),transparent);z-index:2;"></div>
 
-  <div style="position:relative;z-index:2;max-width:64rem;margin:0 auto;padding:0 1.5rem;text-align:center;">
+  <!-- z-index:3 → por encima de los overlays de la foto y la rejilla -->
+  <div style="position:relative;z-index:3;max-width:64rem;margin:0 auto;padding:0 1.5rem;text-align:center;">
 
     <div class="eyebrow animate-fade-in" style="color:#b8952a;margin-bottom:1.5rem;letter-spacing:0.3em;">
       SEVILLA &nbsp;·&nbsp; MADRID &nbsp;·&nbsp; BARCELONA &nbsp;·&nbsp; PUERTO BANÚS
@@ -51,8 +54,8 @@
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+  <!-- Scroll indicator — z-index:3 para que se vea sobre los overlays -->
+  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;z-index:3;">
     <span class="eyebrow" style="font-size:0.6rem;">SCROLL</span>
     <div style="width:1px;height:2rem;background:linear-gradient(to bottom, #b8952a, transparent);"></div>
   </div>
