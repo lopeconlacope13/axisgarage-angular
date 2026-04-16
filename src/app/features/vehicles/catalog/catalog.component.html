@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto px-6 pt-32 pb-16">
-  <div class="eyebrow mb-3" style="color:#b8952a">INVENTORY</div>
-  <h1 class="section-title mb-8">Our <span class="italic">Fleet</span></h1>
+  <div class="eyebrow mb-3" style="color:#b8952a">{{ 'CATALOG.EYEBROW' | translate }}</div>
+  <h1 class="section-title mb-8">{{ 'CATALOG.TITLE' | translate }} <span class="italic">{{ 'CATALOG.TITLE_ITALIC' | translate }}</span></h1>
 
   <!-- ── BARRA DE FILTROS ─────────────────────────────────────────────────────
        Diseño "Old Money": fondo dark con glassmorphism, inputs sutiles y botones dorados.
@@ -11,10 +11,10 @@
 
       <!-- Select: Marca — opciones dinámicas extraídas de la BD -->
       <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">BRAND</label>
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.BRAND' | translate }}</label>
         <select [(ngModel)]="filterBrand" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
           <!-- Opción por defecto: sin filtro de marca -->
-          <option value="">All brands</option>
+          <option value="">{{ 'CATALOG.FILTERS.ALL_BRANDS' | translate }}</option>
           <!-- Una opción por cada marca real de la base de datos -->
           @for (brand of brands; track brand) {
             <option [value]="brand">{{ brand }}</option>
@@ -24,40 +24,38 @@
 
       <!-- Input: Modelo -->
       <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">MODEL</label>
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.MODEL' | translate }}</label>
         <input
           type="text"
           [(ngModel)]="filterModel"
           placeholder="488, Aventador…"
-          style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(184,149,42,0.2);border-radius:4px;padding:0.5rem 0.75rem;color:rgba(245,240,232,0.9);font-size:0.8rem;font-family:'Inter',sans-serif;outline:none;transition:border 0.2s ease;"
-          onfocus="this.style.borderColor='rgba(184,149,42,0.5)'"
-          onblur="this.style.borderColor='rgba(184,149,42,0.2)'"
+          class="input-dark"
+          style="padding:0.5rem 0.75rem;font-size:0.8rem;"
         />
       </div>
 
       <!-- Input: CV mínimos -->
       <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">MIN. HP</label>
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.MIN_HP' | translate }}</label>
         <input
           type="number"
           [(ngModel)]="filterHorsePower"
           placeholder="0"
           min="0"
-          style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(184,149,42,0.2);border-radius:4px;padding:0.5rem 0.75rem;color:rgba(245,240,232,0.9);font-size:0.8rem;font-family:'Inter',sans-serif;outline:none;transition:border 0.2s ease;"
-          onfocus="this.style.borderColor='rgba(184,149,42,0.5)'"
-          onblur="this.style.borderColor='rgba(184,149,42,0.2)'"
+          class="input-dark"
+          style="padding:0.5rem 0.75rem;font-size:0.8rem;"
         />
       </div>
 
       <!-- Select: Categoría -->
       <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">CATEGORY</label>
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.CATEGORY' | translate }}</label>
         <select
           [(ngModel)]="filterCategoryId"
           class="input-dark"
           style="padding:0.5rem 0.75rem;font-size:0.8rem;">
           <!-- Opción por defecto: sin filtro de categoría -->
-          <option [value]="0">All categories</option>
+          <option [value]="0">{{ 'CATALOG.FILTERS.ALL_CATEGORIES' | translate }}</option>
           <!-- Una opción por cada categoría recibida del backend -->
           @for (cat of categories; track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
@@ -67,12 +65,12 @@
 
       <!-- Select: Ordenación del catálogo -->
       <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">SORT BY</label>
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.SORT' | translate }}</label>
         <select [(ngModel)]="filterSort" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
-          <option value="brand,asc">A–Z Brand</option>
-          <option value="brand,desc">Z–A Brand</option>
-          <option value="pricePerDay,asc">Price ↑</option>
-          <option value="pricePerDay,desc">Price ↓</option>
+          <option value="brand,asc">{{ 'CATALOG.FILTERS.SORT_BRAND_ASC' | translate }}</option>
+          <option value="brand,desc">{{ 'CATALOG.FILTERS.SORT_BRAND_DESC' | translate }}</option>
+          <option value="pricePerDay,asc">{{ 'CATALOG.FILTERS.SORT_PRICE_ASC' | translate }}</option>
+          <option value="pricePerDay,desc">{{ 'CATALOG.FILTERS.SORT_PRICE_DESC' | translate }}</option>
         </select>
       </div>
 
@@ -82,14 +80,13 @@
           (click)="applyFilters()"
           class="btn-gold"
           style="font-size:0.7rem;padding:0.5rem 1.25rem;white-space:nowrap;">
-          APPLY
+          {{ 'CATALOG.FILTERS.APPLY' | translate }}
         </button>
         <button
           (click)="clearFilters()"
-          style="font-size:0.7rem;padding:0.5rem 1.25rem;white-space:nowrap;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:4px;color:rgba(245,240,232,0.5);font-family:'Inter',sans-serif;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s ease;"
-          onmouseenter="this.style.borderColor='rgba(255,255,255,0.25)';this.style.color='rgba(245,240,232,0.8)'"
-          onmouseleave="this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(245,240,232,0.5)'">
-          CLEAR
+          class="btn-outline"
+          style="font-size:0.7rem;padding:0.5rem 1.25rem;white-space:nowrap;">
+          {{ 'CATALOG.FILTERS.CLEAR' | translate }}
         </button>
       </div>
 
@@ -104,8 +101,8 @@
     <!-- Sin resultados -->
     @if (vehicles.length === 0) {
       <div class="glass-card p-12 text-center">
-        <p class="text-axis-gray">No vehicles match your current filters.</p>
-        <button (click)="clearFilters()" class="btn-gold mt-6" style="font-size:0.75rem;">CLEAR FILTERS</button>
+        <p class="text-axis-gray">{{ 'CATALOG.EMPTY' | translate }}</p>
+        <button (click)="clearFilters()" class="btn-gold mt-6" style="font-size:0.75rem;">{{ 'CATALOG.CLEAR_FILTERS' | translate }}</button>
       </div>
     } @else {
 

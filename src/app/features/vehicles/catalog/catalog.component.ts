@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { VehicleDTO, Page } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
@@ -22,7 +23,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
   // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
