@@ -454,6 +454,24 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   .hamburger-btn { display: none !important; }
 }
 
+/* ── Barra de filtros del catálogo ───────────────────────────────────────── */
+/*
+ * En mobile: cada filtro ocupa el 100% del ancho (flex-wrap los apila en columna).
+ * En desktop: van en fila porque el contenedor no se desborda.
+ * min-width:200px garantiza que cada filtro sea usable antes de saltar a la siguiente fila.
+ */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+.filters-bar > div,
+.filters-bar > button {
+  flex: 1;
+  min-width: 200px;
+}
+
 /* ── Carrusel de imágenes ────────────────────────────────────────────────── */
 /* Botón circular flotante sobre la imagen del vehículo */
 .carousel-btn {

@@ -53,10 +53,23 @@ export class CatalogComponent implements OnInit {
   filterCategoryId = 0;
 
   /**
+   * Ordenación del catálogo. Formato que acepta el Pageable de Spring Boot.
+   * Ejemplos: 'brand,asc' | 'brand,desc' | 'pricePerDay,asc' | 'pricePerDay,desc'
+   */
+  filterSort = 'brand,asc';
+
+  /**
    * Lista de categorías cargadas desde el backend.
    * Cada categoría tiene id y name para mostrarlas en el <select>.
    */
   categories: { id: number; name: string }[] = [];
+
+  /**
+   * Lista de marcas únicas extraídas de los vehículos.
+   * Se usa para el <select> de marca en los filtros.
+   * Se carga una vez al inicio pidiendo todos los vehículos al backend.
+   */
+  brands: string[] = [];
 
   /** URL base del backend para construir rutas de imágenes */
   readonly backendUrl = 'http://localhost:8080';
@@ -74,6 +87,17 @@ export class CatalogComponent implements OnInit {
     this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
       next: cats => { this.categories = cats; this.cdr.markForCheck(); },
       error: () => { /* Si falla, el select simplemente no muestra opciones */ }
+    });
+
+    // Cargamos todos los vehículos en una sola página grande para extraer las marcas únicas.
+    // No usamos un endpoint específico de marcas porque el backend no lo tiene: lo calculamos aquí.
+    // Set() elimina duplicados automáticamente y sort() las ordena alfabéticamente.
+    this.http.get<{ content: { brand: string }[] }>(`${environment.apiUrl}/vehicles?size=200`).subscribe({
+      next: page => {
+        this.brands = [...new Set(page.content.map(v => v.brand))].sort();
+        this.cdr.markForCheck();
+      },
+      error: () => { /* Si falla, el select de marca queda vacío */ }
     });
 
     // Al entrar al catálogo siempre arrancamos desde la primera página
@@ -97,7 +121,8 @@ export class CatalogComponent implements OnInit {
     if (this.filterCategoryId > 0)   filters.categoryId = this.filterCategoryId;
 
     // 9 coches por página → llenan la cuadrícula 3 columnas × 3 filas
-    this.vehicleSvc.getAll(page, 9, 'brand', filters).subscribe({
+    // filterSort viene del select de ordenación (ej: 'pricePerDay,desc')
+    this.vehicleSvc.getAll(page, 9, this.filterSort, filters).subscribe({
       next: (p: Page<VehicleDTO>) => {
         this.vehicles    = p.content;    // coches de esta página
         this.totalPages  = p.totalPages; // cuántas páginas existen en total
@@ -131,6 +156,7 @@ export class CatalogComponent implements OnInit {
     this.filterModel       = '';
     this.filterHorsePower  = 0;
     this.filterCategoryId  = 0;
+    this.filterSort        = 'brand,asc';
     this.loadVehicles(0);
   }
 

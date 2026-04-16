@@ -7,19 +7,19 @@
        En mobile se apilan (flex-wrap), en desktop van en fila.
   ──────────────────────────────────────────────────────────────────────────── -->
   <div class="glass-card mb-8" style="padding:1.25rem 1.5rem;">
-    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;">
+    <div class="filters-bar">
 
-      <!-- Input: Marca -->
+      <!-- Select: Marca — opciones dinámicas extraídas de la BD -->
       <div style="flex:1;min-width:140px;">
         <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">BRAND</label>
-        <input
-          type="text"
-          [(ngModel)]="filterBrand"
-          placeholder="Ferrari, Porsche…"
-          style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(184,149,42,0.2);border-radius:4px;padding:0.5rem 0.75rem;color:rgba(245,240,232,0.9);font-size:0.8rem;font-family:'Inter',sans-serif;outline:none;transition:border 0.2s ease;"
-          onfocus="this.style.borderColor='rgba(184,149,42,0.5)'"
-          onblur="this.style.borderColor='rgba(184,149,42,0.2)'"
-        />
+        <select [(ngModel)]="filterBrand" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+          <!-- Opción por defecto: sin filtro de marca -->
+          <option value="">All brands</option>
+          <!-- Una opción por cada marca real de la base de datos -->
+          @for (brand of brands; track brand) {
+            <option [value]="brand">{{ brand }}</option>
+          }
+        </select>
       </div>
 
       <!-- Input: Modelo -->
@@ -65,8 +65,19 @@
         </select>
       </div>
 
-      <!-- Botones APPLY + CLEAR -->
-      <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0;">
+      <!-- Select: Ordenación del catálogo -->
+      <div style="flex:1;min-width:140px;">
+        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">SORT BY</label>
+        <select [(ngModel)]="filterSort" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+          <option value="brand,asc">A–Z Brand</option>
+          <option value="brand,desc">Z–A Brand</option>
+          <option value="pricePerDay,asc">Price ↑</option>
+          <option value="pricePerDay,desc">Price ↓</option>
+        </select>
+      </div>
+
+      <!-- Botones APPLY + CLEAR — flex:none para que no se estiren como los inputs -->
+      <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0;flex:0 0 auto;">
         <button
           (click)="applyFilters()"
           class="btn-gold"
