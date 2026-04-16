@@ -13,7 +13,7 @@
     </a>
 
     <!-- 2. CENTER: Navigation (Desktop Only — oculta en mobile) -->
-    <nav class="hidden md:flex" style="gap:2.5rem; justify-content:center; flex:1;">
+    <nav class="desktop-nav" style="gap:2.5rem; justify-content:center; flex:1;">
       <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
       <a routerLink="/ateliers" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
       <a routerLink="/brands" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
@@ -31,13 +31,13 @@
 
       <!-- Botones Desktop: LOGIN / REGISTER (ocultos en mobile con md:inline-flex) -->
       @if (!isLoggedIn) {
-        <button routerLink="/login" class="btn-outline font-display tracking-widest uppercase hidden md:inline-flex" style="font-size:0.7rem;padding:0.4rem 0.8rem;">{{ 'HEADER.LOGIN' | translate }}</button>
-        <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase hidden md:inline-flex" style="font-size:0.7rem;padding:0.4rem 0.8rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
+        <button routerLink="/login" class="btn-outline font-display tracking-widest uppercase desktop-only" style="font-size:0.7rem;padding:0.4rem 0.8rem;">{{ 'HEADER.LOGIN' | translate }}</button>
+        <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase desktop-only" style="font-size:0.7rem;padding:0.4rem 0.8rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
       }
 
       <!-- Avatar Desktop (oculto en mobile) -->
       @if (isLoggedIn && user) {
-        <div class="hidden md:block" style="position:relative;">
+        <div class="desktop-block" style="position:relative;">
 
           <!-- Botón de Avatar desplegable -->
           <div (click)="toggleDropdown()" class="cursor-pointer" style="display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0.4rem 0.25rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:100px;" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">

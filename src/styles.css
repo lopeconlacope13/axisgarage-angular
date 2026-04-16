@@ -442,11 +442,16 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   background: rgba(255, 255, 255, 0.03);
 }
 
-/* Utilidad Tailwind-like para ocultar en ≥ 768px */
+/* Visibilidad responsive: desktop-only oculto en mobile, hamburger al revés */
+.desktop-only  { display: none !important; }
+.desktop-block { display: none !important; }
+.desktop-nav   { display: none !important; }
+
 @media (min-width: 768px) {
-  .md\:hidden { display: none !important; }
-  .md\:block  { display: block; }
-  .md\:inline-flex { display: inline-flex; }
+  .desktop-only  { display: inline-flex !important; }
+  .desktop-block { display: block !important; }
+  .desktop-nav   { display: flex !important; }
+  .hamburger-btn { display: none !important; }
 }
 
 /* ── Carrusel de imágenes ────────────────────────────────────────────────── */
