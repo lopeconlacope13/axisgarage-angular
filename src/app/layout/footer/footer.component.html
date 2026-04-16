@@ -1,10 +1,11 @@
 <footer style="border-top:1px solid rgba(245,245,240,0.06);padding:3rem 1.5rem;">
   <div style="max-width:80rem;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;">
-    <div class="eyebrow" style="opacity:0.3;">© 2025 AXIS GARAGE. ALL RIGHTS RESERVED.</div>
+    <div class="eyebrow" style="opacity:0.3;">© {{ year }} AXIS GARAGE. ALL RIGHTS RESERVED.</div>
     <div style="display:flex;gap:1.5rem;">
-      <a href="#" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">PRIVACY</a>
-      <a href="#" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">TERMS</a>
-      <a href="#" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">CONTACT</a>
+      <!-- Links a páginas legales e informativas — usan routerLink de Angular -->
+      <a routerLink="/privacy" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">PRIVACY</a>
+      <a routerLink="/terms" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">TERMS</a>
+      <a routerLink="/contact" class="eyebrow" style="opacity:0.25;transition:opacity 0.3s;" onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='0.25'">CONTACT</a>
     </div>
   </div>
 </footer>

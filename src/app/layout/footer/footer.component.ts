@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-/** Footer con links legales y copyright. TODO (Día 5): maquetar completo. */
+/** Footer con links legales (privacidad, términos, contacto) y copyright. */
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })

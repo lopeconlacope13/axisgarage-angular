@@ -42,6 +42,21 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/brands/brands.component').then(m => m.BrandsComponent)
   },
+  {
+    path: 'privacy',
+    loadComponent: () =>
+      import('./features/legal/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent)
+  },
+  {
+    path: 'terms',
+    loadComponent: () =>
+      import('./features/legal/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent)
+  },
+  {
+    path: 'contact',
+    loadComponent: () =>
+      import('./features/contact/contact.component').then(m => m.ContactComponent)
+  },
 
   // ── Catálogo público ───────────────────────────────────────────────────────
   {
