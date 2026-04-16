@@ -1,0 +1,297 @@
+<!-- Carga inicial mientras llegan los datos del vehículo -->
+@if (!vehicle) {
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div class="eyebrow" style="color:#b8952a;letter-spacing:0.3em;">PREPARING CHECKOUT...</div>
+  </div>
+}
+
+<!-- Aviso si el usuario no tiene perfil de cliente vinculado -->
+@if (vehicle && renterNotFound) {
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div class="glass-card" style="padding:2.5rem;max-width:30rem;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1rem;">Perfil no encontrado</div>
+      <p style="color:rgba(245,245,240,0.5);font-size:0.85rem;line-height:1.7;margin-bottom:1.5rem;">
+        No hay un perfil de cliente asociado a esta cuenta. Contacta con el equipo de Axis Garage para activar tu acceso.
+      </p>
+      <a routerLink="/vehicles" class="btn-outline" style="font-size:0.7rem;">VOLVER AL CATÁLOGO</a>
+    </div>
+  </div>
+}
+
+<!-- Contenido principal del checkout -->
+@if (vehicle && !renterNotFound && !success) {
+<div style="min-height:100vh;background:#0a0a0a;padding-top:6rem;padding-bottom:5rem;">
+  <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem 0;">
+
+    <!-- Cabecera -->
+    <div style="margin-bottom:0.5rem;">
+      <div class="eyebrow" style="color:#b8952a;margin-bottom:0.5rem;">SECURE GATEWAY</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin:0;">
+        Checkout <span style="font-style:italic;">Vault</span>
+      </h1>
+    </div>
+    <div class="gold-divider" style="margin-bottom:2.5rem;"></div>
+
+    <!-- Badge de demo -->
+    <div style="display:inline-flex;align-items:center;gap:0.5rem;border:1px solid rgba(184,149,42,0.3);border-radius:20px;padding:0.3rem 0.85rem;margin-bottom:2rem;background:rgba(184,149,42,0.04);">
+      <div style="width:6px;height:6px;border-radius:50%;background:#b8952a;animation:pulse 2s infinite;"></div>
+      <span class="eyebrow" style="font-size:0.6rem;color:#b8952a;letter-spacing:0.15em;">ENTORNO DE DEMOSTRACIÓN — PAGO SIMULADO</span>
+    </div>
+
+    <!-- Layout de dos columnas.
+         En mobile se apilan (clase checkout-layout).
+         En desktop: pasarela izquierda + resumen derecha. -->
+    <div class="checkout-layout">
+
+      <!-- ══ COLUMNA IZQUIERDA: Pasarela de pago ══ -->
+      <div class="glass-card" style="padding:2rem;">
+
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin:0 0 1.5rem;">Método de pago</h2>
+
+        <!-- Tabs de método -->
+        <div style="display:flex;gap:0.75rem;margin-bottom:1.75rem;">
+          <button (click)="payMethod='CARD'"
+            style="flex:1;padding:0.65rem;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.7rem;letter-spacing:0.1em;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem;"
+            [style.background]="payMethod==='CARD' ? 'rgba(184,149,42,0.1)' : 'transparent'"
+            [style.border]="payMethod==='CARD' ? '1px solid #b8952a' : '1px solid rgba(255,255,255,0.08)'"
+            [style.color]="payMethod==='CARD' ? '#b8952a' : 'rgba(245,245,240,0.4)'">
+            <!-- Icono tarjeta -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+              <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+            </svg>
+            TARJETA
+          </button>
+
+          <button (click)="payMethod='PAYPAL'"
+            style="flex:1;padding:0.65rem;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.7rem;letter-spacing:0.1em;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem;"
+            [style.background]="payMethod==='PAYPAL' ? 'rgba(0,112,186,0.1)' : 'transparent'"
+            [style.border]="payMethod==='PAYPAL' ? '1px solid #0070ba' : '1px solid rgba(255,255,255,0.08)'"
+            [style.color]="payMethod==='PAYPAL' ? '#009cde' : 'rgba(245,245,240,0.4)'">
+            <!-- Logo PayPal simplificado -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.35.35 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91q.34-.237.63-.elt-.34.83-.629 1.46C14.18 13.25 14.06 3.713 14.06 3.713"/>
+            </svg>
+            PAYPAL
+          </button>
+        </div>
+
+        <!-- Formulario tarjeta -->
+        @if (payMethod === 'CARD') {
+          <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+            <!-- Número de tarjeta -->
+            <div>
+              <label class="eyebrow" style="display:block;font-size:0.6rem;opacity:0.5;margin-bottom:0.4rem;">NÚMERO DE TARJETA</label>
+              <div style="position:relative;">
+                <input type="text" [(ngModel)]="cardNumber" placeholder="1234  5678  9012  3456"
+                  maxlength="19" class="input-dark"
+                  style="width:100%;box-sizing:border-box;padding-right:3.5rem;font-family:monospace;letter-spacing:0.1em;" />
+                <!-- Logos de redes de pago -->
+                <div style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);display:flex;gap:0.3rem;align-items:center;">
+                  <div style="width:26px;height:16px;background:linear-gradient(135deg,#eb001b,#f79e1b);border-radius:3px;opacity:0.7;"></div>
+                  <div style="width:26px;height:16px;background:linear-gradient(90deg,#1a1f71,#3562ab);border-radius:3px;opacity:0.7;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nombre del titular -->
+            <div>
+              <label class="eyebrow" style="display:block;font-size:0.6rem;opacity:0.5;margin-bottom:0.4rem;">NOMBRE DEL TITULAR</label>
+              <input type="text" [(ngModel)]="cardHolder" placeholder="ÁLVARO LÓPEZ PÉREZ"
+                class="input-dark" style="width:100%;box-sizing:border-box;text-transform:uppercase;" />
+            </div>
+
+            <!-- Fecha y CVV en fila -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div>
+                <label class="eyebrow" style="display:block;font-size:0.6rem;opacity:0.5;margin-bottom:0.4rem;">VENCIMIENTO</label>
+                <input type="text" [(ngModel)]="cardExpiry" placeholder="MM/AA"
+                  maxlength="5" class="input-dark" style="width:100%;box-sizing:border-box;font-family:monospace;" />
+              </div>
+              <div>
+                <label class="eyebrow" style="display:block;font-size:0.6rem;opacity:0.5;margin-bottom:0.4rem;">CVV</label>
+                <input type="password" [(ngModel)]="cardCvv" placeholder="•••"
+                  maxlength="4" class="input-dark" style="width:100%;box-sizing:border-box;font-family:monospace;" />
+              </div>
+            </div>
+
+          </div>
+        }
+
+        <!-- Pantalla de PayPal simulada -->
+        @if (payMethod === 'PAYPAL') {
+          <div style="border:1px solid rgba(0,112,186,0.25);border-radius:8px;padding:2rem;text-align:center;background:rgba(0,112,186,0.04);">
+            <!-- Logotipo PayPal con letras -->
+            <div style="margin-bottom:1rem;">
+              <span style="font-size:1.8rem;font-weight:800;font-family:Arial,sans-serif;">
+                <span style="color:#009cde;">Pay</span><span style="color:#012169;">Pal</span>
+              </span>
+            </div>
+            <p style="color:rgba(245,245,240,0.4);font-size:0.8rem;line-height:1.6;margin-bottom:1.5rem;">
+              Serás redirigido al entorno seguro de PayPal para autorizar el pago de <strong style="color:rgba(245,245,240,0.8);">€{{ calculatedTotal | number:'1.0-0' }}</strong>.
+            </p>
+            <div style="border:1px solid rgba(0,112,186,0.2);border-radius:6px;padding:0.75rem;background:rgba(0,112,186,0.06);">
+              <span style="font-size:0.7rem;color:rgba(245,245,240,0.35);letter-spacing:0.1em;">DEMO — FLUJO SIMULADO</span>
+            </div>
+          </div>
+        }
+
+        <!-- Separador -->
+        <div style="height:1px;background:rgba(245,245,240,0.06);margin:1.75rem 0;"></div>
+
+        <!-- Aviso de seguridad -->
+        <div style="display:flex;align-items:flex-start;gap:0.75rem;margin-bottom:1.5rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="rgba(184,149,42,0.5)" style="flex-shrink:0;margin-top:1px;" viewBox="0 0 16 16">
+            <path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-.78-.286 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693A1.54 1.54 0 0 1 1.89 1.43c.658-.215 1.777-.57 2.887-.87z"/>
+          </svg>
+          <span style="font-size:0.72rem;color:rgba(245,245,240,0.35);line-height:1.6;">
+            Esta es una pasarela de demostración. No se realizará ningún cargo real. Los datos introducidos no se almacenan ni se procesan.
+          </span>
+        </div>
+
+        <!-- Error inline -->
+        @if (error) {
+          <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:4px;padding:0.7rem 1rem;margin-bottom:1rem;">
+            <span style="font-size:0.8rem;color:rgba(239,68,68,0.85);">{{ error }}</span>
+          </div>
+        }
+
+        <!-- Botón de confirmar -->
+        <button class="btn-gold" (click)="confirmReservation()" [disabled]="processing"
+          style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.9rem 1rem;opacity:1;"
+          [style.opacity]="processing ? '0.6' : '1'">
+          @if (processing) {
+            <span style="font-size:0.7rem;letter-spacing:0.12em;">AUTORIZANDO...</span>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.338 1.59a60 60 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .214 0q.112-.033.293-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-.78-.286 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693a1.54 1.54 0 0 1 1.044-1.262 63 63 0 0 1 2.887-.87z"/>
+            </svg>
+            <span style="font-size:0.7rem;letter-spacing:0.12em;">AUTORIZAR ADQUISICIÓN</span>
+          }
+        </button>
+
+      </div>
+
+      <!-- ══ COLUMNA DERECHA: Resumen del pedido ══ -->
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+        <!-- Tarjeta de resumen de reserva -->
+        <div class="glass-card" style="padding:1.75rem;">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin:0 0 1.25rem;letter-spacing:0.02em;">Resumen de reserva</h2>
+
+          <!-- Vehículo -->
+          <div style="background:linear-gradient(135deg,#141210,#111);border-radius:6px;padding:1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;">
+            <div style="width:48px;height:48px;border-radius:4px;background:rgba(184,149,42,0.08);border:1px solid rgba(184,149,42,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-family:'Playfair Display',serif;font-size:0.7rem;font-style:italic;color:#b8952a;opacity:0.6;">{{ vehicle.brand[0] }}</span>
+            </div>
+            <div>
+              <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;">{{ vehicle.brand }} <span style="font-style:italic;">{{ vehicle.model }}</span></div>
+              <div class="eyebrow" style="font-size:0.6rem;opacity:0.4;margin-top:0.15rem;">{{ vehicle.categoryName }}</div>
+            </div>
+          </div>
+
+          <!-- Detalles línea a línea -->
+          <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Recogida</span>
+              <span style="font-size:0.85rem;">{{ start | date:'d MMM yyyy' }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Devolución</span>
+              <span style="font-size:0.85rem;">{{ end | date:'d MMM yyyy' }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Duración</span>
+              <span style="font-size:0.85rem;">{{ days }} día{{ days !== 1 ? 's' : '' }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Tarifa diaria</span>
+              <span style="font-size:0.85rem;">€{{ vehicle.pricePerDay }}/día</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Cobertura</span>
+              <span class="eyebrow" style="font-size:0.65rem;color:#b8952a;">{{ coverage }}</span>
+            </div>
+          </div>
+
+          <!-- Total -->
+          <div style="border-top:1px solid rgba(245,245,240,0.06);padding-top:1rem;display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="color:rgba(245,245,240,0.4);font-size:0.8rem;">Total</span>
+            <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:#b8952a;">
+              €{{ calculatedTotal | number:'1.0-0' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Qué incluye la reserva -->
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="eyebrow" style="font-size:0.6rem;margin-bottom:1rem;opacity:0.5;">INCLUIDO EN TU RESERVA</div>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <div style="width:5px;height:5px;border-radius:50%;background:#b8952a;flex-shrink:0;"></div>
+              <span style="font-size:0.78rem;color:rgba(245,245,240,0.55);">Entrega en atelier Axis Garage</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <div style="width:5px;height:5px;border-radius:50%;background:#b8952a;flex-shrink:0;"></div>
+              <span style="font-size:0.78rem;color:rgba(245,245,240,0.55);">Asistencia en ruta 24/7</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <div style="width:5px;height:5px;border-radius:50%;background:#b8952a;flex-shrink:0;"></div>
+              <span style="font-size:0.78rem;color:rgba(245,245,240,0.55);">Cobertura {{ coverage === 'STANDARD' ? 'básica' : coverage === 'PREMIUM' ? 'premium' : 'total' }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <div style="width:5px;height:5px;border-radius:50%;background:#b8952a;flex-shrink:0;"></div>
+              <span style="font-size:0.78rem;color:rgba(245,245,240,0.55);">Confirmación inmediata por email</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<!-- ══ Modal de éxito ══ -->
+@if (success) {
+  <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);padding:1.5rem;">
+    <div class="glass-card" style="padding:3rem;max-width:28rem;width:100%;text-align:center;border-color:rgba(184,149,42,0.2);">
+
+      <!-- Icono de éxito -->
+      <div style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(184,149,42,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#b8952a" viewBox="0 0 16 16">
+          <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        </svg>
+      </div>
+
+      <div class="eyebrow" style="color:#b8952a;margin-bottom:0.75rem;letter-spacing:0.25em;">ACCESO CONCEDIDO</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin:0 0 0.75rem;">Reserva confirmada</h2>
+
+      <!-- ID de la reserva -->
+      <div style="display:inline-block;border:1px solid rgba(184,149,42,0.2);border-radius:4px;padding:0.4rem 1rem;margin-bottom:1.25rem;background:rgba(184,149,42,0.04);">
+        <span class="eyebrow" style="font-size:0.6rem;opacity:0.5;">REFERENCIA</span>
+        <div style="font-family:monospace;font-size:0.9rem;color:#b8952a;margin-top:0.1rem;">#{{ confirmedId }}</div>
+      </div>
+
+      <!-- Aviso de email -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:1.75rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="rgba(184,149,42,0.6)" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+        </svg>
+        <span style="font-size:0.78rem;color:rgba(245,245,240,0.4);">Email de confirmación enviado a <strong style="color:rgba(245,245,240,0.65);">{{ renterEmail }}</strong></span>
+      </div>
+
+      <a routerLink="/my-reservations" class="btn-gold"
+        style="display:block;text-align:center;margin-bottom:0.75rem;font-size:0.7rem;letter-spacing:0.12em;padding:0.85rem;">
+        VER MIS RESERVAS
+      </a>
+      <a routerLink="/vehicles" class="btn-outline"
+        style="display:block;text-align:center;font-size:0.7rem;letter-spacing:0.1em;padding:0.85rem;">
+        EXPLORAR FLOTA
+      </a>
+
+    </div>
+  </div>
+}
