@@ -43,13 +43,14 @@
       {{ vehicle.brand }}
     </div>
 
-    <!-- Specs flotantes sobre el hero -->
-    <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:3rem;z-index:2;">
+    <!-- Specs flotantes sobre el hero.
+         En mobile reducimos el gap para que no desborde. -->
+    <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:1.25rem;z-index:2;white-space:nowrap;">
       <div style="text-align:center;">
         <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:#b8952a;">{{ vehicle.horsePower }}</div>
         <div class="eyebrow" style="font-size:0.6rem;margin-top:0.2rem;">HP</div>
       </div>
-      <div style="text-align:center;border-left:1px solid rgba(184,149,42,0.15);border-right:1px solid rgba(184,149,42,0.15);padding:0 3rem;">
+      <div style="text-align:center;border-left:1px solid rgba(184,149,42,0.15);border-right:1px solid rgba(184,149,42,0.15);padding:0 1.25rem;">
         <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:#b8952a;">{{ vehicle.zeroToHundred }}s</div>
         <div class="eyebrow" style="font-size:0.6rem;margin-top:0.2rem;">0 – 100</div>
       </div>
@@ -81,8 +82,10 @@
     </div>
     <div class="gold-divider" style="margin-bottom:2.5rem;"></div>
 
-    <!-- Layout de dos columnas: specs + reserva -->
-    <div style="display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start;">
+    <!-- Layout de dos columnas: specs + reserva.
+         En mobile (< 768px) se apilan en columna.
+         En desktop (>= 768px) van una al lado de la otra. -->
+    <div class="vehicle-detail-layout">
 
       <!-- ── COLUMNA IZQUIERDA: especificaciones técnicas ── -->
       <div style="display:flex;flex-direction:column;gap:1.5rem;">
@@ -155,7 +158,8 @@
       </div>
 
       <!-- ── COLUMNA DERECHA: panel de reserva ── -->
-      <div class="glass-card" style="padding:1.75rem;position:sticky;top:6rem;">
+      <!-- sticky solo en desktop; en mobile fluye debajo de las specs -->
+      <div class="glass-card vehicle-detail-sidebar" style="padding:1.75rem;">
 
         <div class="eyebrow" style="color:#b8952a;margin-bottom:1.5rem;letter-spacing:0.25em;">RESERVE THIS ASSET</div>
 
