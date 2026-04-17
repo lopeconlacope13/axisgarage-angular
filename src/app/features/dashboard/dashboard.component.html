@@ -65,6 +65,9 @@
         <button class="sidebar-btn" [class.active]="activeSection === 'reviews'" (click)="setSection('reviews')">
           REVIEWS
         </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'invoices'" (click)="setSection('invoices')">
+          INVOICES
+        </button>
         <!-- Sección exclusiva de ROLE_ADMIN -->
         @if (isAdmin) {
           <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
@@ -711,6 +714,59 @@
                     <button class="eyebrow"
                       style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.2rem 0.5rem;cursor:pointer;"
                       (click)="deleteReview(rv.id)">DELETE</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: INVOICES (MANAGER y ADMIN)
+         Tabla con todas las facturas + botón de descarga de PDF por fila.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'invoices') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Billing <span class="italic">& Invoices</span></h1>
+
+      <div class="glass-card overflow-hidden">
+        @if (loading) {
+          <div class="p-10 text-center text-axis-gray text-sm">Loading invoices...</div>
+        } @else if (!invoices.length) {
+          <div class="p-10 text-center text-axis-gray text-sm">No hay facturas generadas aún.</div>
+        } @else {
+          <table class="w-full text-sm">
+            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+              <tr>
+                <th class="eyebrow text-left p-4">Nº Factura</th>
+                <th class="eyebrow text-left p-4">Reserva</th>
+                <th class="eyebrow text-left p-4">Fecha</th>
+                <th class="eyebrow text-left p-4">Método</th>
+                <th class="eyebrow text-right p-4">Base</th>
+                <th class="eyebrow text-right p-4">IVA</th>
+                <th class="eyebrow text-right p-4">Total</th>
+                <th class="eyebrow text-right p-4">PDF</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (inv of invoices; track inv.id) {
+                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                  <td class="p-4" style="color:#b8952a;font-family:monospace;font-size:0.8rem;">{{ inv.invoiceNumber }}</td>
+                  <td class="p-4 text-axis-gray">#{{ inv.reservationId }}</td>
+                  <td class="p-4 text-axis-gray">{{ inv.issueDate }}</td>
+                  <td class="p-4 text-axis-gray">{{ inv.paymentMethod || '—' }}</td>
+                  <td class="p-4 text-right">€{{ inv.baseAmount | number:'1.2-2' }}</td>
+                  <td class="p-4 text-right text-axis-gray">€{{ inv.taxAmount | number:'1.2-2' }}</td>
+                  <td class="p-4 text-right font-display" style="color:#b8952a;">€{{ inv.totalAmount | number:'1.2-2' }}</td>
+                  <td class="p-4 text-right">
+                    <button
+                      (click)="downloadInvoicePdf(inv.reservationId)"
+                      [disabled]="invoiceDownloadingId === inv.reservationId"
+                      style="font-size:0.6rem;letter-spacing:0.08em;padding:0.25rem 0.65rem;border:1px solid rgba(184,149,42,0.35);background:transparent;color:rgba(184,149,42,0.8);border-radius:4px;cursor:pointer;">
+                      {{ invoiceDownloadingId === inv.reservationId ? '...' : '⬇ PDF' }}
+                    </button>
                   </td>
                 </tr>
               }

@@ -9,7 +9,8 @@ import { VehicleService } from '../../core/services/vehicle.service';
 import { OwnerService } from '../../core/services/owner.service';
 import { DamageReportService } from '../../core/services/damage-report.service';
 import { ReviewService } from '../../core/services/review.service';
-import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO } from '../../models/types';
+import { InvoiceService } from '../../core/services/invoice.service';
+import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -66,6 +67,8 @@ export class DashboardComponent implements OnInit {
   owners:          OwnerDTO[]         = [];
   damageReports:   DamageReportDTO[]  = [];
   reviews:         ReviewDTO[]        = [];
+  invoices:        InvoiceDTO[]       = [];
+  invoiceDownloadingId: number | null = null;
 
   /** Formulario para registrar un nuevo parte de daños */
   newReport = { reservationId: 0, type: 'PRE' as 'PRE' | 'POST', description: '', reportedDate: '' };
@@ -99,6 +102,7 @@ export class DashboardComponent implements OnInit {
     private ownerSvc:          OwnerService,
     private damageReportSvc:   DamageReportService,
     private reviewSvc:         ReviewService,
+    private invoiceSvc:        InvoiceService,
     // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
     private cdr:               ChangeDetectorRef
   ) {}
@@ -138,6 +142,7 @@ export class DashboardComponent implements OnInit {
     if (section === 'owners'          && !this.owners.length)           this.loadOwners();
     if (section === 'damage-reports'  && !this.damageReports.length)    this.loadDamageReports();
     if (section === 'reviews'         && !this.reviews.length)          this.loadReviews();
+    if (section === 'invoices'        && !this.invoices.length)         this.loadInvoices();
   }
 
   // ─── Carga de datos por sección ───────────────────────────────────────────
@@ -203,6 +208,37 @@ export class DashboardComponent implements OnInit {
   loadDamageReports(): void {
     this.damageReportSvc.getAll().subscribe({
       next: list => { this.damageReports = list; this.cdr.markForCheck(); }
+    });
+  }
+
+  /** Carga todas las facturas del sistema (MANAGER y ADMIN). */
+  loadInvoices(): void {
+    this.loading = true;
+    this.invoiceSvc.getAll(0, 100).subscribe({
+      next: p  => { this.invoices = p.content; this.loading = false; this.cdr.markForCheck(); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); }
+    });
+  }
+
+  /**
+   * Descarga el PDF de la factura de una reserva concreta.
+   * Crea un enlace temporal en memoria y lo activa para forzar la descarga.
+   */
+  downloadInvoicePdf(reservationId: number): void {
+    this.invoiceDownloadingId = reservationId;
+    this.cdr.markForCheck();
+    this.invoiceSvc.downloadPdf(reservationId).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a   = document.createElement('a');
+        a.href     = url;
+        a.download = `invoice-reservation-${reservationId}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.invoiceDownloadingId = null;
+        this.cdr.markForCheck();
+      },
+      error: () => { this.invoiceDownloadingId = null; this.cdr.markForCheck(); }
     });
   }
 

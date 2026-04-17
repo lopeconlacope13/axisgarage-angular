@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { RenterService } from '../../core/services/renter.service';
 import { ReservationService } from '../../core/services/reservation.service';
 import { ReviewService } from '../../core/services/review.service';
+import { InvoiceService } from '../../core/services/invoice.service';
 import { ReservationDTO } from '../../models/types';
 
 /**
@@ -81,7 +82,15 @@ import { ReservationDTO } from '../../models/types';
                 <td class="p-4 text-right font-display" style="color:#b8952a">
                   €{{ r.totalPrice | number:'1.0-0' }}
                 </td>
-                <td class="p-4 text-right">
+                <td class="p-4 text-right" style="white-space:nowrap;">
+                  <!-- Botón de descarga de factura (CONFIRMED o COMPLETED) -->
+                  <button *ngIf="r.status === 'CONFIRMED' || r.status === 'COMPLETED'"
+                    (click)="downloadInvoice(r.id)"
+                    [disabled]="downloadingId === r.id"
+                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid rgba(184,149,42,0.3);background:transparent;color:rgba(184,149,42,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;"
+                    title="Download invoice PDF">
+                    {{ downloadingId === r.id ? '...' : '⬇ PDF' }}
+                  </button>
                   <!-- Botón de reseña solo en reservas COMPLETED que no han sido reseñadas -->
                   <button *ngIf="r.status === 'COMPLETED' && !reviewedIds.has(r.id)"
                     (click)="openReviewForm(r)"
@@ -160,6 +169,9 @@ export class MyReservationsComponent implements OnInit {
   /** IDs de reservas que ya tienen reseña (para ocultar el botón) */
   reviewedIds = new Set<number>();
 
+  /** ID de la reserva cuyo PDF se está descargando (para mostrar spinner) */
+  downloadingId: number | null = null;
+
   /** Reserva sobre la que se está abriendo el formulario (null = cerrado) */
   reviewingReservation: ReservationDTO | null = null;
   reviewForm     = { rating: 5, comment: '' };
@@ -171,6 +183,7 @@ export class MyReservationsComponent implements OnInit {
     private renterSvc:      RenterService,
     private reservationSvc: ReservationService,
     private reviewSvc:      ReviewService,
+    private invoiceSvc:     InvoiceService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -203,6 +216,32 @@ export class MyReservationsComponent implements OnInit {
       error: () => {
         this.renterNotFound = true;
         this.loading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  /**
+   * Solicita el PDF de la factura al backend y lo descarga en el navegador.
+   * El backend genera la factura automáticamente si no existe todavía.
+   */
+  downloadInvoice(reservationId: number): void {
+    this.downloadingId = reservationId;
+    this.cdr.markForCheck();
+    this.invoiceSvc.downloadPdf(reservationId).subscribe({
+      next: (blob) => {
+        // Crea un enlace temporal en memoria y lo pulsa para forzar la descarga
+        const url = URL.createObjectURL(blob);
+        const a   = document.createElement('a');
+        a.href     = url;
+        a.download = `invoice-reservation-${reservationId}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.downloadingId = null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.downloadingId = null;
         this.cdr.markForCheck();
       }
     });
