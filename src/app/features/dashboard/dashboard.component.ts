@@ -8,7 +8,8 @@ import { ReservationService } from '../../core/services/reservation.service';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { OwnerService } from '../../core/services/owner.service';
 import { DamageReportService } from '../../core/services/damage-report.service';
-import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO } from '../../models/types';
+import { ReviewService } from '../../core/services/review.service';
+import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -64,6 +65,7 @@ export class DashboardComponent implements OnInit {
   renters:         RenterDTO[]        = [];
   owners:          OwnerDTO[]         = [];
   damageReports:   DamageReportDTO[]  = [];
+  reviews:         ReviewDTO[]        = [];
 
   /** Formulario para registrar un nuevo parte de daños */
   newReport = { reservationId: 0, type: 'PRE' as 'PRE' | 'POST', description: '', reportedDate: '' };
@@ -96,6 +98,7 @@ export class DashboardComponent implements OnInit {
     private vehicleSvc:        VehicleService,
     private ownerSvc:          OwnerService,
     private damageReportSvc:   DamageReportService,
+    private reviewSvc:         ReviewService,
     // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
     private cdr:               ChangeDetectorRef
   ) {}
@@ -134,6 +137,7 @@ export class DashboardComponent implements OnInit {
     if (section === 'clients'         && !this.renters.length)          this.loadRenters();
     if (section === 'owners'          && !this.owners.length)           this.loadOwners();
     if (section === 'damage-reports'  && !this.damageReports.length)    this.loadDamageReports();
+    if (section === 'reviews'         && !this.reviews.length)          this.loadReviews();
   }
 
   // ─── Carga de datos por sección ───────────────────────────────────────────
@@ -199,6 +203,15 @@ export class DashboardComponent implements OnInit {
   loadDamageReports(): void {
     this.damageReportSvc.getAll().subscribe({
       next: list => { this.damageReports = list; this.cdr.markForCheck(); }
+    });
+  }
+
+  /** Carga todas las reseñas del sistema (MANAGER y ADMIN). */
+  loadReviews(): void {
+    this.loading = true;
+    this.reviewSvc.getAll(0, 100).subscribe({
+      next: p  => { this.reviews = p.content; this.loading = false; this.cdr.markForCheck(); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -361,6 +374,14 @@ export class DashboardComponent implements OnInit {
     if (!confirm('¿Eliminar este parte de daños?')) return;
     this.damageReportSvc.delete(id).subscribe({
       next: () => { this.damageReports = this.damageReports.filter(d => d.id !== id); this.cdr.markForCheck(); }
+    });
+  }
+
+  /** Elimina una reseña del sistema. Solo visible para MANAGER y ADMIN. */
+  deleteReview(id: number): void {
+    if (!confirm('¿Eliminar esta reseña?')) return;
+    this.reviewSvc.delete(id).subscribe({
+      next: () => { this.reviews = this.reviews.filter(r => r.id !== id); this.cdr.markForCheck(); }
     });
   }
 

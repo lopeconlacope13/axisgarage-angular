@@ -248,6 +248,59 @@
       </div>
     </div>
 
+    <!-- ── SECCIÓN DE RESEÑAS ── -->
+    <div style="margin-top:4rem;">
+      <div class="gold-divider" style="margin-bottom:2.5rem;"></div>
+      <div class="eyebrow" style="color:#b8952a;margin-bottom:0.5rem;">CLIENT VOICES</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin:0 0 2rem;">
+        Reviews <span style="font-style:italic;">&amp; Testimonials</span>
+      </h2>
+
+      @if (reviewsLoading) {
+        <div class="eyebrow" style="opacity:0.4;letter-spacing:0.2em;">LOADING REVIEWS...</div>
+      }
+
+      @if (!reviewsLoading && reviews.length === 0) {
+        <div class="glass-card" style="padding:2rem;text-align:center;">
+          <p style="color:rgba(245,245,240,0.35);font-size:0.85rem;margin:0;">
+            No reviews yet. Be the first to share your experience.
+          </p>
+        </div>
+      }
+
+      @if (!reviewsLoading && reviews.length > 0) {
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+          @for (r of reviews; track r.id) {
+            <div class="glass-card" style="padding:1.5rem;">
+              <!-- Estrellas -->
+              <div style="display:flex;gap:3px;margin-bottom:0.75rem;">
+                @for (s of starsArray(r.rating); track s) {
+                  <span style="color:#b8952a;font-size:0.9rem;">★</span>
+                }
+                @for (s of starsArray(5 - r.rating); track s) {
+                  <span style="color:rgba(245,245,240,0.15);font-size:0.9rem;">★</span>
+                }
+              </div>
+              <!-- Comentario -->
+              <p style="color:rgba(245,245,240,0.7);font-size:0.85rem;line-height:1.65;margin:0 0 1rem;">
+                "{{ r.comment }}"
+              </p>
+              <!-- Autor -->
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                <div style="width:28px;height:28px;border-radius:50%;background:rgba(184,149,42,0.15);border:1px solid rgba(184,149,42,0.25);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#b8952a;font-family:'Playfair Display',serif;font-style:italic;">
+                  {{ r.renterName ? r.renterName[0] : '?' }}
+                </div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:500;">{{ r.renterName }}</div>
+                  <div style="font-size:0.6rem;opacity:0.4;letter-spacing:0.05em;">{{ r.reservationString }}</div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
   </div>
 </div>
 }

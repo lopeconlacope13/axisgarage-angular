@@ -1,9 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { RenterService } from '../../core/services/renter.service';
 import { ReservationService } from '../../core/services/reservation.service';
+import { ReviewService } from '../../core/services/review.service';
 import { ReservationDTO } from '../../models/types';
 
 /**
@@ -11,14 +13,15 @@ import { ReservationDTO } from '../../models/types';
  *
  * Flujo:
  * 1. Se extrae el email del token JWT con AuthService.
- * 2. Se resuelve el ID del cliente (renterId) a partir de ese email.
- * 3. Se consultan las reservas filtrando por ese renterId.
- * 4. Se muestran en una tabla estilizada.
+ * 2. Se resuelve el ID del cliente (renterId) mediante ensure().
+ * 3. Se cargan las reservas filtrando por ese renterId.
+ * 4. En las reservas COMPLETED se muestra el botón "Leave a Review".
+ * 5. Al pulsar, se despliega un formulario inline con selector de estrellas y comentario.
  */
 @Component({
   selector: 'app-my-reservations',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="max-w-5xl mx-auto px-6 pt-32 pb-20">
@@ -54,29 +57,90 @@ import { ReservationDTO } from '../../models/types';
               <th class="eyebrow text-left p-4">Drop-Off</th>
               <th class="eyebrow text-left p-4">Status</th>
               <th class="eyebrow text-right p-4">Total</th>
+              <th class="eyebrow text-right p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let r of reservations"
-              class="border-b transition-colors"
-              style="border-color:rgba(245,245,240,0.04);"
-              onmouseenter="this.style.background='rgba(255,255,255,0.03)'"
-              onmouseleave="this.style.background='transparent'">
+            <ng-container *ngFor="let r of reservations">
+              <!-- Fila de la reserva -->
+              <tr class="border-b transition-colors"
+                style="border-color:rgba(245,245,240,0.04);"
+                onmouseenter="this.style.background='rgba(255,255,255,0.03)'"
+                onmouseleave="this.style.background='transparent'">
 
-              <td class="p-4 text-axis-gray">#{{ r.id }}</td>
-              <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
-              <td class="p-4 text-axis-gray">{{ r.startDate }}</td>
-              <td class="p-4 text-axis-gray">{{ r.endDate }}</td>
-              <td class="p-4">
-                <span class="eyebrow px-2 py-1 rounded text-xs"
-                  [style.color]="statusColor(r.status)">
-                  {{ r.status }}
-                </span>
-              </td>
-              <td class="p-4 text-right font-display" style="color:#b8952a">
-                €{{ r.totalPrice | number:'1.0-0' }}
-              </td>
-            </tr>
+                <td class="p-4 text-axis-gray">#{{ r.id }}</td>
+                <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
+                <td class="p-4 text-axis-gray">{{ r.startDate }}</td>
+                <td class="p-4 text-axis-gray">{{ r.endDate }}</td>
+                <td class="p-4">
+                  <span class="eyebrow px-2 py-1 rounded text-xs"
+                    [style.color]="statusColor(r.status)">
+                    {{ r.status }}
+                  </span>
+                </td>
+                <td class="p-4 text-right font-display" style="color:#b8952a">
+                  €{{ r.totalPrice | number:'1.0-0' }}
+                </td>
+                <td class="p-4 text-right">
+                  <!-- Botón de reseña solo en reservas COMPLETED que no han sido reseñadas -->
+                  <button *ngIf="r.status === 'COMPLETED' && !reviewedIds.has(r.id)"
+                    (click)="openReviewForm(r)"
+                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid rgba(184,149,42,0.4);background:transparent;color:#b8952a;border-radius:4px;cursor:pointer;white-space:nowrap;">
+                    ★ REVIEW
+                  </button>
+                  <!-- Badge "Reviewed" si ya tiene reseña -->
+                  <span *ngIf="r.status === 'COMPLETED' && reviewedIds.has(r.id)"
+                    style="font-size:0.6rem;letter-spacing:0.1em;color:rgba(245,245,240,0.3);">
+                    REVIEWED ✓
+                  </span>
+                </td>
+              </tr>
+
+              <!-- Formulario de reseña (se despliega debajo de la fila) -->
+              <tr *ngIf="reviewingReservation?.id === r.id"
+                style="background:rgba(184,149,42,0.03);border-bottom:1px solid rgba(184,149,42,0.12);">
+                <td colspan="7" style="padding:1.25rem 1.5rem;">
+                  <div style="max-width:500px;">
+                    <div class="eyebrow" style="color:#b8952a;font-size:0.6rem;margin-bottom:1rem;letter-spacing:0.15em;">
+                      LEAVE A REVIEW — {{ r.vehicleModel }}
+                    </div>
+
+                    <!-- Selector de estrellas -->
+                    <div style="display:flex;gap:6px;margin-bottom:1rem;">
+                      <button *ngFor="let s of [1,2,3,4,5]"
+                        (click)="reviewForm.rating = s"
+                        type="button"
+                        style="background:none;border:none;cursor:pointer;font-size:1.5rem;padding:0;line-height:1;"
+                        [style.color]="s <= reviewForm.rating ? '#b8952a' : 'rgba(245,245,240,0.2)'">
+                        ★
+                      </button>
+                    </div>
+
+                    <!-- Textarea del comentario -->
+                    <textarea [(ngModel)]="reviewForm.comment" rows="3" placeholder="Share your experience..."
+                      style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.75rem;color:var(--axis-white);font-size:0.85rem;resize:vertical;font-family:inherit;box-sizing:border-box;"></textarea>
+
+                    <!-- Error -->
+                    <div *ngIf="reviewError"
+                      style="margin-top:0.5rem;font-size:0.75rem;color:rgba(239,68,68,0.85);">
+                      {{ reviewError }}
+                    </div>
+
+                    <!-- Botones -->
+                    <div style="display:flex;gap:0.75rem;margin-top:0.75rem;">
+                      <button (click)="submitReview()" [disabled]="submittingReview"
+                        class="btn-gold" style="font-size:0.65rem;padding:0.5rem 1.25rem;">
+                        {{ submittingReview ? 'SENDING...' : 'SUBMIT' }}
+                      </button>
+                      <button (click)="closeReviewForm()" type="button"
+                        style="font-size:0.65rem;padding:0.5rem 1rem;background:transparent;border:1px solid rgba(245,245,240,0.1);border-radius:4px;color:rgba(245,245,240,0.4);cursor:pointer;">
+                        CANCEL
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
@@ -87,13 +151,26 @@ import { ReservationDTO } from '../../models/types';
 export class MyReservationsComponent implements OnInit {
 
   reservations: ReservationDTO[] = [];
-  loading       = true;
+  loading        = true;
   renterNotFound = false;
+
+  /** ID del perfil de cliente resuelto al cargar la página */
+  private renterId = 0;
+
+  /** IDs de reservas que ya tienen reseña (para ocultar el botón) */
+  reviewedIds = new Set<number>();
+
+  /** Reserva sobre la que se está abriendo el formulario (null = cerrado) */
+  reviewingReservation: ReservationDTO | null = null;
+  reviewForm     = { rating: 5, comment: '' };
+  reviewError    = '';
+  submittingReview = false;
 
   constructor(
     private authSvc:        AuthService,
     private renterSvc:      RenterService,
     private reservationSvc: ReservationService,
+    private reviewSvc:      ReviewService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -106,11 +183,11 @@ export class MyReservationsComponent implements OnInit {
       return;
     }
 
-    // Paso 1: asegurar el perfil de Renter (lo crea si no existe).
-    // ensure() es idempotente y resuelve el problema de los usuarios sin Renter previo.
+    // Paso 1: asegurar el perfil de Renter (idempotente).
     this.renterSvc.ensure().subscribe({
       next: (renter) => {
-        // Paso 2: cargar las reservas de ese cliente
+        this.renterId = renter.id;
+        // Paso 2: cargar reservas de ese cliente
         this.reservationSvc.getByRenterId(renter.id).subscribe({
           next: (page) => {
             this.reservations = page.content;
@@ -131,10 +208,59 @@ export class MyReservationsComponent implements OnInit {
     });
   }
 
+  /** Abre el formulario de reseña para una reserva concreta. */
+  openReviewForm(r: ReservationDTO): void {
+    this.reviewingReservation = r;
+    this.reviewForm   = { rating: 5, comment: '' };
+    this.reviewError  = '';
+    this.cdr.markForCheck();
+  }
+
+  /** Cierra el formulario sin enviar. */
+  closeReviewForm(): void {
+    this.reviewingReservation = null;
+    this.reviewError = '';
+    this.cdr.markForCheck();
+  }
+
+  /** Envía la reseña al backend y cierra el formulario si tiene éxito. */
+  submitReview(): void {
+    if (!this.reviewingReservation) return;
+    if (!this.reviewForm.comment.trim()) {
+      this.reviewError = 'El comentario no puede estar vacío.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.submittingReview = true;
+    this.reviewError = '';
+
+    this.reviewSvc.create({
+      rating:        this.reviewForm.rating,
+      comment:       this.reviewForm.comment.trim(),
+      reservationId: this.reviewingReservation.id,
+      renterId:      this.renterId
+    }).subscribe({
+      next: () => {
+        // Marcar la reserva como reseñada para ocultar el botón
+        this.reviewedIds.add(this.reviewingReservation!.id);
+        this.submittingReview = false;
+        this.reviewingReservation = null;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        this.reviewError = err?.error ?? 'Error al enviar la reseña. Inténtalo de nuevo.';
+        this.submittingReview = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
   /** Devuelve el color según el estado de la reserva. */
   statusColor(status: string): string {
-    if (status === 'CONFIRMED') return '#b8952a';
-    if (status === 'CANCELLED') return 'rgba(239,68,68,0.7)';
+    if (status === 'CONFIRMED')  return '#b8952a';
+    if (status === 'COMPLETED')  return '#4ade80';
+    if (status === 'CANCELLED')  return 'rgba(239,68,68,0.7)';
     return '#9a9a95';
   }
 }

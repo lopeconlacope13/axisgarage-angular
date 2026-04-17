@@ -4,7 +4,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { VehicleDTO } from '../../../models/types';
+import { ReviewService } from '../../../core/services/review.service';
+import { VehicleDTO, ReviewDTO } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
 
 /**
@@ -34,6 +35,9 @@ export class VehicleDetailComponent implements OnInit {
   errorMsg   = '';
   /** Índice de la imagen actualmente visible en el carrusel */
   currentImageIndex = 0;
+  /** Reseñas del vehículo cargadas desde el backend */
+  reviews: ReviewDTO[] = [];
+  reviewsLoading = false;
 
   private readonly backendUrl = environment.apiUrl.replace('/api', '');
 
@@ -42,6 +46,7 @@ export class VehicleDetailComponent implements OnInit {
     private router: Router,
     private vehicleSvc: VehicleService,
     private authSvc: AuthService,
+    private reviewSvc: ReviewService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -49,7 +54,12 @@ export class VehicleDetailComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.loading = true;
     this.vehicleSvc.getById(id).subscribe({
-      next: v => { this.vehicle = v; this.loading = false; this.cdr.markForCheck(); },
+      next: v => {
+        this.vehicle = v;
+        this.loading = false;
+        this.cdr.markForCheck();
+        this.loadReviews(v.id);
+      },
       error: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
@@ -61,6 +71,20 @@ export class VehicleDetailComponent implements OnInit {
     );
     const coverageCost = { STANDARD: 0, PREMIUM: 45, TOTAL: 85 }[this.selectedCoverage];
     return (this.vehicle.pricePerDay + coverageCost) * Math.max(0, days);
+  }
+
+  /** Carga las reseñas del vehículo desde el backend */
+  loadReviews(vehicleId: number): void {
+    this.reviewsLoading = true;
+    this.reviewSvc.getByVehicle(vehicleId).subscribe({
+      next: list => { this.reviews = list; this.reviewsLoading = false; this.cdr.markForCheck(); },
+      error: ()   => { this.reviewsLoading = false; this.cdr.markForCheck(); }
+    });
+  }
+
+  /** Devuelve un array de N elementos para iterar las estrellas en el template */
+  starsArray(n: number): number[] {
+    return Array.from({ length: Math.max(0, Math.min(5, n)) });
   }
 
   /** Construye la URL completa de una imagen servida por el backend */

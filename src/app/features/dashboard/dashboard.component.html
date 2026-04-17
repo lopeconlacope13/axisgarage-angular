@@ -62,6 +62,9 @@
         <button class="sidebar-btn" [class.active]="activeSection === 'damage-reports'" (click)="setSection('damage-reports')">
           DAMAGE REPORTS
         </button>
+        <button class="sidebar-btn" [class.active]="activeSection === 'reviews'" (click)="setSection('reviews')">
+          REVIEWS
+        </button>
         <!-- Sección exclusiva de ROLE_ADMIN -->
         @if (isAdmin) {
           <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
@@ -660,6 +663,60 @@
           }
         </div>
 
+      </div>
+    }
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: REVIEWS (MANAGER y ADMIN)
+         Tabla con todas las reseñas del sistema + opción de borrado.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'reviews') {
+      <div class="eyebrow mb-2" style="color:#b8952a">MANAGEMENT</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">Client <span class="italic">Reviews</span></h1>
+
+      <div class="glass-card overflow-hidden">
+        @if (loading) {
+          <div class="p-10 text-center text-axis-gray text-sm">Loading reviews...</div>
+        } @else if (!reviews.length) {
+          <div class="p-10 text-center text-axis-gray text-sm">No hay reseñas registradas aún.</div>
+        } @else {
+          <table class="w-full text-sm">
+            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+              <tr>
+                <th class="eyebrow text-left p-4">ID</th>
+                <th class="eyebrow text-left p-4">Client</th>
+                <th class="eyebrow text-left p-4">Reservation</th>
+                <th class="eyebrow text-left p-4">Rating</th>
+                <th class="eyebrow text-left p-4">Comment</th>
+                <th class="eyebrow text-right p-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (rv of reviews; track rv.id) {
+                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                  <td class="p-4 text-axis-gray">#{{ rv.id }}</td>
+                  <td class="p-4">{{ rv.renterName }}</td>
+                  <td class="p-4 text-axis-gray">{{ rv.reservationString || '#' + rv.reservationId }}</td>
+                  <td class="p-4">
+                    <span style="color:#b8952a;letter-spacing:1px;">
+                      {{ '★'.repeat(rv.rating) }}<span style="color:rgba(245,245,240,0.15);">{{ '★'.repeat(5 - rv.rating) }}</span>
+                    </span>
+                  </td>
+                  <td class="p-4 text-axis-gray"
+                    style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                    [title]="rv.comment">
+                    {{ rv.comment }}
+                  </td>
+                  <td class="p-4 text-right">
+                    <button class="eyebrow"
+                      style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.2rem 0.5rem;cursor:pointer;"
+                      (click)="deleteReview(rv.id)">DELETE</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
       </div>
     }
 

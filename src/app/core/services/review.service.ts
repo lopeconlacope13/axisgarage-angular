@@ -10,6 +10,10 @@ export class ReviewService {
   private readonly base = `${environment.apiUrl}/reviews`;
   constructor(private http: HttpClient) {}
 
+  getByVehicle(vehicleId: number): Observable<ReviewDTO[]> {
+    return this.http.get<ReviewDTO[]>(`${this.base}/vehicle/${vehicleId}`);
+  }
+
   getByReservation(reservationId: number): Observable<ReviewDTO[]> {
     return this.http.get<ReviewDTO[]>(`${this.base}/reservation/${reservationId}`);
   }
