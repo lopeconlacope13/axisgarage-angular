@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { VehicleDTO } from '../../models/types';
+import { environment } from '../../../environments/environment';
 
 /**
  * Página de inicio: hero con fondo dinámico, marquee de partners
