@@ -53,12 +53,6 @@ export class DashboardComponent implements OnInit {
   /** URL de la foto de perfil en base64, guardada en localStorage */
   photoUrl = '';
 
-  /** Formulario de cambio de contraseña */
-  pwdForm    = { current: '', newPwd: '', confirm: '' };
-  pwdError   = '';
-  pwdSuccess = false;
-  pwdLoading = false;
-
   // ─── Datos de las secciones ───────────────────────────────────────────────
   myReservations:  ReservationDTO[]  = [];
   allReservations: ReservationDTO[]  = [];
@@ -214,9 +208,10 @@ export class DashboardComponent implements OnInit {
   /** Carga todas las facturas del sistema (MANAGER y ADMIN). */
   loadInvoices(): void {
     this.loading = true;
-    this.invoiceSvc.getAll(0, 100).subscribe({
-      next: p  => { this.invoices = p.content; this.loading = false; this.cdr.markForCheck(); },
-      error: () => { this.loading = false; this.cdr.markForCheck(); }
+    // El backend devuelve directamente un array, no un objeto paginado
+    this.invoiceSvc.getAll().subscribe({
+      next: list => { this.invoices = list; this.loading = false; this.cdr.markForCheck(); },
+      error: ()  => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -463,41 +458,6 @@ export class DashboardComponent implements OnInit {
       this.cdr.markForCheck();
     };
     reader.readAsDataURL(file);
-  }
-
-  // ─── Cambio de contraseña ─────────────────────────────────────────────────
-
-  /**
-   * Valida el formulario y llama al endpoint PUT /api/user/change-password.
-   * El backend verifica la contraseña actual antes de guardar la nueva.
-   */
-  changePassword(): void {
-    this.pwdError   = '';
-    this.pwdSuccess = false;
-
-    if (!this.pwdForm.current || !this.pwdForm.newPwd || !this.pwdForm.confirm) {
-      this.pwdError = 'Rellena todos los campos.';
-      return;
-    }
-    if (this.pwdForm.newPwd !== this.pwdForm.confirm) {
-      this.pwdError = 'Las contraseñas nuevas no coinciden.';
-      return;
-    }
-
-    this.pwdLoading = true;
-    this.authSvc.changePassword(this.pwdForm.current, this.pwdForm.newPwd).subscribe({
-      next: () => {
-        this.pwdSuccess = true;
-        this.pwdLoading = false;
-        this.pwdForm    = { current: '', newPwd: '', confirm: '' };
-        this.cdr.markForCheck();
-      },
-      error: err => {
-        this.pwdError   = err?.error ?? 'Error al cambiar la contraseña.';
-        this.pwdLoading = false;
-        this.cdr.markForCheck();
-      }
-    });
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────

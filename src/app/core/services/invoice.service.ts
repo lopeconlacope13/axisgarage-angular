@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { InvoiceDTO, Page } from '../../models/types';
+import { InvoiceDTO } from '../../models/types';
 
 /**
  * Servicio para consumir el módulo de facturas del backend.
@@ -16,10 +16,12 @@ export class InvoiceService {
 
   constructor(private http: HttpClient) {}
 
-  /** Devuelve la lista paginada de todas las facturas (MANAGER y ADMIN). */
-  getAll(page = 0, size = 50): Observable<Page<InvoiceDTO>> {
-    const params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<Page<InvoiceDTO>>(this.base, { params });
+  /**
+   * Devuelve todas las facturas del sistema (MANAGER y ADMIN).
+   * El backend devuelve directamente un array, no una página paginada.
+   */
+  getAll(): Observable<InvoiceDTO[]> {
+    return this.http.get<InvoiceDTO[]>(this.base);
   }
 
   /** Obtiene la factura asociada a una reserva concreta. */
