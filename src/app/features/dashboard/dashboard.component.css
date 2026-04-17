@@ -24,3 +24,16 @@
   border-left: 2px solid #b8952a;
   padding-left: calc(0.75rem - 2px);
 }
+
+/* Contenedor de tablas con scroll horizontal en mobile.
+   Sustituye overflow-hidden para que las tablas no queden cortadas
+   en viewports estrechos (menos de 600px). */
+.table-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
+}
+
+/* Ancho mínimo de las tablas para que no colapsen columnas en mobile */
+.table-scroll-container table {
+  min-width: 600px;
+}
