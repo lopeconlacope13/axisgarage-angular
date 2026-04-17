@@ -78,12 +78,6 @@ export const routes: Routes = [
       import('./features/checkout/checkout.component').then(m => m.CheckoutComponent)
   },
   {
-    path: 'my-reservations',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/my-reservations/my-reservations.component').then(m => m.MyReservationsComponent)
-  },
-  {
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () =>

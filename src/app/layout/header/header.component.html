@@ -65,9 +65,6 @@
               <a routerLink="/dashboard" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
                 {{ 'HEADER.DASHBOARD' | translate }}
               </a>
-              <a routerLink="/my-reservations" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 transition-colors" style="color:rgba(255,255,255,0.8);" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background='transparent'">
-                {{ 'HEADER.RESERVATIONS' | translate }}
-              </a>
               <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
               <a (click)="logout()" class="eyebrow block px-5 py-3 transition-colors cursor-pointer" style="color:rgba(239,68,68,0.8);" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
                 {{ 'HEADER.LOGOUT' | translate }}
@@ -113,7 +110,6 @@
             {{ 'HEADER.WELCOME' | translate }}, <span style="color:#b8952a;">{{ user.email.split('@')[0] }}</span>
           </div>
           <a routerLink="/dashboard"       (click)="closeMenu()" class="eyebrow mobile-menu-link" style="color:var(--axis-gold);">{{ 'HEADER.DASHBOARD' | translate }}</a>
-          <a routerLink="/my-reservations" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.RESERVATIONS' | translate }}</a>
           <a (click)="logout()" class="eyebrow mobile-menu-link" style="color:rgba(239,68,68,0.8);cursor:pointer;">{{ 'HEADER.LOGOUT' | translate }}</a>
         </div>
       }
