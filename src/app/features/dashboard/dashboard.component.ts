@@ -231,8 +231,8 @@ export class DashboardComponent implements OnInit {
   // ─── Acciones de gestión ──────────────────────────────────────────────────
 
   /**
-   * Cancela una reserva enviando el DTO completo con status = CANCELLED.
-   * El backend actualiza el estado sin modificar el resto de los datos.
+   * Cancela una reserva del panel de MANAGER/ADMIN.
+   * Actualiza el elemento en la lista allReservations sin recargar del servidor.
    */
   cancelReservation(r: ReservationDTO): void {
     if (!confirm(`¿Cancelar la reserva #${r.id}?`)) return;
@@ -240,6 +240,23 @@ export class DashboardComponent implements OnInit {
       next: updated => {
         const idx = this.allReservations.findIndex(x => x.id === r.id);
         if (idx !== -1) this.allReservations[idx] = updated;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  /**
+   * Cancela una de las propias reservas del usuario (sección MY RESERVATIONS).
+   * Mismo mecanismo que cancelReservation() pero opera sobre myReservations.
+   * Solo se muestra el botón si la reserva no está ya CANCELLED o COMPLETED.
+   */
+  cancelMyReservation(r: ReservationDTO): void {
+    if (!confirm(`¿Seguro que quieres cancelar la reserva #${r.id}?`)) return;
+    this.reservationSvc.update(r.id, { ...r, status: 'CANCELLED' }).subscribe({
+      next: updated => {
+        // Actualizamos el elemento en la lista local sin recargar todas las reservas
+        const idx = this.myReservations.findIndex(x => x.id === r.id);
+        if (idx !== -1) this.myReservations[idx] = updated;
         this.cdr.markForCheck();
       }
     });

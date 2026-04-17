@@ -257,6 +257,7 @@
                 <th class="eyebrow text-left p-4">Drop-Off</th>
                 <th class="eyebrow text-left p-4">Status</th>
                 <th class="eyebrow text-right p-4">Total</th>
+                <th class="eyebrow text-right p-4">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -270,6 +271,16 @@
                     <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
                   </td>
                   <td class="p-4 text-right font-display" style="color:#b8952a">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                  <td class="p-4 text-right">
+                    <!-- Solo mostrar CANCEL si la reserva no está ya cancelada o completada -->
+                    @if (r.status !== 'CANCELLED' && r.status !== 'COMPLETED') {
+                      <button class="eyebrow"
+                        style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.25rem 0.5rem;cursor:pointer;"
+                        (click)="cancelMyReservation(r)">
+                        CANCEL
+                      </button>
+                    }
+                  </td>
                 </tr>
               }
             </tbody>
