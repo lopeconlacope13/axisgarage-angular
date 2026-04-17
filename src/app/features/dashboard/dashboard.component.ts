@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RenterService } from '../../core/services/renter.service';
 import { ReservationService } from '../../core/services/reservation.service';
@@ -8,6 +9,7 @@ import { VehicleService } from '../../core/services/vehicle.service';
 import { OwnerService } from '../../core/services/owner.service';
 import { DamageReportService } from '../../core/services/damage-report.service';
 import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO } from '../../models/types';
+import { environment } from '../../../environments/environment';
 
 /**
  * Panel de control principal de Axis Garage.
@@ -29,7 +31,7 @@ import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportD
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   // OnPush: Angular solo comprueba este componente cuando llamamos markForCheck()
@@ -455,4 +457,59 @@ export class DashboardComponent implements OnInit {
 
   /** Devuelve la etiqueta legible del rol sin el prefijo ROLE_ */
   get roleLabel(): string { return this.userRole.replace('ROLE_', ''); }
+
+  // ─── Gestión de imágenes de vehículos ─────────────────────────────────────
+
+  /**
+   * Construye la URL completa de una imagen servida por el backend.
+   * El backend guarda solo el nombre del archivo; aquí lo completamos con la base.
+   *
+   * @param filename Nombre del archivo (ej: "uuid.jpg")
+   * @returns URL completa para mostrar en un <img>
+   */
+  getVehicleImageUrl(filename: string): string {
+    // Quitamos "/api" del final de apiUrl para obtener la raíz del servidor
+    return `${environment.apiUrl.replace('/api', '')}/uploads/${filename}`;
+  }
+
+  /**
+   * Se ejecuta cuando el usuario selecciona un archivo en el input de subida.
+   * Sube la imagen al backend y actualiza el vehículo en la lista local.
+   *
+   * @param vehicle Vehículo al que se asocia la imagen.
+   * @param event   Evento change del input[type=file].
+   */
+  onImageUpload(vehicle: VehicleDTO, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file  = input.files?.[0];
+    if (!file) return;
+    this.vehicleSvc.uploadImage(vehicle.id, file).subscribe({
+      next: updated => {
+        // Reemplazamos el vehículo en la lista con la versión actualizada del backend
+        const idx = this.vehicles.findIndex(v => v.id === updated.id);
+        if (idx !== -1) this.vehicles[idx] = updated;
+        this.cdr.markForCheck();
+      },
+      error: () => console.error('Error al subir imagen')
+    });
+  }
+
+  /**
+   * Elimina una imagen concreta de un vehículo.
+   * Llama al backend y actualiza la lista local sin recargar todo.
+   *
+   * @param vehicle  Vehículo propietario de la imagen.
+   * @param filename Nombre del archivo a eliminar.
+   */
+  removeVehicleImage(vehicle: VehicleDTO, filename: string): void {
+    this.vehicleSvc.removeImage(vehicle.id, filename).subscribe({
+      next: updated => {
+        // Actualizamos la entrada del vehículo con la respuesta del backend
+        const idx = this.vehicles.findIndex(v => v.id === updated.id);
+        if (idx !== -1) this.vehicles[idx] = updated;
+        this.cdr.markForCheck();
+      },
+      error: () => console.error('Error al eliminar imagen')
+    });
+  }
 }

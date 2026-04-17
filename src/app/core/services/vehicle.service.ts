@@ -58,4 +58,16 @@ export class VehicleService {
   delete(id: number): Observable<string> {
     return this.http.delete<string>(`${this.base}/${id}`);
   }
+
+  /** Sube una imagen a la galería de un vehículo existente. */
+  uploadImage(vehicleId: number, file: File): Observable<VehicleDTO> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<VehicleDTO>(`${this.base}/${vehicleId}/images`, formData);
+  }
+
+  /** Elimina una imagen concreta de la galería del vehículo. */
+  removeImage(vehicleId: number, filename: string): Observable<VehicleDTO> {
+    return this.http.delete<VehicleDTO>(`${this.base}/${vehicleId}/images/${encodeURIComponent(filename)}`);
+  }
 }
