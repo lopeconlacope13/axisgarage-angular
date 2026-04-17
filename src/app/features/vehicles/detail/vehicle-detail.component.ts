@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { VehicleDTO } from '../../../models/types';
+import { environment } from '../../../../environments/environment';
 
 /**
  * Vista de detalle de un vehículo: imagen panorámica, specs y selector de fechas/cobertura.
@@ -31,6 +32,10 @@ export class VehicleDetailComponent implements OnInit {
   loading    = false;
   /** Mensaje de error de validación antes de ir al checkout */
   errorMsg   = '';
+  /** Índice de la imagen actualmente visible en el carrusel */
+  currentImageIndex = 0;
+
+  private readonly backendUrl = environment.apiUrl.replace('/api', '');
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +61,25 @@ export class VehicleDetailComponent implements OnInit {
     );
     const coverageCost = { STANDARD: 0, PREMIUM: 45, TOTAL: 85 }[this.selectedCoverage];
     return (this.vehicle.pricePerDay + coverageCost) * Math.max(0, days);
+  }
+
+  /** Construye la URL completa de una imagen servida por el backend */
+  getImageUrl(filename: string): string {
+    return `${this.backendUrl}/uploads/${filename}`;
+  }
+
+  /** Avanza al siguiente imagen del carrusel (vuelve al inicio al llegar al final) */
+  nextImage(): void {
+    if (!this.vehicle?.images?.length) return;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.vehicle.images.length;
+    this.cdr.markForCheck();
+  }
+
+  /** Retrocede a la imagen anterior (va al final si está en la primera) */
+  prevImage(): void {
+    if (!this.vehicle?.images?.length) return;
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.vehicle.images.length) % this.vehicle.images.length;
+    this.cdr.markForCheck();
   }
 
   goToCheckout(): void {

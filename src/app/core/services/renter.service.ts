@@ -26,4 +26,13 @@ export class RenterService {
   getByEmail(email: string): Observable<RenterDTO> {
     return this.http.get<RenterDTO>(`${this.base}/by-email`, { params: { email } });
   }
+
+  /**
+   * Crea el perfil de Renter del usuario autenticado si no existe todavía.
+   * Operación idempotente: si ya existe, devuelve el existente sin error.
+   * El backend deduce el email del JWT, por lo que no se envía body.
+   */
+  ensure(): Observable<RenterDTO> {
+    return this.http.post<RenterDTO>(`${this.base}/ensure`, {});
+  }
 }

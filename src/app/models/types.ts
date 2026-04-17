@@ -99,7 +99,7 @@ export class RenterDTO {
 
 // ─── Reservation ──────────────────────────────────────────────────────────────
 
-export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
+export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
 
 export class ReservationDTO {
   id           = 0;
