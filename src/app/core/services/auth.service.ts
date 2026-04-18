@@ -173,4 +173,19 @@ export class AuthService {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
+
+  /**
+   * Sube la foto de perfil del usuario al backend.
+   * Usa FormData para enviar el archivo como multipart/form-data.
+   * El interceptor JWT añade el token en la cabecera automáticamente.
+   *
+   * @param file Archivo de imagen seleccionado por el usuario.
+   * @returns Observable con el UserDTO actualizado, que incluye el campo 'image'.
+   */
+  uploadAvatar(file: File): Observable<UserDTO> {
+    const formData = new FormData();
+    // El backend espera el archivo con el parámetro llamado "file"
+    formData.append('file', file);
+    return this.http.post<UserDTO>(`${environment.apiUrl}/user/avatar`, formData);
+  }
 }

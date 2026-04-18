@@ -88,3 +88,10 @@
 .table-scroll-container table {
   min-width: 600px;
 }
+
+/* ─── Imagen de vehículo clickable en la galería del dashboard ────────────────
+   Al pasar el cursor sobre la miniatura aparece un overlay oscuro con icono
+   de cámara, indicando que se puede hacer click para cambiar la imagen. */
+.vehicle-img-label:hover .vehicle-img-overlay {
+  opacity: 1 !important;
+}

@@ -129,8 +129,16 @@ export class DashboardComponent implements OnInit {
     else if (user.roles.includes('ROLE_MANAGER')) this.userRole = 'ROLE_MANAGER';
     else                                           this.userRole = 'ROLE_USER';
 
-    // Recuperamos la foto de perfil si el usuario la había subido antes
-    this.photoUrl = localStorage.getItem(`axis-avatar-${this.userEmail}`) ?? '';
+    // Cargamos la foto de perfil desde el backend (campo 'image' del UserDTO)
+    this.authSvc.getProfile().subscribe({
+      next: profile => {
+        if (profile.image) {
+          // Construimos la URL completa del avatar a partir del nombre de archivo
+          this.photoUrl = `${environment.apiUrl.replace('/api', '')}/uploads/${profile.image}`;
+        }
+        this.cdr.markForCheck();
+      }
+    });
 
     // Cargamos la sección inicial según el rol
     this.setSection(this.isManager ? 'overview' : 'profile');
@@ -466,20 +474,25 @@ export class DashboardComponent implements OnInit {
   // ─── Foto de perfil ───────────────────────────────────────────────────────
 
   /**
-   * Lee el archivo de imagen seleccionado, lo convierte a base64 y lo guarda en localStorage.
-   * No se hace ninguna petición HTTP: la foto es local al navegador del usuario.
+   * Sube la imagen de perfil al backend cuando el usuario selecciona un archivo.
+   * Llama a AuthService.uploadAvatar() que hace POST /api/user/avatar con el archivo.
+   * Al recibir respuesta, actualiza photoUrl con la URL del nuevo avatar.
    */
   onPhotoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.photoUrl = reader.result as string;
-      localStorage.setItem(`axis-avatar-${this.userEmail}`, this.photoUrl);
-      // reader.onload es un callback fuera del ciclo de Angular → necesita markForCheck()
-      this.cdr.markForCheck();
-    };
-    reader.readAsDataURL(file);
+
+    // Subimos el archivo al backend y actualizamos la URL de la foto
+    this.authSvc.uploadAvatar(file).subscribe({
+      next: updated => {
+        if (updated.image) {
+          this.photoUrl = `${environment.apiUrl.replace('/api', '')}/uploads/${updated.image}`;
+        }
+        // Notificamos a Angular para que re-renderice el avatar
+        this.cdr.markForCheck();
+      },
+      error: () => console.error('Error al subir el avatar')
+    });
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────

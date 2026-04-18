@@ -30,6 +30,8 @@ export class UserDTO {
   firstName = '';
   lastName  = '';
   email     = '';
+  /** Nombre del archivo de imagen de perfil en el servidor (null si no tiene) */
+  image: string | null = null;
 }
 
 // ─── Vehicle ──────────────────────────────────────────────────────────────────

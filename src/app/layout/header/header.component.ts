@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 /**
  * Header sticky glassmorphism.
@@ -39,11 +40,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authSub = this.auth.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
       if (status) {
-        this.user    = this.auth.getCurrentUser();
-        // Cargamos la foto de perfil si el usuario la subió desde el dashboard
-        this.photoUrl = this.user?.email
-          ? (localStorage.getItem(`axis-avatar-${this.user.email}`) ?? '')
-          : '';
+        this.user = this.auth.getCurrentUser();
+        // Consultamos el perfil al backend para obtener la foto guardada en servidor
+        this.auth.getProfile().subscribe({
+          next: profile => {
+            if (profile.image) {
+              // Construimos la URL completa del archivo servido por Spring Boot
+              this.photoUrl = `${environment.apiUrl.replace('/api', '')}/uploads/${profile.image}`;
+            }
+            this.cdr.markForCheck();
+          }
+        });
       } else {
         this.user     = null;
         this.photoUrl = '';

@@ -462,12 +462,28 @@
                     <p class="eyebrow" style="font-size:0.55rem;opacity:0.6;margin-bottom:0.5rem;margin-top:0;">GALERÍA</p>
                     <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.6rem;min-height:24px;align-items:center;">
                       @for (img of v.images; track img) {
+                        <!-- Contenedor relativo: permite posicionar el overlay y el botón eliminar sobre la imagen -->
                         <div style="position:relative;width:64px;height:64px;flex-shrink:0;">
-                          <img [src]="getVehicleImageUrl(img)"
-                               style="width:64px;height:64px;object-fit:cover;border-radius:4px;border:1px solid rgba(201,161,74,0.2);"
-                               [alt]="v.brand + ' ' + v.model" />
+
+                          <!-- Label actúa como botón de subida: al hacer click abre el selector de archivos -->
+                          <label class="vehicle-img-label" style="display:block;width:64px;height:64px;cursor:pointer;border-radius:4px;overflow:hidden;position:relative;">
+                            <img [src]="getVehicleImageUrl(img)"
+                                 style="width:64px;height:64px;object-fit:cover;border-radius:4px;border:1px solid rgba(201,161,74,0.2);display:block;"
+                                 [alt]="v.brand + ' ' + v.model" />
+
+                            <!-- Overlay de cámara: aparece en hover gracias a la clase vehicle-img-label en CSS -->
+                            <span class="vehicle-img-overlay"
+                                  style="position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;font-size:1.1rem;opacity:0;transition:opacity 0.2s;border-radius:4px;pointer-events:none;">
+                              &#128247;
+                            </span>
+
+                            <!-- Input oculto: al cambiar llama a onImageUpload para subir al backend -->
+                            <input type="file" accept="image/*" style="display:none;" (change)="onImageUpload(v, $event)" />
+                          </label>
+
+                          <!-- Botón × para eliminar la imagen del vehículo -->
                           <button (click)="removeVehicleImage(v, img)"
-                                  style="position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:#c0392b;border:none;border-radius:50%;color:white;font-size:11px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+                                  style="position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:#c0392b;border:none;border-radius:50%;color:white;font-size:11px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;"
                                   title="Eliminar imagen">×</button>
                         </div>
                       }
