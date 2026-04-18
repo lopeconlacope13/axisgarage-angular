@@ -653,6 +653,7 @@
               <tr>
                 <th class="eyebrow text-left p-4">ID</th>
                 <th class="eyebrow text-left p-4">Client</th>
+                <th class="eyebrow text-left p-4">Vehicle</th>
                 <th class="eyebrow text-left p-4">Reservation</th>
                 <th class="eyebrow text-left p-4">Rating</th>
                 <th class="eyebrow text-left p-4">Comment</th>
@@ -664,6 +665,7 @@
                 <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
                   <td class="p-4 text-axis-gray">#{{ rv.id }}</td>
                   <td class="p-4">{{ rv.renterName }}</td>
+                  <td class="p-4">{{ rv.vehicleModel || '—' }}</td>
                   <td class="p-4 text-axis-gray">{{ rv.reservationString || '#' + rv.reservationId }}</td>
                   <td class="p-4">
                     <span style="color:#b8952a;letter-spacing:1px;">

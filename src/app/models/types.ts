@@ -134,6 +134,8 @@ export class ReviewDTO {
   renterId          = 0;
   reservationString = '';
   renterName        = '';
+  // Marca y modelo del vehículo asociado a la reserva (viene del backend desde ReviewMapper)
+  vehicleModel      = '';
 }
 
 // ─── DamageReport ─────────────────────────────────────────────────────────────
