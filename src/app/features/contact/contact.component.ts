@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 /**
  * Página de Contacto de Axis Garage.
- * Muestra un formulario simple (nombre, email, mensaje) y datos de contacto ficticios.
- * Al enviar, muestra un mensaje de confirmación en el template — sin POST real.
+ * Muestra un formulario (nombre, email, mensaje) y datos de contacto ficticios.
+ * Al enviar, hace un POST real al backend que reenvía el mensaje por email al administrador.
  *
  * NOTA: Este contenido es ficticio. El proyecto es un TFG académico.
  */
@@ -87,9 +89,16 @@ import { FormsModule } from '@angular/forms';
                   ></textarea>
                 </div>
 
-                <!-- Botón de envío -->
-                <button class="btn-gold" (click)="submit()" style="width:100%;">
-                  SEND MESSAGE
+                <!-- Mensaje de error (se muestra si el POST falla) -->
+                @if (errorMessage) {
+                  <div style="background:rgba(220,50,50,0.1);border:1px solid rgba(220,50,50,0.3);padding:0.75rem 1rem;border-radius:4px;">
+                    <p style="color:#e05555;font-size:0.8rem;margin:0;">{{ errorMessage }}</p>
+                  </div>
+                }
+
+                <!-- Botón de envío — deshabilitado mientras se procesa la petición -->
+                <button class="btn-gold" (click)="submit()" [disabled]="sending" [style.opacity]="sending ? 0.6 : 1" style="width:100%;">
+                  {{ sending ? 'SENDING...' : 'SEND MESSAGE' }}
                 </button>
 
               </div>
@@ -137,26 +146,65 @@ import { FormsModule } from '@angular/forms';
 })
 export class ContactComponent {
 
+  /** HttpClient inyectado con inject() — patrón moderno de Angular Standalone */
+  private http = inject(HttpClient);
+
   /** Campos del formulario de contacto */
   name    = '';
   email   = '';
   message = '';
 
   /**
-   * Controla si ya se ha "enviado" el formulario.
+   * Controla si ya se ha enviado el formulario con éxito.
    * Cuando es true, se muestra el mensaje de confirmación en lugar del formulario.
    */
   submitted = false;
 
   /**
-   * Simula el envío del formulario.
-   * No hace ningún POST real — simplemente activa el mensaje de confirmación.
-   * En un proyecto real, aquí llamaríamos a un servicio HTTP.
+   * Controla si hay una petición HTTP en curso.
+   * Mientras es true, el botón de envío queda deshabilitado para evitar duplicados.
+   */
+  sending = false;
+
+  /**
+   * Almacena el mensaje de error si el backend devuelve un fallo.
+   * Se muestra en el template justo encima del botón de envío.
+   */
+  errorMessage = '';
+
+  /**
+   * Envía los datos del formulario al backend mediante un POST a /api/contact.
+   * El backend reenvía el mensaje por email al administrador de la plataforma.
+   * Si el envío es exitoso, muestra la pantalla de confirmación.
+   * Si falla, muestra un mensaje de error sin abandonar el formulario.
    */
   submit(): void {
     // Validación mínima: todos los campos deben estar rellenos
     if (!this.name.trim() || !this.email.trim() || !this.message.trim()) return;
-    // Marcamos como enviado para que el template muestre la confirmación
-    this.submitted = true;
+
+    // Bloqueamos el botón y limpiamos cualquier error previo
+    this.sending = true;
+    this.errorMessage = '';
+
+    // Construimos el payload que espera el backend (name, email, message)
+    const payload = {
+      name:    this.name.trim(),
+      email:   this.email.trim(),
+      message: this.message.trim()
+    };
+
+    // POST al endpoint público del backend — no requiere token JWT
+    this.http.post(`${environment.apiUrl}/contact`, payload).subscribe({
+      next: () => {
+        // Éxito: ocultamos el formulario y mostramos la confirmación
+        this.submitted = true;
+        this.sending   = false;
+      },
+      error: () => {
+        // Error de red o del servidor: informamos al usuario sin perder su mensaje
+        this.errorMessage = 'Error sending message. Please try again.';
+        this.sending      = false;
+      }
+    });
   }
 }
