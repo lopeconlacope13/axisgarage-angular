@@ -69,6 +69,23 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
+  /** Texto de búsqueda para filtrar las reservas en el desplegable del formulario de daños */
+  reportFilter = '';
+
+  /**
+   * Devuelve las reservas filtradas según el texto de búsqueda.
+   * Filtra por ID, modelo de vehículo o nombre del cliente (case-insensitive).
+   */
+  get filteredReservationsForReport(): ReservationDTO[] {
+    const q = this.reportFilter.toLowerCase().trim();
+    if (!q) return this.allReservations;
+    return this.allReservations.filter(r =>
+      String(r.id).includes(q) ||
+      r.vehicleModel.toLowerCase().includes(q) ||
+      r.renterName.toLowerCase().includes(q)
+    );
+  }
+
   // ─── Edición de vehículos (MANAGER/ADMIN) ────────────────────────────────
   /** Vehículo seleccionado para editar (null = panel cerrado). */
   editingVehicle: VehicleDTO | null = null;
@@ -134,7 +151,12 @@ export class DashboardComponent implements OnInit {
     if (section === 'fleet'           && !this.vehicles.length)         this.loadVehicles();
     if (section === 'clients'         && !this.renters.length)          this.loadRenters();
     if (section === 'owners'          && !this.owners.length)           this.loadOwners();
-    if (section === 'damage-reports'  && !this.damageReports.length)    this.loadDamageReports();
+    if (section === 'damage-reports') {
+      // Carga los partes de daños si no están cargados
+      if (!this.damageReports.length) this.loadDamageReports();
+      // También necesitamos la lista de reservas para el desplegable del formulario
+      if (!this.allReservations.length) this.loadAllReservations();
+    }
     if (section === 'reviews'         && !this.reviews.length)          this.loadReviews();
     if (section === 'invoices'        && !this.invoices.length)         this.loadInvoices();
   }

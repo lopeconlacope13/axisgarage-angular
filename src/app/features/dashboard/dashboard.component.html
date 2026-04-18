@@ -125,22 +125,49 @@
 
       </div>
 
-      <!-- Accesos rápidos -->
+      <!-- Accesos rápidos: tarjetas compactas con icono + etiqueta -->
       <div class="glass-card p-6">
         <h2 class="font-display text-base font-semibold mb-4">Quick Access</h2>
         <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
-          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(184,149,42,0.1);border:1px solid rgba(184,149,42,0.3);border-radius:4px;cursor:pointer;color:#b8952a;"
-            (click)="setSection('reservations')">ALL RESERVATIONS →</button>
-          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
-            (click)="setSection('fleet')">FLEET STATUS →</button>
-          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
-            (click)="setSection('clients')">CLIENTS ({{ totalClients }}) →</button>
-          <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;cursor:pointer;"
-            (click)="setSection('damage-reports')">DAMAGE REPORTS →</button>
+
+          <!-- Reservas -->
+          <button class="quick-card" (click)="setSection('reservations')">
+            <span class="quick-card__icon">&#9632;</span>
+            <span class="eyebrow quick-card__label">Reservations</span>
+          </button>
+
+          <!-- Flota -->
+          <button class="quick-card" (click)="setSection('fleet')">
+            <span class="quick-card__icon">&#9670;</span>
+            <span class="eyebrow quick-card__label">Fleet</span>
+          </button>
+
+          <!-- Clientes -->
+          <button class="quick-card" (click)="setSection('clients')">
+            <span class="quick-card__icon">&#9733;</span>
+            <span class="eyebrow quick-card__label">Clients</span>
+          </button>
+
+          <!-- Partes de daños -->
+          <button class="quick-card" (click)="setSection('damage-reports')">
+            <span class="quick-card__icon">&#9650;</span>
+            <span class="eyebrow quick-card__label">Damages</span>
+          </button>
+
+          <!-- Facturas -->
+          <button class="quick-card" (click)="setSection('invoices')">
+            <span class="quick-card__icon">&#9679;</span>
+            <span class="eyebrow quick-card__label">Invoices</span>
+          </button>
+
+          <!-- Propietarios (solo ADMIN) -->
           @if (isAdmin) {
-            <button class="eyebrow" style="font-size:0.65rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(184,149,42,0.2);border-radius:4px;cursor:pointer;color:#b8952a;"
-              (click)="setSection('owners')">OWNERS REGISTRY →</button>
+            <button class="quick-card quick-card--gold" (click)="setSection('owners')">
+              <span class="quick-card__icon">&#9670;</span>
+              <span class="eyebrow quick-card__label">Owners</span>
+            </button>
           }
+
         </div>
       </div>
     }
@@ -543,9 +570,21 @@
           <div style="display:flex;flex-direction:column;gap:0.75rem;">
 
             <div>
-              <label class="eyebrow block mb-1" style="font-size:0.6rem;">RESERVATION ID</label>
-              <input type="number" class="input-dark w-full" placeholder="123"
-                [(ngModel)]="newReport.reservationId" min="1">
+              <label class="eyebrow block mb-1" style="font-size:0.6rem;">RESERVATION</label>
+
+              <!-- Input de búsqueda/filtro para acotar la lista de reservas -->
+              <input type="text" class="input-dark w-full" placeholder="Search by ID, vehicle or client..."
+                [(ngModel)]="reportFilter"
+                style="margin-bottom:0.4rem;">
+
+              <!-- Desplegable con las reservas que coinciden con el filtro -->
+              <select class="input-dark w-full" [(ngModel)]="newReport.reservationId"
+                style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
+                <option [value]="0" disabled>— Select a reservation —</option>
+                @for (r of filteredReservationsForReport; track r.id) {
+                  <option [value]="r.id">#{{ r.id }} — {{ r.vehicleModel }} — {{ r.renterName }}</option>
+                }
+              </select>
             </div>
 
             <div>
