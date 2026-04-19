@@ -588,16 +588,11 @@
             <div>
               <label class="eyebrow block mb-1" style="font-size:0.6rem;">RESERVATION</label>
 
-              <!-- Input de búsqueda/filtro para acotar la lista de reservas -->
-              <input type="text" class="input-dark w-full" placeholder="Search by ID, vehicle or client..."
-                [(ngModel)]="reportFilter"
-                style="margin-bottom:0.4rem;">
-
-              <!-- Desplegable con las reservas que coinciden con el filtro -->
+              <!-- Desplegable con todas las reservas disponibles -->
               <select class="input-dark w-full" [(ngModel)]="newReport.reservationId"
                 style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
                 <option [value]="0" disabled>— Select a reservation —</option>
-                @for (r of filteredReservationsForReport; track r.id) {
+                @for (r of allReservations; track r.id) {
                   <option [value]="r.id">#{{ r.id }} — {{ r.vehicleModel }} — {{ r.renterName }}</option>
                 }
               </select>

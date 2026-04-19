@@ -69,23 +69,6 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
-  /** Texto de búsqueda para filtrar las reservas en el desplegable del formulario de daños */
-  reportFilter = '';
-
-  /**
-   * Devuelve las reservas filtradas según el texto de búsqueda.
-   * Filtra por ID, modelo de vehículo o nombre del cliente (case-insensitive).
-   */
-  get filteredReservationsForReport(): ReservationDTO[] {
-    const q = this.reportFilter.toLowerCase().trim();
-    if (!q) return this.allReservations;
-    return this.allReservations.filter(r =>
-      String(r.id).includes(q) ||
-      r.vehicleModel.toLowerCase().includes(q) ||
-      r.renterName.toLowerCase().includes(q)
-    );
-  }
-
   // ─── Edición de vehículos (MANAGER/ADMIN) ────────────────────────────────
   /** Vehículo seleccionado para editar (null = panel cerrado). */
   editingVehicle: VehicleDTO | null = null;
