@@ -125,51 +125,6 @@
 
       </div>
 
-      <!-- Accesos rápidos: tarjetas compactas con icono + etiqueta -->
-      <div class="glass-card p-6">
-        <h2 class="font-display text-base font-semibold mb-4">Quick Access</h2>
-        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
-
-          <!-- Reservas -->
-          <button class="quick-card" (click)="setSection('reservations')">
-            <span class="quick-card__icon">&#9632;</span>
-            <span class="eyebrow quick-card__label">Reservations</span>
-          </button>
-
-          <!-- Flota -->
-          <button class="quick-card" (click)="setSection('fleet')">
-            <span class="quick-card__icon">&#9670;</span>
-            <span class="eyebrow quick-card__label">Fleet</span>
-          </button>
-
-          <!-- Clientes -->
-          <button class="quick-card" (click)="setSection('clients')">
-            <span class="quick-card__icon">&#9733;</span>
-            <span class="eyebrow quick-card__label">Clients</span>
-          </button>
-
-          <!-- Partes de daños -->
-          <button class="quick-card" (click)="setSection('damage-reports')">
-            <span class="quick-card__icon">&#9650;</span>
-            <span class="eyebrow quick-card__label">Damages</span>
-          </button>
-
-          <!-- Facturas -->
-          <button class="quick-card" (click)="setSection('invoices')">
-            <span class="quick-card__icon">&#9679;</span>
-            <span class="eyebrow quick-card__label">Invoices</span>
-          </button>
-
-          <!-- Propietarios (solo ADMIN) -->
-          @if (isAdmin) {
-            <button class="quick-card quick-card--gold" (click)="setSection('owners')">
-              <span class="quick-card__icon">&#9670;</span>
-              <span class="eyebrow quick-card__label">Owners</span>
-            </button>
-          }
-
-        </div>
-      </div>
     }
 
     <!-- ────────────────────────────────────────────────────────────────────

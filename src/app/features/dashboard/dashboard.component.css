@@ -25,56 +25,6 @@
   padding-left: calc(0.75rem - 2px);
 }
 
-/* ─── Quick Access: tarjetas compactas de acceso directo ─────────────────────
-   Cada tarjeta muestra un icono Unicode y una etiqueta corta.
-   Diseño glassmorphism coherente con el resto del dashboard. */
-.quick-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  width: 80px;
-  height: 72px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
-  padding: 0.5rem;
-}
-
-.quick-card:hover {
-  /* Al pasar el ratón: borde dorado sutil */
-  border-color: rgba(184, 149, 42, 0.45);
-  background: rgba(184, 149, 42, 0.06);
-}
-
-/* Variante dorada: para acciones admin exclusivas (Owners) */
-.quick-card--gold {
-  border-color: rgba(184, 149, 42, 0.25);
-}
-
-.quick-card--gold:hover {
-  border-color: var(--axis-gold);
-  background: rgba(184, 149, 42, 0.1);
-}
-
-/* Icono Unicode centrado y de tamaño medio */
-.quick-card__icon {
-  font-size: 1rem;
-  color: var(--axis-gold);
-  line-height: 1;
-}
-
-/* Etiqueta eyebrow minúscula debajo del icono */
-.quick-card__label {
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  color: rgba(245, 240, 232, 0.55);
-  text-align: center;
-  text-transform: uppercase;
-}
 
 /* Contenedor de tablas con scroll horizontal en mobile.
    Sustituye overflow-hidden para que las tablas no queden cortadas
