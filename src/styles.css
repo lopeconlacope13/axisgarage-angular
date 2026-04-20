@@ -8,13 +8,23 @@
   --axis-black:      #0a0a0a;
   --axis-charcoal:   #111111;
   --axis-surface:    #1a1a1a;
-  --axis-gold:       #b8952a;
+  --axis-gold:       #C9A14A;
   --axis-gold-light: #d4ab3a;
   --axis-gold-dark:  #9a7a1e;
   --axis-white:      #f5f5f0;
   --axis-gray:       #9a9a95;
   --axis-border:     rgba(245, 245, 240, 0.08);
-  --axis-border-gold: rgba(184, 149, 42, 0.2);
+  --axis-border-gold: var(--axis-gold-20);
+  /* Variantes de opacidad del dorado — punto de verdad único */
+  --axis-gold-06:  rgba(201, 161, 74, 0.06);
+  --axis-gold-08:  rgba(201, 161, 74, 0.08);
+  --axis-gold-12:  rgba(201, 161, 74, 0.12);
+  --axis-gold-15:  rgba(201, 161, 74, 0.15);
+  --axis-gold-20:  rgba(201, 161, 74, 0.20);
+  --axis-gold-25:  rgba(201, 161, 74, 0.25);
+  --axis-gold-30:  rgba(201, 161, 74, 0.30);
+  --axis-gold-35:  rgba(201, 161, 74, 0.35);
+  --axis-gold-40:  rgba(201, 161, 74, 0.40);
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
@@ -43,7 +53,7 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-track { background: var(--axis-black); }
 ::-webkit-scrollbar-thumb { background: var(--axis-surface); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--axis-gold-dark); }
-::selection { background: rgba(184, 149, 42, 0.28); color: var(--axis-white); }
+::selection { background: rgba(201, 161, 74, 0.28); color: var(--axis-white); }
 
 /* ── Layout helpers ────────────────────────────────────────── */
 .container   { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
@@ -204,7 +214,7 @@ img { max-width: 100%; display: block; }
 .btn-gold:hover {
   background-color: var(--axis-gold-light);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(184, 149, 42, 0.3);
+  box-shadow: 0 10px 30px var(--axis-gold-30);
 }
 
 .btn-outline {
@@ -247,7 +257,7 @@ img { max-width: 100%; display: block; }
 .input-dark::placeholder { color: var(--axis-gray); }
 .input-dark:focus {
   border-color: var(--axis-gold);
-  box-shadow: 0 0 0 2px rgba(184, 149, 42, 0.12);
+  box-shadow: 0 0 0 2px var(--axis-gold-12);
 }
 
 /* Vehicle card */
@@ -420,8 +430,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
 /* Menú desplegable móvil: fondo oscuro, borde dorado inferior */
 .mobile-menu {
   background: #111111;
-  border-top: 1px solid rgba(184, 149, 42, 0.2);
-  border-bottom: 2px solid rgba(184, 149, 42, 0.25);
+  border-top: 1px solid var(--axis-gold-20);
+  border-bottom: 2px solid var(--axis-gold-25);
   padding: 0.5rem 0;
   animation: fadeIn 0.18s ease-out;
 }
@@ -503,7 +513,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   white-space: nowrap;
 }
 .sidebar-btn:hover { color: var(--axis-white); background: rgba(255,255,255,0.04); }
-.sidebar-btn.active { color: var(--axis-gold); background: rgba(184,149,42,0.08); }
+.sidebar-btn.active { color: var(--axis-gold); background: var(--axis-gold-08); }
 
 /* En mobile: la navegación del sidebar es una fila horizontal con scroll */
 .dashboard-sidebar nav {
@@ -577,9 +587,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(184, 149, 42, 0.15);
-  border: 1px solid rgba(184, 149, 42, 0.3);
-  color: #b8952a;
+  background: var(--axis-gold-15);
+  border: 1px solid var(--axis-gold-30);
+  color: var(--axis-gold);
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -590,6 +600,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   transition: background 0.2s;
   z-index: 10;
 }
-.carousel-btn:hover { background: rgba(184, 149, 42, 0.3); }
+.carousel-btn:hover { background: var(--axis-gold-30); }
 .carousel-btn.left  { left: 1rem; }
 .carousel-btn.right { right: 1rem; }
