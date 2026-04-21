@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto px-6 pt-32 pb-16">
-  <div class="eyebrow mb-3" style="color:#b8952a">{{ 'CATALOG.EYEBROW' | translate }}</div>
+  <div class="eyebrow mb-3" style="color:var(--axis-gold)">{{ 'CATALOG.EYEBROW' | translate }}</div>
   <h1 class="section-title mb-8">{{ 'CATALOG.TITLE' | translate }} <span class="italic">{{ 'CATALOG.TITLE_ITALIC' | translate }}</span></h1>
 
   <!-- ── BARRA DE FILTROS ─────────────────────────────────────────────────────
@@ -123,12 +123,12 @@
                 />
                 <!-- Fallback si la imagen falla al cargar -->
                 <div style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;background:#1a1a1a;">
-                  <span style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(184,149,42,0.2);font-size:1.5rem;">{{ v.brand }}</span>
+                  <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-20);font-size:1.5rem;">{{ v.brand }}</span>
                 </div>
               } @else {
                 <!-- Placeholder cuando no hay imagen -->
                 <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(17,17,17,0.8), transparent);"></div>
-                <span style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(184,149,42,0.2);font-size:1.5rem;z-index:1;">{{ v.brand }}</span>
+                <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-20);font-size:1.5rem;z-index:1;">{{ v.brand }}</span>
               }
             </div>
 
@@ -159,7 +159,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
                 <div>
                   <div class="eyebrow" style="font-size:0.6rem">DAILY FROM</div>
-                  <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:#b8952a">€{{ v.pricePerDay }}</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--axis-gold)">€{{ v.pricePerDay }}</div>
                 </div>
                 <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.75rem;padding:0.5rem 1rem;">RESERVE</a>
               </div>
@@ -180,7 +180,7 @@
           <button
             (click)="loadVehicles(currentPage - 1)"
             [disabled]="currentPage === 0"
-            style="padding:0.5rem 1rem;background:transparent;border:1px solid rgba(184,149,42,0.3);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+            style="padding:0.5rem 1rem;background:transparent;border:1px solid var(--axis-gold-30);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
             [style.opacity]="currentPage === 0 ? '0.3' : '1'"
             [style.cursor]="currentPage === 0 ? 'not-allowed' : 'pointer'">
             ← PREV
@@ -191,9 +191,9 @@
             <button
               (click)="loadVehicles(p)"
               style="width:2.2rem;height:2.2rem;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.05em;cursor:pointer;transition:all 0.3s ease;"
-              [style.background]="p === currentPage ? 'rgba(184,149,42,0.15)' : 'transparent'"
-              [style.border]="p === currentPage ? '1px solid #b8952a' : '1px solid rgba(184,149,42,0.2)'"
-              [style.color]="p === currentPage ? '#b8952a' : 'rgba(245,240,232,0.5)'">
+              [style.background]="p === currentPage ? 'var(--axis-gold-15)' : 'transparent'"
+              [style.border]="p === currentPage ? '1px solid var(--axis-gold)' : '1px solid var(--axis-gold-20)'"
+              [style.color]="p === currentPage ? 'var(--axis-gold)' : 'rgba(245,240,232,0.5)'">
               {{ p + 1 }}
             </button>
           }
@@ -202,7 +202,7 @@
           <button
             (click)="loadVehicles(currentPage + 1)"
             [disabled]="currentPage === totalPages - 1"
-            style="padding:0.5rem 1rem;background:transparent;border:1px solid rgba(184,149,42,0.3);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+            style="padding:0.5rem 1rem;background:transparent;border:1px solid var(--axis-gold-30);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
             [style.opacity]="currentPage === totalPages - 1 ? '0.3' : '1'"
             [style.cursor]="currentPage === totalPages - 1 ? 'not-allowed' : 'pointer'">
             NEXT →
