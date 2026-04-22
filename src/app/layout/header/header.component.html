@@ -44,13 +44,13 @@
 
             <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;">
               <span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>,
-              <span style="color:#b8952a;font-weight:600;">{{ user.email.split('@')[0] }}</span>
+              <span style="color:var(--axis-gold);font-weight:600;">{{ user.email.split('@')[0] }}</span>
             </span>
 
             <!-- Avatar: foto si está disponible, si no la inicial -->
             @if (photoUrl) {
               <img [src]="photoUrl" alt="avatar"
-                style="width:2rem;height:2rem;border-radius:50%;object-fit:cover;border:1px solid rgba(184,149,42,0.5);flex-shrink:0;">
+                style="width:2rem;height:2rem;border-radius:50%;object-fit:cover;border:1px solid rgba(201,161,74,0.5);flex-shrink:0;">
             } @else {
               <div style="width:2rem;height:2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;font-size:0.9rem;flex-shrink:0;">
                 {{ user.initial }}
@@ -61,7 +61,7 @@
 
           <!-- Dropdown Menú Desktop -->
           @if (dropdownOpen) {
-            <div style="position:absolute;top:135%;right:0;width:220px;background:#0a0a0a;border:1px solid rgba(184,149,42,0.3);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;">
+            <div style="position:absolute;top:135%;right:0;width:220px;background:#0a0a0a;border:1px solid var(--axis-gold-30);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;">
               <a routerLink="/dashboard" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
                 {{ 'HEADER.DASHBOARD' | translate }}
               </a>
@@ -107,7 +107,7 @@
       @if (isLoggedIn && user) {
         <div style="padding:0.5rem 1.25rem 1rem;">
           <div class="eyebrow" style="font-size:0.6rem;opacity:0.4;margin-bottom:0.75rem;padding-top:0.25rem;">
-            {{ 'HEADER.WELCOME' | translate }}, <span style="color:#b8952a;">{{ user.email.split('@')[0] }}</span>
+            {{ 'HEADER.WELCOME' | translate }}, <span style="color:var(--axis-gold);">{{ user.email.split('@')[0] }}</span>
           </div>
           <a routerLink="/dashboard"       (click)="closeMenu()" class="eyebrow mobile-menu-link" style="color:var(--axis-gold);">{{ 'HEADER.DASHBOARD' | translate }}</a>
           <a (click)="logout()" class="eyebrow mobile-menu-link" style="color:rgba(239,68,68,0.8);cursor:pointer;">{{ 'HEADER.LOGOUT' | translate }}</a>

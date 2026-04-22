@@ -482,7 +482,7 @@ export class DashboardComponent implements OnInit {
 
   /** Devuelve el color del badge de estado de una reserva */
   statusColor(status: string): string {
-    if (status === 'CONFIRMED') return '#b8952a';
+    if (status === 'CONFIRMED') return 'var(--axis-gold)';
     if (status === 'CANCELLED') return 'rgba(239,68,68,0.7)';
     return '#9a9a95';
   }

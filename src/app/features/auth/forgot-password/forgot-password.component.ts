@@ -51,8 +51,8 @@ import { environment } from '../../../../environments/environment';
 
         <!-- Estado: email enviado -->
         @if (sent) {
-          <div style="background:rgba(184,149,42,0.08);border:1px solid rgba(184,149,42,0.3);
-                      color:#b8952a;padding:1.25rem;border-radius:6px;font-size:0.85rem;text-align:center;line-height:1.6;">
+          <div style="background:var(--axis-gold-08);border:1px solid var(--axis-gold-30);
+                      color:var(--axis-gold);padding:1.25rem;border-radius:6px;font-size:0.85rem;text-align:center;line-height:1.6;">
             If an account exists with that email, a recovery link has been sent.<br>
             <span style="color:var(--axis-gray);font-size:0.75rem;">Check your inbox (and spam folder).</span>
           </div>

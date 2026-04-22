@@ -14,14 +14,14 @@
 }
 
 .sidebar-btn:hover {
-  background: rgba(184, 149, 42, 0.08);
+  background: var(--axis-gold-08);
   color: rgba(245, 240, 232, 0.8);
 }
 
 .sidebar-btn.active {
-  background: rgba(184, 149, 42, 0.12);
-  color: #b8952a;
-  border-left: 2px solid #b8952a;
+  background: var(--axis-gold-12);
+  color: var(--axis-gold);
+  border-left: 2px solid var(--axis-gold);
   padding-left: calc(0.75rem - 2px);
 }
 
