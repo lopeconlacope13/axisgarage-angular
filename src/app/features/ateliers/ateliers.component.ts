@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="max-w-7xl mx-auto px-6 pt-32 pb-20">
 
-      <div class="eyebrow mb-2" style="color:#b8952a">OUR LOCATIONS</div>
+      <div class="eyebrow mb-2" style="color:var(--axis-gold)">OUR LOCATIONS</div>
       <h1 class="section-title mb-4">The <span class="italic">Ateliers</span></h1>
       <p style="color:var(--axis-gray);max-width:32rem;margin-bottom:3.5rem;line-height:1.7;font-size:0.95rem;">
         Four sanctuaries of mechanical excellence, carefully positioned across the Iberian Peninsula.
@@ -22,8 +22,8 @@ import { RouterLink } from '@angular/router';
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         @for (a of ateliers; track a.city) {
-          <div class="glass-card p-8" style="border-left:2px solid rgba(184,149,42,0.4);">
-            <div class="eyebrow mb-1" style="color:#b8952a;font-size:0.6rem;">{{ a.region }}</div>
+          <div class="glass-card p-8" style="border-left:2px solid var(--axis-gold-40);">
+            <div class="eyebrow mb-1" style="color:var(--axis-gold);font-size:0.6rem;">{{ a.region }}</div>
             <h2 class="font-display text-xl font-semibold mb-3">{{ a.city }}</h2>
             <p class="text-axis-gray text-sm mb-4" style="line-height:1.6;">{{ a.address }}</p>
             <div style="display:flex;gap:2rem;">

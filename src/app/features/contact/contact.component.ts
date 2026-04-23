@@ -20,15 +20,15 @@ import { environment } from '../../../environments/environment';
       <div style="max-width:52rem;margin:0 auto;padding:0 1.5rem;">
 
         <!-- Eyebrow y título -->
-        <div class="eyebrow" style="color:#b8952a;margin-bottom:0.75rem;">GET IN TOUCH</div>
+        <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">GET IN TOUCH</div>
         <h1 style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;margin-bottom:0.5rem;">
           Contact <span style="font-style:italic;">Us</span>
         </h1>
         <div class="gold-divider" style="margin-bottom:2rem;"></div>
 
         <!-- Banner de disclaimer TFG -->
-        <div style="background:rgba(184,149,42,0.1);border:1px solid rgba(184,149,42,0.3);padding:1rem;margin-bottom:2rem;border-radius:4px;">
-          <p style="color:#b8952a;font-size:0.8rem;text-align:center;margin:0;">
+        <div style="background:var(--axis-gold-12);border:1px solid var(--axis-gold-30);padding:1rem;margin-bottom:2rem;border-radius:4px;">
+          <p style="color:var(--axis-gold);font-size:0.8rem;text-align:center;margin:0;">
             &#9888; Este sitio es un proyecto académico ficticio desarrollado como Trabajo de Fin de Grado (DAW). No presta servicios reales.
           </p>
         </div>
@@ -42,7 +42,7 @@ import { environment } from '../../../environments/environment';
             <!-- Mensaje de confirmación (se muestra tras enviar) -->
             @if (submitted) {
               <div style="text-align:center;padding:2rem 0;">
-                <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#b8952a;margin-bottom:0.75rem;">
+                <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--axis-gold);margin-bottom:0.75rem;">
                   Message Received
                 </div>
                 <p style="color:rgba(245,245,240,0.6);font-size:0.9rem;line-height:1.75;">
@@ -124,7 +124,7 @@ import { environment } from '../../../environments/environment';
 
             <div class="glass-card" style="padding:1.5rem;">
               <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;margin-bottom:0.5rem;">EMAIL</div>
-              <p style="color:#b8952a;font-size:0.85rem;margin:0;">concierge&#64;axisgarage.com</p>
+              <p style="color:var(--axis-gold);font-size:0.85rem;margin:0;">concierge&#64;axisgarage.com</p>
             </div>
 
             <div class="glass-card" style="padding:1.5rem;">

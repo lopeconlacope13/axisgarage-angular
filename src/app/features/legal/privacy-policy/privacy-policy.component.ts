@@ -17,15 +17,15 @@ import { CommonModule } from '@angular/common';
       <div style="max-width:52rem;margin:0 auto;padding:0 1.5rem;">
 
         <!-- Eyebrow y título -->
-        <div class="eyebrow" style="color:#b8952a;margin-bottom:0.75rem;">LEGAL</div>
+        <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">LEGAL</div>
         <h1 style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;margin-bottom:0.5rem;">
           Privacy <span style="font-style:italic;">Policy</span>
         </h1>
         <div class="gold-divider" style="margin-bottom:2rem;"></div>
 
         <!-- Banner de disclaimer TFG -->
-        <div style="background:rgba(184,149,42,0.1);border:1px solid rgba(184,149,42,0.3);padding:1rem;margin-bottom:2rem;border-radius:4px;">
-          <p style="color:#b8952a;font-size:0.8rem;text-align:center;margin:0;">
+        <div style="background:var(--axis-gold-12);border:1px solid var(--axis-gold-30);padding:1rem;margin-bottom:2rem;border-radius:4px;">
+          <p style="color:var(--axis-gold);font-size:0.8rem;text-align:center;margin:0;">
             &#9888; Este sitio es un proyecto académico ficticio desarrollado como Trabajo de Fin de Grado (DAW). No presta servicios reales.
           </p>
         </div>
@@ -38,7 +38,7 @@ import { CommonModule } from '@angular/common';
             <p style="color:rgba(245,245,240,0.65);font-size:0.9rem;line-height:1.75;">
               El responsable del tratamiento de datos es <strong style="color:#f5f5f0;">Axis Garage Private Atelier</strong>,
               con domicilio ficticio en Paseo de la Castellana 200, Madrid, España.
-              Contacto: <span style="color:#b8952a;">privacy&#64;axisgarage.com</span>
+              Contacto: <span style="color:var(--axis-gold);">privacy&#64;axisgarage.com</span>
             </p>
           </section>
 
@@ -84,7 +84,7 @@ import { CommonModule } from '@angular/common';
               <li><strong style="color:#f5f5f0;">Oposición:</strong> oponerte al tratamiento en determinadas circunstancias.</li>
             </ul>
             <p style="color:rgba(245,245,240,0.65);font-size:0.9rem;line-height:1.75;margin-top:0.75rem;">
-              Para ejercer cualquiera de estos derechos, escribe a <span style="color:#b8952a;">privacy&#64;axisgarage.com</span>.
+              Para ejercer cualquiera de estos derechos, escribe a <span style="color:var(--axis-gold);">privacy&#64;axisgarage.com</span>.
             </p>
           </section>
 

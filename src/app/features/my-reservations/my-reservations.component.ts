@@ -27,7 +27,7 @@ import { ReservationDTO } from '../../models/types';
   template: `
     <div class="max-w-5xl mx-auto px-6 pt-32 pb-20">
 
-      <div class="eyebrow mb-2" style="color:#b8952a">MY GARAGE</div>
+      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MY GARAGE</div>
       <h1 class="section-title mb-10">My <span class="italic">Reservations</span></h1>
 
       <!-- Estado: cargando -->
@@ -79,7 +79,7 @@ import { ReservationDTO } from '../../models/types';
                     {{ r.status }}
                   </span>
                 </td>
-                <td class="p-4 text-right font-display" style="color:#b8952a">
+                <td class="p-4 text-right font-display" style="color:var(--axis-gold)">
                   €{{ r.totalPrice | number:'1.0-0' }}
                 </td>
                 <td class="p-4 text-right" style="white-space:nowrap;">
@@ -87,14 +87,14 @@ import { ReservationDTO } from '../../models/types';
                   <button *ngIf="r.status === 'CONFIRMED' || r.status === 'COMPLETED'"
                     (click)="downloadInvoice(r.id)"
                     [disabled]="downloadingId === r.id"
-                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid rgba(184,149,42,0.3);background:transparent;color:rgba(184,149,42,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;"
+                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid var(--axis-gold-30);background:transparent;color:rgba(201,161,74,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;"
                     title="Download invoice PDF">
                     {{ downloadingId === r.id ? '...' : '⬇ PDF' }}
                   </button>
                   <!-- Botón de reseña solo en reservas COMPLETED que no han sido reseñadas -->
                   <button *ngIf="r.status === 'COMPLETED' && !reviewedIds.has(r.id)"
                     (click)="openReviewForm(r)"
-                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid rgba(184,149,42,0.4);background:transparent;color:#b8952a;border-radius:4px;cursor:pointer;white-space:nowrap;">
+                    style="font-size:0.6rem;letter-spacing:0.1em;padding:0.3rem 0.7rem;border:1px solid var(--axis-gold-40);background:transparent;color:var(--axis-gold);border-radius:4px;cursor:pointer;white-space:nowrap;">
                     ★ REVIEW
                   </button>
                   <!-- Badge "Reviewed" si ya tiene reseña -->
@@ -107,10 +107,10 @@ import { ReservationDTO } from '../../models/types';
 
               <!-- Formulario de reseña (se despliega debajo de la fila) -->
               <tr *ngIf="reviewingReservation?.id === r.id"
-                style="background:rgba(184,149,42,0.03);border-bottom:1px solid rgba(184,149,42,0.12);">
+                style="background:rgba(201,161,74,0.03);border-bottom:1px solid var(--axis-gold-12);">
                 <td colspan="7" style="padding:1.25rem 1.5rem;">
                   <div style="max-width:500px;">
-                    <div class="eyebrow" style="color:#b8952a;font-size:0.6rem;margin-bottom:1rem;letter-spacing:0.15em;">
+                    <div class="eyebrow" style="color:var(--axis-gold);font-size:0.6rem;margin-bottom:1rem;letter-spacing:0.15em;">
                       LEAVE A REVIEW — {{ r.vehicleModel }}
                     </div>
 
@@ -120,7 +120,7 @@ import { ReservationDTO } from '../../models/types';
                         (click)="reviewForm.rating = s"
                         type="button"
                         style="background:none;border:none;cursor:pointer;font-size:1.5rem;padding:0;line-height:1;"
-                        [style.color]="s <= reviewForm.rating ? '#b8952a' : 'rgba(245,245,240,0.2)'">
+                        [style.color]="s <= reviewForm.rating ? 'var(--axis-gold)' : 'rgba(245,245,240,0.2)'">
                         ★
                       </button>
                     </div>
@@ -297,7 +297,7 @@ export class MyReservationsComponent implements OnInit {
 
   /** Devuelve el color según el estado de la reserva. */
   statusColor(status: string): string {
-    if (status === 'CONFIRMED')  return '#b8952a';
+    if (status === 'CONFIRMED')  return 'var(--axis-gold)';
     if (status === 'COMPLETED')  return '#4ade80';
     if (status === 'CANCELLED')  return 'rgba(239,68,68,0.7)';
     return '#9a9a95';
