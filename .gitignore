@@ -58,3 +58,9 @@ fix_*
 *.bat
 *.sh
 *.md
+
+# Herramientas Claude Code (no deben subirse al repo)
+.agents/
+.playwright-cli/
+skills-lock.json
+check-*.png
