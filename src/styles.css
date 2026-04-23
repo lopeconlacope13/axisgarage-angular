@@ -1,6 +1,6 @@
 /*
  * AXIS GARAGE — Design System
- * Casino Royale Dark Theme — CSS puro sin dependencias PostCSS
+ * Casino Royale Dark Theme
  */
 
 /* ── Variables ─────────────────────────────────────────────── */
@@ -15,7 +15,6 @@
   --axis-gray:       #9a9a95;
   --axis-border:     rgba(245, 245, 240, 0.08);
   --axis-border-gold: var(--axis-gold-20);
-  /* Variantes de opacidad del dorado — punto de verdad único */
   --axis-gold-06:  rgba(201, 161, 74, 0.06);
   --axis-gold-08:  rgba(201, 161, 74, 0.08);
   --axis-gold-12:  rgba(201, 161, 74, 0.12);
@@ -48,105 +47,22 @@ h1, h2, h3, h4, h5, h6 {
 a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
 img { max-width: 100%; display: block; }
 
-/* Scrollbar */
 ::-webkit-scrollbar       { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--axis-black); }
 ::-webkit-scrollbar-thumb { background: var(--axis-surface); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--axis-gold-dark); }
 ::selection { background: rgba(201, 161, 74, 0.28); color: var(--axis-white); }
 
-/* ── Layout helpers ────────────────────────────────────────── */
-.container   { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
-.flex        { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center  { justify-content: center; }
-.gap-3  { gap: 0.75rem; }
-.gap-4  { gap: 1rem; }
-.gap-6  { gap: 1.5rem; }
-.gap-8  { gap: 2rem; }
-.grid   { display: grid; }
-.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-.text-center { text-align: center; }
-.hidden { display: none; }
-.w-full { width: 100%; }
-.h-full { height: 100%; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.fixed    { position: fixed; }
-.inset-0  { top: 0; right: 0; bottom: 0; left: 0; }
-.z-50     { z-index: 50; }
-.overflow-hidden { overflow: hidden; }
-.min-h-screen { min-height: 100vh; }
-.object-cover { object-fit: cover; }
+input[type="date"] { color-scheme: dark; }
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cursor: pointer; }
 
-/* ── Spacing ───────────────────────────────────────────────── */
-.px-6  { padding-left: 1.5rem; padding-right: 1.5rem; }
-.py-4  { padding-top: 1rem; padding-bottom: 1rem; }
-.py-6  { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-.py-24 { padding-top: 6rem; padding-bottom: 6rem; }
-.pt-32 { padding-top: 8rem; }
-.p-5   { padding: 1.25rem; }
-.p-6   { padding: 1.5rem; }
-.p-8   { padding: 2rem; }
-.p-10  { padding: 2.5rem; }
-.mb-1  { margin-bottom: 0.25rem; }
-.mb-2  { margin-bottom: 0.5rem; }
-.mb-3  { margin-bottom: 0.75rem; }
-.mb-4  { margin-bottom: 1rem; }
-.mb-5  { margin-bottom: 1.25rem; }
-.mb-6  { margin-bottom: 1.5rem; }
-.mb-8  { margin-bottom: 2rem; }
-.mb-10 { margin-bottom: 2.5rem; }
-.mb-12 { margin-bottom: 3rem; }
-.mb-20 { margin-bottom: 5rem; }
-.mt-2  { margin-top: 0.5rem; }
-.mt-1  { margin-top: 0.25rem; }
-.mt-auto { margin-top: auto; }
-.mx-auto { margin-left: auto; margin-right: auto; }
-
-/* ── Typography ────────────────────────────────────────────── */
-.font-display { font-family: 'Playfair Display', Georgia, serif; }
-.font-mono    { font-family: 'IBM Plex Mono', monospace; }
-.italic       { font-style: italic; }
-.font-semibold { font-weight: 600; }
-.font-bold     { font-weight: 700; }
-.font-medium   { font-weight: 500; }
-.tracking-wide  { letter-spacing: 0.05em; }
-.leading-relaxed { line-height: 1.65; }
-.text-sm   { font-size: 0.875rem; }
-.text-lg   { font-size: 1.125rem; }
-.text-xl   { font-size: 1.25rem; }
-.text-2xl  { font-size: 1.5rem; }
-.text-3xl  { font-size: 1.875rem; }
-.text-4xl  { font-size: 2.25rem; }
-.block     { display: block; }
-
-/* ── Colors ────────────────────────────────────────────────── */
-.text-axis-white  { color: var(--axis-white); }
-.text-axis-gray   { color: var(--axis-gray); }
-.bg-axis-surface  { background-color: var(--axis-surface); }
-.bg-axis-charcoal { background-color: var(--axis-charcoal); }
-
-/* ── Opacity ───────────────────────────────────────────────── */
-.opacity-20 { opacity: 0.2; }
-.opacity-30 { opacity: 0.3; }
-.opacity-40 { opacity: 0.4; }
-.opacity-60 { opacity: 0.6; }
-
-/* ── Max-widths ────────────────────────────────────────────── */
-.max-w-md   { max-width: 28rem; }
-.max-w-xl   { max-width: 36rem; }
-.max-w-2xl  { max-width: 42rem; }
-.max-w-5xl  { max-width: 64rem; }
-.max-w-7xl  { max-width: 80rem; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 1rem; text-align: left; }
 
 /* ═══════════════════════════════════════════════════════════
    AXIS COMPONENTS
 ═══════════════════════════════════════════════════════════ */
 
-/* Glass card */
 .glass-card {
   background: rgba(26, 26, 26, 0.80);
   backdrop-filter: blur(12px);
@@ -155,7 +71,6 @@ img { max-width: 100%; display: block; }
   border-radius: 12px;
 }
 
-/* Glass header */
 .glass-header {
   background: rgba(10, 10, 10, 0.90);
   backdrop-filter: blur(16px);
@@ -163,7 +78,6 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--axis-border);
 }
 
-/* Eyebrow */
 .eyebrow {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.68rem;
@@ -173,7 +87,6 @@ img { max-width: 100%; display: block; }
   color: var(--axis-gray);
 }
 
-/* Section title */
 .section-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
@@ -183,15 +96,14 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.02em;
 }
 
-/* Gold divider */
 .gold-divider {
   width: 40px;
   height: 1px;
   background: var(--axis-gold);
   margin: 1rem 0;
 }
+.gold-divider-mb { width: 40px; height: 1px; background: var(--axis-gold); margin: 1rem 0 2.5rem; }
 
-/* Buttons */
 .btn-gold {
   display: inline-flex;
   align-items: center;
@@ -241,7 +153,16 @@ img { max-width: 100%; display: block; }
   color: var(--axis-gold);
 }
 
-/* Input */
+.btn-cancel {
+  font-size: 0.6rem;
+  color: rgba(239, 68, 68, 0.7);
+  background: none;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
 .input-dark {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -260,7 +181,11 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 0 0 2px var(--axis-gold-12);
 }
 
-/* Vehicle card */
+.input-full  { width: 100%; box-sizing: border-box; }
+.input-mono  { width: 100%; box-sizing: border-box; font-family: monospace; }
+.input-upper { width: 100%; box-sizing: border-box; text-transform: uppercase; }
+.input-sm    { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+
 .vehicle-card {
   background: var(--axis-charcoal);
   border: 1px solid var(--axis-border);
@@ -275,7 +200,6 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
 }
 
-/* Vehicle image 16:9 */
 .vehicle-img {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -285,7 +209,6 @@ img { max-width: 100%; display: block; }
   justify-content: center;
 }
 
-/* Grain overlay */
 .grain-overlay {
   position: fixed;
   inset: 0;
@@ -296,7 +219,6 @@ img { max-width: 100%; display: block; }
   z-index: 9998;
 }
 
-/* Vignette */
 .vignette {
   position: fixed;
   inset: 0;
@@ -305,104 +227,16 @@ img { max-width: 100%; display: block; }
   z-index: 1;
 }
 
-
-/* Fade in animation */
 @keyframes fadeIn {
   0%   { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
 
-/* Responsive grid */
-@media (min-width: 768px) {
-  .md\:flex         { display: flex; }
-  .md\:hidden       { display: none; }
-  .md\:grid-cols-3  { grid-template-columns: repeat(3, 1fr); }
-  .md\:grid-cols-2  { grid-template-columns: repeat(2, 1fr); }
-  .md\:col-span-2   { grid-column: span 2; }
-  .md\:flex-row     { flex-direction: row; }
-}
+/* ═══════════════════════════════════════════════════════════
+   HEADER / MOBILE NAV  (no modificar)
+═══════════════════════════════════════════════════════════ */
 
-/* Border helper */
-.border-t { border-top: 1px solid var(--axis-border); }
-.border-b { border-bottom: 1px solid var(--axis-border); }
-.border-x { border-left: 1px solid var(--axis-border); border-right: 1px solid var(--axis-border); }
-
-/* Table */
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 1rem; text-align: left; }
-
-/* Transitions */
-.transition-colors { transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
-.transition-opacity { transition: opacity 0.3s ease; }
-
-/* Date input */
-input[type="date"] { color-scheme: dark; }
-input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cursor: pointer; }
-
-/* ── Clases de layout de página ──────────────────────────────────────────── */
-/* Evita que el contenido quede tapado por el header fijo */
-.page-wrapper {
-  min-height: 100vh;
-  background: var(--axis-black);
-  padding-top: 5rem;
-  padding-bottom: 4rem;
-}
-/* Estado de carga centrado en pantalla completa */
-.page-loading {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Checkout — layout responsive ────────────────────────────────────────── */
-/*
- * En mobile: pasarela de pago arriba, resumen debajo.
- * En desktop (>= 768px): dos columnas.
- */
-.checkout-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: stretch;
-}
-@media (min-width: 768px) {
-  .checkout-layout {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    align-items: start;
-  }
-}
-
-/* ── Vehicle Detail — layout responsive ──────────────────────────────────── */
-/*
- * En mobile: columna única (specs arriba, reserva abajo).
- * En desktop (>= 768px): dos columnas (specs | panel de reserva).
- * Usamos una clase en vez de grid-template-columns inline para poder
- * sobreescribir con media query.
- */
-.vehicle-detail-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: stretch;
-}
-@media (min-width: 768px) {
-  .vehicle-detail-layout {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    align-items: start;
-  }
-  /* sticky solo tiene sentido en desktop, donde hay espacio */
-  .vehicle-detail-sidebar {
-    position: sticky;
-    top: 6rem;
-  }
-}
-
-/* ── Menú hamburguesa (mobile) ───────────────────────────────────────────── */
-/* Botón que muestra el símbolo ≡ / ✕ en pantallas pequeñas */
 .hamburger-btn {
   background: none;
   border: none;
@@ -415,7 +249,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
 }
 .hamburger-btn:hover { color: var(--axis-gold); }
 
-/* Menú desplegable móvil: fondo oscuro, borde dorado inferior */
 .mobile-menu {
   background: #111111;
   border-top: 1px solid var(--axis-gold-20);
@@ -424,7 +257,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   animation: fadeIn 0.18s ease-out;
 }
 
-/* Cada enlace de navegación dentro del menú móvil */
 .mobile-menu-link {
   display: block;
   padding: 0.85rem 1.25rem;
@@ -440,7 +272,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   background: rgba(255, 255, 255, 0.03);
 }
 
-/* Visibilidad responsive: desktop-only oculto en mobile, hamburger al revés */
 .desktop-only  { display: none !important; }
 .desktop-block { display: none !important; }
 .desktop-nav   { display: none !important; }
@@ -452,12 +283,84 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   .hamburger-btn { display: none !important; }
 }
 
-/* ── Dashboard responsive ─────────────────────────────────────────────────── */
-/*
- * Layout del dashboard: sidebar izquierda + contenido derecha en desktop.
- * En mobile (< 768px): ambas columnas se apilan verticalmente.
- * El sidebar se convierte en una barra de tabs horizontal scrollable.
- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--axis-gold-30);
+  border-radius: 20px;
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 2rem;
+  background: rgba(201, 161, 74, 0.04);
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--axis-gold);
+  animation: pulse 2s infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUTS RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+
+.page-wrapper {
+  min-height: 100vh;
+  background: var(--axis-black);
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+}
+.page-dark {
+  min-height: 100vh;
+  background: #0a0a0a;
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+}
+.page-loading,
+.page-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-72      { max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 0; }
+.content-72-wide { max-width: 72rem; margin: 0 auto; padding: 3rem 1.5rem 0; }
+
+.checkout-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+@media (min-width: 768px) {
+  .checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    align-items: start;
+  }
+}
+
+.vehicle-detail-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+@media (min-width: 768px) {
+  .vehicle-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    align-items: start;
+  }
+  .vehicle-detail-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+/* ── Dashboard ──────────────────────────────────────────────── */
 .dashboard-layout {
   display: flex;
   flex-direction: column;
@@ -466,7 +369,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   padding-top: 5rem;
 }
 
-/* Sidebar: en mobile aparece arriba como barra horizontal */
 .dashboard-sidebar {
   width: 100%;
   border-bottom: 1px solid rgba(245, 245, 240, 0.06);
@@ -476,14 +378,12 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   gap: 0.5rem;
 }
 
-/* Contenido: en mobile ocupa el ancho completo */
 .dashboard-content {
   flex: 1;
   padding: 1.5rem 1rem;
   overflow: auto;
 }
 
-/* Botón del sidebar (nav tab) */
 .sidebar-btn {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.65rem;
@@ -500,10 +400,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   transition: color 0.2s, background 0.2s;
   white-space: nowrap;
 }
-.sidebar-btn:hover { color: var(--axis-white); background: rgba(255,255,255,0.04); }
-.sidebar-btn.active { color: var(--axis-gold); background: var(--axis-gold-08); }
+.sidebar-btn:hover  { color: var(--axis-white); background: rgba(255,255,255,0.04); }
+.sidebar-btn.active { color: var(--axis-gold);  background: var(--axis-gold-08); }
 
-/* En mobile: la navegación del sidebar es una fila horizontal con scroll */
 .dashboard-sidebar nav {
   display: flex;
   flex-direction: row;
@@ -511,21 +410,15 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   overflow-x: auto;
   gap: 0.25rem;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 .dashboard-sidebar nav::-webkit-scrollbar { display: none; }
 
-/* La tarjeta del usuario se oculta en mobile para ahorrar espacio */
 .dashboard-user-card { display: none; }
 
 @media (min-width: 768px) {
-  /* En desktop: layout horizontal (sidebar | contenido) */
-  .dashboard-layout {
-    flex-direction: row;
-  }
-
-  /* Sidebar fijo a la izquierda, ancho 16rem */
-  .dashboard-sidebar {
+  .dashboard-layout   { flex-direction: row; }
+  .dashboard-sidebar  {
     width: 16rem;
     min-width: 16rem;
     border-bottom: none;
@@ -535,370 +428,49 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
     flex-direction: column;
     gap: 2rem;
   }
-
-  /* Navegación en columna (comportamiento original) */
-  .dashboard-sidebar nav {
-    flex-direction: column;
-    overflow-x: visible;
-  }
-
-  /* Muestra la tarjeta del usuario en desktop */
-  .dashboard-user-card { display: flex; }
-
-  /* Contenido con más espacio en desktop */
-  .dashboard-content {
-    padding: 2rem;
-  }
+  .dashboard-sidebar nav { flex-direction: column; overflow-x: visible; }
+  .dashboard-user-card   { display: flex; }
+  .dashboard-content     { padding: 2rem; }
 }
 
-/* ── Barra de filtros del catálogo ───────────────────────────────────────── */
-/*
- * En mobile: cada filtro ocupa el 100% del ancho (flex-wrap los apila en columna).
- * En desktop: van en fila porque el contenedor no se desborda.
- * min-width:200px garantiza que cada filtro sea usable antes de saltar a la siguiente fila.
- */
-.filters-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: flex-end;
-}
+/* ── Filtros del catálogo ───────────────────────────────────── */
+.filters-bar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
 .filters-bar > div,
-.filters-bar > button {
-  flex: 1;
-  min-width: 200px;
-}
+.filters-bar > button { flex: 1; min-width: 200px; }
 
-/* ── Clases de texto y color ─────────────────────────────────────────────── */
-/* Texto dorado: usado en eyebrows, labels de sección, valores destacados */
-.text-gold { color: var(--axis-gold); }
-/* Texto apagado: etiquetas secundarias, subtítulos de fila */
-.text-muted { color: rgba(245, 245, 240, 0.4); }
-/* Texto muy apagado: textos terciarios, hints */
-.text-dimmed { color: rgba(245, 245, 240, 0.35); }
-/* Texto ligeramente apagado */
-.text-soft { color: rgba(245, 245, 240, 0.55); }
-/* Texto blanco completo */
-.text-white-full { color: var(--axis-white); }
-/* Eyebrow con tamaño xs — para labels de formulario y etiquetas compactas */
-.eyebrow-xs { font-size: 0.6rem; }
+/* ═══════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════ */
 
-/* ── Clases de layout frecuentes ─────────────────────────────────────────── */
-/* Fila con espacio entre elementos y centrado vertical: patrón clave en listas */
-.row-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-/* Fila con elementos centrados verticalmente y gap pequeño */
-.row-center-sm {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-/* Fila con gap medio */
-.row-center-md {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-/* Columna flex con gap pequeño */
-.col-gap-sm {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-/* Columna flex con gap medio */
-.col-gap-md {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
+/* Texto */
+.text-gold    { color: var(--axis-gold); }
+.text-muted   { color: rgba(245, 245, 240, 0.4); }
+.text-dimmed  { color: rgba(245, 245, 240, 0.35); }
+.text-truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.eyebrow-xs   { font-size: 0.6rem; }
+.btn-label    { font-size: 0.7rem; letter-spacing: 0.12em; }
 
-/* ── Separadores ─────────────────────────────────────────────────────────── */
-/* Línea divisoria horizontal sutil — separa secciones dentro de una tarjeta */
-.section-divider {
-  height: 1px;
-  background: rgba(245, 245, 240, 0.06);
-}
-/* Separador con margen vertical */
-.section-divider-spaced {
-  height: 1px;
-  background: rgba(245, 245, 240, 0.06);
-  margin: 1.75rem 0;
-}
+/* Layout */
+.row-between   { display: flex; justify-content: space-between; align-items: center; }
+.row-center-sm { display: flex; align-items: center; gap: 0.6rem; }
+.row-center-md { display: flex; align-items: center; gap: 0.75rem; }
+.col-gap-sm    { display: flex; flex-direction: column; gap: 1rem; }
+.col-gap-md    { display: flex; flex-direction: column; gap: 1.25rem; }
 
-/* ── Filas de especificaciones técnicas ──────────────────────────────────── */
-/* Fila de spec con borde inferior sutil — usada en la ficha técnica del vehículo */
-.spec-row {
-  border-bottom: 1px solid rgba(245, 245, 240, 0.05);
-  padding-bottom: 1rem;
-}
-/* Valor de especificación técnica (texto normal del vehículo) */
-.spec-value {
-  font-size: 0.95rem;
-  color: var(--axis-white);
-}
+/* Separadores */
+.section-divider        { height: 1px; background: rgba(245, 245, 240, 0.06); }
+.section-divider-spaced { height: 1px; background: rgba(245, 245, 240, 0.06); margin: 1.75rem 0; }
 
-/* ── Labels de formulario ────────────────────────────────────────────────── */
-/* Label de campo de formulario en estilo eyebrow apagado */
-.form-label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.6rem;
-  opacity: 0.5;
-}
+/* Ficha técnica de vehículo */
+.spec-row   { border-bottom: 1px solid rgba(245, 245, 240, 0.05); padding-bottom: 1rem; }
+.spec-value { font-size: 0.95rem; color: var(--axis-white); }
 
-/* ── Tabla de datos (reservas, vehículos) ────────────────────────────────── */
-/* Borde del thead de tabla con opacidad estándar */
-.table-head-border { border-color: rgba(245, 245, 240, 0.06) !important; }
-/* Borde de fila de tabla, más sutil que el thead */
-.table-row-border  { border-color: rgba(245, 245, 240, 0.04) !important; }
-/* Precio/valor dorado en columna de tabla */
-.td-price {
-  font-family: 'Playfair Display', serif;
-  color: var(--axis-gold);
-}
+/* Bullet list de features */
+.bullet-item { display: flex; align-items: center; gap: 0.6rem; }
+.bullet-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--axis-gold); flex-shrink: 0; }
+.bullet-text { font-size: 0.78rem; color: rgba(245, 245, 240, 0.55); }
 
-/* ── Botón de cancelar / acción destructiva pequeña ─────────────────────── */
-/* Botón rojo transparente para cancelar reservas */
-.btn-cancel {
-  font-size: 0.6rem;
-  color: rgba(239, 68, 68, 0.7);
-  background: none;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 3px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-}
-
-/* ── Caja de error ───────────────────────────────────────────────────────── */
-/* Contenedor de mensaje de error con fondo rojizo translúcido */
-.error-box {
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 4px;
-  padding: 0.6rem 0.9rem;
-}
-/* Variante con más padding para el checkout */
-.error-box-lg {
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 4px;
-  padding: 0.7rem 1rem;
-  margin-bottom: 1rem;
-}
-/* Texto del error */
-.error-text    { font-size: 0.75rem; color: rgba(239, 68, 68, 0.85); }
-.error-text-lg { font-size: 0.8rem;  color: rgba(239, 68, 68, 0.85); }
-
-/* ── Bullet item (lista de features incluidas) ───────────────────────────── */
-/* Fila con bullet dorado + texto: patrón de lista de beneficios */
-.bullet-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-/* Bullet dorado circular */
-.bullet-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--axis-gold);
-  flex-shrink: 0;
-}
-/* Texto del bullet */
-.bullet-text {
-  font-size: 0.78rem;
-  color: rgba(245, 245, 240, 0.55);
-}
-
-/* ── Wrapper de página con fondo oscuro ──────────────────────────────────── */
-/* Fondo de página estándar con padding para header fijo */
-.page-dark {
-  min-height: 100vh;
-  background: #0a0a0a;
-  padding-top: 6rem;
-  padding-bottom: 5rem;
-}
-/* Centrado de carga / estado vacío en pantalla completa */
-.page-center {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Contenedor con max-width de 72rem ───────────────────────────────────── */
-/* Ancho máximo usado en detalle de vehículo, checkout y otras páginas interiores */
-.content-72 {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 0;
-}
-.content-72-wide {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 0;
-}
-
-/* ── Texto italic en Playfair ────────────────────────────────────────────── */
-/* Cursiva del nombre del modelo en tarjetas y encabezados */
-.italic-display { font-style: italic; }
-
-/* ── Título de sección en tarjeta (h2 dentro de glass-card) ─────────────── */
-/* H2 interno de tarjeta, tamaño 1.1rem */
-.card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 1.5rem;
-  letter-spacing: 0.02em;
-}
-/* Variante con menos margen inferior */
-.card-title-sm {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 1.25rem;
-  letter-spacing: 0.02em;
-}
-/* Variante más grande (para modales y confirmaciones) */
-.card-title-lg {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0 0 0.75rem;
-}
-
-/* ── Stat value: número destacado dorado (hero, detalle) ─────────────────── */
-/* Valor estadístico grande en Playfair + dorado */
-.stat-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--axis-gold);
-}
-/* Variante más pequeña para dashboard */
-.stat-value-sm {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: var(--axis-gold);
-}
-
-/* ── Avatar circular (foto de perfil o inicial) ──────────────────────────── */
-/* Avatar pequeño (sidebar del dashboard) */
-.avatar-sm {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-/* Avatar con borde dorado (foto real) */
-.avatar-photo-sm {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--axis-gold-40);
-  flex-shrink: 0;
-}
-/* Avatar inicial (sin foto) — fondo dorado translúcido */
-.avatar-initial-sm {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--axis-gold-12);
-  border: 1px solid var(--axis-gold-30);
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  color: var(--axis-gold);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-/* Avatar grande (perfil en dashboard account) */
-.avatar-photo-lg {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--axis-gold-40);
-}
-.avatar-initial-lg {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--axis-gold-12);
-  border: 1px solid var(--axis-gold-30);
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  color: var(--axis-gold);
-  font-size: 2rem;
-}
-
-/* ── Badge de estado / pill ──────────────────────────────────────────────── */
-/* Pill de notificación en header (demo/live indicator) */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid var(--axis-gold-30);
-  border-radius: 20px;
-  padding: 0.3rem 0.85rem;
-  margin-bottom: 2rem;
-  background: rgba(201, 161, 74, 0.04);
-}
-/* Punto pulsante de estado en la pill */
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--axis-gold);
-  animation: pulse 2s infinite;
-}
-
-/* ── Input con box-sizing completo ───────────────────────────────────────── */
-/* Input que ocupa el 100% de su contenedor sin desbordarse */
-.input-full { width: 100%; box-sizing: border-box; }
-/* Input monospace (número de tarjeta, CVV, fecha) */
-.input-mono  { width: 100%; box-sizing: border-box; font-family: monospace; }
-/* Input en mayúsculas (nombre del titular) */
-.input-upper { width: 100%; box-sizing: border-box; text-transform: uppercase; }
-/* Input select con padding reducido */
-.input-sm { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
-
-/* ── Textos de apoyo pequeños ────────────────────────────────────────────── */
-/* Texto secundario pequeño y espaciado */
-.text-xxs-spaced {
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-}
-/* Texto btn dentro de botones de acción */
-.btn-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-}
-
-/* ── Divider dorado con margen ───────────────────────────────────────────── */
-/* Versión del gold-divider con margen inferior aplicado por separado */
-.gold-divider-mb { width: 40px; height: 1px; background: var(--axis-gold); margin: 1rem 0 2.5rem; }
-
-/* ── Overflow text (nombre de usuario en sidebar) ────────────────────────── */
-.text-truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ── Carrusel de imágenes ────────────────────────────────────────────────── */
-/* Botón circular flotante sobre la imagen del vehículo */
+/* Carrusel */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -916,6 +488,60 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   transition: background 0.2s;
   z-index: 10;
 }
-.carousel-btn:hover { background: var(--axis-gold-30); }
-.carousel-btn.left  { left: 1rem; }
-.carousel-btn.right { right: 1rem; }
+.carousel-btn:hover  { background: var(--axis-gold-30); }
+.carousel-btn.left   { left: 1rem; }
+.carousel-btn.right  { right: 1rem; }
+
+/* Formularios */
+.form-label { display: block; margin-bottom: 0.4rem; font-size: 0.6rem; opacity: 0.5; }
+
+/* Tablas */
+.table-head-border { border-color: rgba(245, 245, 240, 0.06) !important; }
+.table-row-border  { border-color: rgba(245, 245, 240, 0.04) !important; }
+.td-price { font-family: 'Playfair Display', serif; color: var(--axis-gold); }
+
+/* Errores */
+.error-box    { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 4px; padding: 0.6rem 0.9rem; }
+.error-box-lg { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 4px; padding: 0.7rem 1rem; margin-bottom: 1rem; }
+.error-text    { font-size: 0.75rem; color: rgba(239, 68, 68, 0.85); }
+.error-text-lg { font-size: 0.8rem;  color: rgba(239, 68, 68, 0.85); }
+
+/* Títulos de tarjeta */
+.card-title    { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; letter-spacing: 0.02em; }
+.card-title-sm { font-family: 'Playfair Display', serif; font-size: 1rem;   font-weight: 600; margin: 0 0 1.25rem; letter-spacing: 0.02em; }
+
+/* Estadísticas destacadas */
+.stat-value { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 700; color: var(--axis-gold); }
+
+/* Avatares */
+.avatar-photo-sm {
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--axis-gold-40); flex-shrink: 0;
+}
+.avatar-initial-sm {
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--axis-gold-12); border: 1px solid var(--axis-gold-30);
+  font-family: 'Playfair Display', serif; font-style: italic;
+  color: var(--axis-gold); font-size: 1.1rem; flex-shrink: 0;
+}
+.avatar-photo-lg {
+  width: 5rem; height: 5rem; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--axis-gold-40);
+}
+.avatar-initial-lg {
+  width: 5rem; height: 5rem; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--axis-gold-12); border: 1px solid var(--axis-gold-30);
+  font-family: 'Playfair Display', serif; font-style: italic;
+  color: var(--axis-gold); font-size: 2rem;
+}
+
+/* Página de vehicle-detail — clases de hero */
+.vehicle-hero-banner  { position: relative; overflow: hidden; border-radius: 12px; }
+.vehicle-hero-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 0; height: 100%; }
+.vehicle-hero-glow    { position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, var(--axis-gold-06) 0%, transparent 70%); pointer-events: none; }
+.vehicle-hero-img     { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vehicle-hero-watermark { font-family: 'Playfair Display', serif; font-style: italic; opacity: 0.04; font-size: clamp(3rem, 8vw, 7rem); font-weight: 700; line-height: 1; }
+.vehicle-hero-stats   { display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; gap: 1.25rem; background: linear-gradient(to right, transparent, rgba(10,10,10,0.6)); }
+.vehicle-hero-stat-mid { border-left: 1px solid rgba(245,245,240,0.08); border-right: 1px solid rgba(245,245,240,0.08); padding: 0 1.25rem; }
