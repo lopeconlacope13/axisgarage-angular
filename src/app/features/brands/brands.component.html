@@ -1,0 +1,23 @@
+<div class="max-w-7xl mx-auto px-6 pt-32 pb-20">
+
+  <div class="eyebrow mb-2" style="color:var(--axis-gold)">THE COLLECTION</div>
+  <h1 class="section-title mb-4">Curated <span class="italic">Brands</span></h1>
+  <p style="color:var(--axis-gray);max-width:32rem;margin-bottom:3.5rem;line-height:1.7;font-size:0.95rem;">
+    Every marque in our fleet was selected for its singular character.
+    We do not carry volume — we carry icons.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @for (b of brands; track b.name) {
+      <div class="glass-card p-6" style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div class="font-display text-lg font-semibold" style="color:var(--axis-gold);">{{ b.name }}</div>
+        <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;">{{ b.origin }}</div>
+        <p class="text-axis-gray text-sm" style="line-height:1.6;margin-top:0.25rem;">{{ b.tagline }}</p>
+      </div>
+    }
+  </div>
+
+  <div style="margin-top:3rem;text-align:center;">
+    <a routerLink="/vehicles" class="btn-gold" style="font-size:0.75rem;">EXPLORE THE FLEET</a>
+  </div>
+</div>
