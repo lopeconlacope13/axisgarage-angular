@@ -1,29 +1,29 @@
 <!-- Estado de carga mientras llega la respuesta de la API -->
 @if (loading) {
-  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
-    <div class="eyebrow" style="color:var(--axis-gold);letter-spacing:0.3em;">LOADING ASSET...</div>
+  <div class="page-center">
+    <div class="eyebrow text-gold" style="letter-spacing:0.3em;">LOADING ASSET...</div>
   </div>
 }
 
 <!-- Contenido principal una vez cargado el vehículo -->
 @if (vehicle && !loading) {
-<div style="min-height:100vh;background:#0a0a0a;padding-top:6rem;padding-bottom:5rem;">
+<div class="page-dark">
 
   <!-- Franja de hero con imagen/placeholder del vehículo -->
-  <div style="position:relative;width:100%;height:420px;background:linear-gradient(135deg,#0f0d08 0%,#141210 50%,#0f0d08 100%);overflow:hidden;margin-bottom:0;">
+  <div class="vehicle-hero-banner">
 
     <!-- Patrón de rejilla dorado de fondo (coherente con home) -->
-    <div style="position:absolute;inset:0;opacity:0.025;background-image:linear-gradient(var(--axis-gold) 1px,transparent 1px),linear-gradient(90deg,var(--axis-gold) 1px,transparent 1px);background-size:60px 60px;"></div>
+    <div class="vehicle-hero-grid"></div>
 
     <!-- Glow central -->
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:300px;border-radius:50%;opacity:0.06;background:radial-gradient(ellipse,var(--axis-gold) 0%,transparent 65%);pointer-events:none;"></div>
+    <div class="vehicle-hero-glow"></div>
 
     <!-- Imagen principal del vehículo (cambia según currentImageIndex) -->
     @if (vehicle.images && vehicle.images.length > 0) {
       <img
         [src]="getImageUrl(vehicle.images[currentImageIndex])"
         [alt]="vehicle.brand + ' ' + vehicle.model"
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.45;"
+        class="vehicle-hero-img"
         onerror="this.style.display='none'"
       />
     }
@@ -39,48 +39,45 @@
     }
 
     <!-- Nombre del vehículo como elemento decorativo de fondo -->
-    <div style="position:absolute;bottom:-0.5rem;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:8rem;font-weight:800;font-style:italic;color:rgba(201,161,74,0.04);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-0.02em;">
+    <div class="vehicle-hero-watermark">
       {{ vehicle.brand }}
     </div>
 
-    <!-- Specs flotantes sobre el hero.
-         En mobile reducimos el gap para que no desborde. -->
-    <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:1.25rem;z-index:2;white-space:nowrap;">
-      <div style="text-align:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--axis-gold);">{{ vehicle.horsePower }}</div>
-        <div class="eyebrow" style="font-size:0.6rem;margin-top:0.2rem;">HP</div>
+    <!-- Specs flotantes sobre el hero -->
+    <div class="vehicle-hero-stats">
+      <div class="text-center">
+        <div class="stat-value">{{ vehicle.horsePower }}</div>
+        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">HP</div>
       </div>
-      <div style="text-align:center;border-left:1px solid var(--axis-gold-15);border-right:1px solid var(--axis-gold-15);padding:0 1.25rem;">
-        <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--axis-gold);">{{ vehicle.zeroToHundred }}s</div>
-        <div class="eyebrow" style="font-size:0.6rem;margin-top:0.2rem;">0 – 100</div>
+      <div class="text-center vehicle-hero-stat-mid">
+        <div class="stat-value">{{ vehicle.zeroToHundred }}s</div>
+        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">0 – 100</div>
       </div>
-      <div style="text-align:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--axis-gold);">€{{ vehicle.pricePerDay }}</div>
-        <div class="eyebrow" style="font-size:0.6rem;margin-top:0.2rem;">PER DAY</div>
+      <div class="text-center">
+        <div class="stat-value">€{{ vehicle.pricePerDay }}</div>
+        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">PER DAY</div>
       </div>
     </div>
   </div>
 
   <!-- Contenido principal bajo el hero -->
-  <div style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem 0;">
+  <div class="content-72-wide">
 
     <!-- Breadcrumb de navegación -->
-    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:2rem;">
-      <a routerLink="/vehicles" style="color:var(--axis-gold);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-decoration:none;text-transform:uppercase;opacity:0.7;transition:opacity 0.2s;">
-        ← FLEET
-      </a>
-      <span style="color:rgba(245,245,240,0.2);font-size:0.65rem;">·</span>
+    <div class="row-center-sm mb-8">
+      <a routerLink="/vehicles" class="breadcrumb-link">← FLEET</a>
+      <span class="breadcrumb-sep">·</span>
       <span class="eyebrow" style="opacity:0.4;">{{ vehicle.brand }} {{ vehicle.model }}</span>
     </div>
 
     <!-- Título y clasificación -->
-    <div style="margin-bottom:0.5rem;">
-      <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.5rem;">{{ vehicle.locationName }} &nbsp;·&nbsp; {{ vehicle.categoryName }}</div>
-      <h1 style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;margin:0;line-height:1.1;">
-        {{ vehicle.brand }} <span style="font-style:italic;">{{ vehicle.model }}</span>
+    <div class="mb-2">
+      <div class="eyebrow text-gold mb-2">{{ vehicle.locationName }} &nbsp;·&nbsp; {{ vehicle.categoryName }}</div>
+      <h1 class="vehicle-detail-title">
+        {{ vehicle.brand }} <span class="italic">{{ vehicle.model }}</span>
       </h1>
     </div>
-    <div class="gold-divider" style="margin-bottom:2.5rem;"></div>
+    <div class="gold-divider-mb"></div>
 
     <!-- Layout de dos columnas: specs + reserva.
          En mobile (< 768px) se apilan en columna.
@@ -88,51 +85,51 @@
     <div class="vehicle-detail-layout">
 
       <!-- ── COLUMNA IZQUIERDA: especificaciones técnicas ── -->
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <div class="col-gap-lg">
 
         <!-- Tabla de specs técnicas -->
-        <div class="glass-card" style="padding:2rem;">
-          <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin:0 0 1.5rem;letter-spacing:0.02em;">Technical Specifications</h2>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 2rem;">
+        <div class="glass-card p-8">
+          <h2 class="card-title">Technical Specifications</h2>
+          <div class="specs-grid">
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Engine</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.engineType }}</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">Engine</div>
+              <div class="spec-value">{{ vehicle.engineType }}</div>
             </div>
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Power</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.horsePower }} hp</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">Power</div>
+              <div class="spec-value">{{ vehicle.horsePower }} hp</div>
             </div>
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">0 – 100 km/h</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.zeroToHundred }}s</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">0 – 100 km/h</div>
+              <div class="spec-value">{{ vehicle.zeroToHundred }}s</div>
             </div>
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Transmission</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.transmission }}</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">Transmission</div>
+              <div class="spec-value">{{ vehicle.transmission }}</div>
             </div>
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Drivetrain</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.drivetrain }}</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">Drivetrain</div>
+              <div class="spec-value">{{ vehicle.drivetrain }}</div>
             </div>
 
-            <div style="border-bottom:1px solid rgba(245,245,240,0.05);padding-bottom:1rem;">
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Fuel</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.fuelType }}</div>
-            </div>
-
-            <div>
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Year</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.productionYear }}</div>
+            <div class="spec-row">
+              <div class="eyebrow form-label-sm">Fuel</div>
+              <div class="spec-value">{{ vehicle.fuelType }}</div>
             </div>
 
             <div>
-              <div class="eyebrow" style="margin-bottom:0.4rem;opacity:0.5;">Category</div>
-              <div style="font-size:0.95rem;color:var(--axis-white);">{{ vehicle.categoryName }}</div>
+              <div class="eyebrow form-label-sm">Year</div>
+              <div class="spec-value">{{ vehicle.productionYear }}</div>
+            </div>
+
+            <div>
+              <div class="eyebrow form-label-sm">Category</div>
+              <div class="spec-value">{{ vehicle.categoryName }}</div>
             </div>
 
           </div>
@@ -140,16 +137,16 @@
 
         <!-- Descripción del vehículo (si existe) -->
         @if (vehicle.description) {
-          <div class="glass-card" style="padding:2rem;">
-            <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin:0 0 1rem;letter-spacing:0.02em;">About This Asset</h2>
-            <p style="color:rgba(245,245,240,0.6);line-height:1.75;font-size:0.9rem;margin:0;">{{ vehicle.description }}</p>
+          <div class="glass-card p-8">
+            <h2 class="card-title" style="margin-bottom:1rem;">About This Asset</h2>
+            <p class="vehicle-description">{{ vehicle.description }}</p>
           </div>
         }
 
         <!-- Nota de disponibilidad -->
-        <div style="display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;border:1px solid var(--axis-gold-15);border-radius:6px;background:rgba(201,161,74,0.03);">
+        <div class="availability-bar">
           <div [style.background]="vehicle.available ? '#4ade80' : 'rgba(239,68,68,0.7)'"
-               style="width:7px;height:7px;border-radius:50%;flex-shrink:0;"></div>
+               class="avail-dot"></div>
           <span class="eyebrow" style="font-size:0.65rem;opacity:0.7;">
             {{ vehicle.available ? 'AVAILABLE FOR IMMEDIATE RESERVATION' : 'CURRENTLY UNAVAILABLE — CONTACT US FOR ALTERNATIVES' }}
           </span>
@@ -161,87 +158,82 @@
       <!-- sticky solo en desktop; en mobile fluye debajo de las specs -->
       <div class="glass-card vehicle-detail-sidebar" style="padding:1.75rem;">
 
-        <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:1.5rem;letter-spacing:0.25em;">RESERVE THIS ASSET</div>
+        <div class="eyebrow text-gold mb-6" style="letter-spacing:0.25em;">RESERVE THIS ASSET</div>
 
         <!-- Fechas de recogida y devolución -->
-        <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.25rem;">
+        <div class="col-gap-sm mb-5">
 
           <div>
-            <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.6;">PICK UP</label>
-            <input type="date" class="input-dark" [(ngModel)]="startDate"
-              style="width:100%;box-sizing:border-box;" />
+            <label class="eyebrow form-label" style="opacity:0.6;">PICK UP</label>
+            <input type="date" class="input-dark input-full" [(ngModel)]="startDate" />
           </div>
 
           <div>
-            <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.6;">DROP OFF</label>
-            <input type="date" class="input-dark" [(ngModel)]="endDate"
-              style="width:100%;box-sizing:border-box;" />
+            <label class="eyebrow form-label" style="opacity:0.6;">DROP OFF</label>
+            <input type="date" class="input-dark input-full" [(ngModel)]="endDate" />
           </div>
 
         </div>
 
         <!-- Selector de cobertura -->
-        <div style="margin-bottom:1.25rem;">
-          <label class="eyebrow" style="display:block;margin-bottom:0.75rem;font-size:0.6rem;opacity:0.6;">COVERAGE LEVEL</label>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <div class="mb-5">
+          <label class="eyebrow form-label mb-3" style="opacity:0.6;">COVERAGE LEVEL</label>
+          <div class="col-gap-sm" style="gap:0.4rem;">
 
-            <button (click)="selectedCoverage='STANDARD'"
-              style="text-align:left;padding:0.6rem 0.9rem;border-radius:4px;background:transparent;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;transition:border-color 0.2s,color 0.2s;font-family:inherit;"
+            <button (click)="selectedCoverage='STANDARD'" class="coverage-btn"
               [style.border]="selectedCoverage==='STANDARD' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
               [style.color]="selectedCoverage==='STANDARD' ? 'var(--axis-gold)' : 'rgba(245,245,240,0.5)'">
-              <span style="font-size:0.8rem;">Standard</span>
-              <span style="font-size:0.6rem;letter-spacing:0.1em;">INCLUDED</span>
+              <span class="coverage-name">Standard</span>
+              <span class="text-xxs-spaced">INCLUDED</span>
             </button>
 
-            <button (click)="selectedCoverage='PREMIUM'"
-              style="text-align:left;padding:0.6rem 0.9rem;border-radius:4px;background:transparent;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;transition:border-color 0.2s,color 0.2s;font-family:inherit;"
+            <button (click)="selectedCoverage='PREMIUM'" class="coverage-btn"
               [style.border]="selectedCoverage==='PREMIUM' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
               [style.color]="selectedCoverage==='PREMIUM' ? 'var(--axis-gold)' : 'rgba(245,245,240,0.5)'">
-              <span style="font-size:0.8rem;">Premium</span>
-              <span style="font-size:0.6rem;letter-spacing:0.1em;">+€45/DAY</span>
+              <span class="coverage-name">Premium</span>
+              <span class="text-xxs-spaced">+€45/DAY</span>
             </button>
 
-            <button (click)="selectedCoverage='TOTAL'"
-              style="text-align:left;padding:0.6rem 0.9rem;border-radius:4px;background:transparent;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;transition:border-color 0.2s,color 0.2s;font-family:inherit;"
+            <button (click)="selectedCoverage='TOTAL'" class="coverage-btn"
               [style.border]="selectedCoverage==='TOTAL' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
               [style.color]="selectedCoverage==='TOTAL' ? 'var(--axis-gold)' : 'rgba(245,245,240,0.5)'">
-              <span style="font-size:0.8rem;">Total Protection</span>
-              <span style="font-size:0.6rem;letter-spacing:0.1em;">+€85/DAY</span>
+              <span class="coverage-name">Total Protection</span>
+              <span class="text-xxs-spaced">+€85/DAY</span>
             </button>
 
           </div>
         </div>
 
         <!-- Separador -->
-        <div style="height:1px;background:rgba(245,245,240,0.06);margin-bottom:1.25rem;"></div>
+        <div class="section-divider mb-5"></div>
 
         <!-- Precio total calculado en tiempo real -->
-        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem;">
-          <span class="eyebrow" style="font-size:0.6rem;opacity:0.5;">TOTAL ESTIMATED</span>
-          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--axis-gold);">
+        <div class="row-between mb-5">
+          <span class="eyebrow eyebrow-xs" style="opacity:0.5;">TOTAL ESTIMATED</span>
+          <div class="price-total">
             @if (totalPrice > 0) { €{{ totalPrice | number:'1.0-0' }} }
-            @else { <span style="font-size:1rem;opacity:0.3;">— —</span> }
+            @else { <span class="price-empty">— —</span> }
           </div>
         </div>
 
         <!-- Mensaje de error inline (reemplaza el alert) -->
         @if (errorMsg) {
-          <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:4px;padding:0.6rem 0.9rem;margin-bottom:1rem;">
-            <span style="font-size:0.75rem;color:rgba(239,68,68,0.85);">{{ errorMsg }}</span>
+          <div class="error-box mb-4">
+            <span class="error-text" style="font-size:0.75rem;">{{ errorMsg }}</span>
           </div>
         }
 
         <!-- Botón principal de checkout -->
-        <button class="btn-gold" (click)="goToCheckout()"
-          style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.85rem 1rem;">
+        <button class="btn-gold w-full" (click)="goToCheckout()"
+          style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.85rem 1rem;">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
             <path d="M5.338 1.59a60 60 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .214 0q.112-.033.293-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-1.084-.285 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693a1.54 1.54 0 0 1 1.044-1.262 63 63 0 0 1 2.887-.87z"/>
           </svg>
-          <span style="font-size:0.7rem;letter-spacing:0.12em;">PROCEED TO CHECKOUT</span>
+          <span class="btn-label">PROCEED TO CHECKOUT</span>
         </button>
 
         <!-- Nota legal discreta -->
-        <p style="text-align:center;margin-top:0.75rem;color:rgba(245,245,240,0.25);font-size:0.65rem;line-height:1.5;">
+        <p class="checkout-legal-note">
           Secure reservation. No charges until confirmed by our team.
         </p>
 
@@ -249,11 +241,11 @@
     </div>
 
     <!-- ── SECCIÓN DE RESEÑAS ── -->
-    <div style="margin-top:4rem;">
-      <div class="gold-divider" style="margin-bottom:2.5rem;"></div>
-      <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.5rem;">CLIENT VOICES</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin:0 0 2rem;">
-        Reviews <span style="font-style:italic;">&amp; Testimonials</span>
+    <div class="reviews-section">
+      <div class="gold-divider-mb"></div>
+      <div class="eyebrow text-gold mb-2">CLIENT VOICES</div>
+      <h2 class="reviews-title">
+        Reviews <span class="italic">&amp; Testimonials</span>
       </h2>
 
       @if (reviewsLoading) {
@@ -261,38 +253,38 @@
       }
 
       @if (!reviewsLoading && reviews.length === 0) {
-        <div class="glass-card" style="padding:2rem;text-align:center;">
-          <p style="color:rgba(245,245,240,0.35);font-size:0.85rem;margin:0;">
+        <div class="glass-card p-8 text-center">
+          <p class="text-soft" style="font-size:0.85rem;margin:0;">
             No reviews yet. Be the first to share your experience.
           </p>
         </div>
       }
 
       @if (!reviewsLoading && reviews.length > 0) {
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+        <div class="reviews-grid">
           @for (r of reviews; track r.id) {
-            <div class="glass-card" style="padding:1.5rem;">
+            <div class="glass-card p-6">
               <!-- Estrellas -->
-              <div style="display:flex;gap:3px;margin-bottom:0.75rem;">
+              <div class="stars-row">
                 @for (s of starsArray(r.rating); track s) {
-                  <span style="color:var(--axis-gold);font-size:0.9rem;">★</span>
+                  <span class="star-filled">★</span>
                 }
                 @for (s of starsArray(5 - r.rating); track s) {
-                  <span style="color:rgba(245,245,240,0.15);font-size:0.9rem;">★</span>
+                  <span class="star-empty">★</span>
                 }
               </div>
               <!-- Comentario -->
-              <p style="color:rgba(245,245,240,0.7);font-size:0.85rem;line-height:1.65;margin:0 0 1rem;">
+              <p class="review-comment">
                 "{{ r.comment }}"
               </p>
               <!-- Autor -->
-              <div style="display:flex;align-items:center;gap:0.5rem;">
-                <div style="width:28px;height:28px;border-radius:50%;background:var(--axis-gold-15);border:1px solid var(--axis-gold-25);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--axis-gold);font-family:'Playfair Display',serif;font-style:italic;">
+              <div class="row-center-sm" style="gap:0.5rem;">
+                <div class="review-avatar">
                   {{ r.renterName ? r.renterName[0] : '?' }}
                 </div>
                 <div>
-                  <div style="font-size:0.75rem;font-weight:500;">{{ r.renterName }}</div>
-                  <div style="font-size:0.6rem;opacity:0.4;letter-spacing:0.05em;">{{ r.reservationString }}</div>
+                  <div class="review-author-name">{{ r.renterName }}</div>
+                  <div class="review-author-date">{{ r.reservationString }}</div>
                 </div>
               </div>
             </div>
@@ -307,8 +299,8 @@
 
 <!-- Vehículo no encontrado -->
 @if (!vehicle && !loading) {
-  <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;">
-    <div style="font-family:'Playfair Display',serif;font-size:1.5rem;opacity:0.4;">Asset Not Found</div>
+  <div class="page-center" style="flex-direction:column;gap:1.5rem;">
+    <div class="font-display" style="font-size:1.5rem;opacity:0.4;">Asset Not Found</div>
     <a routerLink="/vehicles" class="btn-outline" style="font-size:0.7rem;">RETURN TO FLEET</a>
   </div>
 }

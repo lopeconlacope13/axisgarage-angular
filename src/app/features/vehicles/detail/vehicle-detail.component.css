@@ -1,1 +1,250 @@
+/* ── Hero banner del vehículo ────────────────────────────────────────────── */
+/* Franja superior con imagen del coche + efectos decorativos */
+.vehicle-hero-banner {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  background: linear-gradient(135deg, #0f0d08 0%, #141210 50%, #0f0d08 100%);
+  overflow: hidden;
+  margin-bottom: 0;
+}
 
+/* Rejilla dorada de fondo del hero */
+.vehicle-hero-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image:
+    linear-gradient(var(--axis-gold) 1px, transparent 1px),
+    linear-gradient(90deg, var(--axis-gold) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Glow central radial en el hero */
+.vehicle-hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  border-radius: 50%;
+  opacity: 0.06;
+  background: radial-gradient(ellipse, var(--axis-gold) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Imagen principal del vehículo (cubre toda la franja) */
+.vehicle-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+}
+
+/* Nombre del vehículo como watermark tipográfico en el fondo */
+.vehicle-hero-watermark {
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 8rem;
+  font-weight: 800;
+  font-style: italic;
+  color: rgba(201, 161, 74, 0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+
+/* Contenedor de stats flotantes (HP, 0-100, precio) */
+.vehicle-hero-stats {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.25rem;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+/* Columna central de stats con borde dorado lateral */
+.vehicle-hero-stat-mid {
+  border-left: 1px solid var(--axis-gold-15);
+  border-right: 1px solid var(--axis-gold-15);
+  padding: 0 1.25rem;
+}
+
+/* ── Breadcrumb ──────────────────────────────────────────────────────────── */
+/* Enlace de vuelta al catálogo */
+.breadcrumb-link {
+  color: var(--axis-gold);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.breadcrumb-link:hover { opacity: 1; }
+
+/* Separador del breadcrumb */
+.breadcrumb-sep {
+  color: rgba(245, 245, 240, 0.2);
+  font-size: 0.65rem;
+}
+
+/* ── Título del vehículo ─────────────────────────────────────────────────── */
+.vehicle-detail-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* ── Columna de specs ────────────────────────────────────────────────────── */
+/* Contenedor flex en columna con gap mayor */
+.col-gap-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Grid de especificaciones técnicas */
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 2rem;
+}
+
+/* Label de spec (eyebrow apagado con margen inferior) */
+.form-label-sm {
+  margin-bottom: 0.4rem;
+  opacity: 0.5;
+}
+
+/* ── Barra de disponibilidad ─────────────────────────────────────────────── */
+.availability-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--axis-gold-15);
+  border-radius: 6px;
+  background: rgba(201, 161, 74, 0.03);
+}
+
+/* Punto de estado de disponibilidad */
+.avail-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Descripción del vehículo ────────────────────────────────────────────── */
+.vehicle-description {
+  color: rgba(245, 245, 240, 0.6);
+  line-height: 1.75;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── Botones de cobertura ────────────────────────────────────────────────── */
+/* Botón selector de nivel de cobertura (Standard / Premium / Total) */
+.coverage-btn {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: inherit;
+}
+
+/* Nombre del nivel de cobertura */
+.coverage-name { font-size: 0.8rem; }
+
+/* ── Precio total estimado ───────────────────────────────────────────────── */
+/* Precio grande dorado en Playfair */
+.price-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--axis-gold);
+}
+/* Estado vacío del precio */
+.price-empty { font-size: 1rem; opacity: 0.3; }
+
+/* ── Nota legal bajo el botón ────────────────────────────────────────────── */
+.checkout-legal-note {
+  text-align: center;
+  margin-top: 0.75rem;
+  color: rgba(245, 245, 240, 0.25);
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+/* ── Sección de reseñas ──────────────────────────────────────────────────── */
+.reviews-section { margin-top: 4rem; }
+
+/* Título de la sección de reseñas */
+.reviews-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+}
+
+/* Grid de tarjetas de reseña */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Fila de estrellas */
+.stars-row { display: flex; gap: 3px; margin-bottom: 0.75rem; }
+.star-filled { color: var(--axis-gold); font-size: 0.9rem; }
+.star-empty  { color: rgba(245, 245, 240, 0.15); font-size: 0.9rem; }
+
+/* Texto de la reseña */
+.review-comment {
+  color: rgba(245, 245, 240, 0.7);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+/* Avatar de reseña */
+.review-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--axis-gold-15);
+  border: 1px solid var(--axis-gold-25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--axis-gold);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  flex-shrink: 0;
+}
+
+/* Nombre del autor de la reseña */
+.review-author-name { font-size: 0.75rem; font-weight: 500; }
+/* Fecha de la reseña */
+.review-author-date { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.05em; }

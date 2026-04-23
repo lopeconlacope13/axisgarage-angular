@@ -18,6 +18,7 @@ import { VehicleDTO, ReservationDTO } from '../../models/types';
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css'],
   // OnPush: Angular solo re-renderiza cuando lo pedimos explícitamente con markForCheck().
   // Necesario en modo Zoneless (provideZonelessChangeDetection) para que los datos del HTTP
   // aparezcan al cargar la página, sin esperar a una interacción del usuario.

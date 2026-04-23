@@ -1,0 +1,235 @@
+/* ── Paneles del método de pago ──────────────────────────────────────────── */
+/* Botón selector de método: Tarjeta o PayPal */
+.pay-method-btn {
+  flex: 1;
+  padding: 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Fila de tabs de método de pago */
+.pay-method-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+/* Formulario de tarjeta: columna con gaps */
+.card-form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Grid de dos columnas para vencimiento + CVV */
+.card-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Contenedor con posición relativa para los logos de redes de pago */
+.card-number-wrapper { position: relative; }
+
+/* Input número de tarjeta con padding derecho para los logos */
+.card-number-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 3.5rem;
+  font-family: monospace;
+  letter-spacing: 0.1em;
+}
+
+/* Logos de redes de pago flotando en el input */
+.card-logos {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+/* Logo Mastercard */
+.card-logo-mc {
+  width: 26px;
+  height: 16px;
+  background: linear-gradient(135deg, #eb001b, #f79e1b);
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+/* Logo Visa */
+.card-logo-visa {
+  width: 26px;
+  height: 16px;
+  background: linear-gradient(90deg, #1a1f71, #3562ab);
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+/* ── Panel de PayPal simulado ─────────────────────────────────────────────── */
+.paypal-panel {
+  border: 1px solid rgba(0, 112, 186, 0.25);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(0, 112, 186, 0.04);
+}
+
+/* Logotipo PayPal con texto */
+.paypal-logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: Arial, sans-serif;
+  margin-bottom: 1rem;
+}
+.paypal-blue  { color: #009cde; }
+.paypal-dark  { color: #012169; }
+
+/* Badge de demo dentro del panel PayPal */
+.paypal-demo-badge {
+  border: 1px solid rgba(0, 112, 186, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: rgba(0, 112, 186, 0.06);
+}
+
+/* ── Aviso de seguridad de la pasarela ───────────────────────────────────── */
+.security-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.security-text {
+  font-size: 0.72rem;
+  color: rgba(245, 245, 240, 0.35);
+  line-height: 1.6;
+}
+
+/* ── Columna derecha: resumen del pedido ─────────────────────────────────── */
+.summary-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Tarjeta de vehículo en el resumen */
+.vehicle-summary-card {
+  background: linear-gradient(135deg, #141210, #111);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Thumbnail del vehículo en el resumen */
+.vehicle-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: var(--axis-gold-08);
+  border: 1px solid var(--axis-gold-15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.vehicle-thumb-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--axis-gold);
+  opacity: 0.6;
+}
+.vehicle-summary-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Fila de datos del resumen (etiqueta + valor) */
+.summary-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Total del resumen */
+.summary-total-row {
+  border-top: 1px solid rgba(245, 245, 240, 0.06);
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.summary-total-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--axis-gold);
+}
+
+/* ── Modal de éxito ──────────────────────────────────────────────────────── */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem;
+}
+
+/* Icono circular dorado del modal de éxito */
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--axis-gold-30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+/* Badge de referencia de la reserva */
+.reservation-ref-badge {
+  display: inline-block;
+  border: 1px solid var(--axis-gold-20);
+  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  margin-bottom: 1.25rem;
+  background: rgba(201, 161, 74, 0.04);
+}
+.reservation-ref-label { font-size: 0.6rem; opacity: 0.5; }
+.reservation-ref-id {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--axis-gold);
+  margin-top: 0.1rem;
+}
+
+/* Fila de confirmación por email */
+.email-confirm-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+.email-confirm-text {
+  font-size: 0.78rem;
+  color: rgba(245, 245, 240, 0.4);
+}

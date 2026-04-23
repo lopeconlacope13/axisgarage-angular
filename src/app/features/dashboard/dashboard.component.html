@@ -8,25 +8,24 @@
   <aside class="dashboard-sidebar">
 
     <!-- Marca + tarjeta del usuario: solo visibles en desktop (clase dashboard-user-card) -->
-    <div class="dashboard-user-card" style="flex-direction:column;gap:1rem;">
+    <div class="dashboard-user-card col-gap-sm">
       <div>
-        <div class="eyebrow" style="color:var(--axis-gold);font-size:0.6rem;letter-spacing:0.2em;margin-bottom:0.3rem">AXIS GARAGE</div>
+        <div class="eyebrow eyebrow-xs text-gold" style="letter-spacing:0.2em;margin-bottom:0.3rem">AXIS GARAGE</div>
         <div class="font-display text-lg font-semibold">Control Panel</div>
       </div>
 
       <!-- Avatar con email y rol del usuario autenticado -->
-      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(245,245,240,0.05);">
+      <div class="row-center-md" style="padding:0.75rem;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(245,245,240,0.05);">
         @if (photoUrl) {
-          <img [src]="photoUrl" alt="avatar"
-            style="width:2.5rem;height:2.5rem;border-radius:50%;object-fit:cover;border:1px solid var(--axis-gold-40);flex-shrink:0;">
+          <img [src]="photoUrl" alt="avatar" class="avatar-photo-sm">
         } @else {
-          <div style="width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--axis-gold-12);border:1px solid var(--axis-gold-30);font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold);font-size:1.1rem;flex-shrink:0;">
+          <div class="avatar-initial-sm">
             {{ userEmail.charAt(0).toUpperCase() }}
           </div>
         }
-        <div style="overflow:hidden;">
-          <div class="text-sm font-medium" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ userEmail }}</div>
-          <div class="eyebrow" style="font-size:0.6rem;color:var(--axis-gold);margin-top:0.1rem;">{{ roleLabel }}</div>
+        <div class="text-truncate">
+          <div class="text-sm font-medium text-truncate">{{ userEmail }}</div>
+          <div class="eyebrow eyebrow-xs text-gold" style="margin-top:0.1rem;">{{ roleLabel }}</div>
         </div>
       </div>
     </div>
@@ -89,7 +88,7 @@
          Panel de inicio con KPIs: ingresos, reservas, flota y clientes.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'overview') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">{{ isAdmin ? 'ADMINISTRATION' : 'MANAGEMENT' }}</div>
+      <div class="eyebrow mb-2 text-gold">{{ isAdmin ? 'ADMINISTRATION' : 'MANAGEMENT' }}</div>
       <h1 class="font-display text-2xl font-semibold mb-8">
         {{ isAdmin ? 'Admin' : 'Manager' }} <span class="italic">Overview</span>
       </h1>
@@ -98,8 +97,8 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
         <div class="glass-card p-6" style="border-top:2px solid rgba(201,161,74,0.5);">
-          <div class="eyebrow mb-2" style="font-size:0.55rem;">CONFIRMED REVENUE</div>
-          <div class="font-display text-2xl font-bold" style="color:var(--axis-gold);">
+          <div class="eyebrow mb-2 eyebrow-xs" style="font-size:0.55rem;">CONFIRMED REVENUE</div>
+          <div class="font-display text-2xl font-bold text-gold">
             €{{ totalRevenue | number:'1.0-0' }}
           </div>
           <div class="text-axis-gray text-xs mt-1">Total ingresos confirmados</div>
@@ -132,7 +131,7 @@
          Datos del perfil, cambio de foto de perfil y cambio de contraseña.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'profile') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">ACCOUNT</div>
+      <div class="eyebrow mb-2 text-gold">ACCOUNT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Profile</span></h1>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -142,12 +141,11 @@
           <h2 class="font-display text-lg font-semibold mb-6">Identity</h2>
 
           <!-- Avatar con botón de cambio de foto -->
-          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;">
+          <div class="row-center-md mb-8">
             @if (photoUrl) {
-              <img [src]="photoUrl" alt="avatar"
-                style="width:5rem;height:5rem;border-radius:50%;object-fit:cover;border:1px solid var(--axis-gold-40);">
+              <img [src]="photoUrl" alt="avatar" class="avatar-photo-lg">
             } @else {
-              <div style="width:5rem;height:5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--axis-gold-12);border:1px solid var(--axis-gold-30);font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold);font-size:2rem;">
+              <div class="avatar-initial-lg">
                 {{ userEmail.charAt(0).toUpperCase() }}
               </div>
             }
@@ -155,7 +153,7 @@
               <!-- El input[type=file] está oculto; el label actúa de botón -->
               <label class="btn-outline" style="font-size:0.65rem;padding:0.4rem 0.75rem;cursor:pointer;">
                 CHANGE PHOTO
-                <input type="file" accept="image/*" (change)="onPhotoSelected($event)" style="display:none;">
+                <input type="file" accept="image/*" (change)="onPhotoSelected($event)" class="hidden">
               </label>
               <p class="text-axis-gray" style="font-size:0.7rem;margin-top:0.5rem;">Solo en este navegador</p>
             </div>
@@ -163,22 +161,22 @@
 
           <!-- Campos del perfil en modo lectura -->
           @if (profileData) {
-            <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div class="col-gap-sm">
               <div>
-                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">USERNAME</div>
+                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">USERNAME</div>
                 <div class="text-sm">{{ profileData.username }}</div>
               </div>
               <div>
-                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">FULL NAME</div>
+                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">FULL NAME</div>
                 <div class="text-sm">{{ profileData.firstName }} {{ profileData.lastName }}</div>
               </div>
               <div>
-                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">EMAIL</div>
+                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">EMAIL</div>
                 <div class="text-sm">{{ userEmail }}</div>
               </div>
               <div>
-                <div class="eyebrow" style="font-size:0.6rem;margin-bottom:0.25rem;">ACCESS LEVEL</div>
-                <div class="eyebrow" style="color:var(--axis-gold);font-size:0.7rem;">{{ roleLabel }}</div>
+                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">ACCESS LEVEL</div>
+                <div class="eyebrow text-gold" style="font-size:0.7rem;">{{ roleLabel }}</div>
               </div>
             </div>
           }
@@ -192,7 +190,7 @@
          Historial de reservas del usuario autenticado.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'my-reservations') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MY GARAGE</div>
+      <div class="eyebrow mb-2 text-gold">MY GARAGE</div>
       <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Reservations</span></h1>
 
       @if (!myReservations.length) {
@@ -202,7 +200,7 @@
       } @else {
         <div class="glass-card table-scroll-container">
           <table class="w-full text-sm">
-            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <thead class="border-b table-head-border">
               <tr>
                 <th class="eyebrow text-left p-4">Ref.</th>
                 <th class="eyebrow text-left p-4">Vehicle</th>
@@ -215,7 +213,7 @@
             </thead>
             <tbody>
               @for (r of myReservations; track r.id) {
-                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                   <td class="p-4 text-axis-gray">#{{ r.id }}</td>
                   <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
                   <td class="p-4 text-axis-gray">{{ r.startDate }}</td>
@@ -223,15 +221,11 @@
                   <td class="p-4">
                     <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
                   </td>
-                  <td class="p-4 text-right font-display" style="color:var(--axis-gold)">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                  <td class="p-4 text-right td-price">€{{ r.totalPrice | number:'1.0-0' }}</td>
                   <td class="p-4 text-right">
                     <!-- Solo mostrar CANCEL si la reserva no está ya cancelada o completada -->
                     @if (r.status !== 'CANCELLED' && r.status !== 'COMPLETED') {
-                      <button class="eyebrow"
-                        style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.25rem 0.5rem;cursor:pointer;"
-                        (click)="cancelMyReservation(r)">
-                        CANCEL
-                      </button>
+                      <button class="eyebrow btn-cancel" (click)="cancelMyReservation(r)">CANCEL</button>
                     }
                   </td>
                 </tr>
@@ -247,7 +241,7 @@
          Todas las reservas del sistema con datos del vehículo y del cliente.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'reservations') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">All <span class="italic">Reservations</span></h1>
 
       @if (loading) {
@@ -255,7 +249,7 @@
       } @else {
         <div class="glass-card table-scroll-container">
           <table class="w-full text-sm">
-            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <thead class="border-b table-head-border">
               <tr>
                 <th class="eyebrow text-left p-4">ID</th>
                 <th class="eyebrow text-left p-4">Vehicle</th>
@@ -269,7 +263,7 @@
             </thead>
             <tbody>
               @for (r of allReservations; track r.id) {
-                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                   <td class="p-4 text-axis-gray">#{{ r.id }}</td>
                   <td class="p-4 font-medium">{{ r.vehicleModel }}</td>
                   <td class="p-4 text-axis-gray">{{ r.renterName }}</td>
@@ -278,11 +272,10 @@
                   <td class="p-4">
                     <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
                   </td>
-                  <td class="p-4 text-right font-display" style="color:var(--axis-gold)">€{{ r.totalPrice | number:'1.0-0' }}</td>
+                  <td class="p-4 text-right td-price">€{{ r.totalPrice | number:'1.0-0' }}</td>
                   <td class="p-4 text-right">
                     @if (r.status !== 'CANCELLED') {
-                      <button class="eyebrow" style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;border:1px solid rgba(239,68,68,0.3);border-radius:3px;"
-                        (click)="cancelReservation(r)">CANCEL</button>
+                      <button class="eyebrow btn-cancel" (click)="cancelReservation(r)">CANCEL</button>
                     }
                   </td>
                 </tr>
@@ -298,56 +291,55 @@
          Catálogo completo de vehículos con disponibilidad y precio diario.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'fleet') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Fleet <span class="italic">Inventory</span></h1>
 
       <!-- Panel inline de edición: aparece encima de la tabla cuando se pulsa EDIT -->
       @if (editingVehicle) {
-        <div class="glass-card" style="padding:1.75rem;margin-bottom:1.5rem;border-color:var(--axis-gold-25);">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+        <div class="glass-card mb-6" style="padding:1.75rem;border-color:var(--axis-gold-25);">
+          <div class="row-between mb-5">
             <div>
-              <div class="eyebrow" style="color:var(--axis-gold);">EDITING</div>
-              <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin-top:0.2rem;">
-                {{ editingVehicle.brand }} <span style="font-style:italic;">{{ editingVehicle.model }}</span>
+              <div class="eyebrow text-gold">EDITING</div>
+              <div class="card-title" style="margin:0.2rem 0 0;">
+                {{ editingVehicle.brand }} <span class="italic">{{ editingVehicle.model }}</span>
               </div>
             </div>
-            <button (click)="cancelEditVehicle()"
-              style="background:none;border:1px solid rgba(255,255,255,0.1);color:rgba(245,245,240,0.5);padding:0.4rem 0.85rem;border-radius:4px;cursor:pointer;font-size:0.65rem;letter-spacing:0.12em;">
+            <button (click)="cancelEditVehicle()" class="btn-outline" style="padding:0.4rem 0.85rem;font-size:0.65rem;">
               CANCEL
             </button>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.25rem;">
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">PRICE PER DAY (€)</label>
-              <input type="number" min="0" class="input-dark" style="width:100%;box-sizing:border-box;"
+              <label class="eyebrow form-label">PRICE PER DAY (€)</label>
+              <input type="number" min="0" class="input-dark input-full"
                 [(ngModel)]="editForm.pricePerDay" />
             </div>
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">HORSE POWER</label>
-              <input type="number" min="0" class="input-dark" style="width:100%;box-sizing:border-box;"
+              <label class="eyebrow form-label">HORSE POWER</label>
+              <input type="number" min="0" class="input-dark input-full"
                 [(ngModel)]="editForm.horsePower" />
             </div>
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">PRODUCTION YEAR</label>
-              <input type="number" min="1900" max="2100" class="input-dark" style="width:100%;box-sizing:border-box;"
+              <label class="eyebrow form-label">PRODUCTION YEAR</label>
+              <input type="number" min="1900" max="2100" class="input-dark input-full"
                 [(ngModel)]="editForm.productionYear" />
             </div>
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">STATUS</label>
+              <label class="eyebrow form-label">STATUS</label>
               <div class="input-dark" style="opacity:0.6;cursor:not-allowed;">{{ editingVehicle.available ? 'AVAILABLE' : 'UNAVAILABLE' }}</div>
             </div>
           </div>
 
-          <div style="margin-bottom:1.25rem;">
-            <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.5;">DESCRIPTION</label>
-            <textarea rows="3" class="input-dark" style="width:100%;box-sizing:border-box;resize:vertical;"
+          <div class="mb-5">
+            <label class="eyebrow form-label">DESCRIPTION</label>
+            <textarea rows="3" class="input-dark input-full" style="resize:vertical;"
               [(ngModel)]="editForm.description"></textarea>
           </div>
 
           @if (editError) {
-            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:4px;padding:0.6rem 0.9rem;margin-bottom:1rem;">
-              <span style="font-size:0.78rem;color:rgba(239,68,68,0.85);">{{ editError }}</span>
+            <div class="error-box mb-4">
+              <span class="error-text" style="font-size:0.78rem;">{{ editError }}</span>
             </div>
           }
 
@@ -361,7 +353,7 @@
 
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
-          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+          <thead class="border-b table-head-border">
             <tr>
               <th class="eyebrow text-left p-4">ID</th>
               <th class="eyebrow text-left p-4">Brand / Model</th>
@@ -375,7 +367,7 @@
           </thead>
           <tbody>
             @for (v of vehicles; track v.id) {
-              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+              <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                 <td class="p-4 text-axis-gray">#{{ v.id }}</td>
                 <td class="p-4 font-medium">{{ v.brand }} {{ v.model }}</td>
                 <td class="p-4 text-axis-gray">{{ v.categoryName }}</td>
@@ -387,7 +379,7 @@
                     {{ v.available ? 'AVAILABLE' : 'UNAVAILABLE' }}
                   </span>
                 </td>
-                <td class="p-4 text-right font-display" style="color:var(--axis-gold)">{{ v.pricePerDay }}</td>
+                <td class="p-4 text-right td-price">{{ v.pricePerDay }}</td>
                 <td class="p-4 text-right" style="white-space:nowrap;">
                   <button class="eyebrow"
                     style="font-size:0.6rem;background:none;border:1px solid var(--axis-gold-30);color:var(--axis-gold);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
@@ -421,12 +413,12 @@
          Lista de clientes registrados en la plataforma.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'clients') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Registered <span class="italic">Clients</span></h1>
 
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
-          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+          <thead class="border-b table-head-border">
             <tr>
               <th class="eyebrow text-left p-4">ID</th>
               <th class="eyebrow text-left p-4">Name</th>
@@ -437,7 +429,7 @@
           </thead>
           <tbody>
             @for (r of renters; track r.id) {
-              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+              <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                 <td class="p-4 text-axis-gray">#{{ r.id }}</td>
                 <td class="p-4 font-medium">{{ r.name }} {{ r.lastName }}</td>
                 <td class="p-4 text-axis-gray">{{ r.email }}</td>
@@ -455,12 +447,12 @@
          Propietarios de los vehículos de la flota. Acceso exclusivo de admin.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'owners') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">ADMINISTRATION</div>
+      <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Vehicle <span class="italic">Owners</span></h1>
 
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
-          <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+          <thead class="border-b table-head-border">
             <tr>
               <th class="eyebrow text-left p-4">ID</th>
               <th class="eyebrow text-left p-4">Name</th>
@@ -470,7 +462,7 @@
           </thead>
           <tbody>
             @for (o of owners; track o.id) {
-              <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+              <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                 <td class="p-4 text-axis-gray">#{{ o.id }}</td>
                 <td class="p-4 font-medium">{{ o.name }} {{ o.lastName }}</td>
                 <td class="p-4 text-axis-gray">{{ o.email }}</td>
@@ -487,7 +479,7 @@
          Vista de todos los partes de daños + formulario para crear nuevos.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'damage-reports') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Damage <span class="italic">Reports</span></h1>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -495,11 +487,10 @@
         <!-- Formulario: nuevo parte de daños -->
         <div class="glass-card p-6">
           <h2 class="font-display text-base font-semibold mb-4">New Report</h2>
-          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="col-gap-sm" style="gap:0.75rem;">
 
             <div>
-              <label class="eyebrow block mb-1" style="font-size:0.6rem;">RESERVATION</label>
-
+              <label class="eyebrow block mb-1 eyebrow-xs">RESERVATION</label>
               <!-- Desplegable con todas las reservas disponibles -->
               <select class="input-dark w-full" [(ngModel)]="newReport.reservationId"
                 style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
@@ -511,7 +502,7 @@
             </div>
 
             <div>
-              <label class="eyebrow block mb-1" style="font-size:0.6rem;">TYPE</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">TYPE</label>
               <select class="input-dark w-full" [(ngModel)]="newReport.type"
                 style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
                 <option value="PRE">PRE — Before rental</option>
@@ -520,12 +511,12 @@
             </div>
 
             <div>
-              <label class="eyebrow block mb-1" style="font-size:0.6rem;">DATE</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">DATE</label>
               <input type="date" class="input-dark w-full" [(ngModel)]="newReport.reportedDate">
             </div>
 
             <div>
-              <label class="eyebrow block mb-1" style="font-size:0.6rem;">DESCRIPTION</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">DESCRIPTION</label>
               <textarea class="input-dark w-full" rows="3" placeholder="Describe the damage..."
                 [(ngModel)]="newReport.description" style="resize:none;"></textarea>
             </div>
@@ -534,7 +525,7 @@
               <div style="color:rgba(239,68,68,0.8);font-size:0.8rem;">{{ reportError }}</div>
             }
             @if (reportSuccess) {
-              <div style="color:var(--axis-gold);font-size:0.8rem;">Parte registrado correctamente.</div>
+              <div class="text-gold" style="font-size:0.8rem;">Parte registrado correctamente.</div>
             }
 
             <button class="btn-gold w-full" style="font-size:0.7rem;" (click)="submitReport()">
@@ -551,7 +542,7 @@
             </div>
           } @else {
             <table class="w-full text-sm">
-              <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+              <thead class="border-b table-head-border">
                 <tr>
                   <th class="eyebrow text-left p-4">ID</th>
                   <th class="eyebrow text-left p-4">Res.</th>
@@ -565,7 +556,7 @@
               </thead>
               <tbody>
                 @for (d of damageReports; track d.id) {
-                  <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                  <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                     <td class="p-4 text-axis-gray">#{{ d.id }}</td>
                     <td class="p-4 text-axis-gray">#{{ d.reservationId }}</td>
                     <td class="p-4">
@@ -582,8 +573,7 @@
                     </td>
                     @if (isAdmin) {
                       <td class="p-4 text-right">
-                        <button class="eyebrow" style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.2rem 0.5rem;cursor:pointer;"
-                          (click)="deleteReport(d.id)">DELETE</button>
+                        <button class="eyebrow btn-cancel" (click)="deleteReport(d.id)">DELETE</button>
                       </td>
                     }
                   </tr>
@@ -601,7 +591,7 @@
          Tabla con todas las reseñas del sistema + opción de borrado.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'reviews') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Client <span class="italic">Reviews</span></h1>
 
       <div class="glass-card table-scroll-container">
@@ -611,7 +601,7 @@
           <div class="p-10 text-center text-axis-gray text-sm">No hay reseñas registradas aún.</div>
         } @else {
           <table class="w-full text-sm">
-            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <thead class="border-b table-head-border">
               <tr>
                 <th class="eyebrow text-left p-4">ID</th>
                 <th class="eyebrow text-left p-4">Client</th>
@@ -624,13 +614,13 @@
             </thead>
             <tbody>
               @for (rv of reviews; track rv.id) {
-                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
+                <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
                   <td class="p-4 text-axis-gray">#{{ rv.id }}</td>
                   <td class="p-4">{{ rv.renterName }}</td>
                   <td class="p-4">{{ rv.vehicleModel || '—' }}</td>
                   <td class="p-4 text-axis-gray">{{ rv.reservationString || '#' + rv.reservationId }}</td>
                   <td class="p-4">
-                    <span style="color:var(--axis-gold);letter-spacing:1px;">
+                    <span class="text-gold" style="letter-spacing:1px;">
                       {{ '★'.repeat(rv.rating) }}<span style="color:rgba(245,245,240,0.15);">{{ '★'.repeat(5 - rv.rating) }}</span>
                     </span>
                   </td>
@@ -640,9 +630,7 @@
                     {{ rv.comment }}
                   </td>
                   <td class="p-4 text-right">
-                    <button class="eyebrow"
-                      style="font-size:0.6rem;color:rgba(239,68,68,0.7);background:none;border:1px solid rgba(239,68,68,0.3);border-radius:3px;padding:0.2rem 0.5rem;cursor:pointer;"
-                      (click)="deleteReview(rv.id)">DELETE</button>
+                    <button class="eyebrow btn-cancel" (click)="deleteReview(rv.id)">DELETE</button>
                   </td>
                 </tr>
               }
@@ -657,7 +645,7 @@
          Tabla con todas las facturas + botón de descarga de PDF por fila.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'invoices') {
-      <div class="eyebrow mb-2" style="color:var(--axis-gold)">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Billing <span class="italic">& Invoices</span></h1>
 
       <div class="glass-card table-scroll-container">
@@ -667,7 +655,7 @@
           <div class="p-10 text-center text-axis-gray text-sm">No hay facturas generadas aún.</div>
         } @else {
           <table class="w-full text-sm">
-            <thead class="border-b" style="border-color:rgba(245,245,240,0.06)">
+            <thead class="border-b table-head-border">
               <tr>
                 <th class="eyebrow text-left p-4">Nº Factura</th>
                 <th class="eyebrow text-left p-4">Reserva</th>
@@ -681,14 +669,14 @@
             </thead>
             <tbody>
               @for (inv of invoices; track inv.id) {
-                <tr class="border-b hover:bg-white/5 transition-colors" style="border-color:rgba(245,245,240,0.04)">
-                  <td class="p-4" style="color:var(--axis-gold);font-family:monospace;font-size:0.8rem;">{{ inv.invoiceNumber }}</td>
+                <tr class="border-b table-row-border hover:bg-white/5 transition-colors">
+                  <td class="p-4 text-gold" style="font-family:monospace;font-size:0.8rem;">{{ inv.invoiceNumber }}</td>
                   <td class="p-4 text-axis-gray">#{{ inv.reservationId }}</td>
                   <td class="p-4 text-axis-gray">{{ inv.issueDate }}</td>
                   <td class="p-4 text-axis-gray">{{ inv.paymentMethod || '—' }}</td>
                   <td class="p-4 text-right">€{{ inv.baseAmount | number:'1.2-2' }}</td>
                   <td class="p-4 text-right text-axis-gray">€{{ inv.taxAmount | number:'1.2-2' }}</td>
-                  <td class="p-4 text-right font-display" style="color:var(--axis-gold);">€{{ inv.totalAmount | number:'1.2-2' }}</td>
+                  <td class="p-4 text-right td-price">€{{ inv.totalAmount | number:'1.2-2' }}</td>
                   <td class="p-4 text-right">
                     <button
                       (click)="downloadInvoicePdf(inv.reservationId)"
