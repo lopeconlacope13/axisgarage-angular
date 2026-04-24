@@ -919,3 +919,60 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
 .carousel-btn:hover { background: var(--axis-gold-30); }
 .carousel-btn.left  { left: 1rem; }
 .carousel-btn.right { right: 1rem; }
+
+/* ── Accesibilidad: Skip Link ───────────────────────────────── */
+/* Enlace oculto que aparece al hacer foco con teclado, salta al contenido */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--axis-gold);
+  color: #0a0a0a;
+  padding: 0.5rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 99999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Accesibilidad: Mensajes de error inline por campo ──────── */
+/* Texto rojo bajo inputs inválidos */
+.field-error {
+  display: block;
+  color: rgba(239, 68, 68, 0.85);
+  font-size: 0.65rem;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+  margin-top: 0.3rem;
+}
+
+/* ── Accesibilidad: Botón avatar (reemplaza div clickable) ──── */
+/* Reset visual para que parezca igual que el div anterior */
+.avatar-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 100px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0.4rem 0.25rem 1rem;
+  color: inherit;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.avatar-btn:hover { background: rgba(255,255,255,0.06); }
+
+/* ── Accesibilidad: Touch targets mínimos ──────────────────── */
+/* WCAG 2.5.5: elementos interactivos mínimo 44x44px */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
