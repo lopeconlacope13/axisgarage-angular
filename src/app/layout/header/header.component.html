@@ -40,7 +40,9 @@
         <div class="desktop-block" style="position:relative;">
 
           <!-- Botón de Avatar desplegable -->
-          <div (click)="toggleDropdown()" class="cursor-pointer" style="display:flex;align-items:center;gap:0.75rem;padding:0.25rem 0.4rem 0.25rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:100px;" onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'">
+          <button type="button" (click)="toggleDropdown()" class="avatar-btn"
+            [attr.aria-expanded]="dropdownOpen"
+            aria-label="Menú de usuario">
 
             <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;">
               <span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>,
@@ -57,7 +59,7 @@
               </div>
             }
 
-          </div>
+          </button>
 
           <!-- Dropdown Menú Desktop -->
           @if (dropdownOpen) {
@@ -66,9 +68,9 @@
                 {{ 'HEADER.DASHBOARD' | translate }}
               </a>
               <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
-              <a (click)="logout()" class="eyebrow block px-5 py-3 transition-colors cursor-pointer" style="color:rgba(239,68,68,0.8);" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
+              <button type="button" (click)="logout()" class="eyebrow block px-5 py-3 transition-colors" style="color:rgba(239,68,68,0.8);background:transparent;border:none;width:100%;text-align:left;font-family:inherit;cursor:pointer;" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
                 {{ 'HEADER.LOGOUT' | translate }}
-              </a>
+              </button>
             </div>
           }
         </div>
@@ -110,7 +112,7 @@
             {{ 'HEADER.WELCOME' | translate }}, <span style="color:var(--axis-gold);">{{ user.email.split('@')[0] }}</span>
           </div>
           <a routerLink="/dashboard"       (click)="closeMenu()" class="eyebrow mobile-menu-link" style="color:var(--axis-gold);">{{ 'HEADER.DASHBOARD' | translate }}</a>
-          <a (click)="logout()" class="eyebrow mobile-menu-link" style="color:rgba(239,68,68,0.8);cursor:pointer;">{{ 'HEADER.LOGOUT' | translate }}</a>
+          <button type="button" (click)="logout()" class="eyebrow mobile-menu-link" style="color:rgba(239,68,68,0.8);background:transparent;border:none;width:100%;text-align:left;font-family:inherit;cursor:pointer;">{{ 'HEADER.LOGOUT' | translate }}</button>
         </div>
       }
 
