@@ -1,0 +1,180 @@
+<!-- Página de edición dedicada para un vehículo de la flota -->
+<div style="padding: 6rem 2rem 4rem; max-width: 900px; margin: 0 auto;">
+
+  <!-- ── Estado de carga ─────────────────────────────────────── -->
+  @if (loading) {
+    <div style="text-align:center;padding:4rem 0;color:var(--axis-gray);">
+      <span class="eyebrow">LOADING VEHICLE...</span>
+    </div>
+  }
+
+  <!-- ── Estado de error al cargar ──────────────────────────── -->
+  @if (error && !loading) {
+    <div class="glass-card" style="padding:2rem;text-align:center;">
+      <p style="color:rgba(239,68,68,0.85);margin-bottom:1rem;">{{ error }}</p>
+      <a routerLink="/dashboard" class="btn-outline" style="font-size:0.7rem;padding:0.5rem 1rem;">
+        ← BACK TO DASHBOARD
+      </a>
+    </div>
+  }
+
+  <!-- ── Contenido principal (vehículo cargado) ─────────────── -->
+  @if (vehicle && !loading) {
+
+    <!-- Breadcrumb -->
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:2.5rem;">
+      <a routerLink="/dashboard" class="breadcrumb-link eyebrow">← FLEET</a>
+      <span class="breadcrumb-sep eyebrow">·</span>
+      <span class="eyebrow text-gold">EDIT VEHICLE</span>
+    </div>
+
+    <!-- Título de la página -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="eyebrow text-gold" style="margin-bottom:0.4rem;">EDITING</div>
+      <h1 class="font-display text-2xl font-semibold">
+        {{ vehicle.brand }} <em>{{ vehicle.model }}</em>
+      </h1>
+    </div>
+
+    <!-- ── Formulario de campos editables ───────────────────── -->
+    <div class="glass-card" style="padding:2rem;margin-bottom:2rem;">
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-bottom:1.25rem;">
+
+        <!-- Precio por día -->
+        <div>
+          <label class="eyebrow form-label" for="editPrice">PRICE PER DAY (€)</label>
+          <input
+            type="number"
+            id="editPrice"
+            min="0"
+            class="input-dark input-full"
+            [(ngModel)]="editForm.pricePerDay" />
+        </div>
+
+        <!-- Caballos de vapor -->
+        <div>
+          <label class="eyebrow form-label" for="editHp">HORSE POWER</label>
+          <input
+            type="number"
+            id="editHp"
+            min="0"
+            class="input-dark input-full"
+            [(ngModel)]="editForm.horsePower" />
+        </div>
+
+        <!-- Año de producción -->
+        <div>
+          <label class="eyebrow form-label" for="editYear">PRODUCTION YEAR</label>
+          <input
+            type="number"
+            id="editYear"
+            min="1900"
+            max="2100"
+            class="input-dark input-full"
+            [(ngModel)]="editForm.productionYear" />
+        </div>
+
+        <!-- Estado (solo lectura) -->
+        <div>
+          <label class="eyebrow form-label">STATUS</label>
+          <div class="input-dark" style="opacity:0.6;cursor:not-allowed;">
+            {{ vehicle.available ? 'AVAILABLE' : 'UNAVAILABLE' }}
+          </div>
+        </div>
+
+        <!-- Descripción (2 columnas) -->
+        <div style="grid-column:1 / -1;">
+          <label class="eyebrow form-label" for="editDesc">DESCRIPTION</label>
+          <textarea
+            id="editDesc"
+            rows="4"
+            class="input-dark input-full"
+            style="resize:vertical;"
+            [(ngModel)]="editForm.description">
+          </textarea>
+        </div>
+
+      </div>
+
+      <!-- Error de guardado -->
+      @if (saveError) {
+        <div class="error-box mb-4">
+          <span class="error-text" style="font-size:0.78rem;">{{ saveError }}</span>
+        </div>
+      }
+
+      <!-- Botones de acción -->
+      <div style="display:flex;gap:0.75rem;margin-top:0.5rem;">
+        <button
+          class="btn-gold"
+          (click)="save()"
+          [disabled]="saving"
+          [style.opacity]="saving ? '0.6' : '1'"
+          style="padding:0.7rem 1.75rem;font-size:0.7rem;letter-spacing:0.12em;">
+          {{ saving ? 'SAVING...' : 'SAVE CHANGES' }}
+        </button>
+        <a
+          routerLink="/dashboard"
+          class="btn-outline"
+          style="padding:0.7rem 1.5rem;font-size:0.7rem;letter-spacing:0.12em;">
+          CANCEL
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Sección Galería ───────────────────────────────────── -->
+    <div class="glass-card" style="padding:2rem;">
+
+      <!-- Cabecera de la galería -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+        <div>
+          <div class="eyebrow text-gold" style="margin-bottom:0.25rem;">VEHICLE GALLERY</div>
+          <p style="font-size:0.8rem;color:var(--axis-gray);">
+            {{ vehicle.images.length }} {{ vehicle.images.length === 1 ? 'image' : 'images' }}
+          </p>
+        </div>
+
+        <!-- Input de archivo oculto, activado por el botón ADD IMAGE -->
+        <input
+          type="file"
+          accept="image/*"
+          id="imageFileInput"
+          style="display:none;"
+          (change)="uploadImage($event)" />
+
+        <label
+          for="imageFileInput"
+          class="btn-outline"
+          style="cursor:pointer;padding:0.5rem 1rem;font-size:0.65rem;letter-spacing:0.1em;">
+          ADD IMAGE
+        </label>
+      </div>
+
+      <!-- Grid de thumbnails -->
+      @if (vehicle.images.length > 0) {
+        <div class="gallery-grid">
+          @for (img of vehicle.images; track img) {
+            <div class="gallery-thumb">
+              <img [src]="imageUrl(img)" [alt]="vehicle.brand + ' ' + vehicle.model" />
+              <!-- Botón de eliminar imagen -->
+              <button
+                class="gallery-thumb-remove"
+                (click)="removeImage(img)"
+                title="Eliminar imagen">
+                ✕
+              </button>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Mensaje cuando no hay imágenes -->
+        <div style="text-align:center;padding:2.5rem 0;opacity:0.4;">
+          <p class="eyebrow" style="font-size:0.7rem;">NO IMAGES UPLOADED</p>
+        </div>
+      }
+
+    </div>
+
+  }
+</div>

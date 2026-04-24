@@ -294,63 +294,6 @@
       <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
       <h1 class="font-display text-2xl font-semibold mb-8">Fleet <span class="italic">Inventory</span></h1>
 
-      <!-- Panel inline de edición: aparece encima de la tabla cuando se pulsa EDIT -->
-      @if (editingVehicle) {
-        <div class="glass-card mb-6" style="padding:1.75rem;border-color:var(--axis-gold-25);">
-          <div class="row-between mb-5">
-            <div>
-              <div class="eyebrow text-gold">EDITING</div>
-              <div class="card-title" style="margin:0.2rem 0 0;">
-                {{ editingVehicle.brand }} <span class="italic">{{ editingVehicle.model }}</span>
-              </div>
-            </div>
-            <button (click)="cancelEditVehicle()" class="btn-outline" style="padding:0.4rem 0.85rem;font-size:0.65rem;">
-              CANCEL
-            </button>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.25rem;">
-            <div>
-              <label class="eyebrow form-label">PRICE PER DAY (€)</label>
-              <input type="number" min="0" class="input-dark input-full"
-                [(ngModel)]="editForm.pricePerDay" />
-            </div>
-            <div>
-              <label class="eyebrow form-label">HORSE POWER</label>
-              <input type="number" min="0" class="input-dark input-full"
-                [(ngModel)]="editForm.horsePower" />
-            </div>
-            <div>
-              <label class="eyebrow form-label">PRODUCTION YEAR</label>
-              <input type="number" min="1900" max="2100" class="input-dark input-full"
-                [(ngModel)]="editForm.productionYear" />
-            </div>
-            <div>
-              <label class="eyebrow form-label">STATUS</label>
-              <div class="input-dark" style="opacity:0.6;cursor:not-allowed;">{{ editingVehicle.available ? 'AVAILABLE' : 'UNAVAILABLE' }}</div>
-            </div>
-          </div>
-
-          <div class="mb-5">
-            <label class="eyebrow form-label">DESCRIPTION</label>
-            <textarea rows="3" class="input-dark input-full" style="resize:vertical;"
-              [(ngModel)]="editForm.description"></textarea>
-          </div>
-
-          @if (editError) {
-            <div class="error-box mb-4">
-              <span class="error-text" style="font-size:0.78rem;">{{ editError }}</span>
-            </div>
-          }
-
-          <button class="btn-gold" (click)="saveEditVehicle()" [disabled]="editLoading"
-            style="padding:0.7rem 1.5rem;font-size:0.7rem;letter-spacing:0.12em;"
-            [style.opacity]="editLoading ? '0.6' : '1'">
-            {{ editLoading ? 'SAVING...' : 'SAVE CHANGES' }}
-          </button>
-        </div>
-      }
-
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
           <thead class="border-b table-head-border">
@@ -383,7 +326,7 @@
                 <td class="p-4 text-right" style="white-space:nowrap;">
                   <button class="eyebrow"
                     style="font-size:0.6rem;background:none;border:1px solid var(--axis-gold-30);color:var(--axis-gold);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
-                    (click)="startEditVehicle(v)">
+                    (click)="navigateToEdit(v.id)">
                     EDIT
                   </button>
                   <button class="eyebrow"

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RenterService } from '../../core/services/renter.service';
@@ -69,14 +70,6 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
-  // ─── Edición de vehículos (MANAGER/ADMIN) ────────────────────────────────
-  /** Vehículo seleccionado para editar (null = panel cerrado). */
-  editingVehicle: VehicleDTO | null = null;
-  /** Campos editables del formulario inline. */
-  editForm = { pricePerDay: 0, horsePower: 0, productionYear: 0, description: '' };
-  editError   = '';
-  editLoading = false;
-
   // ─── KPIs del overview ────────────────────────────────────────────────────
   /** Ingresos totales: suma de reservas CONFIRMED */
   totalRevenue      = 0;
@@ -97,6 +90,7 @@ export class DashboardComponent implements OnInit {
     private damageReportSvc:   DamageReportService,
     private reviewSvc:         ReviewService,
     private invoiceSvc:        InvoiceService,
+    private router:            Router,
     // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
     private cdr:               ChangeDetectorRef
   ) {}
@@ -335,67 +329,14 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /** Abre el panel de edición prerellenando el formulario con los datos actuales. */
-  startEditVehicle(v: VehicleDTO): void {
-    this.editError      = '';
-    this.editingVehicle = v;
-    this.editForm = {
-      pricePerDay:    v.pricePerDay,
-      horsePower:     v.horsePower,
-      productionYear: v.productionYear,
-      description:    v.description ?? ''
-    };
-  }
-
-  /** Cierra el panel de edición sin guardar. */
-  cancelEditVehicle(): void {
-    this.editingVehicle = null;
-    this.editError      = '';
-  }
-
   /**
-   * Guarda los cambios. El backend espera multipart/form-data en PUT, así que
-   * construimos un FormData solo con los campos editables (sin tocar las imágenes).
-   * Los demás campos se envían tal cual estaban para no perder información.
+   * Navega a la página de edición dedicada del vehículo seleccionado.
+   * La lógica de edición se ha movido a VehicleEditComponent para mayor claridad.
+   *
+   * @param id Identificador del vehículo a editar
    */
-  saveEditVehicle(): void {
-    if (!this.editingVehicle) return;
-    this.editError   = '';
-    this.editLoading = true;
-
-    const v   = this.editingVehicle;
-    const fd  = new FormData();
-    fd.append('brand',          v.brand);
-    fd.append('model',          v.model);
-    fd.append('engineType',     v.engineType);
-    fd.append('transmission',   v.transmission);
-    fd.append('drivetrain',     v.drivetrain);
-    fd.append('fuelType',       v.fuelType);
-    fd.append('zeroToHundred',  String(v.zeroToHundred));
-    fd.append('torqueNm',       String(v.torqueNm));
-    fd.append('available',      String(v.available));
-    fd.append('categoryId',     String(v.categoryId));
-    fd.append('locationId',     String(v.locationId));
-    // Campos editados:
-    fd.append('pricePerDay',    String(this.editForm.pricePerDay));
-    fd.append('horsePower',     String(this.editForm.horsePower));
-    fd.append('productionYear', String(this.editForm.productionYear));
-    fd.append('description',    this.editForm.description);
-
-    this.vehicleSvc.update(v.id, fd).subscribe({
-      next: updated => {
-        const idx = this.vehicles.findIndex(x => x.id === v.id);
-        if (idx !== -1) this.vehicles[idx] = updated;
-        this.editingVehicle = null;
-        this.editLoading    = false;
-        this.cdr.markForCheck();
-      },
-      error: err => {
-        this.editError   = err?.error ?? 'Error al actualizar el vehículo.';
-        this.editLoading = false;
-        this.cdr.markForCheck();
-      }
-    });
+  navigateToEdit(id: number): void {
+    this.router.navigate(['/dashboard/vehicles', id, 'edit']);
   }
 
   /**

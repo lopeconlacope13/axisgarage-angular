@@ -73,6 +73,15 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
 
+  // ── Edición de vehículo (MANAGER y ADMIN) ────────────────────────────────
+  {
+    path: 'dashboard/vehicles/:id/edit',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['MANAGER', 'ADMIN'] },
+    loadComponent: () =>
+      import('./features/vehicles/edit/vehicle-edit.component').then(m => m.VehicleEditComponent)
+  },
+
   // ── Fallback ───────────────────────────────────────────────────────────────
   { path: '**', redirectTo: '' }
 

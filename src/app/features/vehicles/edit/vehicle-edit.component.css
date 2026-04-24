@@ -1,0 +1,48 @@
+/*
+ * Estilos específicos de la página de edición de vehículos.
+ * Las clases globales (glass-card, btn-gold, input-dark, etc.)
+ * están definidas en styles.css y se reutilizan aquí directamente.
+ */
+
+/* Grid de la galería de imágenes */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Contenedor de cada miniatura con posicionamiento relativo
+   para poder colocar el botón de eliminar encima */
+.gallery-thumb {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--axis-gold-15);
+  aspect-ratio: 4 / 3;
+}
+
+/* La imagen ocupa todo el contenedor manteniendo proporciones */
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botón de eliminar: posicionado en la esquina superior derecha */
+.gallery-thumb-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: rgba(239, 68, 68, 0.9);
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 0.65rem;
+  line-height: 1.4;
+}
+
+.gallery-thumb-remove:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
