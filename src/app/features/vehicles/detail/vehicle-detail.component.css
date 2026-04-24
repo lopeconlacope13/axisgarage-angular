@@ -1,16 +1,15 @@
-/* ── Hero banner del vehículo ────────────────────────────────────────────── */
-/* Franja superior con imagen del coche + efectos decorativos */
-.vehicle-hero-banner {
+/* ── Imagen del vehículo (en columna, reemplaza el hero banner) ─────────── */
+.vehicle-img-box {
   position: relative;
   width: 100%;
-  height: 420px;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(135deg, #0f0d08 0%, #141210 50%, #0f0d08 100%);
   overflow: hidden;
-  margin-bottom: 0;
+  border-radius: 12px;
+  border: 1px solid var(--axis-border);
 }
 
-/* Rejilla dorada de fondo del hero */
-.vehicle-hero-grid {
+.vehicle-img-grid {
   position: absolute;
   inset: 0;
   opacity: 0.025;
@@ -18,40 +17,32 @@
     linear-gradient(var(--axis-gold) 1px, transparent 1px),
     linear-gradient(90deg, var(--axis-gold) 1px, transparent 1px);
   background-size: 60px 60px;
-}
-
-/* Glow central radial en el hero */
-.vehicle-hero-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 300px;
-  border-radius: 50%;
-  opacity: 0.06;
-  background: radial-gradient(ellipse, var(--axis-gold) 0%, transparent 65%);
   pointer-events: none;
 }
 
-/* Imagen principal del vehículo (cubre toda la franja) */
-.vehicle-hero-img {
+.vehicle-img-main {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.45;
 }
 
-/* Nombre del vehículo como watermark tipográfico en el fondo */
-.vehicle-hero-watermark {
+.vehicle-img-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicle-img-watermark {
   position: absolute;
   bottom: -0.5rem;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Playfair Display', serif;
-  font-size: 8rem;
+  font-size: 6rem;
   font-weight: 800;
   font-style: italic;
   color: rgba(201, 161, 74, 0.04);
@@ -61,16 +52,14 @@
   letter-spacing: -0.02em;
 }
 
-/* Contenedor de stats flotantes (HP, 0-100, precio) */
-.vehicle-hero-stats {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+/* Stats rápidas bajo la imagen (HP / 0-100 / precio) */
+.vehicle-quick-stats {
   display: flex;
-  gap: 1.25rem;
-  z-index: 2;
-  white-space: nowrap;
+  justify-content: space-around;
+  padding: 0.875rem 1rem;
+  background: rgba(201, 161, 74, 0.03);
+  border: 1px solid var(--axis-gold-15);
+  border-radius: 8px;
 }
 
 /* Columna central de stats con borde dorado lateral */

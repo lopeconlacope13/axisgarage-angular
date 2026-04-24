@@ -8,59 +8,6 @@
 <!-- Contenido principal una vez cargado el vehículo -->
 @if (vehicle && !loading) {
 <div class="page-dark">
-
-  <!-- Franja de hero con imagen/placeholder del vehículo -->
-  <div class="vehicle-hero-banner">
-
-    <!-- Patrón de rejilla dorado de fondo (coherente con home) -->
-    <div class="vehicle-hero-grid"></div>
-
-    <!-- Glow central -->
-    <div class="vehicle-hero-glow"></div>
-
-    <!-- Imagen principal del vehículo (cambia según currentImageIndex) -->
-    @if (vehicle.images && vehicle.images.length > 0) {
-      <img
-        [src]="getImageUrl(vehicle.images[currentImageIndex])"
-        [alt]="vehicle.brand + ' ' + vehicle.model"
-        class="vehicle-hero-img"
-        onerror="this.style.display='none'"
-      />
-    }
-
-    <!-- Flechas de navegación del carrusel (solo si hay más de 1 imagen) -->
-    @if (vehicle.images && vehicle.images.length > 1) {
-      <button class="carousel-btn left" (click)="prevImage()" type="button" aria-label="Imagen anterior">
-        &#8592;
-      </button>
-      <button class="carousel-btn right" (click)="nextImage()" type="button" aria-label="Imagen siguiente">
-        &#8594;
-      </button>
-    }
-
-    <!-- Nombre del vehículo como elemento decorativo de fondo -->
-    <div class="vehicle-hero-watermark">
-      {{ vehicle.brand }}
-    </div>
-
-    <!-- Specs flotantes sobre el hero -->
-    <div class="vehicle-hero-stats">
-      <div class="text-center">
-        <div class="stat-value">{{ vehicle.horsePower }}</div>
-        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">HP</div>
-      </div>
-      <div class="text-center vehicle-hero-stat-mid">
-        <div class="stat-value">{{ vehicle.zeroToHundred }}s</div>
-        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">0 – 100</div>
-      </div>
-      <div class="text-center">
-        <div class="stat-value">€{{ vehicle.pricePerDay }}</div>
-        <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">PER DAY</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contenido principal bajo el hero -->
   <div class="content-72-wide">
 
     <!-- Breadcrumb de navegación -->
@@ -79,15 +26,66 @@
     </div>
     <div class="gold-divider-mb"></div>
 
-    <!-- Layout de dos columnas: specs + reserva.
-         En mobile (< 768px) se apilan en columna.
-         En desktop (>= 768px) van una al lado de la otra. -->
+    <!-- Layout de dos columnas: imagen + specs | panel de reserva -->
     <div class="vehicle-detail-layout">
 
-      <!-- ── COLUMNA IZQUIERDA: especificaciones técnicas ── -->
+      <!-- ── COLUMNA IZQUIERDA ── -->
       <div class="col-gap-lg">
 
-        <!-- Tabla de specs técnicas -->
+        <!-- Carrusel de imágenes del vehículo -->
+        <div class="vehicle-img-box">
+
+          <!-- Rejilla dorada decorativa de fondo -->
+          <div class="vehicle-img-grid"></div>
+
+          <!-- Imagen principal -->
+          @if (vehicle.images && vehicle.images.length > 0) {
+            <img
+              [src]="getImageUrl(vehicle.images[currentImageIndex])"
+              [alt]="vehicle.brand + ' ' + vehicle.model"
+              class="vehicle-img-main"
+              onerror="this.style.display='none'"
+            />
+          } @else {
+            <div class="vehicle-img-placeholder">
+              <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-15);font-size:3rem;">
+                {{ vehicle.brand }}
+              </span>
+            </div>
+          }
+
+          <!-- Watermark tipográfico -->
+          <div class="vehicle-img-watermark">{{ vehicle.brand }}</div>
+
+          <!-- Flechas del carrusel (solo si hay más de 1 imagen) -->
+          @if (vehicle.images && vehicle.images.length > 1) {
+            <button class="carousel-btn left" (click)="prevImage()" type="button" aria-label="Imagen anterior">
+              &#8592;
+            </button>
+            <button class="carousel-btn right" (click)="nextImage()" type="button" aria-label="Imagen siguiente">
+              &#8594;
+            </button>
+          }
+
+        </div>
+
+        <!-- Stats rápidas bajo la imagen -->
+        <div class="vehicle-quick-stats">
+          <div class="text-center">
+            <div class="stat-value">{{ vehicle.horsePower }}</div>
+            <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">HP</div>
+          </div>
+          <div class="text-center vehicle-hero-stat-mid">
+            <div class="stat-value">{{ vehicle.zeroToHundred }}s</div>
+            <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">0 – 100</div>
+          </div>
+          <div class="text-center">
+            <div class="stat-value">€{{ vehicle.pricePerDay }}</div>
+            <div class="eyebrow eyebrow-xs" style="margin-top:0.2rem;">PER DAY</div>
+          </div>
+        </div>
+
+        <!-- Tabla de especificaciones técnicas -->
         <div class="glass-card p-8">
           <h2 class="card-title">Technical Specifications</h2>
           <div class="specs-grid">
@@ -155,7 +153,6 @@
       </div>
 
       <!-- ── COLUMNA DERECHA: panel de reserva ── -->
-      <!-- sticky solo en desktop; en mobile fluye debajo de las specs -->
       <div class="glass-card vehicle-detail-sidebar" style="padding:1.75rem;">
 
         <div class="eyebrow text-gold mb-6" style="letter-spacing:0.25em;">RESERVE THIS ASSET</div>
@@ -216,7 +213,7 @@
           </div>
         </div>
 
-        <!-- Mensaje de error inline (reemplaza el alert) -->
+        <!-- Mensaje de error inline -->
         @if (errorMsg) {
           <div class="error-box mb-4">
             <span class="error-text" style="font-size:0.75rem;">{{ errorMsg }}</span>
@@ -264,7 +261,6 @@
         <div class="reviews-grid">
           @for (r of reviews; track r.id) {
             <div class="glass-card p-6">
-              <!-- Estrellas -->
               <div class="stars-row">
                 @for (s of starsArray(r.rating); track s) {
                   <span class="star-filled">★</span>
@@ -273,11 +269,7 @@
                   <span class="star-empty">★</span>
                 }
               </div>
-              <!-- Comentario -->
-              <p class="review-comment">
-                "{{ r.comment }}"
-              </p>
-              <!-- Autor -->
+              <p class="review-comment">"{{ r.comment }}"</p>
               <div class="row-center-sm" style="gap:0.5rem;">
                 <div class="review-avatar">
                   {{ r.renterName ? r.renterName[0] : '?' }}
