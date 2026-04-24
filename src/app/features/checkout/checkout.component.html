@@ -23,6 +23,13 @@
 <div class="page-dark">
   <div class="content-72">
 
+    <!-- Enlace de vuelta al catálogo para contexto de navegación -->
+    <div class="row-center-sm mb-8">
+      <a routerLink="/vehicles" class="breadcrumb-link">← FLEET</a>
+      <span class="breadcrumb-sep">·</span>
+      <span class="eyebrow" style="opacity:0.4;">CHECKOUT</span>
+    </div>
+
     <!-- Cabecera -->
     <div class="mb-2">
       <div class="eyebrow text-gold mb-2">SECURE GATEWAY</div>
@@ -80,9 +87,9 @@
 
             <!-- Número de tarjeta -->
             <div>
-              <label class="eyebrow form-label">NÚMERO DE TARJETA</label>
+              <label for="cardNumber" class="eyebrow form-label">NÚMERO DE TARJETA</label>
               <div class="card-number-wrapper">
-                <input type="text" [(ngModel)]="cardNumber" placeholder="1234  5678  9012  3456"
+                <input id="cardNumber" type="text" [(ngModel)]="cardNumber" placeholder="1234  5678  9012  3456"
                   maxlength="19" class="input-dark card-number-input" />
                 <!-- Logos de redes de pago -->
                 <div class="card-logos">
@@ -94,21 +101,21 @@
 
             <!-- Nombre del titular -->
             <div>
-              <label class="eyebrow form-label">NOMBRE DEL TITULAR</label>
-              <input type="text" [(ngModel)]="cardHolder" placeholder="ÁLVARO LÓPEZ PÉREZ"
+              <label for="cardHolder" class="eyebrow form-label">NOMBRE DEL TITULAR</label>
+              <input id="cardHolder" type="text" [(ngModel)]="cardHolder" placeholder="ÁLVARO LÓPEZ PÉREZ"
                 class="input-dark input-upper" />
             </div>
 
             <!-- Fecha y CVV en fila -->
             <div class="card-form-row">
               <div>
-                <label class="eyebrow form-label">VENCIMIENTO</label>
-                <input type="text" [(ngModel)]="cardExpiry" placeholder="MM/AA"
+                <label for="cardExpiry" class="eyebrow form-label">VENCIMIENTO</label>
+                <input id="cardExpiry" type="text" [(ngModel)]="cardExpiry" placeholder="MM/AA"
                   maxlength="5" class="input-dark input-mono" />
               </div>
               <div>
-                <label class="eyebrow form-label">CVV</label>
-                <input type="password" [(ngModel)]="cardCvv" placeholder="•••"
+                <label for="cardCvv" class="eyebrow form-label">CVV</label>
+                <input id="cardCvv" type="password" [(ngModel)]="cardCvv" placeholder="•••"
                   maxlength="4" class="input-dark input-mono" />
               </div>
             </div>
@@ -146,7 +153,7 @@
 
         <!-- Error inline -->
         @if (error) {
-          <div class="error-box-lg">
+          <div class="error-box-lg" role="alert" aria-live="polite">
             <span class="error-text-lg">{{ error }}</span>
           </div>
         }
