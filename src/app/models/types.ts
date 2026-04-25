@@ -34,6 +34,22 @@ export class UserDTO {
   image: string | null = null;
 }
 
+/**
+ * Resumen de usuario para el panel de administración.
+ * Refleja exactamente el UserSummaryDTO del backend.
+ * Solo el ADMIN ve esta información.
+ */
+export class UserSummary {
+  id        = 0;
+  username  = '';
+  email     = '';
+  firstName = '';
+  lastName  = '';
+  enabled   = true;
+  /** Nombres de los roles asignados, ej: ["ROLE_USER"] o ["ROLE_MANAGER"] */
+  roles: string[] = [];
+}
+
 // ─── Vehicle ──────────────────────────────────────────────────────────────────
 
 export class OwnerDTO {

@@ -11,7 +11,8 @@ import { OwnerService } from '../../core/services/owner.service';
 import { DamageReportService } from '../../core/services/damage-report.service';
 import { ReviewService } from '../../core/services/review.service';
 import { InvoiceService } from '../../core/services/invoice.service';
-import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO } from '../../models/types';
+import { UserService } from '../../core/services/user.service';
+import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO, UserSummary } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -65,6 +66,9 @@ export class DashboardComponent implements OnInit {
   invoices:        InvoiceDTO[]       = [];
   invoiceDownloadingId: number | null = null;
 
+  /** Lista de todos los usuarios del sistema (solo para ADMIN) */
+  users: UserSummary[] = [];
+
   /** Formulario para registrar un nuevo parte de daños */
   newReport = { reservationId: 0, type: 'PRE' as 'PRE' | 'POST', description: '', reportedDate: '' };
   reportError   = '';
@@ -90,6 +94,7 @@ export class DashboardComponent implements OnInit {
     private damageReportSvc:   DamageReportService,
     private reviewSvc:         ReviewService,
     private invoiceSvc:        InvoiceService,
+    private userSvc:           UserService,
     private router:            Router,
     // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
     private cdr:               ChangeDetectorRef
@@ -144,6 +149,7 @@ export class DashboardComponent implements OnInit {
     }
     if (section === 'reviews'         && !this.reviews.length)          this.loadReviews();
     if (section === 'invoices'        && !this.invoices.length)         this.loadInvoices();
+    if (section === 'users'           && !this.users.length)            this.loadUsers();
   }
 
   // ─── Carga de datos por sección ───────────────────────────────────────────
@@ -390,6 +396,49 @@ export class DashboardComponent implements OnInit {
       },
       error: () => {
         this.reportError = 'Error al registrar el parte. Verifica el ID de reserva.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  // ─── Gestión de usuarios (solo ADMIN) ────────────────────────────────────
+
+  /** Carga la lista completa de usuarios del sistema desde GET /api/users */
+  loadUsers(): void {
+    this.userSvc.getAll().subscribe({
+      next: list => { this.users = list; this.cdr.markForCheck(); }
+    });
+  }
+
+  /**
+   * Alterna el rol de un usuario entre ROLE_USER y ROLE_MANAGER.
+   * Si el usuario es MANAGER pasa a USER, y viceversa.
+   * Tras el cambio recarga la lista completa para reflejar el estado actual.
+   *
+   * @param user El UserSummary del usuario al que se cambia el rol.
+   */
+  toggleUserRole(user: UserSummary): void {
+    // Determinamos el rol destino: si es MANAGER baja a USER, si es USER sube a MANAGER
+    const currentRole = user.roles[0] ?? 'ROLE_USER';
+    const newRole = currentRole === 'ROLE_MANAGER' ? 'ROLE_USER' : 'ROLE_MANAGER';
+
+    this.userSvc.changeRole(user.id, newRole).subscribe({
+      next: () => this.loadUsers()
+    });
+  }
+
+  /**
+   * Elimina un usuario del sistema tras pedir confirmación al administrador.
+   * El usuario con ID=1 y el usuario logueado no tienen este botón visible.
+   *
+   * @param user El UserSummary del usuario a eliminar.
+   */
+  removeUser(user: UserSummary): void {
+    if (!confirm(`¿Eliminar usuario "${user.username}"? Esta acción no se puede deshacer.`)) return;
+    this.userSvc.deleteUser(user.id).subscribe({
+      next: () => {
+        // Eliminamos el elemento de la lista local sin recargar del servidor
+        this.users = this.users.filter(u => u.id !== user.id);
         this.cdr.markForCheck();
       }
     });

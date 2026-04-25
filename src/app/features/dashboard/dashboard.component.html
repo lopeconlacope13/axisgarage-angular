@@ -67,10 +67,13 @@
         <button class="sidebar-btn" [class.active]="activeSection === 'invoices'" (click)="setSection('invoices')">
           INVOICES
         </button>
-        <!-- Sección exclusiva de ROLE_ADMIN -->
+        <!-- Secciones exclusivas de ROLE_ADMIN -->
         @if (isAdmin) {
           <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
             OWNERS
+          </button>
+          <button class="sidebar-btn" [class.active]="activeSection === 'users'" (click)="setSection('users')">
+            USERS
           </button>
         }
       }
@@ -632,6 +635,107 @@
               }
             </tbody>
           </table>
+        }
+      </div>
+    }
+
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECCIÓN: USERS (solo ROLE_ADMIN)
+         Gestión unificada de cuentas de usuario: listado, cambio de rol
+         y eliminación. No se muestran acciones sobre el admin (id=1)
+         ni sobre el propio usuario logueado.
+    ──────────────────────────────────────────────────────────────────── -->
+    @if (activeSection === 'users' && isAdmin) {
+      <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">User <span class="italic">Management</span></h1>
+
+      <div class="glass-card p-0" style="overflow:hidden;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(201,161,74,0.2);">
+              <!-- Cabeceras de la tabla de usuarios -->
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">NOMBRE</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">EMAIL</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ROL</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ESTADO</th>
+              <th class="p-4 text-right eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of users; track u.id) {
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+
+                <!-- Nombre completo del usuario -->
+                <td class="p-4">
+                  <span style="color:#e8e8e2;">{{ u.firstName }} {{ u.lastName }}</span>
+                  <span class="text-axis-gray" style="display:block;font-size:0.7rem;">{{ u.username }}</span>
+                </td>
+
+                <!-- Email del usuario -->
+                <td class="p-4 text-axis-gray">{{ u.email }}</td>
+
+                <!-- Badge de rol: dorado para ADMIN, plateado para MANAGER, gris para USER -->
+                <td class="p-4">
+                  @if (u.roles.includes('ROLE_ADMIN')) {
+                    <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(184,149,42,0.2);color:var(--axis-gold);border:1px solid rgba(184,149,42,0.4);">
+                      ADMIN
+                    </span>
+                  } @else if (u.roles.includes('ROLE_MANAGER')) {
+                    <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(180,180,180,0.15);color:#c8c8c4;border:1px solid rgba(180,180,180,0.3);">
+                      MANAGER
+                    </span>
+                  } @else {
+                    <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(120,120,120,0.12);color:#888;border:1px solid rgba(120,120,120,0.2);">
+                      USER
+                    </span>
+                  }
+                </td>
+
+                <!-- Badge de estado: verde si activo, rojo si deshabilitado -->
+                <td class="p-4">
+                  @if (u.enabled) {
+                    <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(74,222,128,0.12);color:rgba(74,222,128,0.9);border:1px solid rgba(74,222,128,0.25);">
+                      ACTIVE
+                    </span>
+                  } @else {
+                    <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(239,68,68,0.12);color:rgba(239,68,68,0.8);border:1px solid rgba(239,68,68,0.25);">
+                      DISABLED
+                    </span>
+                  }
+                </td>
+
+                <!-- Acciones: cambio de rol y eliminación.
+                     No se muestran para el admin principal (id=1) ni para el usuario logueado. -->
+                <td class="p-4 text-right" style="white-space:nowrap;">
+                  @if (u.id !== 1 && u.email !== userEmail) {
+                    <!-- Botón toggle rol: sube a MANAGER o baja a USER -->
+                    @if (!u.roles.includes('ROLE_ADMIN')) {
+                      <button
+                        (click)="toggleUserRole(u)"
+                        style="font-size:0.6rem;letter-spacing:0.08em;padding:0.25rem 0.65rem;border:1px solid var(--axis-gold-35);background:transparent;color:rgba(201,161,74,0.8);border-radius:4px;cursor:pointer;margin-right:0.5rem;">
+                        {{ u.roles.includes('ROLE_MANAGER') ? '→ USER' : '→ MANAGER' }}
+                      </button>
+                    }
+                    <!-- Botón eliminar: rojo, pide confirm() -->
+                    <button
+                      (click)="removeUser(u)"
+                      style="font-size:0.6rem;letter-spacing:0.08em;padding:0.25rem 0.65rem;border:1px solid rgba(239,68,68,0.4);background:transparent;color:rgba(239,68,68,0.8);border-radius:4px;cursor:pointer;">
+                      DELETE
+                    </button>
+                  }
+                </td>
+
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- Estado vacío: si no hay usuarios cargados todavía -->
+        @if (users.length === 0) {
+          <div class="p-8 text-center text-axis-gray" style="font-size:0.8rem;">
+            No hay usuarios registrados en el sistema.
+          </div>
         }
       </div>
     }
