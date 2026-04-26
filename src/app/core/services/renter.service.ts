@@ -28,11 +28,13 @@ export class RenterService {
   }
 
   /**
-   * Crea el perfil de Renter del usuario autenticado si no existe todavía.
-   * Operación idempotente: si ya existe, devuelve el existente sin error.
-   * El backend deduce el email del JWT, por lo que no se envía body.
+   * Crea o actualiza el perfil de Renter del usuario autenticado.
+   * Operación idempotente: si ya existe, devuelve el existente.
+   * Si se proporciona un body con dni/phone/address, el backend valida
+   * y actualiza esos campos antes de devolver el RenterDTO.
+   * El backend deduce el email del JWT.
    */
-  ensure(): Observable<RenterDTO> {
-    return this.http.post<RenterDTO>(`${this.base}/ensure`, {});
+  ensure(dto?: Partial<RenterDTO>): Observable<RenterDTO> {
+    return this.http.post<RenterDTO>(`${this.base}/ensure`, dto ?? {});
   }
 }

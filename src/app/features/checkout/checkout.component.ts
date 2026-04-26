@@ -1,12 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { ReservationService } from '../../core/services/reservation.service';
 import { RenterService } from '../../core/services/renter.service';
 import { AuthService } from '../../core/services/auth.service';
 import { VehicleDTO, ReservationDTO } from '../../models/types';
+import { validateDni } from '../../shared/validators/dni.validator';
+import { HttpClient } from '@angular/common/http';
+import { debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
 
 /**
  * Componente de checkout: muestra el resumen de la reserva, una pasarela de
@@ -16,7 +19,7 @@ import { VehicleDTO, ReservationDTO } from '../../models/types';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
   // OnPush: Angular solo re-renderiza cuando lo pedimos explícitamente con markForCheck().
@@ -36,6 +39,15 @@ export class CheckoutComponent implements OnInit {
   renterId       = 0;
   renterNotFound = false;
   renterEmail    = '';
+
+  /** Datos de facturación — se piden si el perfil de Renter tiene placeholders */
+  dni = '';
+  phone = '';
+  address = '';
+  addressControl = new FormControl('');
+  addressSuggestions: string[] = [];
+  needsBillingDetails = false;
+  dniValid = false;
 
   /** Formulario de la pasarela de pago simulada */
   cardHolder = '';
@@ -58,6 +70,7 @@ export class CheckoutComponent implements OnInit {
     private reservationSvc: ReservationService,
     private renterSvc:      RenterService,
     private authSvc:        AuthService,
+    private http:           HttpClient,
     // ChangeDetectorRef: referencia manual al detector de cambios de este componente.
     // Con OnPush, Angular no detecta cambios automáticamente — llamamos a markForCheck()
     // después de cada respuesta HTTP para forzar la actualización de la vista.
@@ -90,6 +103,11 @@ export class CheckoutComponent implements OnInit {
       next: r => {
         this.renterId    = r.id!;
         this.renterEmail = r.email || this.renterEmail;
+        this.dni         = r.dni || '';
+        this.phone       = r.phone || '';
+        this.address     = r.address || '';
+        // Si el DNI es placeholder o falta dirección, exigimos completar datos de facturación
+        this.needsBillingDetails = !this.dni || this.dni.startsWith('PENDING-') || !this.address;
         // Forzamos re-render para que la vista muestre el formulario de pago
         this.cdr.markForCheck();
       },
@@ -98,6 +116,22 @@ export class CheckoutComponent implements OnInit {
         // También forzamos re-render en el caso de error para mostrar el mensaje
         this.cdr.markForCheck();
       }
+    });
+
+    // Autocompletado de direcciones con OpenStreetMap Nominatim.
+    // Usamos debounceTime(500) para no saturar el servicio gratuito de OSM.
+    this.addressControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (!query || query.length < 3) return of([]);
+        return this.http.get<any[]>(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`
+        );
+      })
+    ).subscribe(results => {
+      this.addressSuggestions = results.map((r: any) => r.display_name);
+      this.cdr.markForCheck();
     });
   }
 
@@ -120,7 +154,26 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
+   * Valida la letra de control del DNI en tiempo real mientras el usuario escribe.
+   */
+  onDniInput(): void {
+    this.dniValid = validateDni(this.dni);
+  }
+
+  /**
+   * Rellena el campo de dirección con la sugerencia seleccionada de OSM.
+   */
+  selectAddress(suggestion: string): void {
+    this.address = suggestion;
+    this.addressControl.setValue(suggestion, { emitEvent: false });
+    this.addressSuggestions = [];
+    this.cdr.markForCheck();
+  }
+
+  /**
    * Valida el formulario de pago simulado y envía la reserva al backend.
+   * Si faltan datos de facturación (DNI o address), primero actualiza el perfil
+   * de Renter mediante ensure() y luego crea la reserva.
    * La validación del pago es puramente visual (es una simulación).
    * El backend crea la reserva y dispara el email de confirmación.
    */
@@ -130,6 +183,18 @@ export class CheckoutComponent implements OnInit {
     if (!this.renterId) {
       this.error = 'No se pudo verificar el perfil de cliente. Contacte con soporte.';
       return;
+    }
+
+    // Validación de datos de facturación antes de proceder al pago
+    if (this.needsBillingDetails) {
+      if (!this.dni || !validateDni(this.dni)) {
+        this.error = 'Introduce un DNI válido (8 dígitos + letra). Ej: 12345678Z';
+        return;
+      }
+      if (!this.address || this.address.length < 5) {
+        this.error = 'Introduce una dirección de facturación válida.';
+        return;
+      }
     }
 
     // Validación del formulario de tarjeta (solo si método = CARD)
@@ -142,24 +207,39 @@ export class CheckoutComponent implements OnInit {
 
     this.processing = true;
 
-    const nuevaReserva: Partial<ReservationDTO> = {
-      vehicleId:  this.vehicle?.id,
-      renterId:   this.renterId,
-      startDate:  this.start,
-      endDate:    this.end,
-      totalPrice: this.calculatedTotal,
-      status:     'CONFIRMED'
-    };
+    // Primero actualizamos el perfil de cliente con DNI y dirección si es necesario
+    const updateRenter$ = this.needsBillingDetails
+      ? this.renterSvc.ensure({ dni: this.dni, phone: this.phone, address: this.address })
+      : this.renterSvc.ensure();
 
-    this.reservationSvc.create(nuevaReserva).subscribe({
-      next: (res: any) => {
-        this.confirmedId = res?.id ?? 0;
-        this.processing  = false;
-        this.success     = true;
-        this.cdr.markForCheck();
+    updateRenter$.subscribe({
+      next: () => {
+        // Perfil actualizado: procedemos a crear la reserva
+        const nuevaReserva: Partial<ReservationDTO> = {
+          vehicleId:  this.vehicle?.id,
+          renterId:   this.renterId,
+          startDate:  this.start,
+          endDate:    this.end,
+          totalPrice: this.calculatedTotal,
+          status:     'CONFIRMED'
+        };
+
+        this.reservationSvc.create(nuevaReserva).subscribe({
+          next: (res: any) => {
+            this.confirmedId = res?.id ?? 0;
+            this.processing  = false;
+            this.success     = true;
+            this.cdr.markForCheck();
+          },
+          error: err => {
+            this.error      = err?.error ?? 'Error al procesar la reserva. Inténtelo de nuevo.';
+            this.processing = false;
+            this.cdr.markForCheck();
+          }
+        });
       },
       error: err => {
-        this.error      = err?.error ?? 'Error al procesar la reserva. Inténtelo de nuevo.';
+        this.error      = err?.error ?? 'Error al guardar los datos de facturación.';
         this.processing = false;
         this.cdr.markForCheck();
       }

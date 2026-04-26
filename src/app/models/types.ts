@@ -113,6 +113,7 @@ export class RenterDTO {
   email    = '';
   dni      = '';
   phone    = '';
+  address  = '';
 }
 
 // ─── Reservation ──────────────────────────────────────────────────────────────

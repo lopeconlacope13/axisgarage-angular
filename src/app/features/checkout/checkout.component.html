@@ -55,6 +55,45 @@
 
         <h2 class="card-title">Método de pago</h2>
 
+        <!-- Billing Details: DNI + Address (solo si faltan datos reales) -->
+        @if (needsBillingDetails) {
+          <div class="billing-block">
+            <h3 class="billing-title">DATOS DE FACTURACIÓN</h3>
+
+            <!-- DNI -->
+            <div class="billing-field">
+              <label for="dni" class="eyebrow form-label">DNI / NIE</label>
+              <input id="dni" type="text" [(ngModel)]="dni" (ngModelChange)="onDniInput()"
+                placeholder="12345678Z" maxlength="9"
+                class="input-dark"
+                [style.borderColor]="dni && !dniValid ? '#e74c3c' : dniValid ? '#27ae60' : ''" />
+              @if (dni && !dniValid) {
+                <span class="dni-hint dni-invalid">DNI no válido</span>
+              }
+              @if (dniValid) {
+                <span class="dni-hint dni-valid">DNI válido</span>
+              }
+            </div>
+
+            <!-- Address con autocomplete OSM -->
+            <div class="billing-field" style="position:relative;">
+              <label for="address" class="eyebrow form-label">DOMICILIO FISCAL</label>
+              <input id="address" type="text" [formControl]="addressControl"
+                placeholder="Escribe tu dirección..."
+                class="input-dark" />
+              @if (addressSuggestions.length > 0) {
+                <ul class="suggestions-list">
+                  @for (s of addressSuggestions; track $index) {
+                    <li (click)="selectAddress(s)" class="suggestion-item">{{ s }}</li>
+                  }
+                </ul>
+              }
+            </div>
+          </div>
+
+          <div class="section-divider-spaced"></div>
+        }
+
         <!-- Tabs de método -->
         <div class="pay-method-row">
           <button (click)="payMethod='CARD'" class="pay-method-btn"

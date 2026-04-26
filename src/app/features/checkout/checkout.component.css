@@ -233,3 +233,58 @@
   font-size: 0.78rem;
   color: rgba(245, 245, 240, 0.4);
 }
+
+/* ── Billing Details (DNI + Address) ───────────────────────────────────────── */
+.billing-block {
+  margin-bottom: 1.5rem;
+}
+.billing-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  color: var(--axis-gold);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.billing-field {
+  margin-bottom: 1rem;
+}
+.dni-hint {
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  display: block;
+}
+.dni-invalid { color: #e74c3c; }
+.dni-valid   { color: #27ae60; }
+
+/* ── Autocompletado de direcciones (OSM Nominatim) ────────────────────────── */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  background: #141414;
+  border: 1px solid rgba(201, 161, 74, 0.25);
+  border-radius: 6px;
+  max-height: 12rem;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.suggestion-item {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.78rem;
+  color: rgba(245, 245, 240, 0.75);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+}
+.suggestion-item:hover {
+  background: rgba(201, 161, 74, 0.08);
+  color: var(--axis-gold);
+}
+.suggestion-item:last-child {
+  border-bottom: none;
+}
