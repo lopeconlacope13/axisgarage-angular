@@ -59,10 +59,12 @@ export class VehicleEditComponent implements OnInit {
   /** ID del vehículo leído de la URL (/dashboard/vehicles/:id/edit) */
   vehicleId = 0;
 
-  loading     = false;
-  saving      = false;
-  error       = '';
-  saveError   = '';
+  loading      = false;
+  saving       = false;
+  savingOrder  = false;
+  orderChanged = false;
+  error        = '';
+  saveError    = '';
 
   /**
    * URL base del backend para construir las rutas de imágenes.
@@ -161,27 +163,42 @@ export class VehicleEditComponent implements OnInit {
   }
 
   /**
-   * Sube una imagen nueva a la galería del vehículo.
-   * El input[type=file] oculto dispara este método al seleccionar un archivo.
-   * Al completarse, actualiza this.vehicle con el DTO devuelto por el backend
-   * (que ya incluye el array images actualizado).
+   * Sube una o varias imágenes a la galería del vehículo.
+   * El input[type=file multiple] puede devolver varios archivos a la vez.
+   * Se suben en secuencia: cada petición espera a que la anterior termine
+   * para que el array de imágenes no tenga condiciones de carrera.
    *
    * @param event Evento change del input de archivo
    */
   uploadImage(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file || !this.vehicle) return;
+    const files = (event.target as HTMLInputElement).files;
+    if (!files || files.length === 0 || !this.vehicle) return;
 
-    this.vehicleSvc.uploadImage(this.vehicleId, file).subscribe({
-      next: updated => {
-        // El backend devuelve el DTO completo con el nuevo array de imágenes
-        this.vehicle = updated;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        alert('Error al subir la imagen.');
-      }
-    });
+    // Convertimos FileList a array normal para poder iterar con índice
+    const fileArray = Array.from(files);
+    let index = 0;
+
+    // Función recursiva que sube un archivo y al terminar pasa al siguiente
+    const uploadNext = (): void => {
+      if (index >= fileArray.length) return;
+      const file = fileArray[index++];
+      this.vehicleSvc.uploadImage(this.vehicleId, file).subscribe({
+        next: updated => {
+          // Actualizamos el vehículo con el DTO más reciente del backend
+          this.vehicle = updated;
+          this.cdr.markForCheck();
+          // Subimos el siguiente archivo
+          uploadNext();
+        },
+        error: () => {
+          alert(`Error al subir la imagen: ${file.name}`);
+          // Continuamos con el resto aunque uno falle
+          uploadNext();
+        }
+      });
+    };
+
+    uploadNext();
   }
 
   /**
@@ -200,6 +217,51 @@ export class VehicleEditComponent implements OnInit {
       },
       error: () => {
         alert('Error al eliminar la imagen.');
+      }
+    });
+  }
+
+  /**
+   * Mueve una imagen hacia arriba o hacia abajo en el array de imágenes.
+   * El intercambio se hace localmente; no llama al backend hasta que el
+   * usuario pulse "SAVE ORDER".
+   *
+   * @param index Posición actual de la imagen en el array
+   * @param dir   -1 para subir, +1 para bajar
+   */
+  moveImage(index: number, dir: -1 | 1): void {
+    if (!this.vehicle) return;
+    const imgs  = [...this.vehicle.images];
+    const target = index + dir;
+    // Comprobamos que el destino esté dentro del rango
+    if (target < 0 || target >= imgs.length) return;
+    // Intercambiamos las dos posiciones (swap clásico con variable temporal)
+    const temp    = imgs[index];
+    imgs[index]   = imgs[target];
+    imgs[target]  = temp;
+    this.vehicle  = { ...this.vehicle, images: imgs };
+    this.orderChanged = true;
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Envía el nuevo orden de imágenes al backend.
+   * Solo se activa cuando el usuario ha movido al menos una imagen (orderChanged).
+   */
+  saveOrder(): void {
+    if (!this.vehicle || !this.orderChanged) return;
+    this.savingOrder = true;
+    this.vehicleSvc.reorderImages(this.vehicleId, this.vehicle.images).subscribe({
+      next: updated => {
+        this.vehicle      = updated;
+        this.orderChanged = false;
+        this.savingOrder  = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        alert('Error al guardar el orden de las imágenes.');
+        this.savingOrder = false;
+        this.cdr.markForCheck();
       }
     });
   }

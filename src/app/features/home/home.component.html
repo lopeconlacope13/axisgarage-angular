@@ -1,3 +1,10 @@
+<!-- Franja de advertencia TFG — aparece justo debajo del header fijo -->
+<div style="position:fixed;top:72px;left:0;right:0;z-index:9998;background:rgba(184,149,42,0.12);border-bottom:1px solid rgba(184,149,42,0.3);padding:0.4rem 1.5rem;text-align:center;backdrop-filter:blur(8px);">
+  <span class="eyebrow" style="font-size:0.6rem;letter-spacing:0.2em;color:var(--axis-gold);opacity:0.9;">
+    {{ 'HOME.TFG_WARNING' | translate }}
+  </span>
+</div>
+
 <!-- ══ HERO ════════════════════════════════════════════════ -->
 <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
 
@@ -9,69 +16,61 @@
   <!-- El gradiente es más opaco abajo (0.85) donde está el texto, más transparente arriba (0.55) -->
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.85) 100%);z-index:1;"></div>
 
-  <!-- Rejilla diagonal decorativa (profundidad) — sobre el overlay -->
-  <div style="position:absolute;inset:0;z-index:1;opacity:0.03;background-image:linear-gradient(var(--axis-gold) 1px,transparent 1px),linear-gradient(90deg,var(--axis-gold) 1px,transparent 1px);background-size:80px 80px;"></div>
-
   <!-- Línea dorada superior -->
   <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--axis-gold-40),transparent);z-index:2;"></div>
 
   <!-- z-index:3 → por encima de los overlays de la foto y la rejilla -->
   <div style="position:relative;z-index:3;max-width:64rem;margin:0 auto;padding:0 1.5rem;text-align:center;">
 
+    <!-- Las ciudades son iguales en ambos idiomas — no se traducen -->
     <div class="eyebrow animate-fade-in" style="color:var(--axis-gold);margin-bottom:1.5rem;letter-spacing:0.3em;">
       SEVILLA &nbsp;·&nbsp; MADRID &nbsp;·&nbsp; BARCELONA &nbsp;·&nbsp; PUERTO BANÚS
     </div>
 
     <h1 class="section-title animate-fade-in" style="margin-bottom:1.5rem;animation-delay:0.1s;">
-      The Art of
-      <span style="display:block;font-style:italic;color:var(--axis-gold);">Extraordinary Motion</span>
+      {{ 'HOME.HERO_TITLE' | translate }}
+      <span style="display:block;font-style:italic;color:var(--axis-gold);">{{ 'HOME.HERO_TITLE_ITALIC' | translate }}</span>
     </h1>
 
     <p style="color:var(--axis-gray);font-size:1.05rem;max-width:36rem;margin:0 auto 2.5rem;line-height:1.7;animation-delay:0.2s;" class="animate-fade-in">
-      Curated access to the world's most coveted hypercars.
-      Each vehicle delivered with the discretion and refinement your standards demand.
+      {{ 'HOME.HERO_SUBTITLE' | translate }}
     </p>
 
     <div class="flex items-center justify-center gap-4 animate-fade-in" style="animation-delay:0.3s;">
-      <a routerLink="/vehicles" class="btn-gold">VIEW INVENTORY</a>
-      <a routerLink="/ateliers" class="btn-outline">OUR ATELIERS</a>
+      <a routerLink="/vehicles" class="btn-gold">{{ 'HOME.CTA_INVENTORY' | translate }}</a>
+      <a routerLink="/ateliers" class="btn-outline">{{ 'HOME.CTA_ATELIERS' | translate }}</a>
     </div>
 
     <!-- Stats -->
     <div class="animate-fade-in" style="margin-top:5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:28rem;margin-left:auto;margin-right:auto;animation-delay:0.4s;">
       <div style="text-align:center;">
         <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">31</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">Vehicles</div>
+        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_VEHICLES' | translate }}</div>
       </div>
       <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);">
         <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">4</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">Ateliers</div>
+        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_ATELIERS' | translate }}</div>
       </div>
       <div style="text-align:center;">
         <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">€200</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">From / Day</div>
+        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_FROM' | translate }}</div>
       </div>
     </div>
   </div>
 
-  <!-- Scroll indicator — z-index:3 para que se vea sobre los overlays -->
-  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;z-index:3;">
-    <span class="eyebrow" style="font-size:0.6rem;">SCROLL</span>
-    <div style="width:1px;height:2rem;background:linear-gradient(to bottom, var(--axis-gold), transparent);"></div>
-  </div>
 </section>
 
 <!-- ══ FEATURED VEHICLES (de la API) ═══════════════════── -->
 <section style="max-width:80rem;margin:0 auto;padding:6rem 1.5rem;">
 
   <div style="margin-bottom:3rem;">
-    <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">CURATED SELECTION</div>
-    <h2 class="section-title">Featured <span style="font-style:italic;">Assets</span></h2>
+    <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">{{ 'HOME.FEATURED_EYEBROW' | translate }}</div>
+    <h2 class="section-title">{{ 'HOME.FEATURED_TITLE' | translate }} <span style="font-style:italic;">{{ 'HOME.FEATURED_TITLE_ITALIC' | translate }}</span></h2>
     <div class="gold-divider"></div>
   </div>
 
-  <!-- Grid de 3 coches reales de la API -->
-  <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:1.5rem;">
+  <!-- Grid de 6 coches reales de la API — 1 col mobile / 3 col desktop -->
+  <div class="featured-grid">
 
     @for (v of featuredVehicles; track v.id) {
       <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;">
@@ -85,14 +84,9 @@
               style="width:100%;height:100%;object-fit:cover;display:block;"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
             />
-            <div style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;background:#1a1a1a;">
-              <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-15);font-size:2rem;">{{ v.brand }}</span>
-            </div>
+            <div style="display:none;position:absolute;inset:0;background:#1a1a1a;"></div>
           } @else {
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,17,0.7),transparent);"></div>
-            <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-15);font-size:2rem;z-index:1;">
-              {{ v.brand }}
-            </span>
+            <div style="position:absolute;inset:0;background:#1a1a1a;"></div>
           }
         </div>
 
@@ -117,10 +111,10 @@
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
             <div>
-              <div class="eyebrow" style="font-size:0.6rem;">DAILY FROM</div>
+              <div class="eyebrow" style="font-size:0.6rem;">{{ 'HOME.DAILY_FROM' | translate }}</div>
               <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--axis-gold);">€{{ v.pricePerDay }}</div>
             </div>
-            <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.7rem;padding:0.5rem 1rem;">RESERVE</a>
+            <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.7rem;padding:0.5rem 1rem;">{{ 'HOME.RESERVE' | translate }}</a>
           </div>
         </div>
 
@@ -130,6 +124,6 @@
   </div>
 
   <div style="text-align:center;margin-top:3rem;">
-    <a routerLink="/vehicles" class="btn-outline" style="font-size:0.75rem;">VIEW FULL FLEET</a>
+    <a routerLink="/vehicles" class="btn-outline" style="font-size:0.75rem;">{{ 'HOME.FEATURED_CTA' | translate }}</a>
   </div>
 </section>

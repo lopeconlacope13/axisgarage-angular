@@ -10,13 +10,14 @@
     "RESERVATIONS": "Mis Reservas",
     "DASHBOARD": "Dashboard",
     "LOGOUT": "Cerrar Sesión",
-    "WELCOME": "Bienvenido"
+    "WELCOME": "Bienvenido",
+    "OUR_STORY": "NUESTRA HISTORIA"
   },
   "HOME": {
     "EYEBROW": "SEVILLA · MADRID · BARCELONA · PUERTO BANÚS",
-    "HERO_TITLE": "El Arte del",
-    "HERO_TITLE_ITALIC": "Movimiento Extraordinario",
-    "HERO_SUBTITLE": "Acceso curado a los hiperdepor­tivos más codiciados del mundo. Cada vehículo entregado con la discreción y refinamiento que sus estándares exigen.",
+    "HERO_TITLE": "Intención.",
+    "HERO_TITLE_ITALIC": "Ejecución.",
+    "HERO_SUBTITLE": "La distancia más corta entre lo que usted exige y lo que la máquina ofrece. Vehículos de alto rendimiento para quienes rechazan el lujo superficial y buscan la pureza mecánica absoluta. Cero ruido. Cero fricción.",
     "CTA_INVENTORY": "VER CATÁLOGO",
     "CTA_ATELIERS": "NUESTROS ATELIERS",
     "STATS_VEHICLES": "Vehículos",
@@ -28,7 +29,8 @@
     "FEATURED_TITLE_ITALIC": "Destacados",
     "FEATURED_CTA": "VER FLOTA COMPLETA",
     "DAILY_FROM": "DESDE AL DÍA",
-    "RESERVE": "RESERVAR"
+    "RESERVE": "RESERVAR",
+    "TFG_WARNING": "⚠  PROYECTO EDUCATIVO · AXIS GARAGE ES UN PROYECTO FICTICIO DE TFG · NINGÚN VEHÍCULO ES REAL  ⚠"
   },
   "CATALOG": {
     "EYEBROW": "INVENTARIO",
@@ -193,5 +195,44 @@
     "LOGIN_LINK": "IDENTIFICARSE",
     "REGISTER_SUCCESS": "Registro completado. Redirigiendo al acceso...",
     "REGISTER_ERROR": "Error al registrar. Inténtelo de nuevo."
+  },
+  "ATELIERS": {
+    "EYEBROW": "NUESTRAS UBICACIONES",
+    "TITLE": "Los",
+    "TITLE_ITALIC": "Ateliers",
+    "SUBTITLE": "Cuatro santuarios de la excelencia mecánica, cuidadosamente situados en la Península Ibérica. Cada atelier cuenta con especialistas y ofrece un servicio discreto, con cita previa.",
+    "PHONE": "TELÉFONO",
+    "HOURS": "HORARIO",
+    "CTA": "VER LA FLOTA"
+  },
+  "BRANDS": {
+    "EYEBROW": "LA COLECCIÓN",
+    "TITLE": "Marcas",
+    "TITLE_ITALIC": "Curadas",
+    "SUBTITLE": "Cada marca de nuestra flota fue seleccionada por su carácter singular. No ofrecemos volumen — ofrecemos iconos.",
+    "CTA": "EXPLORAR LA FLOTA"
+  },
+  "OUR_STORY": {
+    "EYEBROW": "MANIFIESTO",
+    "TITLE": "Nuestra",
+    "TITLE_ITALIC": "Filosofía",
+    "INTRO": "Rechazamos categóricamente el lujo superficial. Axis Garage no fue concebido para el postureo, ni para alimentar la cultura del exceso. Somos el santuario para puristas del motor y ejecutivos enfocados que buscan soberanía, discreción y la conexión más pura con la carretera. Cero fricción. Cero ruido.",
+    "S1_TITLE": "El Símbolo",
+    "S1_TEXT": "Nuestro emblema fusiona el hueso Axis —la vértebra cervical que sostiene la cabeza y permite el movimiento— con las levas de un motor de combustión. Representa nuestro propósito final: la conexión visceral y perfecta entre la intención humana y la ejecución de la máquina.",
+    "S2_TITLE": "El Estándar Técnico",
+    "S2_TEXT": "El lujo real es invisible; radica en que todo funcione de manera impecable. Nuestra plataforma ha sido desarrollada bajo una estricta arquitectura en código nativo puro. No competimos por tener cien funcionalidades mediocres, sino diez absolutamente perfectas.",
+    "S3_TITLE": "El Concierge Privado",
+    "S3_TEXT": "No creemos en los catálogos vacíos ni en filtros genéricos. Nuestro algoritmo actuará como un concierge de guante blanco. Analizamos el propósito de su viaje, su actitud y el nivel de impacto deseado para entregarle, milimétricamente, la máquina exacta para el momento exacto.",
+    "CTA": "ACCEDER A LA FLOTA"
+  },
+  "FOOTER": {
+    "TAGLINE": "THE PRIVATE ATELIER",
+    "COPYRIGHT": "AXIS GARAGE. TODOS LOS DERECHOS RESERVADOS.",
+    "PRIVACY": "PRIVACIDAD",
+    "TERMS": "TÉRMINOS",
+    "CONTACT": "CONTACTO",
+    "OUR_STORY": "NUESTRA HISTORIA",
+    "PROJECT_DISCLAIMER": "Proyecto educativo ficticio",
+    "ADDRESS": "Calle San Fernando 3 — junto al Hotel Alfonso XIII"
   }
 }

@@ -185,4 +185,28 @@ export class CatalogComponent implements OnInit {
   get pages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
+
+  // ─── Buscador rápido (filtro en memoria) ──────────────────────────────────
+
+  /**
+   * Texto introducido en el buscador rápido de la parte superior de la grid.
+   * Filtra los vehículos de la página actual sin hacer ninguna petición al servidor.
+   */
+  searchQuery = '';
+
+  /**
+   * Getter que devuelve los vehículos filtrados por el buscador rápido.
+   * Si searchQuery está vacío, devuelve todos los vehículos de la página.
+   * La comparación es case-insensitive: "ferr" encuentra "Ferrari".
+   */
+  get filteredVehicles(): VehicleDTO[] {
+    const q = this.searchQuery.trim().toLowerCase();
+    // Sin texto: devolvemos todos los vehículos sin filtrar
+    if (!q) return this.vehicles;
+    // Con texto: filtramos por marca o modelo que contengan el texto escrito
+    return this.vehicles.filter(v =>
+      v.brand.toLowerCase().includes(q) ||
+      v.model.toLowerCase().includes(q)
+    );
+  }
 }

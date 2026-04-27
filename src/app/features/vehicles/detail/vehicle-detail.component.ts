@@ -99,6 +99,18 @@ export class VehicleDetailComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  /**
+   * Salta directamente a la imagen de la miniatura pulsada.
+   * Usado por la fila de thumbnails debajo del carrusel principal.
+   *
+   * @param index - Posición de la imagen en el array vehicle.images
+   */
+  goToImage(index: number): void {
+    if (!this.vehicle?.images?.length) return;
+    this.currentImageIndex = index;
+    this.cdr.markForCheck();
+  }
+
   /** Retrocede a la imagen anterior (va al final si está en la primera) */
   prevImage(): void {
     if (!this.vehicle?.images?.length) return;

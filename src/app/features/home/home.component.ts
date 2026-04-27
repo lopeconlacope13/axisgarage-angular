@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   // OnPush: Angular solo comprueba cambios cuando le decimos explícitamente
@@ -29,7 +29,7 @@ import { environment } from '../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  /** Los tres coches más representativos de la flota */
+  /** Los seis coches más representativos de la flota */
   featuredVehicles: VehicleDTO[] = [];
 
   /** URL base del backend para construir rutas de imágenes */
@@ -42,8 +42,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Cargamos 3 vehículos ordenados por precio descendente para mostrar los más exclusivos
-    this.vehicleSvc.getAll(0, 3, 'pricePerDay,desc').subscribe({
+    // Cargamos 6 vehículos ordenados por precio descendente para mostrar los más exclusivos
+    this.vehicleSvc.getAll(0, 6, 'pricePerDay,desc').subscribe({
       next: p => {
         this.featuredVehicles = p.content;
         // Sin esta llamada, Angular Zoneless no sabe que los datos cambiaron

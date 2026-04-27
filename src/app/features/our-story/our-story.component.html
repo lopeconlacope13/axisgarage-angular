@@ -1,0 +1,65 @@
+<div class="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24">
+
+  <!-- Logo Center -->
+  <div class="mb-10 md:mb-12 flex justify-center">
+    <img src="assets/logo-completo.png" alt="Axis Garage" class="h-10 md:h-12" style="filter: drop-shadow(0 0 15px rgba(184,149,42,0.15));">
+  </div>
+
+  <!-- Header -->
+  <div class="mb-16 md:mb-20 text-center">
+    <div class="eyebrow mb-4" style="color:var(--axis-gold); letter-spacing:0.3em;">{{ 'OUR_STORY.EYEBROW' | translate }}</div>
+    <h1 class="section-title mb-6 text-4xl md:text-5xl lg:text-[3rem]">{{ 'OUR_STORY.TITLE' | translate }} <span class="italic">{{ 'OUR_STORY.TITLE_ITALIC' | translate }}</span></h1>
+    <div class="mx-auto w-[1px] h-12 md:h-[60px]" style="background: linear-gradient(to bottom, var(--axis-gold), transparent);"></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="mb-20 md:mb-24 max-w-3xl mx-auto text-center px-4">
+    <p class="font-display text-white text-lg md:text-[1.35rem] leading-relaxed md:leading-[1.8] font-light tracking-wide">
+      {{ 'OUR_STORY.INTRO' | translate }}
+    </p>
+  </div>
+
+  <!-- Grid of Core Values -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20 md:mb-24">
+    <!-- Value 1 -->
+    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
+      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">01.</div>
+      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
+        {{ 'OUR_STORY.S1_TITLE' | translate }}
+      </h3>
+      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
+        {{ 'OUR_STORY.S1_TEXT' | translate }}
+      </p>
+    </div>
+
+    <!-- Value 2 -->
+    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
+      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">02.</div>
+      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
+        {{ 'OUR_STORY.S2_TITLE' | translate }}
+      </h3>
+      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
+        {{ 'OUR_STORY.S2_TEXT' | translate }}
+      </p>
+    </div>
+
+    <!-- Value 3 -->
+    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
+      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">03.</div>
+      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
+        {{ 'OUR_STORY.S3_TITLE' | translate }}
+      </h3>
+      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
+        {{ 'OUR_STORY.S3_TEXT' | translate }}
+      </p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="text-center mt-12 md:mt-16 pt-12 md:pt-16" style="border-top:1px solid rgba(255,255,255,0.06);">
+    <a routerLink="/vehicles" class="btn-gold font-display uppercase tracking-widest text-xs md:text-sm px-8 py-4 inline-block">
+      {{ 'OUR_STORY.CTA' | translate }}
+    </a>
+  </div>
+
+</div>

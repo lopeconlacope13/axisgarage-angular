@@ -10,13 +10,14 @@
     "RESERVATIONS": "My Reservations",
     "DASHBOARD": "Dashboard",
     "LOGOUT": "Log Out",
-    "WELCOME": "Welcome"
+    "WELCOME": "Welcome",
+    "OUR_STORY": "OUR STORY"
   },
   "HOME": {
     "EYEBROW": "SEVILLA · MADRID · BARCELONA · PUERTO BANÚS",
-    "HERO_TITLE": "The Art of",
-    "HERO_TITLE_ITALIC": "Extraordinary Motion",
-    "HERO_SUBTITLE": "Curated access to the world's most coveted hypercars. Each vehicle delivered with the discretion and refinement your standards demand.",
+    "HERO_TITLE": "Intention.",
+    "HERO_TITLE_ITALIC": "Execution.",
+    "HERO_SUBTITLE": "The shortest distance between what you demand and what the machine delivers. High-performance vehicles for those who reject superficial luxury and seek absolute mechanical purity. Zero noise. Zero friction.",
     "CTA_INVENTORY": "VIEW INVENTORY",
     "CTA_ATELIERS": "OUR ATELIERS",
     "STATS_VEHICLES": "Vehicles",
@@ -28,7 +29,8 @@
     "FEATURED_TITLE_ITALIC": "Assets",
     "FEATURED_CTA": "VIEW FULL FLEET",
     "DAILY_FROM": "DAILY FROM",
-    "RESERVE": "RESERVE"
+    "RESERVE": "RESERVE",
+    "TFG_WARNING": "⚠  EDUCATIONAL PROJECT · AXIS GARAGE IS A FICTITIOUS TFG PROJECT · NO VEHICLE IS REAL  ⚠"
   },
   "CATALOG": {
     "EYEBROW": "INVENTORY",
@@ -193,5 +195,44 @@
     "LOGIN_LINK": "SIGN IN",
     "REGISTER_SUCCESS": "Registration complete. Redirecting to sign in...",
     "REGISTER_ERROR": "Registration failed. Please try again."
+  },
+  "ATELIERS": {
+    "EYEBROW": "OUR LOCATIONS",
+    "TITLE": "The",
+    "TITLE_ITALIC": "Ateliers",
+    "SUBTITLE": "Four sanctuaries of mechanical excellence, carefully positioned across the Iberian Peninsula. Each atelier is staffed by specialists and offers a discreet, appointment-based service.",
+    "PHONE": "PHONE",
+    "HOURS": "HOURS",
+    "CTA": "BROWSE THE FLEET"
+  },
+  "BRANDS": {
+    "EYEBROW": "THE COLLECTION",
+    "TITLE": "Curated",
+    "TITLE_ITALIC": "Brands",
+    "SUBTITLE": "Every marque in our fleet was selected for its singular character. We do not carry volume — we carry icons.",
+    "CTA": "EXPLORE THE FLEET"
+  },
+  "OUR_STORY": {
+    "EYEBROW": "MANIFESTO",
+    "TITLE": "Our",
+    "TITLE_ITALIC": "Philosophy",
+    "INTRO": "We categorically reject superficial luxury. Axis Garage was not built for showmanship, nor to feed the culture of excess. We are a sanctuary for motor purists and focused executives seeking sovereignty, discretion, and the purest connection with the road. Zero friction. Zero noise.",
+    "S1_TITLE": "The Symbol",
+    "S1_TEXT": "Our emblem fuses the Axis bone—the cervical vertebra that supports the head and enables movement—with the lobes of a combustion camshaft. It represents our ultimate purpose: the visceral, flawless connection between human intention and machine execution.",
+    "S2_TITLE": "The Technical Standard",
+    "S2_TEXT": "True luxury is invisible; it lies in flawless operation. Our platform has been developed from scratch under strict native code architecture. We do not compete to have a hundred mediocre features, but ten absolutely perfect ones.",
+    "S3_TITLE": "The Private Concierge",
+    "S3_TEXT": "We do not believe in empty catalogs or generic filters. Our algorithm will act as a white-glove concierge. We analyze the purpose of your journey, your attitude, and your desired level of impact, delivering the precise machine for your exact moment.",
+    "CTA": "ENTER THE FLEET"
+  },
+  "FOOTER": {
+    "TAGLINE": "THE PRIVATE ATELIER",
+    "COPYRIGHT": "AXIS GARAGE. ALL RIGHTS RESERVED.",
+    "PRIVACY": "PRIVACY",
+    "TERMS": "TERMS",
+    "CONTACT": "CONTACT",
+    "OUR_STORY": "OUR STORY",
+    "PROJECT_DISCLAIMER": "Fictitious educational project",
+    "ADDRESS": "Calle San Fernando 3 — next to Hotel Alfonso XIII"
   }
 }

@@ -93,13 +93,29 @@
     </div>
   </div>
 
+  <!-- ── BUSCADOR RÁPIDO ─────────────────────────────────────────────────────
+       Filtra los vehículos de la página actual en tiempo real sin llamar al servidor.
+       Para búsquedas más específicas, usar los filtros de arriba (van al backend).
+  ──────────────────────────────────────────────────────────────────────────── -->
+  <div style="margin-bottom:1.5rem;">
+    <input
+      type="search"
+      [value]="searchQuery"
+      (input)="searchQuery = $any($event.target).value"
+      placeholder="Buscar por marca o modelo en esta página…"
+      style="width:100%;padding:0.65rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(201,161,74,0.2);border-radius:6px;color:#f5f0e8;font-family:'Inter',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;"
+      onfocus="this.style.borderColor='rgba(201,161,74,0.5)'"
+      onblur="this.style.borderColor='rgba(201,161,74,0.2)'"
+    />
+  </div>
+
   <!-- Spinner mientras el backend responde -->
   @if (loading) {
     <div class="text-axis-gray text-center py-20">Loading...</div>
   } @else {
 
     <!-- Sin resultados -->
-    @if (vehicles.length === 0) {
+    @if (filteredVehicles.length === 0) {
       <div class="glass-card p-12 text-center">
         <p class="text-axis-gray">{{ 'CATALOG.EMPTY' | translate }}</p>
         <button (click)="clearFilters()" class="btn-gold mt-6" style="font-size:0.75rem;">{{ 'CATALOG.CLEAR_FILTERS' | translate }}</button>
@@ -108,7 +124,7 @@
 
       <!-- Cuadrícula 3×3 de tarjetas de vehículos -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @for (v of vehicles; track v.id) {
+        @for (v of filteredVehicles; track v.id) {
           <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;height:100%;">
 
             <!-- Imagen del vehículo: real si existe, placeholder si no -->
@@ -122,13 +138,10 @@
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                 />
                 <!-- Fallback si la imagen falla al cargar -->
-                <div style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;background:#1a1a1a;">
-                  <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-20);font-size:1.5rem;">{{ v.brand }}</span>
-                </div>
+                <div style="display:none;position:absolute;inset:0;background:#1a1a1a;"></div>
               } @else {
                 <!-- Placeholder cuando no hay imagen -->
-                <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(17,17,17,0.8), transparent);"></div>
-                <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-20);font-size:1.5rem;z-index:1;">{{ v.brand }}</span>
+                <div style="position:absolute;inset:0;background:#1a1a1a;"></div>
               }
             </div>
 

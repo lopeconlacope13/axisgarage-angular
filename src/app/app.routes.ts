@@ -32,6 +32,11 @@ export const routes: Routes = [
       import('./features/brands/brands.component').then(m => m.BrandsComponent)
   },
   {
+    path: 'our-story',
+    loadComponent: () =>
+      import('./features/our-story/our-story.component').then(m => m.OurStoryComponent)
+  },
+  {
     path: 'privacy',
     loadComponent: () =>
       import('./features/legal/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent)

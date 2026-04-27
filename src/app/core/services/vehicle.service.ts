@@ -70,4 +70,12 @@ export class VehicleService {
   removeImage(vehicleId: number, filename: string): Observable<VehicleDTO> {
     return this.http.delete<VehicleDTO>(`${this.base}/${vehicleId}/images/${encodeURIComponent(filename)}`);
   }
+
+  /**
+   * Envía al backend el array de nombres de imagen en el nuevo orden.
+   * El backend valida que el conjunto sea idéntico al existente y persiste el orden.
+   */
+  reorderImages(vehicleId: number, filenames: string[]): Observable<VehicleDTO> {
+    return this.http.put<VehicleDTO>(`${this.base}/${vehicleId}/images/order`, filenames);
+  }
 }

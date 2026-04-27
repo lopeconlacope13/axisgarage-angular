@@ -237,3 +237,38 @@
 .review-author-name { font-size: 0.75rem; font-weight: 500; }
 /* Fecha de la reseña */
 .review-author-date { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.05em; }
+
+/* ── Miniaturas del carrusel ──────────────────────────────────────────────── */
+
+/* Contenedor horizontal con scroll para las miniaturas */
+.carousel-thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  /* Scrollbar fina y dorada en navegadores WebKit */
+  scrollbar-width: thin;
+  scrollbar-color: var(--axis-gold-20) transparent;
+}
+
+/* Cada miniatura individual */
+.carousel-thumb {
+  width: 64px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.55;
+  flex-shrink: 0;
+  /* Transición suave al pasar el ratón o activarse */
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+/* Miniatura activa (imagen actualmente visible) y hover */
+.carousel-thumb.active,
+.carousel-thumb:hover {
+  opacity: 1;
+  border-color: var(--axis-gold);
+}

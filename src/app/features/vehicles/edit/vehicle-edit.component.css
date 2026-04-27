@@ -28,6 +28,37 @@
   object-fit: cover;
 }
 
+/* Botones ↑ ↓ de reordenación: esquina inferior izquierda, en columna */
+.gallery-thumb-order {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gallery-thumb-order button {
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: var(--axis-gray);
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.65rem;
+  line-height: 1.4;
+}
+
+.gallery-thumb-order button:hover:not(:disabled) {
+  color: var(--axis-gold);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.gallery-thumb-order button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* Botón de eliminar: posicionado en la esquina superior derecha */
 .gallery-thumb-remove {
   position: absolute;

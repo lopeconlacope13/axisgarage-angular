@@ -69,6 +69,21 @@
 
         </div>
 
+        <!-- Miniaturas del carrusel: permiten saltar directamente a cualquier imagen -->
+        @if (vehicle.images && vehicle.images.length > 1) {
+          <div class="carousel-thumbnails">
+            @for (img of vehicle.images; track $index) {
+              <img
+                [src]="getImageUrl(img)"
+                [alt]="'Vista ' + ($index + 1)"
+                class="carousel-thumb"
+                [class.active]="currentImageIndex === $index"
+                (click)="goToImage($index)"
+              />
+            }
+          </div>
+        }
+
         <!-- Stats rápidas bajo la imagen -->
         <div class="vehicle-quick-stats">
           <div class="text-center">

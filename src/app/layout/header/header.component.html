@@ -3,8 +3,8 @@
 
     <!-- 1. LEFT: Logo & Branding — routerLink lleva al home -->
     <a routerLink="/" (click)="closeMenu()" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
-      <div style="width:2rem;height:2rem;border:1px solid var(--axis-gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <span style="color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:0.9rem;">A</span>
+      <div style="width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <img src="assets/logo-compacto.png" alt="Axis Garage Logo" style="max-width:100%;max-height:100%;object-fit:contain;">
       </div>
       <div>
         <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.05em;white-space:nowrap;">AXIS GARAGE</div>
@@ -17,6 +17,7 @@
       <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
       <a routerLink="/ateliers" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
       <a routerLink="/brands" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/our-story" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.OUR_STORY' | translate }}</a>
     </nav>
 
     <!-- 3. RIGHT: Toolset (Desktop) + Botón Hamburguesa (Mobile) -->
@@ -92,7 +93,8 @@
       <!-- Links de navegación -->
       <a routerLink="/vehicles" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.INVENTORY' | translate }}</a>
       <a routerLink="/ateliers" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.ATELIERS' | translate }}</a>
-      <a routerLink="/brands"   (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/brands"     (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/our-story"  (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.OUR_STORY' | translate }}</a>
 
       <!-- Separador -->
       <div style="height:1px;background:rgba(255,255,255,0.06);margin:0.5rem 0;"></div>

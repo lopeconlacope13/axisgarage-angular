@@ -135,10 +135,23 @@
           </p>
         </div>
 
+        <!-- Botón SAVE ORDER — solo visible cuando el usuario ha movido alguna imagen -->
+        @if (orderChanged) {
+          <button
+            class="btn-gold"
+            (click)="saveOrder()"
+            [disabled]="savingOrder"
+            [style.opacity]="savingOrder ? '0.6' : '1'"
+            style="padding:0.5rem 1rem;font-size:0.65rem;letter-spacing:0.1em;">
+            {{ savingOrder ? 'SAVING...' : 'SAVE ORDER' }}
+          </button>
+        }
+
         <!-- Input de archivo oculto, activado por el botón ADD IMAGE -->
         <input
           type="file"
           accept="image/*"
+          multiple
           id="imageFileInput"
           style="display:none;"
           (change)="uploadImage($event)" />
@@ -154,9 +167,14 @@
       <!-- Grid de thumbnails -->
       @if (vehicle.images.length > 0) {
         <div class="gallery-grid">
-          @for (img of vehicle.images; track img) {
+          @for (img of vehicle.images; track img; let i = $index) {
             <div class="gallery-thumb">
               <img [src]="imageUrl(img)" [alt]="vehicle.brand + ' ' + vehicle.model" />
+              <!-- Botones de reordenación: ↑ sube, ↓ baja -->
+              <div class="gallery-thumb-order">
+                <button (click)="moveImage(i, -1)" [disabled]="i === 0" title="Subir">↑</button>
+                <button (click)="moveImage(i, 1)" [disabled]="i === vehicle.images.length - 1" title="Bajar">↓</button>
+              </div>
               <!-- Botón de eliminar imagen -->
               <button
                 class="gallery-thumb-remove"
