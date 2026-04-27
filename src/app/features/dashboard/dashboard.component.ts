@@ -12,6 +12,7 @@ import { DamageReportService } from '../../core/services/damage-report.service';
 import { ReviewService } from '../../core/services/review.service';
 import { InvoiceService } from '../../core/services/invoice.service';
 import { UserService } from '../../core/services/user.service';
+import { StatsService } from '../../core/services/stats.service';
 import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO, UserSummary } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
@@ -76,6 +77,13 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
+  // ─── Estadísticas del backend (endpoint /api/stats) ──────────────────────
+  /**
+   * Datos devueltos por GET /api/stats: reservas totales, vehículos disponibles y clientes.
+   * Null hasta que se carga; el template lo muestra solo cuando tiene valor.
+   */
+  stats: { totalReservations: number; availableVehicles: number; totalClients: number } | null = null;
+
   // ─── KPIs del overview ────────────────────────────────────────────────────
   /** Ingresos totales: suma de reservas CONFIRMED */
   totalRevenue      = 0;
@@ -97,6 +105,7 @@ export class DashboardComponent implements OnInit {
     private reviewSvc:         ReviewService,
     private invoiceSvc:        InvoiceService,
     private userSvc:           UserService,
+    private statsSvc:          StatsService,
     private router:            Router,
     // Imprescindible en modo Zoneless: notifica a Angular que re-renderice la vista
     private cdr:               ChangeDetectorRef
@@ -296,6 +305,10 @@ export class DashboardComponent implements OnInit {
     this.renterSvc.getAll(0, 200).subscribe({
       next: p => { this.totalClients = p.totalElements; this.cdr.markForCheck(); }
     });
+    // Cargamos las estadísticas consolidadas desde el endpoint dedicado
+    this.statsSvc.getStats().subscribe({
+      next: s => { this.stats = s; this.cdr.markForCheck(); }
+    });
     this.overviewLoaded = true;
   }
 
@@ -451,6 +464,53 @@ export class DashboardComponent implements OnInit {
       next: () => {
         // Eliminamos el elemento de la lista local sin recargar del servidor
         this.users = this.users.filter(u => u.id !== user.id);
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  // ─── Cambio de contraseña ─────────────────────────────────────────────────
+
+  /** Contraseña actual introducida en el formulario */
+  currentPassword  = '';
+  /** Nueva contraseña introducida en el formulario */
+  newPassword      = '';
+  /** Confirmación de la nueva contraseña (debe coincidir con newPassword) */
+  confirmPassword  = '';
+  /** Mensaje de éxito tras cambiar la contraseña correctamente */
+  passwordMessage  = '';
+  /** Mensaje de error si la contraseña actual es incorrecta o las nuevas no coinciden */
+  passwordError    = '';
+
+  /**
+   * Envía la solicitud de cambio de contraseña al backend.
+   * Antes de llamar al servidor, comprueba que la nueva contraseña y la confirmación coincidan.
+   * Si no coinciden, muestra un error local sin llamar al backend.
+   */
+  changePassword(): void {
+    // Limpiamos mensajes anteriores para no confundir al usuario
+    this.passwordMessage = '';
+    this.passwordError   = '';
+
+    // Validación local: las dos contraseñas nuevas deben ser idénticas
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordError = 'Las contraseñas no coinciden.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    // Llamamos al backend para verificar la contraseña actual y actualizar la nueva
+    this.authSvc.changePassword(this.currentPassword, this.newPassword).subscribe({
+      next: () => {
+        this.passwordMessage = 'Contraseña actualizada correctamente.';
+        // Limpiamos los campos del formulario tras el éxito
+        this.currentPassword  = '';
+        this.newPassword      = '';
+        this.confirmPassword  = '';
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.passwordError = 'Contraseña actual incorrecta.';
         this.cdr.markForCheck();
       }
     });

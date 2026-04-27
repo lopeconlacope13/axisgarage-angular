@@ -127,6 +127,31 @@
 
       </div>
 
+      <!-- Tarjetas de estadísticas globales cargadas desde GET /api/stats -->
+      @if (stats) {
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:1rem; margin-bottom:2rem;">
+
+          <!-- Total de reservas registradas en el sistema -->
+          <div class="glass-card" style="padding:1.5rem; text-align:center;">
+            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Reservas</p>
+            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.totalReservations }}</p>
+          </div>
+
+          <!-- Vehículos disponibles ahora mismo -->
+          <div class="glass-card" style="padding:1.5rem; text-align:center;">
+            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Disponibles</p>
+            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.availableVehicles }}</p>
+          </div>
+
+          <!-- Total de clientes registrados -->
+          <div class="glass-card" style="padding:1.5rem; text-align:center;">
+            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Clientes</p>
+            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.totalClients }}</p>
+          </div>
+
+        </div>
+      }
+
     }
 
     <!-- ────────────────────────────────────────────────────────────────────
@@ -217,6 +242,43 @@
               </div>
             </div>
           }
+        </div>
+
+        <!-- Formulario de cambio de contraseña -->
+        <div class="glass-card p-8" style="margin-top:2rem;">
+          <h2 class="font-display text-lg font-semibold mb-6">Change <span class="italic">Password</span></h2>
+
+          <!-- Mensaje de éxito -->
+          @if (passwordMessage) {
+            <p style="color:var(--axis-gold); font-size:0.85rem; margin-bottom:0.75rem;">{{ passwordMessage }}</p>
+          }
+          <!-- Mensaje de error -->
+          @if (passwordError) {
+            <p style="color:#e74c3c; font-size:0.85rem; margin-bottom:0.75rem;" aria-live="polite">{{ passwordError }}</p>
+          }
+
+          <!-- Campo: contraseña actual -->
+          <div class="col-gap-sm">
+            <div>
+              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">CURRENT PASSWORD</label>
+              <input type="password" placeholder="••••••••" [(ngModel)]="currentPassword"
+                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+            </div>
+            <div>
+              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">NEW PASSWORD</label>
+              <input type="password" placeholder="••••••••" [(ngModel)]="newPassword"
+                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+            </div>
+            <div>
+              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">CONFIRM NEW PASSWORD</label>
+              <input type="password" placeholder="••••••••" [(ngModel)]="confirmPassword"
+                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+            </div>
+          </div>
+
+          <button class="btn-gold" style="width:100%; margin-top:1.25rem;" (click)="changePassword()">
+            UPDATE PASSWORD
+          </button>
         </div>
 
       </div>
