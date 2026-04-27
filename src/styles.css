@@ -401,57 +401,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   }
 }
 
-/* ── Menú hamburguesa (mobile) ───────────────────────────────────────────── */
-/* Botón que muestra el símbolo ≡ / ✕ en pantallas pequeñas */
-.hamburger-btn {
-  background: none;
-  border: none;
-  color: var(--axis-white);
-  font-size: 1.4rem;
-  cursor: pointer;
-  padding: 0.25rem 0.4rem;
-  line-height: 1;
-  transition: color 0.2s;
-}
-.hamburger-btn:hover { color: var(--axis-gold); }
-
-/* Menú desplegable móvil: fondo oscuro, borde dorado inferior */
-.mobile-menu {
-  background: #111111;
-  border-top: 1px solid var(--axis-gold-20);
-  border-bottom: 2px solid var(--axis-gold-25);
-  padding: 0.5rem 0;
-  animation: fadeIn 0.18s ease-out;
-}
-
-/* Cada enlace de navegación dentro del menú móvil */
-.mobile-menu-link {
-  display: block;
-  padding: 0.85rem 1.25rem;
-  color: var(--axis-gray);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: color 0.2s, background 0.2s;
-  text-decoration: none;
-}
-.mobile-menu-link:hover {
-  color: var(--axis-gold);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-/* Visibilidad responsive: desktop-only oculto en mobile, hamburger al revés */
-.desktop-only  { display: none !important; }
-.desktop-block { display: none !important; }
-.desktop-nav   { display: none !important; }
-
-@media (min-width: 768px) {
-  .desktop-only  { display: inline-flex !important; }
-  .desktop-block { display: block !important; }
-  .desktop-nav   { display: flex !important; }
-  .hamburger-btn { display: none !important; }
-}
-
 /* ── Dashboard responsive ─────────────────────────────────────────────────── */
 /*
  * Layout del dashboard: sidebar izquierda + contenido derecha en desktop.
