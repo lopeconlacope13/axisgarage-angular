@@ -83,19 +83,6 @@ export class VehicleDTO {
   locationName = '';
 }
 
-// ─── Location ─────────────────────────────────────────────────────────────────
-
-export class LocationDTO {
-  id         = 0;
-  name       = '';
-  city       = '';
-  address    = '';
-  postalCode = '';
-  country    = '';
-  phone      = '';
-  email      = '';
-}
-
 // ─── Category ─────────────────────────────────────────────────────────────────
 
 export class VehicleCategoryDTO {
