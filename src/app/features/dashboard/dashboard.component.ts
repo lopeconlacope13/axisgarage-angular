@@ -52,6 +52,8 @@ export class DashboardComponent implements OnInit {
 
   // ─── Datos del perfil (sección USER) ─────────────────────────────────────
   profileData: UserDTO | null = null;
+  /** Datos de facturación del Renter: dni, phone, address */
+  renterData: any = null;
   /** URL de la foto de perfil en base64, guardada en localStorage */
   photoUrl = '';
 
@@ -157,7 +159,17 @@ export class DashboardComponent implements OnInit {
   /** Carga el perfil del usuario autenticado desde GET /api/user */
   loadProfile(): void {
     this.authSvc.getProfile().subscribe({
-      next: p => { this.profileData = p; this.cdr.markForCheck(); }
+      next: p => {
+        this.profileData = p;
+        this.cdr.markForCheck();
+
+        // Tras cargar el perfil, cargamos también los datos de facturación del Renter
+        // (dni, phone, address) para mostrarlos en la sección de perfil.
+        // Usamos el email del JWT que ya tenemos en this.userEmail.
+        this.renterSvc.getByEmail(this.userEmail).subscribe({
+          next: r => { this.renterData = r; this.cdr.markForCheck(); }
+        });
+      }
     });
   }
 

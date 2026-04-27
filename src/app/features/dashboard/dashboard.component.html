@@ -183,6 +183,40 @@
               </div>
             </div>
           }
+
+          <!-- Bloque de datos de facturación: se muestra cuando el backend
+               devuelve el Renter asociado al email del usuario.
+               Si el DNI o el teléfono son valores "placeholder" generados
+               automáticamente al registrar, se avisa al usuario de que los complete. -->
+          @if (renterData) {
+            <div style="margin-top:1.75rem; padding-top:1.5rem; border-top:1px solid rgba(201,161,74,0.2);">
+              <h3 style="color:var(--axis-gold); font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; margin-bottom:1rem; letter-spacing:0.02em;">
+                Billing Details
+              </h3>
+
+              <!-- Aviso si los datos de facturación son los valores placeholder por defecto -->
+              @if (renterData.dni?.startsWith('PENDING-') || renterData.phone?.startsWith('900000')) {
+                <p style="color:var(--axis-gold); font-size:0.82rem; margin-bottom:1rem; line-height:1.4;">
+                  &#9888; Completa tus datos de facturación para poder reservar
+                </p>
+              }
+
+              <div style="display:grid; gap:0.75rem;">
+                <div>
+                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">DNI</div>
+                  <div class="text-sm">{{ renterData.dni || '—' }}</div>
+                </div>
+                <div>
+                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">PHONE</div>
+                  <div class="text-sm">{{ renterData.phone || '—' }}</div>
+                </div>
+                <div>
+                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">ADDRESS</div>
+                  <div class="text-sm">{{ renterData.address || '—' }}</div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
 
       </div>
@@ -225,7 +259,16 @@
                     <span class="eyebrow text-xs" [style.color]="statusColor(r.status)">{{ r.status }}</span>
                   </td>
                   <td class="p-4 text-right td-price">€{{ r.totalPrice | number:'1.0-0' }}</td>
-                  <td class="p-4 text-right">
+                  <td class="p-4 text-right" style="white-space:nowrap;">
+                    <!-- Descarga de factura PDF para reservas confirmadas o completadas -->
+                    @if (r.status === 'CONFIRMED' || r.status === 'COMPLETED') {
+                      <button
+                        (click)="downloadInvoicePdf(r.id)"
+                        [disabled]="invoiceDownloadingId === r.id"
+                        style="font-size:0.6rem;letter-spacing:0.1em;padding:0.4rem 0.8rem;min-height:36px;border:1px solid var(--axis-gold-30);background:transparent;color:rgba(201,161,74,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;">
+                        {{ invoiceDownloadingId === r.id ? '...' : '⬇ PDF' }}
+                      </button>
+                    }
                     <!-- Solo mostrar CANCEL si la reserva no está ya cancelada o completada -->
                     @if (r.status !== 'CANCELLED' && r.status !== 'COMPLETED') {
                       <button class="eyebrow btn-cancel" (click)="cancelMyReservation(r)">CANCEL</button>
