@@ -75,6 +75,21 @@
               }
             </div>
 
+            <!-- Teléfono -->
+            <div class="billing-field">
+              <label for="phone" class="eyebrow form-label">TELÉFONO</label>
+              <input id="phone" type="tel" [(ngModel)]="phone" (ngModelChange)="onPhoneInput()"
+                placeholder="612345678" maxlength="9"
+                class="input-dark"
+                [style.borderColor]="phone && !phoneValid ? '#e74c3c' : phoneValid ? '#27ae60' : ''" />
+              @if (phone && !phoneValid) {
+                <span class="dni-hint dni-invalid">Teléfono no válido</span>
+              }
+              @if (phoneValid) {
+                <span class="dni-hint dni-valid">Teléfono válido</span>
+              }
+            </div>
+
             <!-- Address con autocomplete OSM -->
             <div class="billing-field" style="position:relative;">
               <label for="address" class="eyebrow form-label">DOMICILIO FISCAL</label>

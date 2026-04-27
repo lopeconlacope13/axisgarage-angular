@@ -48,6 +48,7 @@ export class CheckoutComponent implements OnInit {
   addressSuggestions: string[] = [];
   needsBillingDetails = false;
   dniValid = false;
+  phoneValid = false;
 
   /** Formulario de la pasarela de pago simulada */
   cardHolder = '';
@@ -106,8 +107,11 @@ export class CheckoutComponent implements OnInit {
         this.dni         = r.dni || '';
         this.phone       = r.phone || '';
         this.address     = r.address || '';
-        // Si el DNI es placeholder o falta dirección, exigimos completar datos de facturación
-        this.needsBillingDetails = !this.dni || this.dni.startsWith('PENDING-') || !this.address;
+        this.dniValid    = validateDni(this.dni);
+        this.phoneValid  = /^[0-9]{9}$/.test(this.phone);
+        // Si el DNI es placeholder, el teléfono no tiene 9 dígitos o falta dirección,
+        // exigimos completar datos de facturación antes de reservar
+        this.needsBillingDetails = !this.dni || this.dni.startsWith('PENDING-') || !this.dniValid || !this.phoneValid || !this.address;
         // Forzamos re-render para que la vista muestre el formulario de pago
         this.cdr.markForCheck();
       },
@@ -161,6 +165,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   /**
+   * Valida que el teléfono tenga exactamente 9 dígitos (formato español).
+   */
+  onPhoneInput(): void {
+    this.phoneValid = /^[0-9]{9}$/.test(this.phone);
+  }
+
+  /**
    * Rellena el campo de dirección con la sugerencia seleccionada de OSM.
    */
   selectAddress(suggestion: string): void {
@@ -189,6 +200,10 @@ export class CheckoutComponent implements OnInit {
     if (this.needsBillingDetails) {
       if (!this.dni || !validateDni(this.dni)) {
         this.error = 'Introduce un DNI válido (8 dígitos + letra). Ej: 12345678Z';
+        return;
+      }
+      if (!this.phone || !/^[0-9]{9}$/.test(this.phone)) {
+        this.error = 'Introduce un teléfono válido (9 dígitos). Ej: 612345678';
         return;
       }
       if (!this.address || this.address.length < 5) {
