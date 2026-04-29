@@ -81,3 +81,17 @@
   0%   { background-position:  200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── Barra de filtros — extraído de styles.css ────────────────────────────── */
+/* Flex-wrap: en mobile cada filtro ocupa el 100%, en desktop van en fila */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+.filters-bar > div,
+.filters-bar > button {
+  flex: 1;
+  min-width: 200px;
+}
