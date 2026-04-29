@@ -238,6 +238,60 @@
 /* Fecha de la reseña */
 .review-author-date { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.05em; }
 
+/* ── Vehicle detail layout y utilidades — extraído de styles.css ─────────── */
+/* Layout responsive: columna en mobile, 2 cols en desktop */
+.vehicle-detail-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+@media (min-width: 768px) {
+  .vehicle-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    align-items: start;
+  }
+  /* sticky solo tiene sentido en desktop, donde hay espacio */
+  .vehicle-detail-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+/* Fila de spec con borde inferior sutil — usada en la ficha técnica del vehículo */
+.spec-row {
+  border-bottom: 1px solid rgba(245, 245, 240, 0.05);
+  padding-bottom: 1rem;
+}
+/* Valor de especificación técnica (texto normal del vehículo) */
+.spec-value {
+  font-size: 0.95rem;
+  color: var(--axis-white);
+}
+
+/* Botón circular flotante sobre la imagen del vehículo */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--axis-gold-15);
+  border: 1px solid var(--axis-gold-30);
+  color: var(--axis-gold);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+}
+.carousel-btn:hover { background: var(--axis-gold-30); }
+.carousel-btn.left  { left: 1rem; }
+.carousel-btn.right { right: 1rem; }
+
 /* ── Miniaturas del carrusel ──────────────────────────────────────────────── */
 
 /* Contenedor horizontal con scroll para las miniaturas */
