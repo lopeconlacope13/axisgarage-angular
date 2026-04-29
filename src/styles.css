@@ -356,25 +356,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   justify-content: center;
 }
 
-/* ── Checkout — layout responsive ────────────────────────────────────────── */
-/*
- * En mobile: pasarela de pago arriba, resumen debajo.
- * En desktop (>= 768px): dos columnas.
- */
-.checkout-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: stretch;
-}
-@media (min-width: 768px) {
-  .checkout-layout {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    align-items: start;
-  }
-}
-
 /* ── Vehicle Detail — layout responsive ──────────────────────────────────── */
 /*
  * En mobile: columna única (specs arriba, reserva abajo).
@@ -507,38 +488,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   border-radius: 4px;
   padding: 0.6rem 0.9rem;
 }
-/* Variante con más padding para el checkout */
-.error-box-lg {
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 4px;
-  padding: 0.7rem 1rem;
-  margin-bottom: 1rem;
-}
 /* Texto del error */
-.error-text    { font-size: 0.75rem; color: rgba(239, 68, 68, 0.85); }
-.error-text-lg { font-size: 0.8rem;  color: rgba(239, 68, 68, 0.85); }
-
-/* ── Bullet item (lista de features incluidas) ───────────────────────────── */
-/* Fila con bullet dorado + texto: patrón de lista de beneficios */
-.bullet-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-/* Bullet dorado circular */
-.bullet-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--axis-gold);
-  flex-shrink: 0;
-}
-/* Texto del bullet */
-.bullet-text {
-  font-size: 0.78rem;
-  color: rgba(245, 245, 240, 0.55);
-}
+.error-text { font-size: 0.75rem; color: rgba(239, 68, 68, 0.85); }
 
 /* ── Wrapper de página con fondo oscuro ──────────────────────────────────── */
 /* Fondo de página estándar con padding para header fijo */
@@ -670,34 +621,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75); cu
   font-size: 2rem;
 }
 
-/* ── Badge de estado / pill ──────────────────────────────────────────────── */
-/* Pill de notificación en header (demo/live indicator) */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid var(--axis-gold-30);
-  border-radius: 20px;
-  padding: 0.3rem 0.85rem;
-  margin-bottom: 2rem;
-  background: rgba(201, 161, 74, 0.04);
-}
-/* Punto pulsante de estado en la pill */
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--axis-gold);
-  animation: pulse 2s infinite;
-}
-
 /* ── Input con box-sizing completo ───────────────────────────────────────── */
 /* Input que ocupa el 100% de su contenedor sin desbordarse */
 .input-full { width: 100%; box-sizing: border-box; }
-/* Input monospace (número de tarjeta, CVV, fecha) */
-.input-mono  { width: 100%; box-sizing: border-box; font-family: monospace; }
-/* Input en mayúsculas (nombre del titular) */
-.input-upper { width: 100%; box-sizing: border-box; text-transform: uppercase; }
 /* Input select con padding reducido */
 .input-sm { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
 
