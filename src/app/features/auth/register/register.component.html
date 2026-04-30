@@ -109,6 +109,14 @@
           placeholder="••••••••"
           autocomplete="new-password"
         >
+        <!-- Indicador de fuerza de contraseña: se muestra en tiempo real mientras el usuario escribe -->
+        @if (password.length > 0) {
+          <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;">
+            <span style="font-size:0.7rem;" [style.color]="passwordIsStrong ? '#86efac' : '#fca5a5'">
+              {{ passwordIsStrong ? '✓ Contraseña segura' : '✗ Mínimo 1 mayúscula y 1 símbolo' }}
+            </span>
+          </div>
+        }
       </div>
 
       <!-- ══ Botón principal ══ -->
@@ -116,9 +124,8 @@
         type="submit"
         class="btn-gold block"
         style="width:100%;font-size:0.8rem;padding:0.875rem;margin-bottom:1.5rem;"
-        [disabled]="loading || !registerForm.form.valid"
-        [style.opacity]="(loading || !registerForm.form.valid) ? '0.5' : '1'"
-        [style.cursor]="(loading || !registerForm.form.valid) ? 'not-allowed' : 'pointer'"
+        [style.opacity]="loading ? '0.5' : '1'"
+        [style.cursor]="loading ? 'not-allowed' : 'pointer'"
       >
         <span>{{ loading ? ('AUTH.REGISTER_BTN_LOADING' | translate) : ('AUTH.REGISTER_BTN' | translate) }}</span>
       </button>
