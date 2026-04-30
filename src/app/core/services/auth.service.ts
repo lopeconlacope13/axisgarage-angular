@@ -167,10 +167,12 @@ export class AuthService {
    * @param newPassword     Nueva contraseña que se guardará hasheada.
    */
   changePassword(currentPassword: string, newPassword: string): Observable<string> {
-    return this.http.put<string>(
+    return this.http.put(
       `${environment.apiUrl}/user/change-password`,
       { currentPassword, newPassword },
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+      // responseType 'text' evita que Angular intente parsear la respuesta como JSON.
+      // El backend devuelve un string plano (ej: "Contraseña actualizada"), no un objeto JSON.
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), responseType: 'text' as const }
     );
   }
 
