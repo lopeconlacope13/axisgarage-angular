@@ -1,6 +1,21 @@
 /*
- * AXIS GARAGE — Design System
- * Casino Royale Dark Theme — CSS puro sin dependencias PostCSS
+ * AXIS GARAGE — Design System Global
+ * ────────────────────────────────────────────────────────────
+ * Este archivo contiene ÚNICAMENTE los estilos verdaderamente globales:
+ *  - Variables CSS (:root)
+ *  - Reset y base (body, headings, scrollbar)
+ *  - Utilidades de layout (flex, grid, spacing, typography)
+ *  - Componentes del sistema de diseño reutilizables en toda la app:
+ *      .glass-card, .glass-header, .btn-gold, .btn-outline,
+ *      .input-dark, .vehicle-card, .eyebrow, .section-title, etc.
+ *  - Accesibilidad global: .skip-link, .field-error, .avatar-btn
+ *
+ * Los estilos específicos de cada componente están en su propio .css:
+ *  - Header: layout/header/header.component.css
+ *  - Dashboard: features/dashboard/dashboard.component.css
+ *  - Checkout: features/checkout/checkout.component.css
+ *  - Vehicle Detail: features/vehicles/detail/vehicle-detail.component.css
+ *  - Catalog: features/vehicles/catalog/catalog.component.css
  */
 
 /* ── Variables ─────────────────────────────────────────────── */
