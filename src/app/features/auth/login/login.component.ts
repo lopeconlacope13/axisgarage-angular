@@ -82,6 +82,9 @@ export class LoginComponent implements OnInit {
    * Se ejecuta automáticamente cuando hacemos clic en el botón de submit del formulario.
    */
   onSubmit(): void {
+    // Evitar doble envío si ya hay una petición en curso
+    if (this.loading) return;
+
     // 1. Reiniciamos el error y bloqueamos el botón (loading = true)
     this.error   = '';
     this.loading = true;

@@ -48,6 +48,16 @@ export class RegisterComponent {
   loading  = false;
 
   /**
+   * Valida que la contraseña tenga al menos 1 mayúscula y 1 símbolo especial.
+   * Se usa en el template para mostrar el indicador de fuerza en tiempo real.
+   */
+  get passwordIsStrong(): boolean {
+    // /[A-Z]/ comprueba que haya al menos una letra mayúscula
+    // /[^a-zA-Z0-9]/ comprueba que haya al menos un carácter que no sea letra ni número (símbolo)
+    return /[A-Z]/.test(this.password) && /[^a-zA-Z0-9]/.test(this.password);
+  }
+
+  /**
    * CONSTRUCTOR — Inyección de dependencias
    * @param auth   Servicio central de autenticación (login, register, token)
    * @param router Servicio de Angular para navegar entre rutas
@@ -62,6 +72,15 @@ export class RegisterComponent {
    * Si falla      → muestra el error devuelto por Spring Boot.
    */
   onSubmit(): void {
+    // Evitar doble envío si ya hay una petición en curso
+    if (this.loading) return;
+
+    // Validamos la fortaleza de la contraseña antes de enviar al backend
+    if (!this.passwordIsStrong) {
+      this.error = 'La contraseña debe tener al menos 1 mayúscula y 1 símbolo.';
+      return;
+    }
+
     this.error   = '';
     this.success = '';
     this.loading = true;
@@ -76,13 +95,19 @@ export class RegisterComponent {
 
     this.auth.register(request).subscribe({
 
-      // Registro exitoso: el backend devuelve el UserDTO del nuevo usuario
+      // Registro exitoso: hacemos login automático con las mismas credenciales
       next: () => {
         this.success = 'AUTH.REGISTER_SUCCESS';
         this.loading = false;
         this.cdr.markForCheck();
-        // Damos 2 segundos para leer el mensaje antes de redirigir
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+        // Auto-login: usamos el email y password que el usuario acaba de introducir
+        this.auth.login(this.email, this.password).subscribe({
+          next: () => this.router.navigate(['/']),
+          error: () => {
+            // Si el auto-login falla por algún motivo extraño, mandamos al login manual
+            setTimeout(() => this.router.navigate(['/login']), 2000);
+          }
+        });
       },
 
       // Error: el backend puede devolver "Email ya registrado" u otro mensaje

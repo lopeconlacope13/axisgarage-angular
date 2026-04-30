@@ -59,9 +59,8 @@
         type="submit" 
         class="btn-gold block" 
         style="width:100%;font-size:0.8rem;padding:0.875rem;margin-bottom:1.5rem;"
-        [disabled]="loading || !loginForm.form.valid"
-        [style.opacity]="(loading || !loginForm.form.valid) ? '0.5' : '1'"
-        [style.cursor]="(loading || !loginForm.form.valid) ? 'not-allowed' : 'pointer'"
+        [style.opacity]="loading ? '0.5' : '1'"
+        [style.cursor]="loading ? 'not-allowed' : 'pointer'"
       >
         <span>{{ loading ? ('AUTH.LOGIN_BTN_LOADING' | translate) : ('AUTH.LOGIN_BTN' | translate) }}</span>
       </button>
