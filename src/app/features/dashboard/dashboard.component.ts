@@ -77,6 +77,19 @@ export class DashboardComponent implements OnInit {
   reportError   = '';
   reportSuccess = false;
 
+  // ─── Formulario de reseña ─────────────────────────────────────────────────
+  /** ID de la reserva que se está valorando. Null si el modal está cerrado. */
+  reviewingReservationId: number | null = null;
+  /** Datos del formulario de reseña */
+  reviewForm = { rating: 5, comment: '' };
+  /** Mensaje de error del formulario de reseña */
+  reviewError = '';
+  /**
+   * IDs de reservas para las que ya se ha enviado una reseña en esta sesión.
+   * Se usa para ocultar el botón tras el envío sin necesidad de un endpoint extra.
+   */
+  reviewedReservationIds = new Set<number>();
+
   // ─── Estadísticas del backend (endpoint /api/stats) ──────────────────────
   /**
    * Datos devueltos por GET /api/stats: reservas totales, vehículos disponibles y clientes.
@@ -554,5 +567,50 @@ export class DashboardComponent implements OnInit {
 
   /** Devuelve la etiqueta legible del rol sin el prefijo ROLE_ */
   get roleLabel(): string { return this.userRole.replace('ROLE_', ''); }
+
+  /** Abre el modal de reseña para la reserva indicada. */
+  openReviewForm(reservationId: number): void {
+    this.reviewingReservationId = reservationId;
+    this.reviewForm = { rating: 5, comment: '' };
+    this.reviewError = '';
+    this.cdr.markForCheck();
+  }
+
+  /** Cierra el modal de reseña sin guardar. */
+  closeReviewForm(): void {
+    this.reviewingReservationId = null;
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Envía la reseña al backend y, si tiene éxito, marca la reserva como valorada
+   * para ocultar el botón sin necesidad de recargar.
+   */
+  submitReview(): void {
+    if (!this.reviewForm.comment.trim()) {
+      this.reviewError = 'El comentario no puede estar vacío.';
+      this.cdr.markForCheck();
+      return;
+    }
+    const reservation = this.myReservations.find(r => r.id === this.reviewingReservationId);
+    if (!reservation) return;
+
+    this.reviewSvc.create({
+      rating: this.reviewForm.rating,
+      comment: this.reviewForm.comment.trim(),
+      reservationId: this.reviewingReservationId!,
+      vehicleId: reservation.vehicleId
+    }).subscribe({
+      next: () => {
+        this.reviewedReservationIds.add(this.reviewingReservationId!);
+        this.reviewingReservationId = null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.reviewError = 'No se pudo enviar la reseña. Puede que ya hayas valorado esta reserva.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
 
 }

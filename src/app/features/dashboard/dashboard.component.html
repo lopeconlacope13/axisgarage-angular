@@ -183,7 +183,6 @@
                 CHANGE PHOTO
                 <input type="file" accept="image/*" (change)="onPhotoSelected($event)" class="hidden">
               </label>
-              <p class="text-axis-gray" style="font-size:0.7rem;margin-top:0.5rem;">Solo en este navegador</p>
             </div>
           </div>
 
@@ -219,10 +218,11 @@
                 Billing Details
               </h3>
 
-              <!-- Aviso si los datos de facturación son los valores placeholder por defecto -->
+              <!-- Aviso si los datos de facturación son los valores placeholder por defecto.
+                   Los datos reales se rellenan en el paso de Checkout al confirmar la reserva. -->
               @if (renterData.dni?.startsWith('PENDING-') || renterData.phone?.startsWith('900000')) {
-                <p style="color:var(--axis-gold); font-size:0.82rem; margin-bottom:1rem; line-height:1.4;">
-                  &#9888; Completa tus datos de facturación para poder reservar
+                <p style="color:rgba(201,161,74,0.6); font-size:0.78rem; margin-bottom:1rem; line-height:1.5; font-style:italic;">
+                  &#9432; Los datos de facturación se actualizarán aquí automáticamente al completar tu primera reserva.
                 </p>
               }
 
@@ -322,6 +322,14 @@
                   </td>
                   <td class="p-4 text-right td-price">€{{ r.totalPrice | number:'1.0-0' }}</td>
                   <td class="p-4 text-right" style="white-space:nowrap;">
+                    <!-- Botón para dejar una reseña: solo en reservas completadas y no valoradas aún -->
+                    @if (r.status === 'COMPLETED' && !reviewedReservationIds.has(r.id)) {
+                      <button
+                        (click)="openReviewForm(r.id)"
+                        style="font-size:0.6rem;letter-spacing:0.1em;padding:0.4rem 0.8rem;min-height:36px;border:1px solid rgba(184,149,42,0.4);background:transparent;color:rgba(184,149,42,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;">
+                        ★ REVIEW
+                      </button>
+                    }
                     <!-- Descarga de factura PDF para reservas confirmadas o completadas -->
                     @if (r.status === 'CONFIRMED' || r.status === 'COMPLETED') {
                       <button
@@ -340,6 +348,54 @@
               }
             </tbody>
           </table>
+        </div>
+      }
+
+      <!-- Modal para escribir una reseña. Se muestra en overlay cuando reviewingReservationId tiene valor. -->
+      @if (reviewingReservationId !== null) {
+        <div
+          style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;"
+          (click)="closeReviewForm()">
+          <div class="glass-card" style="width:100%;max-width:480px;padding:2rem;" (click)="$event.stopPropagation()">
+
+            <div class="eyebrow text-gold mb-2" style="font-size:0.65rem;letter-spacing:0.15em;">LEAVE A REVIEW</div>
+            <h2 class="font-display text-xl font-semibold mb-6">Your <span class="italic">Experience</span></h2>
+
+            <!-- Selector de puntuación (1-5 estrellas) -->
+            <div class="mb-4">
+              <label class="eyebrow" style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gray);display:block;margin-bottom:0.5rem;">RATING</label>
+              <select class="input-dark w-full" [(ngModel)]="reviewForm.rating">
+                <option [value]="5">★★★★★ — Excepcional</option>
+                <option [value]="4">★★★★☆ — Muy bueno</option>
+                <option [value]="3">★★★☆☆ — Correcto</option>
+                <option [value]="2">★★☆☆☆ — Mejorable</option>
+                <option [value]="1">★☆☆☆☆ — Decepcionante</option>
+              </select>
+            </div>
+
+            <!-- Área de texto para el comentario -->
+            <div class="mb-4">
+              <label class="eyebrow" style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gray);display:block;margin-bottom:0.5rem;">COMMENT</label>
+              <textarea
+                class="input-dark w-full"
+                rows="4"
+                [(ngModel)]="reviewForm.comment"
+                placeholder="Describe tu experiencia con el vehículo y el servicio..."
+                style="resize:none;"></textarea>
+            </div>
+
+            <!-- Mensaje de error si el envío falla -->
+            @if (reviewError) {
+              <p style="color:rgba(239,68,68,0.8);font-size:0.75rem;margin-bottom:1rem;">{{ reviewError }}</p>
+            }
+
+            <!-- Botones de acción -->
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+              <button class="btn-outline eyebrow" style="font-size:0.65rem;" (click)="closeReviewForm()">CANCELAR</button>
+              <button class="btn-gold eyebrow" style="font-size:0.65rem;" (click)="submitReview()">ENVIAR RESEÑA</button>
+            </div>
+
+          </div>
         </div>
       }
     }
