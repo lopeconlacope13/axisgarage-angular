@@ -1,63 +1,171 @@
-<div class="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24">
+<!-- Contenedor principal: padding-top en inline style para evitar que Tailwind purge lo elimine -->
+<!-- El navbar fijo mide ~73px, 120px de top garantiza que nada quede tapado -->
+<div style="max-width:64rem;margin:0 auto;padding:120px 1.5rem 6rem;">
 
-  <!-- Logo Center -->
-  <div class="mb-10 md:mb-12 flex justify-center">
-    <img src="assets/logo-completo.png" alt="Axis Garage" class="h-10 md:h-12" style="filter: drop-shadow(0 0 15px rgba(184,149,42,0.15));">
+  <!-- ═══ CABECERA ═══ -->
+  <div style="margin-bottom:5rem;text-align:center;">
+    <!-- Eyebrow: etiqueta de sección en dorado apagado -->
+    <div class="eyebrow" style="color:var(--axis-gold);letter-spacing:0.3em;margin-bottom:1rem;">
+      {{ 'OUR_STORY.EYEBROW' | translate }}
+    </div>
+    <!-- Título principal: dos líneas, la segunda en cursiva -->
+    <h1 class="section-title" style="margin-bottom:1.5rem;">
+      {{ 'OUR_STORY.TITLE' | translate }}
+      <span style="font-style:italic;">{{ 'OUR_STORY.TITLE_ITALIC' | translate }}</span>
+    </h1>
+    <!-- Línea vertical dorada decorativa como separador visual -->
+    <div style="width:1px;height:60px;background:linear-gradient(to bottom, var(--axis-gold), transparent);margin:0 auto;"></div>
   </div>
 
-  <!-- Header -->
-  <div class="mb-16 md:mb-20 text-center">
-    <div class="eyebrow mb-4" style="color:var(--axis-gold); letter-spacing:0.3em;">{{ 'OUR_STORY.EYEBROW' | translate }}</div>
-    <h1 class="section-title mb-6 text-4xl md:text-5xl lg:text-[3rem]">{{ 'OUR_STORY.TITLE' | translate }} <span class="italic">{{ 'OUR_STORY.TITLE_ITALIC' | translate }}</span></h1>
-    <div class="mx-auto w-[1px] h-12 md:h-[60px]" style="background: linear-gradient(to bottom, var(--axis-gold), transparent);"></div>
-  </div>
-
-  <!-- Intro -->
-  <div class="mb-20 md:mb-24 max-w-3xl mx-auto text-center px-4">
-    <p class="font-display text-white text-lg md:text-[1.35rem] leading-relaxed md:leading-[1.8] font-light tracking-wide">
-      {{ 'OUR_STORY.INTRO' | translate }}
+  <!-- ═══ CAPÍTULO I · EL SILENCIO EN LA ERA DEL RUIDO ═══ -->
+  <div style="margin-bottom:5rem;max-width:48rem;margin-left:auto;margin-right:auto;">
+    <div class="eyebrow" style="text-align:center;color:rgba(184,149,42,0.5);letter-spacing:0.25em;font-size:0.6rem;margin-bottom:2rem;">
+      {{ 'OUR_STORY.C1_EYEBROW' | translate }}
+    </div>
+    <!-- Párrafo principal: Playfair Display para dar peso editorial -->
+    <p class="font-display" style="color:#f5f5f0;font-size:1.1rem;line-height:1.8;font-weight:300;letter-spacing:0.02em;margin-bottom:1.5rem;">
+      {{ 'OUR_STORY.C1_P1' | translate }}
+    </p>
+    <!-- Párrafo secundario: Inter gris para respirar -->
+    <p style="color:var(--axis-gray);font-size:0.95rem;line-height:1.8;">
+      {{ 'OUR_STORY.C1_P2' | translate }}
     </p>
   </div>
 
-  <!-- Grid of Core Values -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20 md:mb-24">
-    <!-- Value 1 -->
-    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
-      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">01.</div>
-      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
-        {{ 'OUR_STORY.S1_TITLE' | translate }}
-      </h3>
-      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
-        {{ 'OUR_STORY.S1_TEXT' | translate }}
-      </p>
+  <!-- Separador ornamental: dot dorado con gradientes laterales -->
+  <div style="margin-bottom:5rem;display:flex;align-items:center;gap:1.5rem;">
+    <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(184,149,42,0.2));"></div>
+    <div style="width:4px;height:4px;border-radius:50%;background:var(--axis-gold);opacity:0.4;"></div>
+    <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(184,149,42,0.2));"></div>
+  </div>
+
+  <!-- ═══ CAPÍTULO II · EL EJE ═══ -->
+  <div style="margin-bottom:5rem;">
+    <div class="eyebrow" style="text-align:center;color:rgba(184,149,42,0.5);letter-spacing:0.25em;font-size:0.6rem;margin-bottom:2rem;">
+      {{ 'OUR_STORY.C2_EYEBROW' | translate }}
     </div>
 
-    <!-- Value 2 -->
-    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
-      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">02.</div>
-      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
-        {{ 'OUR_STORY.S2_TITLE' | translate }}
-      </h3>
-      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
-        {{ 'OUR_STORY.S2_TEXT' | translate }}
-      </p>
+    <!-- Logo con aura dorada: el emblema visual como argumento de marca -->
+    <div style="display:flex;justify-content:center;margin-bottom:3rem;">
+      <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;padding:2.5rem;">
+        <!-- Aura exterior difusa -->
+        <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle, rgba(184,149,42,0.08) 0%, transparent 65%);"></div>
+        <!-- Anillo sutil -->
+        <div style="position:absolute;inset:1rem;border-radius:50%;border:1px solid rgba(184,149,42,0.1);"></div>
+        <!-- Logo con glow dorado -->
+        <img src="assets/logo-compacto.png" alt="Axis Garage"
+             style="height:5rem;position:relative;z-index:1;filter:drop-shadow(0 0 20px rgba(184,149,42,0.5));">
+      </div>
     </div>
 
-    <!-- Value 3 -->
-    <div class="glass-card p-8 md:p-10" style="border-top: 1px solid var(--axis-gold-30); background: linear-gradient(180deg, rgba(201,161,74,0.03) 0%, rgba(10,10,10,0) 100%);">
-      <div style="font-size:2rem; color:var(--axis-gold); font-family:'Playfair Display', serif; font-weight:700; font-style:italic; margin-bottom:1.5rem;">03.</div>
-      <h3 class="mb-4 text-white uppercase tracking-[0.15em] font-semibold text-sm" style="font-family:'Inter', sans-serif;">
-        {{ 'OUR_STORY.S3_TITLE' | translate }}
-      </h3>
-      <p style="color:var(--axis-gray);" class="text-sm md:text-[0.95rem] leading-relaxed">
-        {{ 'OUR_STORY.S3_TEXT' | translate }}
+    <!-- Tres párrafos del capítulo: anatomía, ingeniería, síntesis -->
+    <div style="max-width:48rem;margin:0 auto;display:grid;gap:1.5rem;">
+      <p class="font-display" style="color:#f5f5f0;font-size:1rem;line-height:1.8;font-weight:300;letter-spacing:0.02em;">
+        {{ 'OUR_STORY.C2_P1' | translate }}
+      </p>
+      <p style="color:var(--axis-gray);font-size:0.95rem;line-height:1.8;">
+        {{ 'OUR_STORY.C2_P2' | translate }}
+      </p>
+      <!-- Cita en blockquote: borde dorado izquierdo para destacar -->
+      <p style="font-style:italic;border-left:2px solid var(--axis-gold);padding-left:1.25rem;color:rgba(245,245,240,0.85);font-size:0.95rem;line-height:1.8;">
+        {{ 'OUR_STORY.C2_P3' | translate }}
       </p>
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="text-center mt-12 md:mt-16 pt-12 md:pt-16" style="border-top:1px solid rgba(255,255,255,0.06);">
-    <a routerLink="/vehicles" class="btn-gold font-display uppercase tracking-widest text-xs md:text-sm px-8 py-4 inline-block">
+  <!-- Separador ornamental -->
+  <div style="margin-bottom:5rem;display:flex;align-items:center;gap:1.5rem;">
+    <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(184,149,42,0.2));"></div>
+    <div style="width:4px;height:4px;border-radius:50%;background:var(--axis-gold);opacity:0.4;"></div>
+    <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(184,149,42,0.2));"></div>
+  </div>
+
+  <!-- ═══ CAPÍTULO III · EL ESTÁNDAR SOBERANO ═══ -->
+  <div style="margin-bottom:5rem;">
+    <div class="eyebrow" style="text-align:center;color:rgba(184,149,42,0.5);letter-spacing:0.25em;font-size:0.6rem;margin-bottom:1.5rem;">
+      {{ 'OUR_STORY.C3_EYEBROW' | translate }}
+    </div>
+    <!-- Intro del capítulo: centrada y contenida -->
+    <p style="max-width:40rem;margin:0 auto 3rem;text-align:center;color:var(--axis-gray);font-size:0.95rem;line-height:1.7;">
+      {{ 'OUR_STORY.C3_INTRO' | translate }}
+    </p>
+
+    <!-- 3 perfiles psicológicos del cliente en grid -->
+    <!-- En mobile apiladas, en desktop 3 columnas — grid inline para evitar purge de Tailwind -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;">
+
+      <!-- Perfil 01: Tensión Mecánica -->
+      <div class="glass-card"
+           style="padding:2.5rem;border-top:1px solid rgba(184,149,42,0.2);background:linear-gradient(180deg,rgba(184,149,42,0.03) 0%,rgba(10,10,10,0) 100%);">
+        <div style="font-size:2rem;color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;margin-bottom:1.5rem;">01.</div>
+        <h3 style="margin-bottom:1rem;color:#f5f5f0;text-transform:uppercase;letter-spacing:0.15em;font-weight:600;font-size:0.8rem;font-family:'Inter',sans-serif;">
+          {{ 'OUR_STORY.S1_TITLE' | translate }}
+        </h3>
+        <p style="color:var(--axis-gray);font-size:0.875rem;line-height:1.7;">
+          {{ 'OUR_STORY.S1_TEXT' | translate }}
+        </p>
+      </div>
+
+      <!-- Perfil 02: Discreción Soberana -->
+      <div class="glass-card"
+           style="padding:2.5rem;border-top:1px solid rgba(184,149,42,0.2);background:linear-gradient(180deg,rgba(184,149,42,0.03) 0%,rgba(10,10,10,0) 100%);">
+        <div style="font-size:2rem;color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;margin-bottom:1.5rem;">02.</div>
+        <h3 style="margin-bottom:1rem;color:#f5f5f0;text-transform:uppercase;letter-spacing:0.15em;font-weight:600;font-size:0.8rem;font-family:'Inter',sans-serif;">
+          {{ 'OUR_STORY.S2_TITLE' | translate }}
+        </h3>
+        <p style="color:var(--axis-gray);font-size:0.875rem;line-height:1.7;">
+          {{ 'OUR_STORY.S2_TEXT' | translate }}
+        </p>
+      </div>
+
+      <!-- Perfil 03: Compositor de Asfalto -->
+      <div class="glass-card"
+           style="padding:2.5rem;border-top:1px solid rgba(184,149,42,0.2);background:linear-gradient(180deg,rgba(184,149,42,0.03) 0%,rgba(10,10,10,0) 100%);">
+        <div style="font-size:2rem;color:var(--axis-gold);font-family:'Playfair Display',serif;font-weight:700;font-style:italic;margin-bottom:1.5rem;">03.</div>
+        <h3 style="margin-bottom:1rem;color:#f5f5f0;text-transform:uppercase;letter-spacing:0.15em;font-weight:600;font-size:0.8rem;font-family:'Inter',sans-serif;">
+          {{ 'OUR_STORY.S3_TITLE' | translate }}
+        </h3>
+        <p style="color:var(--axis-gray);font-size:0.875rem;line-height:1.7;">
+          {{ 'OUR_STORY.S3_TEXT' | translate }}
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Separador ornamental -->
+  <div style="margin-bottom:5rem;display:flex;align-items:center;gap:1.5rem;">
+    <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(184,149,42,0.2));"></div>
+    <div style="width:4px;height:4px;border-radius:50%;background:var(--axis-gold);opacity:0.4;"></div>
+    <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(184,149,42,0.2));"></div>
+  </div>
+
+  <!-- ═══ CAPÍTULO IV · LA PROMESA DEL ASFALTO ═══ -->
+  <div style="margin-bottom:5rem;max-width:48rem;margin-left:auto;margin-right:auto;text-align:center;">
+    <div class="eyebrow" style="color:rgba(184,149,42,0.5);letter-spacing:0.25em;font-size:0.6rem;margin-bottom:2rem;">
+      {{ 'OUR_STORY.C4_EYEBROW' | translate }}
+    </div>
+    <p style="color:var(--axis-gray);font-size:0.95rem;line-height:1.8;margin-bottom:3.5rem;">
+      {{ 'OUR_STORY.C4_P1' | translate }}
+    </p>
+    <!-- Tres frases de cierre: Playfair Display italic grande para impacto visual -->
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <p style="font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;color:rgba(245,245,240,0.9);">
+        {{ 'OUR_STORY.C4_Q1' | translate }}
+      </p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;color:var(--axis-gold);">
+        {{ 'OUR_STORY.C4_Q2' | translate }}
+      </p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;color:rgba(245,245,240,0.9);">
+        {{ 'OUR_STORY.C4_Q3' | translate }}
+      </p>
+    </div>
+  </div>
+
+  <!-- CTA final: enlace a la flota -->
+  <div style="text-align:center;margin-top:4rem;padding-top:4rem;border-top:1px solid rgba(255,255,255,0.06);">
+    <a routerLink="/vehicles" class="btn-gold font-display"
+       style="text-transform:uppercase;letter-spacing:0.15em;font-size:0.8rem;padding:1rem 2.5rem;display:inline-block;">
       {{ 'OUR_STORY.CTA' | translate }}
     </a>
   </div>
