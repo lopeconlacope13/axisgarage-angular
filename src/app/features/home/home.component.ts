@@ -1,36 +1,23 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../core/services/vehicle.service';
-import { SeoService } from '../../core/services/seo.service';
 import { VehicleDTO } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
 /**
  * Página de inicio: hero con fondo dinámico, marquee de partners
  * y tres vehículos destacados traídos en tiempo real del backend.
- *
- * NOTA DE CHANGE DETECTION:
- * La app usa Angular Zoneless (sin Zone.js), por lo que los cambios
- * que ocurren dentro de callbacks HTTP asincrónicos NO se detectan
- * automáticamente. Por eso inyectamos ChangeDetectorRef y llamamos
- * markForCheck() después de actualizar los datos, para forzar a Angular
- * a re-renderizar la vista con los nuevos valores.
  */
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  // OnPush: Angular solo comprueba cambios cuando le decimos explícitamente
-  // que hay datos nuevos (con markForCheck). Más eficiente en Zoneless.
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-
-  private seo = inject(SeoService);
 
   /** Los seis coches más representativos de la flota */
   featuredVehicles: VehicleDTO[] = [];
@@ -44,26 +31,13 @@ export class HomeComponent implements OnInit {
    */
   private readonly backendUrl = environment.apiUrl.replace('/api', '');
 
-  constructor(
-    private vehicleSvc: VehicleService,
-    // Necesario en modo Zoneless: notifica a Angular que debe re-renderizar
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private vehicleSvc: VehicleService) {}
 
   ngOnInit(): void {
-    this.seo.update(
-      'The Private Atelier — Luxury Hypercar Rental',
-      'Axis Garage: alquiler exclusivo de hiperdeportivos y clásicos de colección en Sevilla, Madrid, Barcelona y Puerto Banús. Cero ruido. Cero fricción.',
-      '/'
-    );
-
     // Cargamos los vehículos más exclusivos (FEATURED_COUNT) ordenados por precio descendente
     this.vehicleSvc.getAll(0, this.FEATURED_COUNT, 'pricePerDay,desc').subscribe({
       next: p => {
         this.featuredVehicles = p.content;
-        // Sin esta llamada, Angular Zoneless no sabe que los datos cambiaron
-        // y la vista se queda en blanco hasta que el usuario interactúa
-        this.cdr.markForCheck();
       }
     });
   }
