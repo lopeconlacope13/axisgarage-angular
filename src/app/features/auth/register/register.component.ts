@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { RegisterRequest } from '../../../models/types';
+import { environment } from '../../../../environments/environment';
 
 /**
  * COMPONENTE DE REGISTRO (VISTA)
@@ -30,6 +31,13 @@ import { RegisterRequest } from '../../../models/types';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
+
+  /**
+   * URL base del backend para los endpoints OAuth2.
+   * Se construye desde environment para no hardcodear localhost:8080.
+   * Ejemplo: 'http://localhost:8080/oauth2/authorization/google'
+   */
+  readonly oauthBaseUrl = environment.apiUrl.replace('/api', '');
 
   /** Campos del formulario enlazados con [(ngModel)] */
   firstName = '';

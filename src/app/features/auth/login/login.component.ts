@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../../../environments/environment';
 
 /**
  * COMPONENTE DE LOGIN (VISTA)
@@ -22,13 +23,21 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class LoginComponent implements OnInit {
 
+  /**
+   * URL base del backend para los endpoints OAuth2.
+   * Se construye desde environment para no hardcodear localhost:8080.
+   * Ejemplo: 'http://localhost:8080/oauth2/authorization/google'
+   */
+  readonly oauthBaseUrl = environment.apiUrl.replace('/api', '');
+
   // Variables enlazadas al formulario HTML mediante [(ngModel)]
   email    = '';
   password = '';
 
   // Variables auxiliares para controlar la interfaz
-  error    = '';    // Guarda el mensaje de error si el login falla
-  loading  = false; // Se pone en 'true' cuando estamos esperando la respuesta del servidor
+  error        = '';    // Guarda el mensaje de error si el login falla
+  loading      = false; // Se pone en 'true' cuando estamos esperando la respuesta del servidor
+  showPassword = false; // Alterna entre mostrar/ocultar la contraseña en el input
 
   /** Mensaje informativo (verde/dorado) cuando llegamos aquí porque otra ruta requería login. */
   infoMsg  = '';
