@@ -294,7 +294,7 @@
 
       @if (!myReservations.length) {
         <div class="glass-card p-12 text-center">
-          <p class="text-axis-gray">No tienes reservas registradas aún.</p>
+          <p class="text-axis-gray">{{ 'DASHBOARD.NO_RESERVATIONS' | translate }}</p>
         </div>
       } @else {
         <div class="glass-card table-scroll-container">
@@ -391,8 +391,8 @@
 
             <!-- Botones de acción -->
             <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
-              <button class="btn-outline eyebrow" style="font-size:0.65rem;" (click)="closeReviewForm()">CANCELAR</button>
-              <button class="btn-gold eyebrow" style="font-size:0.65rem;" (click)="submitReview()">ENVIAR RESEÑA</button>
+              <button class="btn-outline eyebrow" style="font-size:0.65rem;" (click)="closeReviewForm()">{{ 'DASHBOARD.REVIEW_CANCEL' | translate }}</button>
+              <button class="btn-gold eyebrow" style="font-size:0.65rem;" (click)="submitReview()">{{ 'DASHBOARD.REVIEW_SUBMIT' | translate }}</button>
             </div>
 
           </div>
@@ -632,7 +632,7 @@
               <div style="color:rgba(239,68,68,0.8);font-size:0.8rem;">{{ reportError }}</div>
             }
             @if (reportSuccess) {
-              <div class="text-gold" style="font-size:0.8rem;">Parte registrado correctamente.</div>
+              <div class="text-gold" style="font-size:0.8rem;">{{ 'DASHBOARD.REPORT_SUCCESS' | translate }}</div>
             }
 
             <button class="btn-gold w-full" style="font-size:0.7rem;" (click)="submitReport()">
@@ -645,7 +645,7 @@
         <div class="lg:col-span-2 glass-card overflow-hidden">
           @if (!damageReports.length) {
             <div class="p-10 text-center text-axis-gray text-sm">
-              No hay informes de daños registrados aún.
+              {{ 'DASHBOARD.NO_DAMAGE_REPORTS' | translate }}
             </div>
           } @else {
             <table class="w-full text-sm">
@@ -705,7 +705,7 @@
         @if (loading) {
           <div class="p-10 text-center text-axis-gray text-sm">Loading reviews...</div>
         } @else if (!reviews.length) {
-          <div class="p-10 text-center text-axis-gray text-sm">No hay reseñas registradas aún.</div>
+          <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.NO_REVIEWS' | translate }}</div>
         } @else {
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
@@ -759,7 +759,7 @@
         @if (loading) {
           <div class="p-10 text-center text-axis-gray text-sm">Loading invoices...</div>
         } @else if (!invoices.length) {
-          <div class="p-10 text-center text-axis-gray text-sm">No hay facturas generadas aún.</div>
+          <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.NO_INVOICES' | translate }}</div>
         } @else {
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
@@ -895,7 +895,7 @@
         <!-- Estado vacío: si no hay usuarios cargados todavía -->
         @if (users.length === 0) {
           <div class="p-8 text-center text-axis-gray" style="font-size:0.8rem;">
-            No hay usuarios registrados en el sistema.
+            {{ 'DASHBOARD.NO_USERS' | translate }}
           </div>
         }
       </div>

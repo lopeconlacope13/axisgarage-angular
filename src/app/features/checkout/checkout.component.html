@@ -1,7 +1,7 @@
 <!-- Carga inicial mientras llegan los datos del vehículo -->
 @if (!vehicle) {
   <div class="page-center">
-    <div class="eyebrow text-gold" style="letter-spacing:0.3em;">PREPARING CHECKOUT...</div>
+    <div class="eyebrow text-gold" style="letter-spacing:0.3em;">{{ 'CHECKOUT.LOADING' | translate }}</div>
   </div>
 }
 
@@ -9,11 +9,11 @@
 @if (vehicle && renterNotFound) {
   <div class="page-center" style="padding:2rem;">
     <div class="glass-card p-10 text-center" style="max-width:30rem;">
-      <div class="font-display" style="font-size:1.3rem;margin-bottom:1rem;">Perfil no encontrado</div>
+      <div class="font-display" style="font-size:1.3rem;margin-bottom:1rem;">{{ 'CHECKOUT.PROFILE_NOT_FOUND_TITLE' | translate }}</div>
       <p class="text-soft" style="font-size:0.85rem;line-height:1.7;margin-bottom:1.5rem;">
-        No hay un perfil de cliente asociado a esta cuenta. Contacta con el equipo de Axis Garage para activar tu acceso.
+        {{ 'CHECKOUT.PROFILE_NOT_FOUND_DESC' | translate }}
       </p>
-      <a routerLink="/vehicles" class="btn-outline" style="font-size:0.7rem;">VOLVER AL CATÁLOGO</a>
+      <a routerLink="/vehicles" class="btn-outline" style="font-size:0.7rem;">{{ 'CHECKOUT.BACK_TO_CATALOG' | translate }}</a>
     </div>
   </div>
 }
@@ -32,9 +32,9 @@
 
     <!-- Cabecera -->
     <div class="mb-2">
-      <div class="eyebrow text-gold mb-2">SECURE GATEWAY</div>
+      <div class="eyebrow text-gold mb-2">{{ 'CHECKOUT.EYEBROW' | translate }}</div>
       <h1 class="font-display" style="font-size:2rem;font-weight:700;margin:0;">
-        Checkout <span class="italic">Vault</span>
+        {{ 'CHECKOUT.TITLE' | translate }} <span class="italic">{{ 'CHECKOUT.TITLE_ITALIC' | translate }}</span>
       </h1>
     </div>
     <div class="gold-divider-mb"></div>
@@ -42,7 +42,7 @@
     <!-- Badge de demo -->
     <div class="status-pill">
       <div class="status-dot"></div>
-      <span class="eyebrow eyebrow-xs text-gold" style="letter-spacing:0.15em;">ENTORNO DE DEMOSTRACIÓN — PAGO SIMULADO</span>
+      <span class="eyebrow eyebrow-xs text-gold" style="letter-spacing:0.15em;">{{ 'CHECKOUT.DEMO_BADGE' | translate }}</span>
     </div>
 
     <!-- Layout de dos columnas.
@@ -53,7 +53,7 @@
       <!-- ══ COLUMNA IZQUIERDA: Pasarela de pago ══ -->
       <div class="glass-card p-8">
 
-        <h2 class="card-title">Método de pago</h2>
+        <h2 class="card-title">{{ 'CHECKOUT.PAYMENT_METHOD' | translate }}</h2>
 
         <!-- Billing Details: DNI + Address (solo si faltan datos reales) -->
         @if (needsBillingDetails) {
@@ -120,7 +120,7 @@
               <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
               <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
             </svg>
-            TARJETA
+            {{ 'CHECKOUT.TAB_CARD' | translate }}
           </button>
 
           <button (click)="payMethod='PAYPAL'" class="pay-method-btn"
@@ -131,7 +131,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
               <path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.35.35 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91q.34-.237.63-.elt-.34.83-.629 1.46C14.18 13.25 14.06 3.713 14.06 3.713"/>
             </svg>
-            PAYPAL
+            {{ 'CHECKOUT.TAB_PAYPAL' | translate }}
           </button>
         </div>
 
@@ -141,7 +141,7 @@
 
             <!-- Número de tarjeta -->
             <div>
-              <label for="cardNumber" class="eyebrow form-label">NÚMERO DE TARJETA</label>
+              <label for="cardNumber" class="eyebrow form-label">{{ 'CHECKOUT.CARD_NUMBER' | translate }}</label>
               <div class="card-number-wrapper">
                 <input id="cardNumber" type="text" [(ngModel)]="cardNumber" placeholder="1234  5678  9012  3456"
                   maxlength="19" class="input-dark card-number-input" />
@@ -155,7 +155,7 @@
 
             <!-- Nombre del titular -->
             <div>
-              <label for="cardHolder" class="eyebrow form-label">NOMBRE DEL TITULAR</label>
+              <label for="cardHolder" class="eyebrow form-label">{{ 'CHECKOUT.CARD_HOLDER' | translate }}</label>
               <input id="cardHolder" type="text" [(ngModel)]="cardHolder" placeholder="ÁLVARO LÓPEZ PÉREZ"
                 class="input-dark input-upper" />
             </div>
@@ -163,7 +163,7 @@
             <!-- Fecha y CVV en fila -->
             <div class="card-form-row">
               <div>
-                <label for="cardExpiry" class="eyebrow form-label">VENCIMIENTO</label>
+                <label for="cardExpiry" class="eyebrow form-label">{{ 'CHECKOUT.EXPIRY' | translate }}</label>
                 <input id="cardExpiry" type="text" [(ngModel)]="cardExpiry" placeholder="MM/AA"
                   maxlength="5" class="input-dark input-mono" />
               </div>
@@ -184,10 +184,10 @@
               <span class="paypal-blue">Pay</span><span class="paypal-dark">Pal</span>
             </div>
             <p class="text-muted" style="font-size:0.8rem;line-height:1.6;margin-bottom:1.5rem;">
-              Serás redirigido al entorno seguro de PayPal para autorizar el pago de <strong style="color:rgba(245,245,240,0.8);">€{{ calculatedTotal | number:'1.0-0' }}</strong>.
+              {{ 'CHECKOUT.PAYPAL_DESC' | translate }} <strong style="color:rgba(245,245,240,0.8);">€{{ calculatedTotal | number:'1.0-0' }}</strong>.
             </p>
             <div class="paypal-demo-badge">
-              <span class="text-dimmed text-xxs-spaced">DEMO — FLUJO SIMULADO</span>
+              <span class="text-dimmed text-xxs-spaced">{{ 'CHECKOUT.PAYPAL_DEMO' | translate }}</span>
             </div>
           </div>
         }
@@ -201,7 +201,7 @@
             <path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-.78-.286 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693A1.54 1.54 0 0 1 1.89 1.43c.658-.215 1.777-.57 2.887-.87z"/>
           </svg>
           <span class="security-text">
-            Esta es una pasarela de demostración. No se realizará ningún cargo real. Los datos introducidos no se almacenan ni se procesan.
+            {{ 'CHECKOUT.SECURITY_NOTE' | translate }}
           </span>
         </div>
 
@@ -217,12 +217,12 @@
           style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.9rem 1rem;"
           [style.opacity]="processing ? '0.6' : '1'">
           @if (processing) {
-            <span class="btn-label">AUTORIZANDO...</span>
+            <span class="btn-label">{{ 'CHECKOUT.CONFIRM_LOADING' | translate }}</span>
           } @else {
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
               <path d="M5.338 1.59a60 60 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .214 0q.112-.033.293-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-.78-.286 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693a1.54 1.54 0 0 1 1.044-1.262 63 63 0 0 1 2.887-.87z"/>
             </svg>
-            <span class="btn-label">AUTORIZAR ADQUISICIÓN</span>
+            <span class="btn-label">{{ 'CHECKOUT.CONFIRM_BTN' | translate }}</span>
           }
         </button>
 
@@ -233,7 +233,7 @@
 
         <!-- Tarjeta de resumen de reserva -->
         <div class="glass-card" style="padding:1.75rem;">
-          <h2 class="card-title-sm">Resumen de reserva</h2>
+          <h2 class="card-title-sm">{{ 'CHECKOUT.SUMMARY_TITLE' | translate }}</h2>
 
           <!-- Vehículo -->
           <div class="vehicle-summary-card">
@@ -249,30 +249,30 @@
           <!-- Detalles línea a línea -->
           <div class="summary-detail-row">
             <div class="row-between">
-              <span class="text-muted" style="font-size:0.8rem;">Recogida</span>
+              <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.PICKUP' | translate }}</span>
               <span style="font-size:0.85rem;">{{ start | date:'d MMM yyyy' }}</span>
             </div>
             <div class="row-between">
-              <span class="text-muted" style="font-size:0.8rem;">Devolución</span>
+              <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.DROPOFF' | translate }}</span>
               <span style="font-size:0.85rem;">{{ end | date:'d MMM yyyy' }}</span>
             </div>
             <div class="row-between">
-              <span class="text-muted" style="font-size:0.8rem;">Duración</span>
+              <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.DURATION' | translate }}</span>
               <span style="font-size:0.85rem;">{{ days }} día{{ days !== 1 ? 's' : '' }}</span>
             </div>
             <div class="row-between">
-              <span class="text-muted" style="font-size:0.8rem;">Tarifa diaria</span>
+              <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.DAILY_RATE' | translate }}</span>
               <span style="font-size:0.85rem;">€{{ vehicle.pricePerDay }}/día</span>
             </div>
             <div class="row-between">
-              <span class="text-muted" style="font-size:0.8rem;">Cobertura</span>
+              <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.COVERAGE' | translate }}</span>
               <span class="eyebrow text-gold" style="font-size:0.65rem;">{{ coverage }}</span>
             </div>
           </div>
 
           <!-- Total -->
           <div class="summary-total-row">
-            <span class="text-muted" style="font-size:0.8rem;">Total</span>
+            <span class="text-muted" style="font-size:0.8rem;">{{ 'CHECKOUT.TOTAL' | translate }}</span>
             <div class="summary-total-price">
               €{{ calculatedTotal | number:'1.0-0' }}
             </div>
@@ -281,25 +281,67 @@
 
         <!-- Qué incluye la reserva -->
         <div class="glass-card" style="padding:1.5rem;">
-          <div class="eyebrow eyebrow-xs mb-4" style="opacity:0.5;">INCLUIDO EN TU RESERVA</div>
+          <div class="eyebrow eyebrow-xs mb-4" style="opacity:0.5;">{{ 'CHECKOUT.INCLUDED_EYEBROW' | translate }}</div>
           <div class="col-gap-sm" style="gap:0.6rem;">
             <div class="bullet-item">
               <div class="bullet-dot"></div>
-              <span class="bullet-text">Entrega en atelier Axis Garage</span>
+              <span class="bullet-text">{{ 'CHECKOUT.INCLUDED_1' | translate }}</span>
             </div>
             <div class="bullet-item">
               <div class="bullet-dot"></div>
-              <span class="bullet-text">Asistencia en ruta 24/7</span>
+              <span class="bullet-text">{{ 'CHECKOUT.INCLUDED_2' | translate }}</span>
             </div>
             <div class="bullet-item">
               <div class="bullet-dot"></div>
-              <span class="bullet-text">Cobertura {{ coverage === 'STANDARD' ? 'básica' : coverage === 'PREMIUM' ? 'premium' : 'total' }}</span>
+              <span class="bullet-text">{{ 'CHECKOUT.INCLUDED_3' | translate }}</span>
             </div>
             <div class="bullet-item">
               <div class="bullet-dot"></div>
-              <span class="bullet-text">Confirmación inmediata por email</span>
+              <span class="bullet-text">{{ 'CHECKOUT.INCLUDED_4' | translate }}</span>
             </div>
           </div>
+        </div>
+
+        <!-- Condiciones de la cobertura contratada -->
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="eyebrow eyebrow-xs mb-4" style="opacity:0.5;">CONDICIONES DE COBERTURA</div>
+
+          @if (coverage === 'STANDARD') {
+            <p style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gold);margin:0 0 0.75rem;font-family:'Playfair Display',serif;">STANDARD</p>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.45rem;">
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Responsabilidad civil ilimitada</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Daños a terceros cubiertos</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.4);">✗ Franquicia propia: 50.000 €</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.4);">✗ Robo no cubierto</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.4);">✗ Neumáticos y llantas no cubiertos</li>
+            </ul>
+          }
+
+          @if (coverage === 'PREMIUM') {
+            <p style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gold);margin:0 0 0.75rem;font-family:'Playfair Display',serif;">PREMIUM</p>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.45rem;">
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Responsabilidad civil ilimitada</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Daños a terceros cubiertos</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Daños propios cubiertos (franquicia 5.000 €)</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Robo cubierto (franquicia 5.000 €)</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Asistencia en carretera 24h</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.4);">✗ Neumáticos y llantas no cubiertos</li>
+            </ul>
+          }
+
+          @if (coverage === 'TOTAL') {
+            <p style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gold);margin:0 0 0.75rem;font-family:'Playfair Display',serif;">TOTAL PROTECTION</p>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.45rem;">
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Responsabilidad civil ilimitada</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Daños a terceros cubiertos</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Daños propios sin franquicia</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Robo sin franquicia</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Neumáticos y llantas cubiertos</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Asistencia en carretera 24h</li>
+              <li style="font-size:0.75rem;color:rgba(245,245,240,0.7);">✓ Conductor adicional incluido</li>
+            </ul>
+          }
+
         </div>
 
       </div>
@@ -321,12 +363,12 @@
         </svg>
       </div>
 
-      <div class="eyebrow text-gold mb-3" style="letter-spacing:0.25em;">ACCESO CONCEDIDO</div>
-      <h2 class="card-title-lg">Reserva confirmada</h2>
+      <div class="eyebrow text-gold mb-3" style="letter-spacing:0.25em;">{{ 'CHECKOUT.SUCCESS_EYEBROW' | translate }}</div>
+      <h2 class="card-title-lg">{{ 'CHECKOUT.SUCCESS_TITLE' | translate }}</h2>
 
       <!-- ID de la reserva -->
       <div class="reservation-ref-badge">
-        <div class="eyebrow reservation-ref-label">REFERENCIA</div>
+        <div class="eyebrow reservation-ref-label">{{ 'CHECKOUT.SUCCESS_REF' | translate }}</div>
         <div class="reservation-ref-id">#{{ confirmedId }}</div>
       </div>
 
@@ -335,16 +377,16 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="rgba(201,161,74,0.6)" viewBox="0 0 16 16">
           <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
         </svg>
-        <span class="email-confirm-text">Email de confirmación enviado a <strong style="color:rgba(245,245,240,0.65);">{{ renterEmail }}</strong></span>
+        <span class="email-confirm-text">{{ 'CHECKOUT.SUCCESS_EMAIL' | translate }} <strong style="color:rgba(245,245,240,0.65);">{{ renterEmail }}</strong></span>
       </div>
 
       <a routerLink="/dashboard" class="btn-gold"
         style="display:block;text-align:center;margin-bottom:0.75rem;font-size:0.7rem;letter-spacing:0.12em;padding:0.85rem;">
-        VER MIS RESERVAS
+        {{ 'CHECKOUT.SUCCESS_VIEW' | translate }}
       </a>
       <a routerLink="/vehicles" class="btn-outline"
         style="display:block;text-align:center;font-size:0.7rem;letter-spacing:0.1em;padding:0.85rem;">
-        EXPLORAR FLOTA
+        {{ 'CHECKOUT.SUCCESS_FLEET' | translate }}
       </a>
 
     </div>
