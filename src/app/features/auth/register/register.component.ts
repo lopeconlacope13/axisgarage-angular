@@ -48,13 +48,14 @@ export class RegisterComponent {
   loading  = false;
 
   /**
-   * Valida que la contraseña tenga al menos 1 mayúscula y 1 símbolo especial.
+   * Valida que la contraseña tenga al menos 1 mayúscula, 1 número y 1 símbolo especial.
    * Se usa en el template para mostrar el indicador de fuerza en tiempo real.
    */
   get passwordIsStrong(): boolean {
     // /[A-Z]/ comprueba que haya al menos una letra mayúscula
+    // /[0-9]/ comprueba que haya al menos un dígito
     // /[^a-zA-Z0-9]/ comprueba que haya al menos un carácter que no sea letra ni número (símbolo)
-    return /[A-Z]/.test(this.password) && /[^a-zA-Z0-9]/.test(this.password);
+    return /[A-Z]/.test(this.password) && /[0-9]/.test(this.password) && /[^a-zA-Z0-9]/.test(this.password);
   }
 
   /**
@@ -77,7 +78,7 @@ export class RegisterComponent {
 
     // Validamos la fortaleza de la contraseña antes de enviar al backend
     if (!this.passwordIsStrong) {
-      this.error = 'La contraseña debe tener al menos 1 mayúscula y 1 símbolo.';
+      this.error = 'La contraseña debe tener al menos 1 mayúscula, 1 número y 1 símbolo.';
       return;
     }
 
