@@ -10,9 +10,9 @@
     <div class="filters-bar">
 
       <!-- Select: Marca — opciones dinámicas extraídas de la BD -->
-      <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.BRAND' | translate }}</label>
-        <select [(ngModel)]="filterBrand" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+      <div class="filter-field">
+        <label class="eyebrow filter-label">{{ 'CATALOG.FILTERS.BRAND' | translate }}</label>
+        <select [(ngModel)]="filterBrand" class="input-dark filter-input">
           <!-- Opción por defecto: sin filtro de marca -->
           <option value="">{{ 'CATALOG.FILTERS.ALL_BRANDS' | translate }}</option>
           <!-- Una opción por cada marca real de la base de datos -->
@@ -23,37 +23,32 @@
       </div>
 
       <!-- Input: Modelo -->
-      <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.MODEL' | translate }}</label>
+      <div class="filter-field">
+        <label class="eyebrow filter-label">{{ 'CATALOG.FILTERS.MODEL' | translate }}</label>
         <input
           type="text"
           [(ngModel)]="filterModel"
           placeholder="488, Aventador…"
-          class="input-dark"
-          style="padding:0.5rem 0.75rem;font-size:0.8rem;"
+          class="input-dark filter-input"
         />
       </div>
 
       <!-- Input: CV mínimos -->
-      <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.MIN_HP' | translate }}</label>
+      <div class="filter-field">
+        <label class="eyebrow filter-label">{{ 'CATALOG.FILTERS.MIN_HP' | translate }}</label>
         <input
           type="number"
           [(ngModel)]="filterHorsePower"
           placeholder="0"
           min="0"
-          class="input-dark"
-          style="padding:0.5rem 0.75rem;font-size:0.8rem;"
+          class="input-dark filter-input"
         />
       </div>
 
       <!-- Select: Categoría -->
-      <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.CATEGORY' | translate }}</label>
-        <select
-          [(ngModel)]="filterCategoryId"
-          class="input-dark"
-          style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+      <div class="filter-field">
+        <label class="eyebrow filter-label">{{ 'CATALOG.FILTERS.CATEGORY' | translate }}</label>
+        <select [(ngModel)]="filterCategoryId" class="input-dark filter-input">
           <!-- Opción por defecto: sin filtro de categoría -->
           <option [value]="0">{{ 'CATALOG.FILTERS.ALL_CATEGORIES' | translate }}</option>
           <!-- Una opción por cada categoría recibida del backend -->
@@ -64,9 +59,9 @@
       </div>
 
       <!-- Select: Ordenación del catálogo -->
-      <div style="flex:1;min-width:140px;">
-        <label class="eyebrow" style="font-size:0.55rem;display:block;margin-bottom:0.4rem;opacity:0.6;">{{ 'CATALOG.FILTERS.SORT' | translate }}</label>
-        <select [(ngModel)]="filterSort" class="input-dark" style="padding:0.5rem 0.75rem;font-size:0.8rem;">
+      <div class="filter-field">
+        <label class="eyebrow filter-label">{{ 'CATALOG.FILTERS.SORT' | translate }}</label>
+        <select [(ngModel)]="filterSort" class="input-dark filter-input">
           <option value="brand,asc">{{ 'CATALOG.FILTERS.SORT_BRAND_ASC' | translate }}</option>
           <option value="brand,desc">{{ 'CATALOG.FILTERS.SORT_BRAND_DESC' | translate }}</option>
           <option value="pricePerDay,asc">{{ 'CATALOG.FILTERS.SORT_PRICE_ASC' | translate }}</option>
@@ -75,17 +70,11 @@
       </div>
 
       <!-- Botones APPLY + CLEAR — flex:none para que no se estiren como los inputs -->
-      <div style="display:flex;gap:0.5rem;align-items:flex-end;padding-bottom:0;flex:0 0 auto;">
-        <button
-          (click)="applyFilters()"
-          class="btn-gold"
-          style="font-size:0.7rem;padding:0.5rem 1.25rem;white-space:nowrap;">
+      <div class="filter-actions">
+        <button (click)="applyFilters()" class="btn-gold filter-btn">
           {{ 'CATALOG.FILTERS.APPLY' | translate }}
         </button>
-        <button
-          (click)="clearFilters()"
-          class="btn-outline"
-          style="font-size:0.7rem;padding:0.5rem 1.25rem;white-space:nowrap;">
+        <button (click)="clearFilters()" class="btn-outline filter-btn">
           {{ 'CATALOG.FILTERS.CLEAR' | translate }}
         </button>
       </div>
@@ -94,18 +83,16 @@
   </div>
 
   <!-- ── BUSCADOR RÁPIDO ─────────────────────────────────────────────────────
-       Filtra los vehículos de la página actual en tiempo real sin llamar al servidor.
-       Para búsquedas más específicas, usar los filtros de arriba (van al backend).
+       Busca por modelo en todo el catálogo (backend). Cada pulsación lanza
+       una nueva petición al servidor con filterModel actualizado.
   ──────────────────────────────────────────────────────────────────────────── -->
   <div style="margin-bottom:1.5rem;">
     <input
       type="search"
       [value]="searchQuery"
-      (input)="searchQuery = $any($event.target).value"
-      placeholder="Buscar por marca o modelo en esta página…"
-      style="width:100%;padding:0.65rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(201,161,74,0.2);border-radius:6px;color:#f5f0e8;font-family:'Inter',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;"
-      onfocus="this.style.borderColor='rgba(201,161,74,0.5)'"
-      onblur="this.style.borderColor='rgba(201,161,74,0.2)'"
+      (input)="onSearch($any($event.target).value)"
+      placeholder="Buscar por modelo… (911, Aventador, SF90)"
+      class="search-input"
     />
   </div>
 
@@ -125,56 +112,56 @@
       <!-- Cuadrícula 3×3 de tarjetas de vehículos -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @for (v of filteredVehicles; track v.id) {
-          <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;height:100%;">
+          <div class="catalog-card">
 
             <!-- Imagen del vehículo: real si existe, placeholder si no -->
-            <div class="vehicle-img" style="height:220px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+            <div class="catalog-card-img-wrap vehicle-img">
               @if (getImageUrl(v)) {
                 <!-- Imagen real subida al backend -->
                 <img
                   [src]="getImageUrl(v)!"
                   [alt]="v.brand + ' ' + v.model"
-                  style="width:100%;height:100%;object-fit:cover;display:block;"
+                  class="catalog-card-img"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                 />
                 <!-- Fallback si la imagen falla al cargar -->
-                <div style="display:none;position:absolute;inset:0;background:#1a1a1a;"></div>
+                <div class="catalog-card-img-placeholder" style="display:none;"></div>
               } @else {
                 <!-- Placeholder cuando no hay imagen -->
-                <div style="position:absolute;inset:0;background:#1a1a1a;"></div>
+                <div class="catalog-card-img-placeholder"></div>
               }
             </div>
 
             <!-- Datos del vehículo -->
-            <div style="padding:1.5rem;display:flex;flex-direction:column;flex:1;">
-              <div class="eyebrow" style="margin-bottom:0.5rem;opacity:0.6;">{{ v.locationName }} · {{ v.categoryName }}</div>
-              <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;margin-bottom:1rem;">
-                {{ v.brand }} <span style="font-style:italic;">{{ v.model }}</span>
+            <div class="catalog-card-body">
+              <div class="eyebrow catalog-card-meta">{{ v.locationName }} · {{ v.categoryName }}</div>
+              <h3 class="catalog-card-name">
+                {{ v.brand }} <span class="catalog-card-model">{{ v.model }}</span>
               </h3>
 
               <!-- Especificaciones técnicas -->
-              <div style="display:flex;gap:1rem;margin-bottom:1.5rem;margin-top:auto;">
-                <div style="text-align:center;flex:1;">
-                  <div style="font-weight:600;font-size:0.9rem;">{{ v.horsePower }}</div>
-                  <div class="eyebrow" style="font-size:0.6rem;">HP</div>
+              <div class="catalog-card-specs">
+                <div class="catalog-spec-col">
+                  <div class="catalog-spec-value">{{ v.horsePower }}</div>
+                  <div class="eyebrow catalog-spec-label">HP</div>
                 </div>
-                <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);flex:1;">
-                  <div style="font-weight:600;font-size:0.9rem;">{{ v.zeroToHundred }}s</div>
-                  <div class="eyebrow" style="font-size:0.6rem;">0-100</div>
+                <div class="catalog-spec-col-mid">
+                  <div class="catalog-spec-value">{{ v.zeroToHundred }}s</div>
+                  <div class="eyebrow catalog-spec-label">0-100</div>
                 </div>
-                <div style="text-align:center;flex:1;">
-                  <div style="font-weight:600;font-size:0.9rem;">{{ v.engineType }}</div>
-                  <div class="eyebrow" style="font-size:0.6rem;">ENGINE</div>
+                <div class="catalog-spec-col">
+                  <div class="catalog-spec-value">{{ v.engineType }}</div>
+                  <div class="eyebrow catalog-spec-label">ENGINE</div>
                 </div>
               </div>
 
               <!-- Precio y botón de reserva -->
-              <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
+              <div class="catalog-card-footer">
                 <div>
-                  <div class="eyebrow" style="font-size:0.6rem">DAILY FROM</div>
-                  <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--axis-gold)">€{{ v.pricePerDay }}</div>
+                  <div class="eyebrow catalog-price-label">DAILY FROM</div>
+                  <div class="catalog-price">€{{ v.pricePerDay }}</div>
                 </div>
-                <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.75rem;padding:0.5rem 1rem;">RESERVE</a>
+                <a [routerLink]="['/vehicles', v.id]" class="btn-gold catalog-reserve-btn">RESERVE</a>
               </div>
             </div>
 
@@ -187,13 +174,13 @@
            Cada botón llama a loadVehicles() con el número de página que le toca.
       ─────────────────────────────────────────────────────────────────────── -->
       @if (totalPages > 1) {
-        <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:3rem;">
+        <div class="pagination">
 
           <!-- Botón ANTERIOR: deshabilitado si ya estamos en la primera página -->
           <button
             (click)="loadVehicles(currentPage - 1)"
             [disabled]="currentPage === 0"
-            style="padding:0.5rem 1rem;background:transparent;border:1px solid var(--axis-gold-30);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+            class="pagination-nav-btn"
             [style.opacity]="currentPage === 0 ? '0.3' : '1'"
             [style.cursor]="currentPage === 0 ? 'not-allowed' : 'pointer'">
             ← PREV
@@ -203,10 +190,8 @@
           @for (p of pages; track p) {
             <button
               (click)="loadVehicles(p)"
-              style="width:2.2rem;height:2.2rem;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.05em;cursor:pointer;transition:all 0.3s ease;"
-              [style.background]="p === currentPage ? 'var(--axis-gold-15)' : 'transparent'"
-              [style.border]="p === currentPage ? '1px solid var(--axis-gold)' : '1px solid var(--axis-gold-20)'"
-              [style.color]="p === currentPage ? 'var(--axis-gold)' : 'rgba(245,240,232,0.5)'">
+              class="pagination-page-btn"
+              [class.active]="p === currentPage">
               {{ p + 1 }}
             </button>
           }
@@ -215,7 +200,7 @@
           <button
             (click)="loadVehicles(currentPage + 1)"
             [disabled]="currentPage === totalPages - 1"
-            style="padding:0.5rem 1rem;background:transparent;border:1px solid var(--axis-gold-30);color:rgba(245,240,232,0.5);border-radius:4px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;transition:all 0.3s ease;"
+            class="pagination-nav-btn"
             [style.opacity]="currentPage === totalPages - 1 ? '0.3' : '1'"
             [style.cursor]="currentPage === totalPages - 1 ? 'not-allowed' : 'pointer'">
             NEXT →

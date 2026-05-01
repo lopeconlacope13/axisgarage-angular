@@ -1,85 +1,82 @@
 <div class="page-wrapper">
-  <div style="max-width:52rem;margin:0 auto;padding:0 1.5rem;">
+  <div class="contact-inner">
 
     <!-- Eyebrow y título -->
     <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">{{ 'CONTACT.EYEBROW' | translate }}</div>
-    <h1 style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;margin-bottom:0.5rem;">
-      {{ 'CONTACT.TITLE' | translate }} <span style="font-style:italic;">{{ 'CONTACT.TITLE_ITALIC' | translate }}</span>
+    <h1 class="contact-title">
+      {{ 'CONTACT.TITLE' | translate }} <span class="contact-title-italic">{{ 'CONTACT.TITLE_ITALIC' | translate }}</span>
     </h1>
-    <div class="gold-divider" style="margin-bottom:2rem;"></div>
+    <div class="gold-divider contact-divider"></div>
 
     <!-- Banner de disclaimer TFG -->
-    <div style="background:var(--axis-gold-12);border:1px solid var(--axis-gold-30);padding:1rem;margin-bottom:2rem;border-radius:4px;">
-      <p style="color:var(--axis-gold);font-size:0.8rem;text-align:center;margin:0;">
+    <div class="contact-disclaimer">
+      <p class="contact-disclaimer-text">
         {{ 'CONTACT.DISCLAIMER' | translate }}
       </p>
     </div>
 
     <!-- Layout de dos columnas: formulario + datos de contacto -->
-    <div style="display:grid;grid-template-columns:1fr 280px;gap:2rem;align-items:start;">
+    <div class="contact-layout">
 
       <!-- Formulario de contacto -->
-      <div class="glass-card" style="padding:2rem;">
+      <div class="glass-card contact-form-card">
 
         <!-- Mensaje de confirmación (se muestra tras enviar) -->
         @if (submitted) {
-          <div style="text-align:center;padding:2rem 0;">
-            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--axis-gold);margin-bottom:0.75rem;">
+          <div class="contact-success">
+            <div class="contact-success-title">
               {{ 'CONTACT.SUCCESS_TITLE' | translate }}
             </div>
-            <p style="color:rgba(245,245,240,0.6);font-size:0.9rem;line-height:1.75;">
+            <p class="contact-success-desc">
               {{ 'CONTACT.SUCCESS_DESC' | translate }}
             </p>
           </div>
         } @else {
 
-          <div style="display:flex;flex-direction:column;gap:1.25rem;">
+          <div class="contact-fields">
 
             <!-- Campo: nombre -->
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.6;">{{ 'CONTACT.NAME' | translate }}</label>
+              <label class="eyebrow contact-field-label">{{ 'CONTACT.NAME' | translate }}</label>
               <input
                 type="text"
                 [(ngModel)]="name"
                 [placeholder]="'CONTACT.NAME_PLACEHOLDER' | translate"
-                class="input-dark"
-                style="width:100%;box-sizing:border-box;"
+                class="input-dark contact-input-full"
               />
             </div>
 
             <!-- Campo: email -->
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.6;">{{ 'CONTACT.EMAIL' | translate }}</label>
+              <label class="eyebrow contact-field-label">{{ 'CONTACT.EMAIL' | translate }}</label>
               <input
                 type="email"
                 [(ngModel)]="email"
                 placeholder="your@email.com"
-                class="input-dark"
-                style="width:100%;box-sizing:border-box;"
+                class="input-dark contact-input-full"
               />
             </div>
 
             <!-- Campo: mensaje -->
             <div>
-              <label class="eyebrow" style="display:block;margin-bottom:0.4rem;font-size:0.6rem;opacity:0.6;">{{ 'CONTACT.MESSAGE' | translate }}</label>
+              <label class="eyebrow contact-field-label">{{ 'CONTACT.MESSAGE' | translate }}</label>
               <textarea
                 [(ngModel)]="message"
                 [placeholder]="'CONTACT.MESSAGE_PLACEHOLDER' | translate"
-                class="input-dark"
+                class="input-dark contact-textarea"
                 rows="5"
-                style="width:100%;box-sizing:border-box;resize:vertical;"
               ></textarea>
             </div>
 
             <!-- Mensaje de error (se muestra si el POST falla) -->
             @if (errorMessage) {
-              <div style="background:rgba(220,50,50,0.1);border:1px solid rgba(220,50,50,0.3);padding:0.75rem 1rem;border-radius:4px;">
-                <p style="color:#e05555;font-size:0.8rem;margin:0;">{{ errorMessage }}</p>
+              <div class="contact-error">
+                <p class="contact-error-text">{{ errorMessage }}</p>
               </div>
             }
 
             <!-- Botón de envío — deshabilitado mientras se procesa la petición -->
-            <button class="btn-gold" (click)="submit()" [disabled]="sending" [style.opacity]="sending ? 0.6 : 1" style="width:100%;">
+            <button class="btn-gold contact-submit-btn" (click)="submit()" [disabled]="sending" [style.opacity]="sending ? 0.6 : 1">
               {{ 'CONTACT.SEND' | translate }}
             </button>
 
@@ -89,29 +86,29 @@
       </div>
 
       <!-- Datos de contacto ficticios -->
-      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="contact-info-col">
 
-        <div class="glass-card" style="padding:1.5rem;">
-          <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;margin-bottom:0.5rem;">{{ 'CONTACT.ADDRESS' | translate }}</div>
-          <p style="color:rgba(245,245,240,0.7);font-size:0.85rem;line-height:1.7;margin:0;">
+        <div class="glass-card contact-info-card">
+          <div class="eyebrow contact-info-label">{{ 'CONTACT.ADDRESS' | translate }}</div>
+          <p class="contact-info-text">
             Paseo de la Castellana 200<br>
             28046 Madrid, España
           </p>
         </div>
 
-        <div class="glass-card" style="padding:1.5rem;">
-          <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;margin-bottom:0.5rem;">{{ 'CONTACT.PHONE' | translate }}</div>
-          <p style="color:rgba(245,245,240,0.7);font-size:0.85rem;margin:0;">+34 910 000 000</p>
+        <div class="glass-card contact-info-card">
+          <div class="eyebrow contact-info-label">{{ 'CONTACT.PHONE' | translate }}</div>
+          <p class="contact-info-text">+34 910 000 000</p>
         </div>
 
-        <div class="glass-card" style="padding:1.5rem;">
-          <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;margin-bottom:0.5rem;">{{ 'CONTACT.EMAIL_LABEL' | translate }}</div>
-          <p style="color:var(--axis-gold);font-size:0.85rem;margin:0;">concierge&#64;axisgarage.com</p>
+        <div class="glass-card contact-info-card">
+          <div class="eyebrow contact-info-label">{{ 'CONTACT.EMAIL_LABEL' | translate }}</div>
+          <p class="contact-email-text">concierge&#64;axisgarage.com</p>
         </div>
 
-        <div class="glass-card" style="padding:1.5rem;">
-          <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;margin-bottom:0.5rem;">{{ 'CONTACT.HOURS' | translate }}</div>
-          <p style="color:rgba(245,245,240,0.7);font-size:0.85rem;line-height:1.7;margin:0;">
+        <div class="glass-card contact-info-card">
+          <div class="eyebrow contact-info-label">{{ 'CONTACT.HOURS' | translate }}</div>
+          <p class="contact-info-text">
             Mon – Fri: 09:00 – 20:00<br>
             Sat: 10:00 – 16:00<br>
             Sun: By appointment

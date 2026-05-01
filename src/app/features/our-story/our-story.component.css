@@ -1,0 +1,272 @@
+/* ── CONTENEDOR PRINCIPAL ── */
+.story-wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 120px 1.5rem 6rem;
+}
+
+/* ── CABECERA DE PÁGINA ── */
+.story-header {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.header-eyebrow {
+  color: var(--axis-gold);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+}
+
+.header-title-italic {
+  font-style: italic;
+}
+
+/* Línea vertical dorada decorativa debajo del título */
+.header-divider {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--axis-gold), transparent);
+  margin: 0 auto;
+}
+
+/* ── CAPÍTULOS ── */
+.chapter {
+  margin-bottom: 5rem;
+}
+
+.chapter-narrow {
+  margin-bottom: 5rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.chapter-centered {
+  margin-bottom: 5rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.chapter-eyebrow {
+  text-align: center;
+  color: rgba(184, 149, 42, 0.5);
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* Texto principal de capítulo en Playfair Display */
+.chapter-lead {
+  color: #f5f5f0;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+}
+
+/* Texto secundario gris para respirar */
+.chapter-body {
+  color: var(--axis-gray);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* Cita con borde dorado izquierdo */
+.chapter-quote {
+  font-style: italic;
+  border-left: 2px solid var(--axis-gold);
+  padding-left: 1.25rem;
+  color: rgba(245, 245, 240, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ── SEPARADOR ORNAMENTAL ── */
+.ornament-separator {
+  margin-bottom: 5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ornament-line-left {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184, 149, 42, 0.2));
+}
+
+.ornament-line-right {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to left, transparent, rgba(184, 149, 42, 0.2));
+}
+
+.ornament-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--axis-gold);
+  opacity: 0.4;
+}
+
+/* ── LOGO CON AURA (Capítulo II) ── */
+/* Contenedor centrado con padding para el efecto de aura */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.logo-aura-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+}
+
+/* Gradiente radial difuso que simula el aura dorada */
+.logo-aura-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 149, 42, 0.08) 0%, transparent 65%);
+}
+
+/* Anillo sutil interior */
+.logo-aura-ring {
+  position: absolute;
+  inset: 1rem;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 149, 42, 0.1);
+}
+
+/* Logo con glow dorado usando drop-shadow */
+.logo-img {
+  height: 5rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(184, 149, 42, 0.5));
+}
+
+/* ── GRID DE PÁRRAFOS (Capítulo II) ── */
+.chapter-text-grid {
+  max-width: 48rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* ── PERFILES DE CLIENTE (Capítulo III) ── */
+
+/* Párrafo intro centrado */
+.chapter-intro {
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+  color: var(--axis-gray);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Grid responsive de las 3 tarjetas de perfil */
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+/* Estilo común de cada tarjeta de perfil */
+.profile-card {
+  padding: 2.5rem;
+  border-top: 1px solid rgba(184, 149, 42, 0.2);
+  background: linear-gradient(180deg, rgba(184, 149, 42, 0.03) 0%, rgba(10, 10, 10, 0) 100%);
+}
+
+/* Número de perfil grande en Playfair italic */
+.profile-number {
+  font-size: 2rem;
+  color: var(--axis-gold);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* Título del perfil en mayúsculas con tracking */
+.profile-title {
+  margin-bottom: 1rem;
+  color: #f5f5f0;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  font-size: 0.8rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Texto descriptivo del perfil */
+.profile-text {
+  color: var(--axis-gray);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* ── GALERÍA 2×2 (Capítulo III) ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+/* Cada celda de la galería: placeholder dorado cuando no hay foto */
+.gallery-cell {
+  aspect-ratio: 4 / 3;
+  background: rgba(184, 149, 42, 0.04);
+  border: 1px solid rgba(184, 149, 42, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* ── FRASES DE CIERRE (Capítulo IV) ── */
+.closing-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Tres frases en Playfair italic grande — colores distintos */
+.quote-neutral {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: rgba(245, 245, 240, 0.9);
+}
+
+.quote-gold {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--axis-gold);
+}
+
+/* ── CTA FINAL ── */
+.story-cta {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Botón CTA: tipografía en mayúsculas con tracking */
+.story-cta-btn {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  padding: 1rem 2.5rem;
+  display: inline-block;
+}

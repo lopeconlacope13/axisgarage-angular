@@ -360,3 +360,198 @@
 .suggestion-item:last-child {
   border-bottom: none;
 }
+
+/* ── Clases adicionales para estilos residuales ── */
+
+/* Texto de carga con tracking amplio */
+.loading-eyebrow {
+  letter-spacing: 0.3em;
+}
+
+/* Panel de "perfil no encontrado" limitado en ancho */
+.profile-not-found-card {
+  max-width: 30rem;
+}
+
+/* Título de la tarjeta de error de perfil */
+.profile-not-found-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+/* Descripción del error de perfil */
+.profile-not-found-desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Botón "volver al catálogo" en el error de perfil */
+.back-catalog-btn {
+  font-size: 0.7rem;
+}
+
+/* Eyebrow "CHECKOUT" en el breadcrumb */
+.breadcrumb-current {
+  opacity: 0.4;
+}
+
+/* Título principal del checkout */
+.checkout-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Eyebrow del badge de demo */
+.demo-badge-text {
+  letter-spacing: 0.15em;
+}
+
+/* Campo de dirección con posición relativa para el autocomplete */
+.address-field {
+  position: relative;
+}
+
+/* Texto de descripción en el panel PayPal */
+.paypal-desc-text {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Importe destacado dentro del texto PayPal */
+.paypal-amount {
+  color: rgba(245, 245, 240, 0.8);
+}
+
+/* Icono de seguridad: no se encoge y tiene margen superior para alineación */
+.security-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Botón de confirmar: flex centrado con padding */
+.confirm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+}
+
+/* Tarjeta de resumen del pedido */
+.summary-card {
+  padding: 1.75rem;
+}
+
+/* Metadato de categoría en la tarjeta del vehículo del resumen */
+.vehicle-category-meta {
+  opacity: 0.4;
+  margin-top: 0.15rem;
+}
+
+/* Etiqueta pequeña en las filas de resumen */
+.summary-label {
+  font-size: 0.8rem;
+}
+
+/* Valor en las filas de resumen */
+.summary-value {
+  font-size: 0.85rem;
+}
+
+/* Cobertura seleccionada en el resumen */
+.summary-coverage {
+  font-size: 0.65rem;
+}
+
+/* Etiqueta de total en el resumen */
+.total-label {
+  font-size: 0.8rem;
+}
+
+/* Tarjeta de "Qué incluye" */
+.included-card {
+  padding: 1.5rem;
+}
+
+/* Eyebrow "¿Qué incluye?" */
+.included-eyebrow {
+  opacity: 0.5;
+}
+
+/* Columna de bullets con gap ajustado */
+.included-col {
+  gap: 0.6rem;
+}
+
+/* Tarjeta de condiciones de cobertura */
+.coverage-card {
+  padding: 1.5rem;
+}
+
+/* Eyebrow "Condiciones" */
+.coverage-eyebrow {
+  opacity: 0.5;
+}
+
+/* Lista de condiciones de cobertura: sin bullets, flex */
+.coverage-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+/* Condición incluida */
+.coverage-item-ok {
+  font-size: 0.75rem;
+  color: rgba(245, 245, 240, 0.7);
+}
+
+/* Condición NO incluida */
+.coverage-item-no {
+  font-size: 0.75rem;
+  color: rgba(245, 245, 240, 0.4);
+}
+
+/* Título del nivel de cobertura en la tarjeta de condiciones */
+.coverage-level-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--axis-gold);
+  margin: 0 0 0.75rem;
+  font-family: 'Playfair Display', serif;
+}
+
+/* Email destacado en el modal de éxito */
+.success-email-strong {
+  color: rgba(245, 245, 240, 0.65);
+}
+
+/* Botón de "Ver mis reservas" en el modal de éxito */
+.success-btn-dashboard {
+  display: block;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  padding: 0.85rem;
+}
+
+/* Botón de "Ver la flota" en el modal de éxito */
+.success-btn-fleet {
+  display: block;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding: 0.85rem;
+}
+
+/* Eyebrow del modal de éxito */
+.success-eyebrow {
+  letter-spacing: 0.25em;
+}

@@ -55,3 +55,246 @@
   .desktop-nav   { display: flex !important; }
   .hamburger-btn { display: none !important; }
 }
+
+/* ── HEADER INNER LAYOUT ── */
+/* Fila principal del header: logo | nav | toolset */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* ── LOGO ── */
+/* Enlace al home: flex para alinear imagen + texto */
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Contenedor cuadrado del logo */
+.header-logo-img-wrap {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Imagen del logo: contiene sin deformarse */
+.header-logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Nombre de la marca en Playfair Display */
+.header-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Subtítulo "The Private Atelier" en eyebrow diminuto */
+.header-brand-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+/* ── TOOLSET DERECHO ── */
+/* Fila de selector de idioma, botones de auth y avatar */
+.header-toolset {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── SELECTOR DE IDIOMA ── */
+/* Pastilla con borde sutil para ES | EN */
+.lang-switcher {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Separador | entre ES y EN */
+.lang-sep {
+  font-size: 0.7rem;
+}
+
+/* Botón de idioma individual */
+.lang-btn {
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  background: none;
+  border: none;
+  color: white;
+}
+
+/* ── BOTONES AUTH DESKTOP ── */
+.header-btn-outline {
+  font-size: 0.7rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.header-btn-gold {
+  font-size: 0.7rem;
+  padding: 0.4rem 0.8rem;
+  color: #0a0a0a;
+}
+
+/* ── AVATAR DESKTOP ── */
+/* Contenedor relativo para el dropdown */
+.avatar-wrapper {
+  position: relative;
+}
+
+/* Nombre de bienvenida: primera letra del email en mayúsculas */
+.avatar-greeting {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+/* Primera palabra ("Welcome") capitalizada */
+.avatar-greeting-prefix {
+  text-transform: capitalize;
+}
+
+/* Nombre del usuario en dorado */
+.avatar-greeting-name {
+  color: var(--axis-gold);
+  font-weight: 600;
+}
+
+/* Foto de perfil circular */
+.avatar-photo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(201, 161, 74, 0.5);
+  flex-shrink: 0;
+}
+
+/* Inicial del usuario cuando no hay foto */
+.avatar-initial {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--axis-gold);
+  color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* ── DROPDOWN MENÚ DESKTOP ── */
+.header-dropdown {
+  position: absolute;
+  top: 135%;
+  right: 0;
+  width: 220px;
+  background: #0a0a0a;
+  border: 1px solid var(--axis-gold-30);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95);
+  z-index: 99999;
+}
+
+/* Separador dentro del dropdown */
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 0.25rem 0;
+}
+
+/* Botón de logout en el dropdown */
+.dropdown-logout-btn {
+  color: rgba(239, 68, 68, 0.8);
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.dropdown-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── SEPARADOR EN MENÚ MÓVIL ── */
+.mobile-menu-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0.5rem 0;
+}
+
+/* Contenedor de botones auth apilados en móvil */
+.mobile-auth-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.mobile-btn-outline {
+  font-size: 0.7rem;
+  padding: 0.65rem 1rem;
+  width: 100%;
+}
+
+.mobile-btn-gold {
+  font-size: 0.7rem;
+  padding: 0.65rem 1rem;
+  width: 100%;
+  color: #0a0a0a;
+}
+
+/* Sección del usuario en menú móvil (si está logueado) */
+.mobile-user-section {
+  padding: 0.5rem 1.25rem 1rem;
+}
+
+/* Saludo al usuario en el menú móvil */
+.mobile-user-greeting {
+  font-size: 0.6rem;
+  opacity: 0.4;
+  margin-bottom: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+/* Nombre del usuario en dorado */
+.mobile-user-name {
+  color: var(--axis-gold);
+}
+
+/* Dashboard link en menú móvil: color dorado */
+.mobile-dashboard-link {
+  color: var(--axis-gold);
+}
+
+/* Botón de logout en menú móvil */
+.mobile-logout-btn {
+  color: rgba(239, 68, 68, 0.8);
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}

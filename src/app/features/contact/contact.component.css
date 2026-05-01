@@ -1,2 +1,168 @@
 /* Estilos específicos del componente Contact.
    Los estilos globales (glass-card, input-dark, btn-gold) están en styles.css */
+
+/* ── CONTENEDOR INTERIOR ── */
+/* Limita el ancho del formulario para que no se extienda demasiado */
+.contact-inner {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── TÍTULO ── */
+.contact-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Segunda parte del título en cursiva */
+.contact-title-italic {
+  font-style: italic;
+}
+
+/* Separador dorado debajo del título */
+.contact-divider {
+  margin-bottom: 2rem;
+}
+
+/* ── BANNER DISCLAIMER TFG ── */
+/* Aviso de que el formulario es ficticio (proyecto académico) */
+.contact-disclaimer {
+  background: var(--axis-gold-12);
+  border: 1px solid var(--axis-gold-30);
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+
+.contact-disclaimer-text {
+  color: var(--axis-gold);
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── LAYOUT DOS COLUMNAS ── */
+/* Formulario a la izquierda + datos de contacto a la derecha */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* En móvil: una sola columna */
+@media (max-width: 640px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── FORMULARIO ── */
+/* Tarjeta glassmorphism con padding interno */
+.contact-form-card {
+  padding: 2rem;
+}
+
+/* Mensaje de confirmación tras enviar el formulario */
+.contact-success {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.contact-success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--axis-gold);
+  margin-bottom: 0.75rem;
+}
+
+.contact-success-desc {
+  color: rgba(245, 245, 240, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+/* Apila los campos del formulario con espacio entre ellos */
+.contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Etiqueta de cada campo */
+.contact-field-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.6rem;
+  opacity: 0.6;
+}
+
+/* Inputs y textareas: ancho completo dentro de su columna */
+.contact-input-full {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Textarea: permite redimensionar verticalmente */
+.contact-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Mensaje de error del backend (POST fallido) */
+.contact-error {
+  background: rgba(220, 50, 50, 0.1);
+  border: 1px solid rgba(220, 50, 50, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+}
+
+.contact-error-text {
+  color: #e05555;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Botón de envío: ocupa el ancho completo */
+.contact-submit-btn {
+  width: 100%;
+}
+
+/* ── COLUMNA DE DATOS DE CONTACTO ── */
+/* Apila las tarjetas de dirección, teléfono, etc. */
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Cada tarjeta de contacto tiene padding estándar */
+.contact-info-card {
+  padding: 1.5rem;
+}
+
+/* Etiqueta del dato (ADDRESS, PHONE…) */
+.contact-info-label {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
+}
+
+/* Texto del dato de contacto */
+.contact-info-text {
+  color: rgba(245, 245, 240, 0.7);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Email destacado en dorado */
+.contact-email-text {
+  color: var(--axis-gold);
+  font-size: 0.85rem;
+  margin: 0;
+}

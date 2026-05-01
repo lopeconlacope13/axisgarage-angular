@@ -1,35 +1,35 @@
-<footer style="border-top:1px solid rgba(245,245,240,0.06); padding:3rem 1.5rem;">
-  <div style="max-width:80rem; margin:0 auto;">
+<footer class="footer-root">
+  <div class="footer-inner">
 
     <!-- Fila superior: 3 columnas en desktop, stack en móvil -->
-    <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:flex-start; text-align:center;">
+    <div class="footer-row">
 
       <!-- Columna izquierda: logo + subtítulo -->
-      <div style="flex:1; min-width:160px; display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
-        <img src="/assets/logo-completo.png" alt="Axis Garage" style="height:2.5rem; opacity:0.85;">
-        <div class="eyebrow" style="font-size:0.6rem; letter-spacing:0.25em; opacity:0.35; margin-top:0.25rem;">
+      <div class="footer-brand-col">
+        <img src="/assets/logo-completo.png" alt="Axis Garage" class="footer-logo">
+        <div class="eyebrow footer-tagline">
           {{ 'FOOTER.TAGLINE' | translate }}
         </div>
       </div>
 
       <!-- Columna central: copyright y links legales -->
-      <div style="flex:1; min-width:200px; display:flex; flex-direction:column; gap:0.75rem; align-items:center;">
-        <div class="eyebrow" style="opacity:0.3;">© {{ year }} {{ 'FOOTER.COPYRIGHT' | translate }}</div>
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1.25rem;">
-          <a routerLink="/privacy"   class="eyebrow" style="opacity:0.25; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='0.25'">{{ 'FOOTER.PRIVACY' | translate }}</a>
-          <a routerLink="/terms"     class="eyebrow" style="opacity:0.25; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='0.25'">{{ 'FOOTER.TERMS' | translate }}</a>
-          <a routerLink="/contact"   class="eyebrow" style="opacity:0.25; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='0.25'">{{ 'FOOTER.CONTACT' | translate }}</a>
-          <a routerLink="/our-story" class="eyebrow" style="opacity:0.25; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='0.25'">{{ 'FOOTER.OUR_STORY' | translate }}</a>
+      <div class="footer-legal-col">
+        <div class="eyebrow footer-copyright">© {{ year }} {{ 'FOOTER.COPYRIGHT' | translate }}</div>
+        <div class="footer-links">
+          <a routerLink="/privacy"   class="eyebrow footer-link">{{ 'FOOTER.PRIVACY' | translate }}</a>
+          <a routerLink="/terms"     class="eyebrow footer-link">{{ 'FOOTER.TERMS' | translate }}</a>
+          <a routerLink="/contact"   class="eyebrow footer-link">{{ 'FOOTER.CONTACT' | translate }}</a>
+          <a routerLink="/our-story" class="eyebrow footer-link">{{ 'FOOTER.OUR_STORY' | translate }}</a>
         </div>
       </div>
 
       <!-- Columna derecha: datos del autor TFG -->
-      <div style="flex:1; min-width:160px; display:flex; flex-direction:column; align-items:center; gap:0.3rem;">
-        <div class="eyebrow" style="font-size:0.6rem; color:var(--axis-gold); opacity:0.6; letter-spacing:0.15em;">ÁLVARO LÓPEZ PÉREZ</div>
-        <div class="eyebrow" style="font-size:0.6rem; opacity:0.3;">DAW 2 TARDE · IES ALIXAR</div>
-        <div class="eyebrow" style="font-size:0.6rem; opacity:0.3;">alopper.daw&#64;gmail.com</div>
-        <div class="eyebrow" style="font-size:0.6rem; opacity:0.3;">{{ 'FOOTER.PROJECT_DISCLAIMER' | translate }}</div>
-        <div class="eyebrow" style="font-size:0.6rem; opacity:0.3;">{{ 'FOOTER.ADDRESS' | translate }}</div>
+      <div class="footer-author-col">
+        <div class="eyebrow footer-author-name">ÁLVARO LÓPEZ PÉREZ</div>
+        <div class="eyebrow footer-author-detail">DAW 2 TARDE · IES ALIXAR</div>
+        <div class="eyebrow footer-author-detail">info&#64;axisgarage.es</div>
+        <div class="eyebrow footer-author-detail">{{ 'FOOTER.PROJECT_DISCLAIMER' | translate }}</div>
+        <div class="eyebrow footer-author-detail">{{ 'FOOTER.ADDRESS' | translate }}</div>
       </div>
 
     </div>

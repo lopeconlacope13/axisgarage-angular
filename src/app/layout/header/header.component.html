@@ -1,61 +1,60 @@
 <header class="glass-header fixed top-0 left-0 right-0 w-full" style="z-index:9999;">
-  <div class="container mx-auto px-4 md:px-6 py-4" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+  <div class="container mx-auto px-4 md:px-6 py-4 header-inner">
 
     <!-- 1. LEFT: Logo & Branding — routerLink lleva al home -->
-    <a routerLink="/" (click)="closeMenu()" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
-      <div style="width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <img src="assets/logo-compacto.png" alt="Axis Garage Logo" style="max-width:100%;max-height:100%;object-fit:contain;">
+    <a routerLink="/" (click)="closeMenu()" class="header-logo-link">
+      <div class="header-logo-img-wrap">
+        <img src="assets/logo-compacto.png" alt="Axis Garage Logo" class="header-logo-img">
       </div>
       <div>
-        <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.05em;white-space:nowrap;">AXIS GARAGE</div>
-        <div class="eyebrow" style="font-size:0.55rem;letter-spacing:0.2em;white-space:nowrap;">THE PRIVATE ATELIER</div>
+        <div class="header-brand-name">AXIS GARAGE</div>
+        <div class="eyebrow header-brand-sub">THE PRIVATE ATELIER</div>
       </div>
     </a>
 
-    <!-- 2. CENTER: Navigation (Desktop Only — oculta en mobile) -->
+    <!-- 2. CENTER: Navigation (Desktop Only) -->
     <nav class="desktop-nav" style="gap:2.5rem; justify-content:center; flex:1;">
-      <a routerLink="/vehicles" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
-      <a routerLink="/ateliers" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
-      <a routerLink="/brands" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/vehicles"  class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.INVENTORY' | translate }}</a>
+      <a routerLink="/ateliers"  class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.ATELIERS' | translate }}</a>
+      <a routerLink="/brands"    class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.BRANDS' | translate }}</a>
       <a routerLink="/our-story" class="eyebrow hover:text-axis-gold transition-colors duration-300">{{ 'HEADER.OUR_STORY' | translate }}</a>
     </nav>
 
     <!-- 3. RIGHT: Toolset (Desktop) + Botón Hamburguesa (Mobile) -->
-    <div style="display:flex; align-items:center; gap:1rem;">
+    <div class="header-toolset">
 
       <!-- Selector de Idioma (visible siempre) -->
-      <div class="flex gap-2 bg-axis-surface rounded" style="padding:0.25rem 0.5rem; border:1px solid rgba(255,255,255,0.05);">
-        <button [style.opacity]="currentLang === 'es' ? '1' : '0.4'" (click)="switchLang('es')" style="font-size:0.7rem;font-weight:600;cursor:pointer;transition:opacity 0.3s;background:none;border:none;color:white;">ES</button>
-        <span class="text-axis-gray" style="font-size:0.7rem;">|</span>
-        <button [style.opacity]="currentLang === 'en' ? '1' : '0.4'" (click)="switchLang('en')" style="font-size:0.7rem;font-weight:600;cursor:pointer;transition:opacity 0.3s;background:none;border:none;color:white;">EN</button>
+      <div class="flex gap-2 bg-axis-surface rounded lang-switcher">
+        <button [style.opacity]="currentLang === 'es' ? '1' : '0.4'" (click)="switchLang('es')" class="lang-btn">ES</button>
+        <span class="text-axis-gray lang-sep">|</span>
+        <button [style.opacity]="currentLang === 'en' ? '1' : '0.4'" (click)="switchLang('en')" class="lang-btn">EN</button>
       </div>
 
-      <!-- Botones Desktop: LOGIN / REGISTER (ocultos en mobile con md:inline-flex) -->
+      <!-- Botones Desktop: LOGIN / REGISTER -->
       @if (!isLoggedIn) {
-        <button routerLink="/login" class="btn-outline font-display tracking-widest uppercase desktop-only" style="font-size:0.7rem;padding:0.4rem 0.8rem;">{{ 'HEADER.LOGIN' | translate }}</button>
-        <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase desktop-only" style="font-size:0.7rem;padding:0.4rem 0.8rem;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
+        <button routerLink="/login"    class="btn-outline font-display tracking-widest uppercase desktop-only header-btn-outline">{{ 'HEADER.LOGIN' | translate }}</button>
+        <button routerLink="/register" class="btn-gold font-display tracking-widest uppercase desktop-only header-btn-gold">{{ 'HEADER.REGISTER' | translate }}</button>
       }
 
-      <!-- Avatar Desktop (oculto en mobile) -->
+      <!-- Avatar Desktop -->
       @if (isLoggedIn && user) {
-        <div class="desktop-block" style="position:relative;">
+        <div class="avatar-wrapper desktop-block">
 
           <!-- Botón de Avatar desplegable -->
           <button type="button" (click)="toggleDropdown()" class="avatar-btn"
             [attr.aria-expanded]="dropdownOpen"
             aria-label="Menú de usuario">
 
-            <span class="eyebrow lowercase" style="margin:0;font-size:0.7rem;letter-spacing:0.05em;">
-              <span style="text-transform:capitalize;">{{ 'HEADER.WELCOME' | translate }}</span>,
-              <span style="color:var(--axis-gold);font-weight:600;">{{ user.email.split('@')[0] }}</span>
+            <span class="eyebrow avatar-greeting lowercase">
+              <span class="avatar-greeting-prefix">{{ 'HEADER.WELCOME' | translate }}</span>,
+              <span class="avatar-greeting-name">{{ user.email.split('@')[0] }}</span>
             </span>
 
             <!-- Avatar: foto si está disponible, si no la inicial -->
             @if (photoUrl) {
-              <img [src]="photoUrl" alt="avatar"
-                style="width:2rem;height:2rem;border-radius:50%;object-fit:cover;border:1px solid rgba(201,161,74,0.5);flex-shrink:0;">
+              <img [src]="photoUrl" alt="avatar" class="avatar-photo">
             } @else {
-              <div style="width:2rem;height:2rem;border-radius:50%;background:var(--axis-gold);color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Playfair Display',serif;font-size:0.9rem;flex-shrink:0;">
+              <div class="avatar-initial">
                 {{ user.initial }}
               </div>
             }
@@ -64,12 +63,12 @@
 
           <!-- Dropdown Menú Desktop -->
           @if (dropdownOpen) {
-            <div style="position:absolute;top:135%;right:0;width:220px;background:#0a0a0a;border:1px solid var(--axis-gold-30);border-radius:8px;padding:0.5rem 0;box-shadow:0 10px 40px rgba(0,0,0,0.95);z-index:99999;">
+            <div class="header-dropdown">
               <a routerLink="/dashboard" (click)="dropdownOpen=false" class="eyebrow block px-5 py-3 hover:bg-white/5 transition-colors" style="color:var(--axis-gold);">
                 {{ 'HEADER.DASHBOARD' | translate }}
               </a>
-              <div style="height:1px;background:rgba(255,255,255,0.05);margin:0.25rem 0;"></div>
-              <button type="button" (click)="logout()" class="eyebrow block px-5 py-3 transition-colors" style="color:rgba(239,68,68,0.8);background:transparent;border:none;width:100%;text-align:left;font-family:inherit;cursor:pointer;" onmouseenter="this.style.background='rgba(239,68,68,0.1)'" onmouseleave="this.style.background='transparent'">
+              <div class="dropdown-divider"></div>
+              <button type="button" (click)="logout()" class="eyebrow block px-5 py-3 transition-colors dropdown-logout-btn">
                 {{ 'HEADER.LOGOUT' | translate }}
               </button>
             </div>
@@ -77,7 +76,7 @@
         </div>
       }
 
-      <!-- Botón Hamburguesa (solo visible en mobile, oculto en desktop) -->
+      <!-- Botón Hamburguesa (solo visible en mobile) -->
       <button class="hamburger-btn md:hidden" (click)="toggleMenu()" [attr.aria-label]="menuOpen ? 'Cerrar menú' : 'Abrir menú'" [attr.aria-expanded]="menuOpen">
         <!-- ≡ abierto / ✕ cerrado — usando unicode simple, sin librerías -->
         @if (menuOpen) { &#10005; } @else { &#9776; }
@@ -91,30 +90,30 @@
     <div class="mobile-menu md:hidden">
 
       <!-- Links de navegación -->
-      <a routerLink="/vehicles" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.INVENTORY' | translate }}</a>
-      <a routerLink="/ateliers" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.ATELIERS' | translate }}</a>
-      <a routerLink="/brands"     (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.BRANDS' | translate }}</a>
-      <a routerLink="/our-story"  (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.OUR_STORY' | translate }}</a>
+      <a routerLink="/vehicles"  (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.INVENTORY' | translate }}</a>
+      <a routerLink="/ateliers"  (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.ATELIERS' | translate }}</a>
+      <a routerLink="/brands"    (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.BRANDS' | translate }}</a>
+      <a routerLink="/our-story" (click)="closeMenu()" class="eyebrow mobile-menu-link">{{ 'HEADER.OUR_STORY' | translate }}</a>
 
       <!-- Separador -->
-      <div style="height:1px;background:rgba(255,255,255,0.06);margin:0.5rem 0;"></div>
+      <div class="mobile-menu-divider"></div>
 
       <!-- Botones de Auth apilados -->
       @if (!isLoggedIn) {
-        <div style="display:flex;flex-direction:column;gap:0.75rem;padding:1rem 1.25rem;">
-          <button routerLink="/login"    (click)="closeMenu()" class="btn-outline"  style="font-size:0.7rem;padding:0.65rem 1rem;width:100%;">{{ 'HEADER.LOGIN' | translate }}</button>
-          <button routerLink="/register" (click)="closeMenu()" class="btn-gold"     style="font-size:0.7rem;padding:0.65rem 1rem;width:100%;color:#0a0a0a;">{{ 'HEADER.REGISTER' | translate }}</button>
+        <div class="mobile-auth-btns">
+          <button routerLink="/login"    (click)="closeMenu()" class="btn-outline  mobile-btn-outline">{{ 'HEADER.LOGIN' | translate }}</button>
+          <button routerLink="/register" (click)="closeMenu()" class="btn-gold     mobile-btn-gold">{{ 'HEADER.REGISTER' | translate }}</button>
         </div>
       }
 
       <!-- Si está logueado: accesos rápidos -->
       @if (isLoggedIn && user) {
-        <div style="padding:0.5rem 1.25rem 1rem;">
-          <div class="eyebrow" style="font-size:0.6rem;opacity:0.4;margin-bottom:0.75rem;padding-top:0.25rem;">
-            {{ 'HEADER.WELCOME' | translate }}, <span style="color:var(--axis-gold);">{{ user.email.split('@')[0] }}</span>
+        <div class="mobile-user-section">
+          <div class="eyebrow mobile-user-greeting">
+            {{ 'HEADER.WELCOME' | translate }}, <span class="mobile-user-name">{{ user.email.split('@')[0] }}</span>
           </div>
-          <a routerLink="/dashboard"       (click)="closeMenu()" class="eyebrow mobile-menu-link" style="color:var(--axis-gold);">{{ 'HEADER.DASHBOARD' | translate }}</a>
-          <button type="button" (click)="logout()" class="eyebrow mobile-menu-link" style="color:rgba(239,68,68,0.8);background:transparent;border:none;width:100%;text-align:left;font-family:inherit;cursor:pointer;">{{ 'HEADER.LOGOUT' | translate }}</button>
+          <a routerLink="/dashboard"       (click)="closeMenu()" class="eyebrow mobile-menu-link mobile-dashboard-link">{{ 'HEADER.DASHBOARD' | translate }}</a>
+          <button type="button" (click)="logout()" class="eyebrow mobile-menu-link mobile-logout-btn">{{ 'HEADER.LOGOUT' | translate }}</button>
         </div>
       }
 

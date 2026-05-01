@@ -10,12 +10,12 @@
     <!-- Marca + tarjeta del usuario: solo visibles en desktop (clase dashboard-user-card) -->
     <div class="dashboard-user-card col-gap-sm">
       <div>
-        <div class="eyebrow eyebrow-xs text-gold" style="letter-spacing:0.2em;margin-bottom:0.3rem">AXIS GARAGE</div>
+        <div class="eyebrow eyebrow-xs text-gold sidebar-brand-eyebrow">AXIS GARAGE</div>
         <div class="font-display text-lg font-semibold">Control Panel</div>
       </div>
 
       <!-- Avatar con email y rol del usuario autenticado -->
-      <div class="row-center-md" style="padding:0.75rem;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(245,245,240,0.05);">
+      <div class="row-center-md user-row">
         @if (photoUrl) {
           <img [src]="photoUrl" alt="avatar" class="avatar-photo-sm">
         } @else {
@@ -25,7 +25,7 @@
         }
         <div class="text-truncate">
           <div class="text-sm font-medium text-truncate">{{ userEmail }}</div>
-          <div class="eyebrow eyebrow-xs text-gold" style="margin-top:0.1rem;">{{ roleLabel }}</div>
+          <div class="eyebrow eyebrow-xs text-gold user-role-label">{{ roleLabel }}</div>
         </div>
       </div>
     </div>
@@ -99,28 +99,28 @@
       <!-- KPIs -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-        <div class="glass-card p-6" style="border-top:2px solid rgba(201,161,74,0.5);">
-          <div class="eyebrow mb-2 eyebrow-xs" style="font-size:0.55rem;">CONFIRMED REVENUE</div>
+        <div class="glass-card p-6 kpi-revenue">
+          <div class="eyebrow mb-2 eyebrow-xs kpi-eyebrow">CONFIRMED REVENUE</div>
           <div class="font-display text-2xl font-bold text-gold">
             €{{ totalRevenue | number:'1.0-0' }}
           </div>
           <div class="text-axis-gray text-xs mt-1">Total ingresos confirmados</div>
         </div>
 
-        <div class="glass-card p-6" style="border-top:2px solid var(--axis-gold-30);">
-          <div class="eyebrow mb-2" style="font-size:0.55rem;">CONFIRMED RESERV.</div>
+        <div class="glass-card p-6 kpi-confirmed">
+          <div class="eyebrow mb-2 kpi-eyebrow">CONFIRMED RESERV.</div>
           <div class="font-display text-2xl font-bold">{{ confirmedCount }}</div>
           <div class="text-axis-gray text-xs mt-1">Reservas activas</div>
         </div>
 
-        <div class="glass-card p-6" style="border-top:2px solid rgba(239,68,68,0.3);">
-          <div class="eyebrow mb-2" style="font-size:0.55rem;">CANCELLED</div>
-          <div class="font-display text-2xl font-bold" style="color:rgba(239,68,68,0.7);">{{ cancelledCount }}</div>
+        <div class="glass-card p-6 kpi-cancelled">
+          <div class="eyebrow mb-2 kpi-eyebrow">CANCELLED</div>
+          <div class="font-display text-2xl font-bold kpi-cancelled-value">{{ cancelledCount }}</div>
           <div class="text-axis-gray text-xs mt-1">Reservas canceladas</div>
         </div>
 
-        <div class="glass-card p-6" style="border-top:2px solid var(--axis-gold-20);">
-          <div class="eyebrow mb-2" style="font-size:0.55rem;">AVAILABLE FLEET</div>
+        <div class="glass-card p-6 kpi-fleet">
+          <div class="eyebrow mb-2 kpi-eyebrow">AVAILABLE FLEET</div>
           <div class="font-display text-2xl font-bold">{{ availableVehicles }}</div>
           <div class="text-axis-gray text-xs mt-1">Vehículos disponibles</div>
         </div>
@@ -129,24 +129,24 @@
 
       <!-- Tarjetas de estadísticas globales cargadas desde GET /api/stats -->
       @if (stats) {
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:1rem; margin-bottom:2rem;">
+        <div class="stats-grid">
 
           <!-- Total de reservas registradas en el sistema -->
-          <div class="glass-card" style="padding:1.5rem; text-align:center;">
-            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Reservas</p>
-            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.totalReservations }}</p>
+          <div class="glass-card stats-card">
+            <p class="stats-label">Reservas</p>
+            <p class="stats-value">{{ stats.totalReservations }}</p>
           </div>
 
           <!-- Vehículos disponibles ahora mismo -->
-          <div class="glass-card" style="padding:1.5rem; text-align:center;">
-            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Disponibles</p>
-            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.availableVehicles }}</p>
+          <div class="glass-card stats-card">
+            <p class="stats-label">Disponibles</p>
+            <p class="stats-value">{{ stats.availableVehicles }}</p>
           </div>
 
           <!-- Total de clientes registrados -->
-          <div class="glass-card" style="padding:1.5rem; text-align:center;">
-            <p style="color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.5rem 0;">Clientes</p>
-            <p style="color:var(--axis-gold); font-size:2rem; font-family:'Playfair Display',serif; margin:0;">{{ stats.totalClients }}</p>
+          <div class="glass-card stats-card">
+            <p class="stats-label">Clientes</p>
+            <p class="stats-value">{{ stats.totalClients }}</p>
           </div>
 
         </div>
@@ -179,7 +179,7 @@
             }
             <div>
               <!-- El input[type=file] está oculto; el label actúa de botón -->
-              <label class="btn-outline" style="font-size:0.65rem;padding:0.4rem 0.75rem;cursor:pointer;">
+              <label class="btn-outline change-photo-btn">
                 CHANGE PHOTO
                 <input type="file" accept="image/*" (change)="onPhotoSelected($event)" class="hidden">
               </label>
@@ -190,20 +190,20 @@
           @if (profileData) {
             <div class="col-gap-sm">
               <div>
-                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">USERNAME</div>
+                <div class="eyebrow eyebrow-xs field-label">USERNAME</div>
                 <div class="text-sm">{{ profileData.username }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">FULL NAME</div>
+                <div class="eyebrow eyebrow-xs field-label">FULL NAME</div>
                 <div class="text-sm">{{ profileData.firstName }} {{ profileData.lastName }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">EMAIL</div>
+                <div class="eyebrow eyebrow-xs field-label">EMAIL</div>
                 <div class="text-sm">{{ userEmail }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">ACCESS LEVEL</div>
-                <div class="eyebrow text-gold" style="font-size:0.7rem;">{{ roleLabel }}</div>
+                <div class="eyebrow eyebrow-xs field-label">ACCESS LEVEL</div>
+                <div class="eyebrow text-gold field-role-value">{{ roleLabel }}</div>
               </div>
             </div>
           }
@@ -213,30 +213,30 @@
                Si el DNI o el teléfono son valores "placeholder" generados
                automáticamente al registrar, se avisa al usuario de que los complete. -->
           @if (renterData) {
-            <div style="margin-top:1.75rem; padding-top:1.5rem; border-top:1px solid rgba(201,161,74,0.2);">
-              <h3 style="color:var(--axis-gold); font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; margin-bottom:1rem; letter-spacing:0.02em;">
+            <div class="billing-details-section">
+              <h3 class="billing-details-title">
                 Billing Details
               </h3>
 
               <!-- Aviso si los datos de facturación son los valores placeholder por defecto.
                    Los datos reales se rellenan en el paso de Checkout al confirmar la reserva. -->
               @if (renterData.dni?.startsWith('PENDING-') || renterData.phone?.startsWith('900000')) {
-                <p style="color:rgba(201,161,74,0.6); font-size:0.78rem; margin-bottom:1rem; line-height:1.5; font-style:italic;">
+                <p class="billing-pending-note">
                   &#9432; Los datos de facturación se actualizarán aquí automáticamente al completar tu primera reserva.
                 </p>
               }
 
-              <div style="display:grid; gap:0.75rem;">
+              <div class="billing-fields-grid">
                 <div>
-                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">DNI</div>
+                  <div class="eyebrow eyebrow-xs field-label">DNI</div>
                   <div class="text-sm">{{ renterData.dni || '—' }}</div>
                 </div>
                 <div>
-                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">PHONE</div>
+                  <div class="eyebrow eyebrow-xs field-label">PHONE</div>
                   <div class="text-sm">{{ renterData.phone || '—' }}</div>
                 </div>
                 <div>
-                  <div class="eyebrow eyebrow-xs" style="margin-bottom:0.25rem;">ADDRESS</div>
+                  <div class="eyebrow eyebrow-xs field-label">ADDRESS</div>
                   <div class="text-sm">{{ renterData.address || '—' }}</div>
                 </div>
               </div>
@@ -245,34 +245,34 @@
         </div>
 
         <!-- Formulario de cambio de contraseña -->
-        <div class="glass-card p-8" style="margin-top:2rem;">
+        <div class="glass-card p-8 password-card">
           <h2 class="font-display text-lg font-semibold mb-6">Change <span class="italic">Password</span></h2>
 
           <!-- Mensaje de éxito -->
           @if (passwordMessage) {
-            <p style="color:var(--axis-gold); font-size:0.85rem; margin-bottom:0.75rem;">{{ passwordMessage }}</p>
+            <p class="password-success-msg">{{ passwordMessage }}</p>
           }
           <!-- Mensaje de error -->
           @if (passwordError) {
-            <p style="color:#e74c3c; font-size:0.85rem; margin-bottom:0.75rem;" aria-live="polite">{{ passwordError }}</p>
+            <p class="password-error-msg" aria-live="polite">{{ passwordError }}</p>
           }
 
           <!-- Campo: contraseña actual -->
           <div class="col-gap-sm">
             <div>
-              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">CURRENT PASSWORD</label>
+              <label class="eyebrow eyebrow-xs password-label">CURRENT PASSWORD</label>
               <input type="password" placeholder="••••••••" [(ngModel)]="currentPassword"
-                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+                class="input-dark input-full password-input" />
             </div>
             <div>
-              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">NEW PASSWORD</label>
+              <label class="eyebrow eyebrow-xs password-label">NEW PASSWORD</label>
               <input type="password" placeholder="••••••••" [(ngModel)]="newPassword"
-                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+                class="input-dark input-full password-input" />
             </div>
             <div>
-              <label class="eyebrow eyebrow-xs" style="margin-bottom:0.4rem;display:block;">CONFIRM NEW PASSWORD</label>
+              <label class="eyebrow eyebrow-xs password-label">CONFIRM NEW PASSWORD</label>
               <input type="password" placeholder="••••••••" [(ngModel)]="confirmPassword"
-                class="input-dark input-full" style="padding:0.6rem 0.9rem;" />
+                class="input-dark input-full password-input" />
             </div>
           </div>
 
@@ -353,17 +353,15 @@
 
       <!-- Modal para escribir una reseña. Se muestra en overlay cuando reviewingReservationId tiene valor. -->
       @if (reviewingReservationId !== null) {
-        <div
-          style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;"
-          (click)="closeReviewForm()">
-          <div class="glass-card" style="width:100%;max-width:480px;padding:2rem;" (click)="$event.stopPropagation()">
+        <div class="review-modal-overlay" (click)="closeReviewForm()">
+          <div class="glass-card review-modal-card" (click)="$event.stopPropagation()">
 
-            <div class="eyebrow text-gold mb-2" style="font-size:0.65rem;letter-spacing:0.15em;">LEAVE A REVIEW</div>
+            <div class="eyebrow text-gold mb-2 review-modal-eyebrow">LEAVE A REVIEW</div>
             <h2 class="font-display text-xl font-semibold mb-6">Your <span class="italic">Experience</span></h2>
 
             <!-- Selector de puntuación (1-5 estrellas) -->
             <div class="mb-4">
-              <label class="eyebrow" style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gray);display:block;margin-bottom:0.5rem;">RATING</label>
+              <label class="review-label">RATING</label>
               <select class="input-dark w-full" [(ngModel)]="reviewForm.rating">
                 <option [value]="5">★★★★★ — Excepcional</option>
                 <option [value]="4">★★★★☆ — Muy bueno</option>
@@ -375,24 +373,23 @@
 
             <!-- Área de texto para el comentario -->
             <div class="mb-4">
-              <label class="eyebrow" style="font-size:0.65rem;letter-spacing:0.12em;color:var(--axis-gray);display:block;margin-bottom:0.5rem;">COMMENT</label>
+              <label class="review-label">COMMENT</label>
               <textarea
-                class="input-dark w-full"
+                class="input-dark w-full review-textarea"
                 rows="4"
                 [(ngModel)]="reviewForm.comment"
-                placeholder="Describe tu experiencia con el vehículo y el servicio..."
-                style="resize:none;"></textarea>
+                placeholder="Describe tu experiencia con el vehículo y el servicio..."></textarea>
             </div>
 
             <!-- Mensaje de error si el envío falla -->
             @if (reviewError) {
-              <p style="color:rgba(239,68,68,0.8);font-size:0.75rem;margin-bottom:1rem;">{{ reviewError }}</p>
+              <p class="review-error-msg">{{ reviewError }}</p>
             }
 
             <!-- Botones de acción -->
-            <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
-              <button class="btn-outline eyebrow" style="font-size:0.65rem;" (click)="closeReviewForm()">{{ 'DASHBOARD.REVIEW_CANCEL' | translate }}</button>
-              <button class="btn-gold eyebrow" style="font-size:0.65rem;" (click)="submitReview()">{{ 'DASHBOARD.REVIEW_SUBMIT' | translate }}</button>
+            <div class="review-modal-actions">
+              <button class="btn-outline eyebrow review-cancel-btn" (click)="closeReviewForm()">{{ 'DASHBOARD.REVIEW_CANCEL' | translate }}</button>
+              <button class="btn-gold eyebrow review-submit-btn" (click)="submitReview()">{{ 'DASHBOARD.REVIEW_SUBMIT' | translate }}</button>
             </div>
 
           </div>

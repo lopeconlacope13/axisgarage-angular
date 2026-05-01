@@ -1,3 +1,5 @@
+/* ── GRID DE VEHÍCULOS DESTACADOS ── */
+/* 1 columna en móvil, 3 en desktop */
 .featured-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -8,4 +10,298 @@
   .featured-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ── FRANJA DE ADVERTENCIA TFG ── */
+/* Barra fija justo debajo del header (top:72px) con fondo dorado semitransparente */
+.tfg-banner {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  background: rgba(184, 149, 42, 0.12);
+  border-bottom: 1px solid rgba(184, 149, 42, 0.3);
+  padding: 0.4rem 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.tfg-banner-text {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--axis-gold);
+  opacity: 0.9;
+}
+
+/* ── SECCIÓN HERO ── */
+/* Ocupa toda la pantalla, centra el contenido */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Imagen de fondo a pantalla completa */
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  background-image: url('/testimonial_client.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Overlay oscuro: más opaco abajo para mayor legibilidad del texto */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.85) 100%);
+  z-index: 1;
+}
+
+/* Línea dorada decorativa en la parte superior del hero */
+.hero-top-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--axis-gold-40), transparent);
+  z-index: 2;
+}
+
+/* Contenido del hero: encima de los overlays */
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  color: var(--axis-gold);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.3em;
+}
+
+.hero-title {
+  margin-bottom: 1.5rem;
+  animation-delay: 0.1s;
+}
+
+/* Segunda línea del título en cursiva y dorada */
+.hero-title-italic {
+  display: block;
+  font-style: italic;
+  color: var(--axis-gold);
+}
+
+.hero-subtitle {
+  color: var(--axis-gray);
+  font-size: 1.05rem;
+  max-width: 36rem;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+  animation-delay: 0.2s;
+}
+
+/* Botones del hero en fila centrada */
+.hero-cta-row {
+  animation-delay: 0.3s;
+}
+
+/* ── STATS DEL HERO ── */
+/* Grid de 3 columnas con los indicadores clave */
+.hero-stats {
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  animation-delay: 0.4s;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+/* La columna del medio lleva bordes laterales para separar visualmente */
+.stat-item-mid {
+  text-align: center;
+  border-left: 1px solid rgba(245, 245, 240, 0.06);
+  border-right: 1px solid rgba(245, 245, 240, 0.06);
+}
+
+/* Número grande del stat en Playfair Display dorado */
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--axis-gold);
+}
+
+/* Etiqueta pequeña debajo del número */
+.stat-label {
+  margin-top: 0.25rem;
+}
+
+/* ── SECCIÓN VEHÍCULOS DESTACADOS ── */
+.featured-section {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+}
+
+.featured-header {
+  margin-bottom: 3rem;
+}
+
+.featured-eyebrow {
+  color: var(--axis-gold);
+  margin-bottom: 0.75rem;
+}
+
+/* Segunda línea del título en cursiva */
+.featured-title-italic {
+  font-style: italic;
+}
+
+/* ── TARJETA DE VEHÍCULO ── */
+/* Fondo oscuro, borde sutil, columna flex para empujar el footer abajo */
+.vehicle-card {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenedor de imagen: altura fija, fondo placeholder */
+.vehicle-card-img-wrap {
+  height: 200px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Imagen real del vehículo */
+.vehicle-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Fallback cuando la imagen falla o no existe */
+.vehicle-card-img-fallback {
+  position: absolute;
+  inset: 0;
+  background: #1a1a1a;
+}
+
+/* Cuerpo de la tarjeta: crece para empujar el botón al fondo */
+.vehicle-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Subtítulo con localización y categoría */
+.vehicle-card-meta {
+  margin-bottom: 0.25rem;
+  opacity: 0.5;
+}
+
+/* Nombre del vehículo en Playfair Display */
+.vehicle-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Modelo en cursiva dentro del nombre */
+.vehicle-card-model {
+  font-style: italic;
+}
+
+/* ── ESPECIFICACIONES TÉCNICAS INLINE ── */
+/* Fila de 3 stats: HP, 0-100, motor */
+.vehicle-card-specs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.spec-col {
+  text-align: center;
+}
+
+/* La columna central lleva bordes laterales para separar */
+.spec-col-mid {
+  text-align: center;
+  border-left: 1px solid rgba(245, 245, 240, 0.06);
+  border-right: 1px solid rgba(245, 245, 240, 0.06);
+  padding: 0 1rem;
+}
+
+.spec-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.spec-label {
+  font-size: 0.6rem;
+}
+
+/* ── FOOTER DE TARJETA: PRECIO + BOTÓN ── */
+/* Se empuja automáticamente al fondo con margin-top:auto en .vehicle-card-body */
+.vehicle-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+/* Precio por día en Playfair Display dorado */
+.vehicle-card-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--axis-gold);
+}
+
+.vehicle-card-price-label {
+  font-size: 0.6rem;
+}
+
+/* Botón de reserva compacto */
+.vehicle-card-btn {
+  font-size: 0.7rem;
+  padding: 0.5rem 1rem;
+}
+
+/* ── CTA VER TODO ── */
+.featured-cta-wrap {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.featured-cta-btn {
+  font-size: 0.75rem;
 }

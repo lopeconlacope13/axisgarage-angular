@@ -1,8 +1,8 @@
 <div class="max-w-7xl mx-auto px-6 pt-32 pb-20">
 
-  <div class="eyebrow mb-2" style="color:var(--axis-gold)">{{ 'BRANDS.EYEBROW' | translate }}</div>
+  <div class="eyebrow mb-2" style="color:var(--axis-gold);font-size:0.75rem;">{{ 'BRANDS.EYEBROW' | translate }}</div>
   <h1 class="section-title mb-4">{{ 'BRANDS.TITLE' | translate }} <span class="italic">{{ 'BRANDS.TITLE_ITALIC' | translate }}</span></h1>
-  <p style="color:var(--axis-gray);max-width:32rem;margin-bottom:3.5rem;line-height:1.7;font-size:0.95rem;">
+  <p class="brands-subtitle">
     {{ 'BRANDS.SUBTITLE' | translate }}
   </p>
 
@@ -10,19 +10,19 @@
     @for (b of brands; track b.name) {
       <div class="glass-card p-6" style="display:flex;flex-direction:column;gap:0.5rem;">
         <!-- Logo de la marca — si el archivo no existe, se oculta automáticamente -->
-        <div style="height:3rem;display:flex;align-items:center;margin-bottom:0.5rem;">
+        <div class="brand-logo-wrap">
           <img [src]="b.logoUrl" [alt]="b.name"
-               style="max-height:2.5rem;max-width:8rem;object-fit:contain;filter:brightness(0) invert(1);opacity:0.75;"
+               class="brand-logo-img"
                onerror="this.style.display='none'">
         </div>
-        <div class="font-display text-lg font-semibold" style="color:var(--axis-gold);">{{ b.name }}</div>
-        <div class="eyebrow" style="font-size:0.6rem;opacity:0.5;">{{ b.origin }}</div>
+        <div class="font-display text-lg font-semibold brand-name">{{ b.name }}</div>
+        <div class="eyebrow brand-origin">{{ b.origin }}</div>
         <p class="text-axis-gray text-sm" style="line-height:1.6;margin-top:0.25rem;">{{ b.tagline }}</p>
       </div>
     }
   </div>
 
-  <div style="margin-top:3rem;text-align:center;">
-    <a routerLink="/vehicles" class="btn-gold" style="font-size:0.75rem;">{{ 'BRANDS.CTA' | translate }}</a>
+  <div class="brands-cta-wrap">
+    <a routerLink="/vehicles" class="btn-gold brands-cta-btn">{{ 'BRANDS.CTA' | translate }}</a>
   </div>
 </div>

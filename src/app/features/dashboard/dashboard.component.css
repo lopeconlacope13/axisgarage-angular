@@ -140,3 +140,235 @@
   padding: 0.25rem 0.5rem;
   cursor: pointer;
 }
+
+/* ── SIDEBAR — Tarjeta de usuario ── */
+/* Eyebrow "AXIS GARAGE" con tracking */
+.sidebar-brand-eyebrow {
+  letter-spacing: 0.2em;
+  margin-bottom: 0.3rem;
+}
+
+/* Fila de avatar + email del usuario */
+.user-row {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(245, 245, 240, 0.05);
+}
+
+/* Rol del usuario en el sidebar */
+.user-role-label {
+  margin-top: 0.1rem;
+}
+
+/* ── KPIs (OVERVIEW) ── */
+
+/* KPI de revenue: borde dorado intenso arriba */
+.kpi-revenue {
+  border-top: 2px solid rgba(201, 161, 74, 0.5);
+}
+
+/* KPI de reservas confirmadas: borde dorado suave */
+.kpi-confirmed {
+  border-top: 2px solid var(--axis-gold-30);
+}
+
+/* KPI de canceladas: borde rojo */
+.kpi-cancelled {
+  border-top: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Número de KPI canceladas en rojo */
+.kpi-cancelled-value {
+  color: rgba(239, 68, 68, 0.7);
+}
+
+/* KPI de flota disponible: borde dorado muy suave */
+.kpi-fleet {
+  border-top: 2px solid var(--axis-gold-20);
+}
+
+/* Eyebrow de KPI: tamaño diminuto */
+.kpi-eyebrow {
+  font-size: 0.55rem;
+}
+
+/* ── STATS GLOBALES (OVERVIEW) ── */
+
+/* Grid de las 3 tarjetas de stats globales */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Tarjeta de stat: padding y centrado */
+.stats-card {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Etiqueta de stat */
+.stats-label {
+  color: #888;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem 0;
+}
+
+/* Valor de stat en Playfair Display dorado */
+.stats-value {
+  color: var(--axis-gold);
+  font-size: 2rem;
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+}
+
+/* ── PROFILE — Campos de perfil ── */
+
+/* Etiqueta de campo de perfil */
+.field-label {
+  margin-bottom: 0.25rem;
+}
+
+/* Rol en el perfil */
+.field-role-value {
+  font-size: 0.7rem;
+}
+
+/* Sección de Billing Details dentro del perfil */
+.billing-details-section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(201, 161, 74, 0.2);
+}
+
+/* Título de Billing Details */
+.billing-details-title {
+  color: var(--axis-gold);
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+/* Aviso de datos pendientes */
+.billing-pending-note {
+  color: rgba(201, 161, 74, 0.6);
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Grid de los campos dni/phone/address */
+.billing-fields-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* ── PROFILE — Cambio de contraseña ── */
+
+/* Tarjeta de cambio de contraseña: margen superior para separar */
+.password-card {
+  margin-top: 2rem;
+}
+
+/* Mensaje de éxito del cambio de contraseña */
+.password-success-msg {
+  color: var(--axis-gold);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Mensaje de error del cambio de contraseña */
+.password-error-msg {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Etiqueta de los campos de contraseña */
+.password-label {
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* Input de contraseña con padding estándar */
+.password-input {
+  padding: 0.6rem 0.9rem;
+}
+
+/* Botón de cambio de foto: label que actúa como botón */
+.change-photo-btn {
+  font-size: 0.65rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+}
+
+/* ── MY RESERVATIONS — Modal de reseña ── */
+
+/* Overlay del modal de reseña */
+.review-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Tarjeta del modal de reseña */
+.review-modal-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+}
+
+/* Eyebrow del modal de reseña */
+.review-modal-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+}
+
+/* Etiqueta del selector de puntuación */
+.review-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--axis-gray);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Textarea del comentario: sin resize horizontal */
+.review-textarea {
+  resize: none;
+}
+
+/* Mensaje de error del formulario de reseña */
+.review-error-msg {
+  color: rgba(239, 68, 68, 0.8);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Fila de botones del modal de reseña */
+.review-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* Botones del modal de reseña */
+.review-cancel-btn {
+  font-size: 0.65rem;
+}
+
+.review-submit-btn {
+  font-size: 0.65rem;
+}

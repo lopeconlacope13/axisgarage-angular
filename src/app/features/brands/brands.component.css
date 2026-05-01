@@ -1,2 +1,51 @@
 /* Estilos específicos del componente Brands.
    Los estilos globales (glass-card, eyebrow, btn-gold) están en styles.css */
+
+/* ── SUBTÍTULO DE PÁGINA ── */
+.brands-subtitle {
+  color: var(--axis-gray);
+  max-width: 32rem;
+  margin-bottom: 3.5rem;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* ── TARJETA DE MARCA ── */
+
+/* Contenedor del logo: altura fija para alineación uniforme */
+.brand-logo-wrap {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Logo en blanco y negro con ligera transparencia — efecto "lujo discreto" */
+.brand-logo-img {
+  max-height: 2.5rem;
+  max-width: 8rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.75;
+}
+
+/* Nombre de la marca en dorado */
+.brand-name {
+  color: var(--axis-gold);
+}
+
+/* País de origen: eyebrow apagado */
+.brand-origin {
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ── CTA INFERIOR ── */
+.brands-cta-wrap {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.brands-cta-btn {
+  font-size: 0.75rem;
+}

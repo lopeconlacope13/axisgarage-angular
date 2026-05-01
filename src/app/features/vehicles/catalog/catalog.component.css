@@ -82,7 +82,7 @@
   100% { background-position: -200% 0; }
 }
 
-/* ── Barra de filtros — extraído de styles.css ────────────────────────────── */
+/* ── Barra de filtros ─────────────────────────────────────────────────── */
 /* Flex-wrap: en mobile cada filtro ocupa el 100%, en desktop van en fila */
 .filters-bar {
   display: flex;
@@ -94,4 +94,221 @@
 .filters-bar > button {
   flex: 1;
   min-width: 200px;
+}
+
+/* ── Contenedor de label + select/input en filtros ── */
+/* flex:1 permite que se estiren uniformemente en la barra */
+.filter-field {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* Etiqueta del filtro en eyebrow pequeño */
+.filter-label {
+  font-size: 0.55rem;
+  display: block;
+  margin-bottom: 0.4rem;
+  opacity: 0.6;
+}
+
+/* Inputs y selects de los filtros: misma altura que el resto del formulario */
+.filter-input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* ── Fila de botones APPLY / CLEAR ── */
+/* flex:none evita que se estiren como los campos de input */
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex: 0 0 auto;
+}
+
+.filter-btn {
+  font-size: 0.7rem;
+  padding: 0.5rem 1.25rem;
+  white-space: nowrap;
+}
+
+/* ── Buscador rápido ── */
+.search-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 161, 74, 0.2);
+  border-radius: 6px;
+  color: #f5f0e8;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: rgba(201, 161, 74, 0.5);
+}
+
+/* ── Tarjeta de vehículo en el catálogo ── */
+.catalog-card {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Contenedor de imagen con altura fija */
+.catalog-card-img-wrap {
+  height: 220px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Imagen real del vehículo */
+.catalog-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder de imagen cuando no hay foto */
+.catalog-card-img-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #1a1a1a;
+}
+
+/* Cuerpo de la tarjeta */
+.catalog-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Metadato: localización y categoría */
+.catalog-card-meta {
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+/* Nombre del vehículo */
+.catalog-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Modelo del vehículo en cursiva */
+.catalog-card-model {
+  font-style: italic;
+}
+
+/* ── Specs técnicas de la tarjeta ── */
+.catalog-card-specs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  margin-top: auto;
+}
+
+.catalog-spec-col {
+  text-align: center;
+  flex: 1;
+}
+
+/* La columna central lleva bordes para separar visualmente */
+.catalog-spec-col-mid {
+  text-align: center;
+  border-left: 1px solid rgba(245, 245, 240, 0.06);
+  border-right: 1px solid rgba(245, 245, 240, 0.06);
+  flex: 1;
+}
+
+.catalog-spec-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.catalog-spec-label {
+  font-size: 0.6rem;
+}
+
+/* ── Footer de tarjeta: precio + reservar ── */
+.catalog-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.catalog-price-label {
+  font-size: 0.6rem;
+}
+
+.catalog-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--axis-gold);
+}
+
+.catalog-reserve-btn {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+/* ── Paginación ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+/* Botones PREV y NEXT */
+.pagination-nav-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--axis-gold-30);
+  color: rgba(245, 240, 232, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+/* Botones de número de página */
+.pagination-page-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  border: 1px solid var(--axis-gold-20);
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.pagination-page-btn.active {
+  background: var(--axis-gold-15);
+  border-color: var(--axis-gold);
+  color: var(--axis-gold);
 }

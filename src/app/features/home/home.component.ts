@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../core/services/vehicle.service';
+import { SeoService } from '../../core/services/seo.service';
 import { VehicleDTO } from '../../models/types';
 import { environment } from '../../../environments/environment';
 
@@ -29,11 +30,19 @@ import { environment } from '../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
+  private seo = inject(SeoService);
+
   /** Los seis coches más representativos de la flota */
   featuredVehicles: VehicleDTO[] = [];
 
-  /** URL base del backend para construir rutas de imágenes */
-  readonly backendUrl = 'http://localhost:8080';
+  /** Número de vehículos destacados que se muestran en el hero */
+  private readonly FEATURED_COUNT = 6;
+
+  /**
+   * URL base del backend, extraída de environment para evitar hardcoding.
+   * Se elimina '/api' porque las imágenes se sirven desde la raíz del servidor.
+   */
+  private readonly backendUrl = environment.apiUrl.replace('/api', '');
 
   constructor(
     private vehicleSvc: VehicleService,
@@ -42,8 +51,14 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Cargamos 6 vehículos ordenados por precio descendente para mostrar los más exclusivos
-    this.vehicleSvc.getAll(0, 6, 'pricePerDay,desc').subscribe({
+    this.seo.update(
+      'The Private Atelier — Luxury Hypercar Rental',
+      'Axis Garage: alquiler exclusivo de hiperdeportivos y clásicos de colección en Sevilla, Madrid, Barcelona y Puerto Banús. Cero ruido. Cero fricción.',
+      '/'
+    );
+
+    // Cargamos los vehículos más exclusivos (FEATURED_COUNT) ordenados por precio descendente
+    this.vehicleSvc.getAll(0, this.FEATURED_COUNT, 'pricePerDay,desc').subscribe({
       next: p => {
         this.featuredVehicles = p.content;
         // Sin esta llamada, Angular Zoneless no sabe que los datos cambiaron

@@ -1,59 +1,57 @@
-<!-- Franja de advertencia TFG — aparece justo debajo del header fijo -->
-<div style="position:fixed;top:72px;left:0;right:0;z-index:9998;background:rgba(184,149,42,0.12);border-bottom:1px solid rgba(184,149,42,0.3);padding:0.4rem 1.5rem;text-align:center;backdrop-filter:blur(8px);">
-  <span class="eyebrow" style="font-size:0.6rem;letter-spacing:0.2em;color:var(--axis-gold);opacity:0.9;">
+<!-- Franja de advertencia TFG — posición fija debajo del header -->
+<div class="tfg-banner">
+  <span class="eyebrow tfg-banner-text">
     {{ 'HOME.TFG_WARNING' | translate }}
   </span>
 </div>
 
 <!-- ══ HERO ════════════════════════════════════════════════ -->
-<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+<section class="hero-section">
 
   <!-- Imagen de fondo: hombre con Ferrari en el Puerto de Mónaco (estética Old Money) -->
-  <!-- background-size:cover ocupa toda la sección; background-position:center centra la imagen -->
-  <div style="position:absolute;inset:0;background-image:url('/testimonial_client.jpg');background-size:cover;background-position:center;z-index:0;"></div>
+  <div class="hero-bg-image"></div>
 
   <!-- Overlay oscuro encima de la foto para mantener legibilidad del texto -->
-  <!-- El gradiente es más opaco abajo (0.85) donde está el texto, más transparente arriba (0.55) -->
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.85) 100%);z-index:1;"></div>
+  <div class="hero-overlay"></div>
 
   <!-- Línea dorada superior -->
-  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--axis-gold-40),transparent);z-index:2;"></div>
+  <div class="hero-top-line"></div>
 
-  <!-- z-index:3 → por encima de los overlays de la foto y la rejilla -->
-  <div style="position:relative;z-index:3;max-width:64rem;margin:0 auto;padding:0 1.5rem;text-align:center;">
+  <!-- Contenido del hero: z-index por encima de los overlays -->
+  <div class="hero-content">
 
     <!-- Las ciudades son iguales en ambos idiomas — no se traducen -->
-    <div class="eyebrow animate-fade-in" style="color:var(--axis-gold);margin-bottom:1.5rem;letter-spacing:0.3em;">
+    <div class="eyebrow hero-eyebrow animate-fade-in">
       SEVILLA &nbsp;·&nbsp; MADRID &nbsp;·&nbsp; BARCELONA &nbsp;·&nbsp; PUERTO BANÚS
     </div>
 
-    <h1 class="section-title animate-fade-in" style="margin-bottom:1.5rem;animation-delay:0.1s;">
+    <h1 class="section-title hero-title animate-fade-in">
       {{ 'HOME.HERO_TITLE' | translate }}
-      <span style="display:block;font-style:italic;color:var(--axis-gold);">{{ 'HOME.HERO_TITLE_ITALIC' | translate }}</span>
+      <span class="hero-title-italic">{{ 'HOME.HERO_TITLE_ITALIC' | translate }}</span>
     </h1>
 
-    <p style="color:var(--axis-gray);font-size:1.05rem;max-width:36rem;margin:0 auto 2.5rem;line-height:1.7;animation-delay:0.2s;" class="animate-fade-in">
+    <p class="hero-subtitle animate-fade-in">
       {{ 'HOME.HERO_SUBTITLE' | translate }}
     </p>
 
-    <div class="flex items-center justify-center gap-4 animate-fade-in" style="animation-delay:0.3s;">
+    <div class="flex items-center justify-center gap-4 hero-cta-row animate-fade-in">
       <a routerLink="/vehicles" class="btn-gold">{{ 'HOME.CTA_INVENTORY' | translate }}</a>
       <a routerLink="/ateliers" class="btn-outline">{{ 'HOME.CTA_ATELIERS' | translate }}</a>
     </div>
 
-    <!-- Stats -->
-    <div class="animate-fade-in" style="margin-top:5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:28rem;margin-left:auto;margin-right:auto;animation-delay:0.4s;">
-      <div style="text-align:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">31</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_VEHICLES' | translate }}</div>
+    <!-- Stats: vehículos, ateliers y precio desde -->
+    <div class="hero-stats animate-fade-in">
+      <div class="stat-item">
+        <div class="stat-number">31</div>
+        <div class="eyebrow stat-label">{{ 'HOME.STATS_VEHICLES' | translate }}</div>
       </div>
-      <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);">
-        <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">4</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_ATELIERS' | translate }}</div>
+      <div class="stat-item-mid">
+        <div class="stat-number">4</div>
+        <div class="eyebrow stat-label">{{ 'HOME.STATS_ATELIERS' | translate }}</div>
       </div>
-      <div style="text-align:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:1.875rem;font-weight:700;color:var(--axis-gold);">€200</div>
-        <div class="eyebrow" style="margin-top:0.25rem;">{{ 'HOME.STATS_FROM' | translate }}</div>
+      <div class="stat-item">
+        <div class="stat-number">€200</div>
+        <div class="eyebrow stat-label">{{ 'HOME.STATS_FROM' | translate }}</div>
       </div>
     </div>
   </div>
@@ -61,11 +59,11 @@
 </section>
 
 <!-- ══ FEATURED VEHICLES (de la API) ═══════════════════── -->
-<section style="max-width:80rem;margin:0 auto;padding:6rem 1.5rem;">
+<section class="featured-section">
 
-  <div style="margin-bottom:3rem;">
-    <div class="eyebrow" style="color:var(--axis-gold);margin-bottom:0.75rem;">{{ 'HOME.FEATURED_EYEBROW' | translate }}</div>
-    <h2 class="section-title">{{ 'HOME.FEATURED_TITLE' | translate }} <span style="font-style:italic;">{{ 'HOME.FEATURED_TITLE_ITALIC' | translate }}</span></h2>
+  <div class="featured-header">
+    <div class="eyebrow featured-eyebrow">{{ 'HOME.FEATURED_EYEBROW' | translate }}</div>
+    <h2 class="section-title">{{ 'HOME.FEATURED_TITLE' | translate }} <span class="featured-title-italic">{{ 'HOME.FEATURED_TITLE_ITALIC' | translate }}</span></h2>
     <div class="gold-divider"></div>
   </div>
 
@@ -73,48 +71,51 @@
   <div class="featured-grid">
 
     @for (v of featuredVehicles; track v.id) {
-      <div class="vehicle-card" style="background:#111111;border:1px solid rgba(255,255,255,0.05);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;">
+      <div class="vehicle-card">
 
         <!-- Imagen del vehículo: real si existe, placeholder si no -->
-        <div style="height:200px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+        <div class="vehicle-card-img-wrap">
           @if (getImageUrl(v)) {
             <img
               [src]="getImageUrl(v)!"
               [alt]="v.brand + ' ' + v.model"
-              style="width:100%;height:100%;object-fit:cover;display:block;"
+              class="vehicle-card-img"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
             />
-            <div style="display:none;position:absolute;inset:0;background:#1a1a1a;"></div>
+            <!-- Se muestra si la imagen falla al cargar -->
+            <div class="vehicle-card-img-fallback" style="display:none;"></div>
           } @else {
-            <div style="position:absolute;inset:0;background:#1a1a1a;"></div>
+            <div class="vehicle-card-img-fallback"></div>
           }
         </div>
 
-        <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
-          <div class="eyebrow" style="margin-bottom:0.25rem;opacity:0.5;">{{ v.locationName }} · {{ v.categoryName }}</div>
-          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin-bottom:0.75rem;">
-            {{ v.brand }} <span style="font-style:italic;">{{ v.model }}</span>
+        <div class="vehicle-card-body">
+          <div class="eyebrow vehicle-card-meta">{{ v.locationName }} · {{ v.categoryName }}</div>
+          <h3 class="vehicle-card-name">
+            {{ v.brand }} <span class="vehicle-card-model">{{ v.model }}</span>
           </h3>
-          <div style="display:flex;gap:1rem;margin-bottom:1rem;">
-            <div style="text-align:center;">
-              <div style="font-weight:600;font-size:0.9rem;">{{ v.horsePower }}</div>
-              <div class="eyebrow" style="font-size:0.6rem;">HP</div>
+          <!-- Especificaciones técnicas: HP, 0-100, motor -->
+          <div class="vehicle-card-specs">
+            <div class="spec-col">
+              <div class="spec-value">{{ v.horsePower }}</div>
+              <div class="eyebrow spec-label">HP</div>
             </div>
-            <div style="text-align:center;border-left:1px solid rgba(245,245,240,0.06);border-right:1px solid rgba(245,245,240,0.06);padding:0 1rem;">
-              <div style="font-weight:600;font-size:0.9rem;">{{ v.zeroToHundred }}s</div>
-              <div class="eyebrow" style="font-size:0.6rem;">0-100</div>
+            <div class="spec-col-mid">
+              <div class="spec-value">{{ v.zeroToHundred }}s</div>
+              <div class="eyebrow spec-label">0-100</div>
             </div>
-            <div style="text-align:center;">
-              <div style="font-weight:600;font-size:0.9rem;">{{ v.engineType }}</div>
-              <div class="eyebrow" style="font-size:0.6rem;">ENGINE</div>
+            <div class="spec-col">
+              <div class="spec-value">{{ v.engineType }}</div>
+              <div class="eyebrow spec-label">ENGINE</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;">
+          <!-- Precio y botón de reserva — pegados al fondo de la tarjeta -->
+          <div class="vehicle-card-footer">
             <div>
-              <div class="eyebrow" style="font-size:0.6rem;">{{ 'HOME.DAILY_FROM' | translate }}</div>
-              <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--axis-gold);">€{{ v.pricePerDay }}</div>
+              <div class="eyebrow vehicle-card-price-label">{{ 'HOME.DAILY_FROM' | translate }}</div>
+              <div class="vehicle-card-price">€{{ v.pricePerDay }}</div>
             </div>
-            <a [routerLink]="['/vehicles', v.id]" class="btn-gold" style="font-size:0.7rem;padding:0.5rem 1rem;">{{ 'HOME.RESERVE' | translate }}</a>
+            <a [routerLink]="['/vehicles', v.id]" class="btn-gold vehicle-card-btn">{{ 'HOME.RESERVE' | translate }}</a>
           </div>
         </div>
 
@@ -123,7 +124,7 @@
 
   </div>
 
-  <div style="text-align:center;margin-top:3rem;">
-    <a routerLink="/vehicles" class="btn-outline" style="font-size:0.75rem;">{{ 'HOME.FEATURED_CTA' | translate }}</a>
+  <div class="featured-cta-wrap">
+    <a routerLink="/vehicles" class="btn-outline featured-cta-btn">{{ 'HOME.FEATURED_CTA' | translate }}</a>
   </div>
 </section>

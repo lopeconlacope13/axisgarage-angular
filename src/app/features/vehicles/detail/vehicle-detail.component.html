@@ -1,7 +1,7 @@
 <!-- Estado de carga mientras llega la respuesta de la API -->
 @if (loading) {
   <div class="page-center">
-    <div class="eyebrow text-gold" style="letter-spacing:0.3em;">LOADING ASSET...</div>
+    <div class="eyebrow text-gold loading-text">LOADING ASSET...</div>
   </div>
 }
 
@@ -14,7 +14,7 @@
     <div class="row-center-sm mb-8">
       <a routerLink="/vehicles" class="breadcrumb-link">← FLEET</a>
       <span class="breadcrumb-sep">·</span>
-      <span class="eyebrow" style="opacity:0.4;">{{ vehicle.brand }} {{ vehicle.model }}</span>
+      <span class="eyebrow breadcrumb-vehicle-name">{{ vehicle.brand }} {{ vehicle.model }}</span>
     </div>
 
     <!-- Título y clasificación -->
@@ -48,7 +48,7 @@
             />
           } @else {
             <div class="vehicle-img-placeholder">
-              <span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--axis-gold-15);font-size:3rem;">
+              <span class="brand-placeholder-text">
                 {{ vehicle.brand }}
               </span>
             </div>
@@ -168,20 +168,20 @@
       </div>
 
       <!-- ── COLUMNA DERECHA: panel de reserva ── -->
-      <div class="glass-card vehicle-detail-sidebar" style="padding:1.75rem;">
+      <div class="glass-card vehicle-detail-sidebar sidebar-padding">
 
-        <div class="eyebrow text-gold mb-6" style="letter-spacing:0.25em;">RESERVE THIS ASSET</div>
+        <div class="eyebrow text-gold mb-6 sidebar-eyebrow">RESERVE THIS ASSET</div>
 
         <!-- Fechas de recogida y devolución -->
         <div class="col-gap-sm mb-5">
 
           <div>
-            <label class="eyebrow form-label" style="opacity:0.6;">PICK UP</label>
+            <label class="eyebrow form-label form-label-muted">PICK UP</label>
             <input type="date" class="input-dark input-full" [(ngModel)]="startDate" />
           </div>
 
           <div>
-            <label class="eyebrow form-label" style="opacity:0.6;">DROP OFF</label>
+            <label class="eyebrow form-label form-label-muted">DROP OFF</label>
             <input type="date" class="input-dark input-full" [(ngModel)]="endDate" />
           </div>
 
@@ -189,8 +189,8 @@
 
         <!-- Selector de cobertura -->
         <div class="mb-5">
-          <label class="eyebrow form-label mb-3" style="opacity:0.6;">COVERAGE LEVEL</label>
-          <div class="col-gap-sm" style="gap:0.4rem;">
+          <label class="eyebrow form-label mb-3 form-label-muted">COVERAGE LEVEL</label>
+          <div class="col-gap-sm coverage-col">
 
             <button (click)="selectedCoverage='STANDARD'" class="coverage-btn"
               [style.border]="selectedCoverage==='STANDARD' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
@@ -203,17 +203,58 @@
               [style.border]="selectedCoverage==='PREMIUM' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
               [style.color]="selectedCoverage==='PREMIUM' ? 'var(--axis-gold)' : 'rgba(245,245,240,0.5)'">
               <span class="coverage-name">Premium</span>
-              <span class="text-xxs-spaced">+€45/DAY</span>
+              <span class="text-xxs-spaced">+€{{ (vehicle?.pricePerDay ?? 0) * 0.18 | number:'1.0-0' }}/DAY</span>
             </button>
 
             <button (click)="selectedCoverage='TOTAL'" class="coverage-btn"
               [style.border]="selectedCoverage==='TOTAL' ? '1px solid var(--axis-gold)' : '1px solid rgba(255,255,255,0.08)'"
               [style.color]="selectedCoverage==='TOTAL' ? 'var(--axis-gold)' : 'rgba(245,245,240,0.5)'">
               <span class="coverage-name">Total Protection</span>
-              <span class="text-xxs-spaced">+€85/DAY</span>
+              <span class="text-xxs-spaced">+€{{ (vehicle?.pricePerDay ?? 0) * 0.30 | number:'1.0-0' }}/DAY</span>
             </button>
 
           </div>
+        </div>
+
+        <!-- Condiciones de la cobertura seleccionada — cambia reactivamente con el selector -->
+        <div class="coverage-conditions mb-5">
+
+          @if (selectedCoverage === 'STANDARD') {
+            <p class="eyebrow conditions-title">STANDARD — CONDICIONES</p>
+            <ul class="conditions-list">
+              <li class="condition-item-ok">✓ Responsabilidad civil ilimitada</li>
+              <li class="condition-item-ok">✓ Daños a terceros cubiertos</li>
+              <li class="condition-item-no">✗ Franquicia propia: 50.000 €</li>
+              <li class="condition-item-no">✗ Robo no cubierto</li>
+              <li class="condition-item-no">✗ Neumáticos y llantas no cubiertos</li>
+            </ul>
+          }
+
+          @if (selectedCoverage === 'PREMIUM') {
+            <p class="eyebrow conditions-title">PREMIUM — CONDICIONES</p>
+            <ul class="conditions-list">
+              <li class="condition-item-ok">✓ Responsabilidad civil ilimitada</li>
+              <li class="condition-item-ok">✓ Daños a terceros cubiertos</li>
+              <li class="condition-item-ok">✓ Daños propios cubiertos (franquicia 5.000 €)</li>
+              <li class="condition-item-ok">✓ Robo cubierto (franquicia 5.000 €)</li>
+              <li class="condition-item-ok">✓ Asistencia en carretera 24h</li>
+              <li class="condition-item-no">✗ Neumáticos y llantas no cubiertos</li>
+            </ul>
+          }
+
+          @if (selectedCoverage === 'TOTAL') {
+            <p class="eyebrow conditions-title">TOTAL PROTECTION — CONDICIONES</p>
+            <ul class="conditions-list">
+              <li class="condition-item-ok">✓ Responsabilidad civil ilimitada</li>
+              <li class="condition-item-ok">✓ Daños a terceros cubiertos</li>
+              <li class="condition-item-ok">✓ Daños propios sin franquicia</li>
+              <li class="condition-item-ok">✓ Robo sin franquicia</li>
+              <li class="condition-item-ok">✓ Neumáticos y llantas cubiertos</li>
+              <li class="condition-item-ok">✓ Asistencia en carretera 24h</li>
+              <li class="condition-item-ok">✓ Conductor adicional incluido</li>
+            </ul>
+          }
+
         </div>
 
         <!-- Separador -->
@@ -221,7 +262,7 @@
 
         <!-- Precio total calculado en tiempo real -->
         <div class="row-between mb-5">
-          <span class="eyebrow eyebrow-xs" style="opacity:0.5;">TOTAL ESTIMATED</span>
+          <span class="eyebrow eyebrow-xs total-label">TOTAL ESTIMATED</span>
           <div class="price-total">
             @if (totalPrice > 0) { €{{ totalPrice | number:'1.0-0' }} }
             @else { <span class="price-empty">— —</span> }
@@ -231,18 +272,17 @@
         <!-- Mensaje de error inline -->
         @if (errorMsg) {
           <div class="error-box mb-4" role="alert" aria-live="polite">
-            <span class="error-text" style="font-size:0.75rem;">{{ errorMsg }}</span>
+            <span class="error-text">{{ errorMsg }}</span>
           </div>
         }
 
         <!-- Botón principal de checkout -->
-        <button class="btn-gold w-full" (click)="goToCheckout()"
+        <button class="btn-gold w-full checkout-btn" (click)="goToCheckout()"
           [disabled]="!startDate || !endDate"
           [style.opacity]="(!startDate || !endDate) ? '0.45' : '1'"
-          [style.cursor]="(!startDate || !endDate) ? 'not-allowed' : 'pointer'"
-          style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.85rem 1rem;">
+          [style.cursor]="(!startDate || !endDate) ? 'not-allowed' : 'pointer'">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M5.338 1.59a60 60 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .214 0q.112-.033.293-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-1.084-.285 7 7 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693a1.54 1.54 0 0 1 1.044-1.262 63 63 0 0 1 2.887-.87z"/>
+            <path d="M5.338 1.59a60 60 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .214 0q.112-.033.293-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.084.685A1.5 1.5 0 0 1 8 16a1.5 1.5 0 0 1-1.084-.285 7 1 0 0 1-1.084-.685 11.8 11.8 0 0 1-2.517-2.453C1.634 10.428.251 7.111.847 2.693a1.54 1.54 0 0 1 1.044-1.262 63 63 0 0 1 2.887-.87z"/>
           </svg>
           <span class="btn-label">PROCEED TO CHECKOUT</span>
         </button>
@@ -264,12 +304,12 @@
       </h2>
 
       @if (reviewsLoading) {
-        <div class="eyebrow" style="opacity:0.4;letter-spacing:0.2em;">LOADING REVIEWS...</div>
+        <div class="eyebrow reviews-loading-text">LOADING REVIEWS...</div>
       }
 
       @if (!reviewsLoading && reviews.length === 0) {
         <div class="glass-card p-8 text-center">
-          <p class="text-soft" style="font-size:0.85rem;margin:0;">
+          <p class="text-soft reviews-empty-text">
             No reviews yet. Be the first to share your experience.
           </p>
         </div>
@@ -288,7 +328,7 @@
                 }
               </div>
               <p class="review-comment">"{{ r.comment }}"</p>
-              <div class="row-center-sm" style="gap:0.5rem;">
+              <div class="row-center-sm review-author-row">
                 <div class="review-avatar">
                   {{ r.renterName ? r.renterName[0] : '?' }}
                 </div>
@@ -309,8 +349,8 @@
 
 <!-- Vehículo no encontrado -->
 @if (!vehicle && !loading) {
-  <div class="page-center" style="flex-direction:column;gap:1.5rem;">
-    <div class="font-display" style="font-size:1.5rem;opacity:0.4;">Asset Not Found</div>
-    <a routerLink="/vehicles" class="btn-outline" style="font-size:0.7rem;">RETURN TO FLEET</a>
+  <div class="page-center not-found-wrapper">
+    <div class="font-display not-found-title">Asset Not Found</div>
+    <a routerLink="/vehicles" class="btn-outline not-found-btn">RETURN TO FLEET</a>
   </div>
 }

@@ -270,6 +270,137 @@
   color: var(--axis-white);
 }
 
+/* ── CLASES ADICIONALES PARA ESTILOS RESIDUALES ── */
+
+/* Texto de carga: tracking amplio */
+.loading-text {
+  letter-spacing: 0.3em;
+}
+
+/* Breadcrumb: nombre del vehículo apagado */
+.breadcrumb-vehicle-name {
+  opacity: 0.4;
+}
+
+/* Sidebar del panel de reserva: padding estándar */
+.sidebar-padding {
+  padding: 1.75rem;
+}
+
+/* Eyebrow "RESERVE THIS ASSET" con tracking */
+.sidebar-eyebrow {
+  letter-spacing: 0.25em;
+}
+
+/* Etiquetas de fechas y cobertura: opacidad reducida */
+.form-label-muted {
+  opacity: 0.6;
+}
+
+/* Columna de botones de cobertura: gap reducido */
+.coverage-col {
+  gap: 0.4rem;
+}
+
+/* Caja de condiciones de cobertura */
+.coverage-conditions {
+  border: 1px solid rgba(184, 149, 42, 0.15);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Título de sección de condiciones (eyebrow dorado) */
+.conditions-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--axis-gold);
+  margin: 0 0 0.75rem;
+}
+
+/* Lista de condiciones: sin bullets, con flex */
+.conditions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Ítem incluido en la cobertura */
+.condition-item-ok {
+  font-size: 0.75rem;
+  color: rgba(245, 245, 240, 0.7);
+}
+
+/* Ítem NO incluido en la cobertura */
+.condition-item-no {
+  font-size: 0.75rem;
+  color: rgba(245, 245, 240, 0.4);
+}
+
+/* Eyebrow "TOTAL ESTIMATED" con opacidad */
+.total-label {
+  opacity: 0.5;
+}
+
+/* Botón checkout: flex centrado */
+.checkout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+}
+
+/* Texto del botón de checkout */
+.btn-label {
+  font-size: inherit;
+}
+
+/* Reseñas: texto "loading" con opacidad */
+.reviews-loading-text {
+  opacity: 0.4;
+  letter-spacing: 0.2em;
+}
+
+/* Mensaje "no hay reseñas" */
+.reviews-empty-text {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Fila de review-avatar: gap estándar */
+.review-author-row {
+  gap: 0.5rem;
+}
+
+/* Página "not found": flex-column con gap */
+.not-found-wrapper {
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Texto grande "Asset Not Found" */
+.not-found-title {
+  font-size: 1.5rem;
+  opacity: 0.4;
+}
+
+/* Botón "RETURN TO FLEET" en not found */
+.not-found-btn {
+  font-size: 0.7rem;
+}
+
+/* Placeholder de marca en imagen ausente */
+.brand-placeholder-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--axis-gold-15);
+  font-size: 3rem;
+}
+
 /* Botón circular flotante sobre la imagen del vehículo */
 .carousel-btn {
   position: absolute;

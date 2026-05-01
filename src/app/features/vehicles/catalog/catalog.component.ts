@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle.service';
+import { SeoService } from '../../../core/services/seo.service';
 import { VehicleDTO, Page } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
 
@@ -30,6 +31,8 @@ import { environment } from '../../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
+
+  private seo = inject(SeoService);
 
   /** Lista de vehículos de la página actual */
   vehicles: VehicleDTO[] = [];
@@ -60,6 +63,12 @@ export class CatalogComponent implements OnInit {
   filterSort = 'brand,asc';
 
   /**
+   * Texto del buscador rápido. Se envía al backend como parámetro 'search',
+   * que hace un OR entre marca y modelo para buscar en todo el catálogo.
+   */
+  filterSearch = '';
+
+  /**
    * Lista de categorías cargadas desde el backend.
    * Cada categoría tiene id y name para mostrarlas en el <select>.
    */
@@ -72,8 +81,14 @@ export class CatalogComponent implements OnInit {
    */
   brands: string[] = [];
 
-  /** URL base del backend para construir rutas de imágenes */
-  readonly backendUrl = 'http://localhost:8080';
+  /** Número de vehículos por página: llena exactamente el grid 3×3 */
+  private readonly PAGE_SIZE = 9;
+
+  /**
+   * URL base del backend, extraída de environment para evitar hardcoding.
+   * Se elimina '/api' porque las imágenes se sirven desde la raíz del servidor.
+   */
+  private readonly backendUrl = environment.apiUrl.replace('/api', '');
 
   constructor(
     private vehicleSvc: VehicleService,
@@ -84,6 +99,12 @@ export class CatalogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.seo.update(
+      'Fleet — Catálogo de Vehículos',
+      'Explora la flota de Axis Garage: Ferrari, Lamborghini, Porsche, Bentley y más. Filtra por marca, potencia y categoría.',
+      '/vehicles'
+    );
+
     // Cargamos las categorías del backend para el desplegable de filtros
     this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
       next: cats => { this.categories = cats; this.cdr.markForCheck(); },
@@ -114,16 +135,19 @@ export class CatalogComponent implements OnInit {
   loadVehicles(page = 0): void {
     this.loading = true;
 
-    // Construimos el objeto de filtros solo con los valores que no estén vacíos
-    const filters: { brand?: string; model?: string; horsePower?: number; categoryId?: number } = {};
+    // Construimos el objeto de filtros solo con los valores que no estén vacíos.
+    // 'search' (buscador rápido) hace OR entre brand y model en el backend.
+    // 'brand' y 'model' (barra de filtros) aplican AND independientes.
+    const filters: { search?: string; brand?: string; model?: string; horsePower?: number; categoryId?: number } = {};
+    if (this.filterSearch.trim())    filters.search     = this.filterSearch.trim();
     if (this.filterBrand.trim())     filters.brand      = this.filterBrand.trim();
     if (this.filterModel.trim())     filters.model      = this.filterModel.trim();
     if (this.filterHorsePower > 0)   filters.horsePower = this.filterHorsePower;
     if (this.filterCategoryId > 0)   filters.categoryId = this.filterCategoryId;
 
-    // 9 coches por página → llenan la cuadrícula 3 columnas × 3 filas
+    // PAGE_SIZE coches por página → llenan la cuadrícula 3 columnas × 3 filas
     // filterSort viene del select de ordenación (ej: 'pricePerDay,desc')
-    this.vehicleSvc.getAll(page, 9, this.filterSort, filters).subscribe({
+    this.vehicleSvc.getAll(page, this.PAGE_SIZE, this.filterSort, filters).subscribe({
       next: (p: Page<VehicleDTO>) => {
         this.vehicles    = p.content;    // coches de esta página
         this.totalPages  = p.totalPages; // cuántas páginas existen en total
@@ -155,9 +179,11 @@ export class CatalogComponent implements OnInit {
   clearFilters(): void {
     this.filterBrand       = '';
     this.filterModel       = '';
+    this.filterSearch      = '';
     this.filterHorsePower  = 0;
     this.filterCategoryId  = 0;
     this.filterSort        = 'brand,asc';
+    this.searchQuery       = '';
     this.loadVehicles(0);
   }
 
@@ -186,27 +212,33 @@ export class CatalogComponent implements OnInit {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
 
-  // ─── Buscador rápido (filtro en memoria) ──────────────────────────────────
+  // ─── Buscador rápido (filtro en servidor) ─────────────────────────────────
 
   /**
    * Texto introducido en el buscador rápido de la parte superior de la grid.
-   * Filtra los vehículos de la página actual sin hacer ninguna petición al servidor.
+   * Al cambiar, actualiza filterModel y lanza una petición al backend para
+   * buscar en todo el catálogo, no solo en la página actual.
    */
   searchQuery = '';
 
   /**
-   * Getter que devuelve los vehículos filtrados por el buscador rápido.
-   * Si searchQuery está vacío, devuelve todos los vehículos de la página.
-   * La comparación es case-insensitive: "ferr" encuentra "Ferrari".
+   * Conecta el buscador rápido con el parámetro 'search' del backend.
+   * El backend hace OR entre brand y model, así "Ferrari" y "488" funcionan igual.
+   * Siempre resetea a la página 0 para mostrar todos los resultados relevantes.
+   *
+   * @param value - Texto que el usuario ha escrito en el buscador
+   */
+  onSearch(value: string): void {
+    this.searchQuery  = value;
+    this.filterSearch = value.trim();
+    this.applyFilters();
+  }
+
+  /**
+   * Alias de vehicles para mantener compatibilidad con el template.
+   * El filtrado real lo hace el backend, así que devolvemos la página directamente.
    */
   get filteredVehicles(): VehicleDTO[] {
-    const q = this.searchQuery.trim().toLowerCase();
-    // Sin texto: devolvemos todos los vehículos sin filtrar
-    if (!q) return this.vehicles;
-    // Con texto: filtramos por marca o modelo que contengan el texto escrito
-    return this.vehicles.filter(v =>
-      v.brand.toLowerCase().includes(q) ||
-      v.model.toLowerCase().includes(q)
-    );
+    return this.vehicles;
   }
 }
