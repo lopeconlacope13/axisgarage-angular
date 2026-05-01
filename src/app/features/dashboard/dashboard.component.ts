@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { RenterService } from '../../core/services/renter.service';
 import { ReservationService } from '../../core/services/reservation.service';
@@ -36,7 +35,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   // OnPush: Angular solo comprueba este componente cuando llamamos markForCheck()
@@ -548,8 +547,7 @@ export class DashboardComponent implements OnInit {
         }
         // Notificamos a Angular para que re-renderice el avatar
         this.cdr.markForCheck();
-      },
-      error: () => console.error('Error al subir el avatar')
+      }
     });
   }
 
@@ -598,8 +596,7 @@ export class DashboardComponent implements OnInit {
     this.reviewSvc.create({
       rating: this.reviewForm.rating,
       comment: this.reviewForm.comment.trim(),
-      reservationId: this.reviewingReservationId!,
-      vehicleId: reservation.vehicleId
+      reservationId: this.reviewingReservationId!
     }).subscribe({
       next: () => {
         this.reviewedReservationIds.add(this.reviewingReservationId!);

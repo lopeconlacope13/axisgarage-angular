@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -25,7 +24,7 @@ import { RegisterRequest } from '../../../models/types';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
+  imports: [FormsModule, RouterLink, TranslateModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,7 +44,9 @@ export class RegisterComponent {
   error    = '';
 
   /** Bloquea el botón mientras se espera respuesta del servidor */
-  loading  = false;
+  loading      = false;
+  /** Alterna entre mostrar/ocultar la contraseña en el input */
+  showPassword = false;
 
   /**
    * Valida que la contraseña tenga al menos 1 mayúscula, 1 número y 1 símbolo especial.

@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { SeoService } from '../../core/services/seo.service';
 
 /**
  * Página de Contacto de Axis Garage.
@@ -14,14 +14,23 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css'
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
 
   /** HttpClient inyectado con inject() — patrón moderno de Angular Standalone */
   private http = inject(HttpClient);
+  private seo  = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.update(
+      'Contacto',
+      'Contacta con el equipo de Axis Garage. Cuatro ateliers en Sevilla, Madrid, Barcelona y Puerto Banús.',
+      '/contact'
+    );
+  }
 
   /** Campos del formulario de contacto */
   name    = '';
