@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ReviewService } from '../../../core/services/review.service';
@@ -13,13 +12,17 @@ import { environment } from '../../../../environments/environment';
  * Vista de detalle de un vehículo: imagen panorámica, specs y selector de fechas/cobertura.
  * El usuario elige fechas y nivel de cobertura; el precio total se recalcula en tiempo real.
  * Al pulsar "Proceed to Checkout", redirige a /checkout/:id con los parámetros por query string.
+ *
+ * NOTA DE CHANGE DETECTION:
+ * OnPush + markForCheck() para compatibilidad con Angular Zoneless.
  */
 @Component({
   selector: 'app-vehicle-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './vehicle-detail.component.html',
-  styleUrl: './vehicle-detail.component.css'
+  styleUrl: './vehicle-detail.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VehicleDetailComponent implements OnInit {
 
@@ -43,7 +46,8 @@ export class VehicleDetailComponent implements OnInit {
     private router: Router,
     private vehicleSvc: VehicleService,
     private authSvc: AuthService,
-    private reviewSvc: ReviewService
+    private reviewSvc: ReviewService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -53,9 +57,10 @@ export class VehicleDetailComponent implements OnInit {
       next: v => {
         this.vehicle = v;
         this.loading = false;
+        this.cdr.markForCheck();
         this.loadReviews(v.id);
       },
-      error: () => { this.loading = false; }
+      error: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -72,8 +77,8 @@ export class VehicleDetailComponent implements OnInit {
   loadReviews(vehicleId: number): void {
     this.reviewsLoading = true;
     this.reviewSvc.getByVehicle(vehicleId).subscribe({
-      next: list => { this.reviews = list; this.reviewsLoading = false; },
-      error: ()   => { this.reviewsLoading = false; }
+      next: list => { this.reviews = list; this.reviewsLoading = false; this.cdr.markForCheck(); },
+      error: ()   => { this.reviewsLoading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -91,6 +96,7 @@ export class VehicleDetailComponent implements OnInit {
   nextImage(): void {
     if (!this.vehicle?.images?.length) return;
     this.currentImageIndex = (this.currentImageIndex + 1) % this.vehicle.images.length;
+    this.cdr.markForCheck();
   }
 
   /**
@@ -102,12 +108,14 @@ export class VehicleDetailComponent implements OnInit {
   goToImage(index: number): void {
     if (!this.vehicle?.images?.length) return;
     this.currentImageIndex = index;
+    this.cdr.markForCheck();
   }
 
   /** Retrocede a la imagen anterior (va al final si está en la primera) */
   prevImage(): void {
     if (!this.vehicle?.images?.length) return;
     this.currentImageIndex = (this.currentImageIndex - 1 + this.vehicle.images.length) % this.vehicle.images.length;
+    this.cdr.markForCheck();
   }
 
   goToCheckout(): void {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle.service';
+import { SeoService } from '../../../core/services/seo.service';
 import { VehicleDTO, Page } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
 
@@ -16,15 +17,22 @@ import { environment } from '../../../../environments/environment';
  * Así evitamos traer los 31 coches de golpe y la respuesta
  * HTTP es mucho más ligera y rápida.
  *
+ * NOTA DE CHANGE DETECTION:
+ * Usamos OnPush + ChangeDetectorRef.markForCheck() para que Angular
+ * actualice la vista tras recibir los datos del backend en modo Zoneless.
  */
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './catalog.component.html',
-  styleUrl: './catalog.component.css'
+  styleUrl: './catalog.component.css',
+  // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
+
+  private seo = inject(SeoService);
 
   /** Lista de vehículos de la página actual */
   vehicles: VehicleDTO[] = [];
@@ -84,14 +92,22 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private vehicleSvc: VehicleService,
+    // Necesario para notificar a Angular que debe re-renderizar en modo Zoneless
+    private cdr: ChangeDetectorRef,
     // HttpClient para cargar las categorías directamente desde el componente
     private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+    this.seo.update(
+      'Fleet — Catálogo de Vehículos',
+      'Explora la flota de Axis Garage: Ferrari, Lamborghini, Porsche, Bentley y más. Filtra por marca, potencia y categoría.',
+      '/vehicles'
+    );
+
     // Cargamos las categorías del backend para el desplegable de filtros
     this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
-      next: cats => { this.categories = cats; },
+      next: cats => { this.categories = cats; this.cdr.markForCheck(); },
       error: () => { /* Si falla, el select simplemente no muestra opciones */ }
     });
 
@@ -101,6 +117,7 @@ export class CatalogComponent implements OnInit {
     this.http.get<{ content: { brand: string }[] }>(`${environment.apiUrl}/vehicles?size=200`).subscribe({
       next: page => {
         this.brands = [...new Set(page.content.map(v => v.brand))].sort();
+        this.cdr.markForCheck();
       },
       error: () => { /* Si falla, el select de marca queda vacío */ }
     });
@@ -136,9 +153,13 @@ export class CatalogComponent implements OnInit {
         this.totalPages  = p.totalPages; // cuántas páginas existen en total
         this.currentPage = p.number;     // página actual confirmada por el servidor
         this.loading     = false;
+        // Forzamos la detección de cambios: sin Zone.js Angular no detecta
+        // que los datos han llegado y la cuadrícula se quedaría vacía
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

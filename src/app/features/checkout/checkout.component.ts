@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -10,7 +10,6 @@ import { VehicleDTO, ReservationDTO } from '../../models/types';
 import { validateDni } from '../../shared/validators/dni.validator';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Componente de checkout: muestra el resumen de la reserva, una pasarela de
@@ -20,9 +19,13 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule],
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  styleUrls: ['./checkout.component.css'],
+  // OnPush: Angular solo re-renderiza cuando lo pedimos explícitamente con markForCheck().
+  // Necesario en modo Zoneless (provideZonelessChangeDetection) para que los datos del HTTP
+  // aparezcan al cargar la página, sin esperar a una interacción del usuario.
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutComponent implements OnInit {
 
@@ -68,7 +71,11 @@ export class CheckoutComponent implements OnInit {
     private reservationSvc: ReservationService,
     private renterSvc:      RenterService,
     private authSvc:        AuthService,
-    private http:           HttpClient
+    private http:           HttpClient,
+    // ChangeDetectorRef: referencia manual al detector de cambios de este componente.
+    // Con OnPush, Angular no detecta cambios automáticamente — llamamos a markForCheck()
+    // después de cada respuesta HTTP para forzar la actualización de la vista.
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +94,7 @@ export class CheckoutComponent implements OnInit {
       this.vehicle = v;
       this.calculateTotal();
       // Notificamos a Angular que hay nuevos datos para renderizar
+      this.cdr.markForCheck();
     });
 
     // Resolvemos el perfil de cliente del usuario autenticado.
@@ -105,11 +113,13 @@ export class CheckoutComponent implements OnInit {
         // exigimos completar datos de facturación antes de reservar
         this.needsBillingDetails = !this.dni || this.dni.startsWith('PENDING-') || !this.dniValid || !this.phoneValid || !this.address;
         // Forzamos re-render para que la vista muestre el formulario de pago
-        },
+        this.cdr.markForCheck();
+      },
       error: () => {
         this.renterNotFound = true;
         // También forzamos re-render en el caso de error para mostrar el mensaje
-        }
+        this.cdr.markForCheck();
+      }
     });
 
     // Autocompletado de direcciones con OpenStreetMap Nominatim.
@@ -125,6 +135,7 @@ export class CheckoutComponent implements OnInit {
       })
     ).subscribe(results => {
       this.addressSuggestions = results.map((r: any) => r.display_name);
+      this.cdr.markForCheck();
     });
   }
 
@@ -167,6 +178,7 @@ export class CheckoutComponent implements OnInit {
     this.address = suggestion;
     this.addressControl.setValue(suggestion, { emitEvent: false });
     this.addressSuggestions = [];
+    this.cdr.markForCheck();
   }
 
   /**
@@ -232,17 +244,20 @@ export class CheckoutComponent implements OnInit {
             this.confirmedId = res?.id ?? 0;
             this.processing  = false;
             this.success     = true;
-                },
+            this.cdr.markForCheck();
+          },
           error: err => {
             this.error      = err?.error ?? 'Error al procesar la reserva. Inténtelo de nuevo.';
             this.processing = false;
-                }
+            this.cdr.markForCheck();
+          }
         });
       },
       error: err => {
         this.error      = err?.error ?? 'Error al guardar los datos de facturación.';
         this.processing = false;
-        }
+        this.cdr.markForCheck();
+      }
     });
   }
 }
