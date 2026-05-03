@@ -10,6 +10,7 @@ import { VehicleDTO, ReservationDTO } from '../../models/types';
 import { validateDni } from '../../shared/validators/dni.validator';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Componente de checkout: muestra el resumen de la reserva, una pasarela de
@@ -19,7 +20,7 @@ import { debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
   // OnPush: Angular solo re-renderiza cuando lo pedimos explícitamente con markForCheck().

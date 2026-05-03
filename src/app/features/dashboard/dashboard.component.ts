@@ -14,6 +14,7 @@ import { UserService } from '../../core/services/user.service';
 import { StatsService } from '../../core/services/stats.service';
 import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO, UserSummary } from '../../models/types';
 import { environment } from '../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Panel de control principal de Axis Garage.
@@ -35,7 +36,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   // OnPush: Angular solo comprueba este componente cuando llamamos markForCheck()

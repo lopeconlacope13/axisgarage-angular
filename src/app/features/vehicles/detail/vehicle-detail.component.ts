@@ -7,6 +7,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ReviewService } from '../../../core/services/review.service';
 import { VehicleDTO, ReviewDTO } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Vista de detalle de un vehículo: imagen panorámica, specs y selector de fechas/cobertura.
@@ -19,7 +20,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-vehicle-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './vehicle-detail.component.html',
   styleUrl: './vehicle-detail.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

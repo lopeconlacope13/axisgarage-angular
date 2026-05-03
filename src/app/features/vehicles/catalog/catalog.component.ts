@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle.service';
-import { SeoService } from '../../../core/services/seo.service';
 import { VehicleDTO, Page } from '../../../models/types';
 import { environment } from '../../../../environments/environment';
 
@@ -31,8 +30,6 @@ import { environment } from '../../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
-
-  private seo = inject(SeoService);
 
   /** Lista de vehículos de la página actual */
   vehicles: VehicleDTO[] = [];
@@ -99,12 +96,6 @@ export class CatalogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.seo.update(
-      'Fleet — Catálogo de Vehículos',
-      'Explora la flota de Axis Garage: Ferrari, Lamborghini, Porsche, Bentley y más. Filtra por marca, potencia y categoría.',
-      '/vehicles'
-    );
-
     // Cargamos las categorías del backend para el desplegable de filtros
     this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
       next: cats => { this.categories = cats; this.cdr.markForCheck(); },
