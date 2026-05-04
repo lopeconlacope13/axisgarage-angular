@@ -51,6 +51,8 @@
       "MIN_HP": "MIN. HP",
       "CATEGORY": "CATEGORY",
       "ALL_CATEGORIES": "All categories",
+      "LOCATION": "LOCATION",
+      "ALL_LOCATIONS": "All locations",
       "SORT": "SORT BY",
       "SORT_BRAND_ASC": "A–Z Brand",
       "SORT_BRAND_DESC": "Z–A Brand",

@@ -52,6 +52,8 @@ export class CatalogComponent implements OnInit {
   filterHorsePower = 0;
   /** Filtro por categoría: 0 significa "todas las categorías" */
   filterCategoryId = 0;
+  /** Filtro por localización: 0 significa "todas las localizaciones" */
+  filterLocationId = 0;
 
   /**
    * Ordenación del catálogo. Formato que acepta el Pageable de Spring Boot.
@@ -78,6 +80,12 @@ export class CatalogComponent implements OnInit {
    */
   brands: string[] = [];
 
+  /**
+   * Lista de localizaciones cargadas desde el backend.
+   * Cada localización tiene id y name para mostrarlas en el <select>.
+   */
+  locations: { id: number; name: string }[] = [];
+
   /** Número de vehículos por página: llena exactamente el grid 3×3 */
   private readonly PAGE_SIZE = 9;
 
@@ -100,6 +108,12 @@ export class CatalogComponent implements OnInit {
     this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/categories`).subscribe({
       next: cats => { this.categories = cats; this.cdr.markForCheck(); },
       error: () => { /* Si falla, el select simplemente no muestra opciones */ }
+    });
+
+    // Cargamos las localizaciones del backend para el desplegable de filtros
+    this.http.get<{ id: number; name: string }[]>(`${environment.apiUrl}/locations`).subscribe({
+      next: locs => { this.locations = locs; this.cdr.markForCheck(); },
+      error: () => { /* Si falla, el select de localización queda vacío */ }
     });
 
     // Cargamos todos los vehículos en una sola página grande para extraer las marcas únicas.
@@ -129,20 +143,21 @@ export class CatalogComponent implements OnInit {
     // Construimos el objeto de filtros solo con los valores que no estén vacíos.
     // 'search' (buscador rápido) hace OR entre brand y model en el backend.
     // 'brand' y 'model' (barra de filtros) aplican AND independientes.
-    const filters: { search?: string; brand?: string; model?: string; horsePower?: number; categoryId?: number } = {};
+    const filters: { search?: string; brand?: string; model?: string; horsePower?: number; categoryId?: number; locationId?: number } = {};
     if (this.filterSearch.trim())    filters.search     = this.filterSearch.trim();
     if (this.filterBrand.trim())     filters.brand      = this.filterBrand.trim();
     if (this.filterModel.trim())     filters.model      = this.filterModel.trim();
     if (this.filterHorsePower > 0)   filters.horsePower = this.filterHorsePower;
     if (this.filterCategoryId > 0)   filters.categoryId = this.filterCategoryId;
+    if (this.filterLocationId > 0)   filters.locationId = this.filterLocationId;
 
     // PAGE_SIZE coches por página → llenan la cuadrícula 3 columnas × 3 filas
     // filterSort viene del select de ordenación (ej: 'pricePerDay,desc')
     this.vehicleSvc.getAll(page, this.PAGE_SIZE, this.filterSort, filters).subscribe({
       next: (p: Page<VehicleDTO>) => {
-        this.vehicles    = p.content;    // coches de esta página
-        this.totalPages  = p.totalPages; // cuántas páginas existen en total
-        this.currentPage = p.number;     // página actual confirmada por el servidor
+        this.vehicles    = p.content;          // coches de esta página
+        this.totalPages  = p.page.totalPages;  // cuántas páginas existen en total
+        this.currentPage = p.page.number;      // página actual confirmada por el servidor
         this.loading     = false;
         // Forzamos la detección de cambios: sin Zone.js Angular no detecta
         // que los datos han llegado y la cuadrícula se quedaría vacía
@@ -173,6 +188,7 @@ export class CatalogComponent implements OnInit {
     this.filterSearch      = '';
     this.filterHorsePower  = 0;
     this.filterCategoryId  = 0;
+    this.filterLocationId  = 0;
     this.filterSort        = 'brand,asc';
     this.searchQuery       = '';
     this.loadVehicles(0);

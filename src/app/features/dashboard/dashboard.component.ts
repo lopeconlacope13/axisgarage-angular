@@ -316,7 +316,7 @@ export class DashboardComponent implements OnInit {
     });
     // Clientes registrados
     this.renterSvc.getAll(0, 200).subscribe({
-      next: p => { this.totalClients = p.totalElements; this.cdr.markForCheck(); }
+      next: p => { this.totalClients = p.page.totalElements; this.cdr.markForCheck(); }
     });
     // Cargamos las estadísticas consolidadas desde el endpoint dedicado
     this.statsSvc.getStats().subscribe({

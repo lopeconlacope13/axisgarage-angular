@@ -175,9 +175,12 @@ export class InvoiceDTO {
 // ─── Pagination ───────────────────────────────────────────────────────────────
 
 export class Page<T> {
-  content:       T[]  = [];
-  totalElements: number = 0;
-  totalPages:    number = 0;
-  number:        number = 0;
-  size:          number = 0;
+  content: T[] = [];
+  // Spring Boot 3.x anida los metadatos de paginación bajo la clave "page"
+  page: {
+    size:          number;
+    number:        number;
+    totalElements: number;
+    totalPages:    number;
+  } = { size: 0, number: 0, totalElements: 0, totalPages: 0 };
 }
