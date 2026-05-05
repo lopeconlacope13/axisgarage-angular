@@ -127,30 +127,6 @@
 
       </div>
 
-      <!-- Tarjetas de estadísticas globales cargadas desde GET /api/stats -->
-      @if (stats) {
-        <div class="stats-grid">
-
-          <!-- Total de reservas registradas en el sistema -->
-          <div class="glass-card stats-card">
-            <p class="stats-label">Reservas</p>
-            <p class="stats-value">{{ stats.totalReservations }}</p>
-          </div>
-
-          <!-- Vehículos disponibles ahora mismo -->
-          <div class="glass-card stats-card">
-            <p class="stats-label">Disponibles</p>
-            <p class="stats-value">{{ stats.availableVehicles }}</p>
-          </div>
-
-          <!-- Total de clientes registrados -->
-          <div class="glass-card stats-card">
-            <p class="stats-label">Clientes</p>
-            <p class="stats-value">{{ stats.totalClients }}</p>
-          </div>
-
-        </div>
-      }
 
     }
 

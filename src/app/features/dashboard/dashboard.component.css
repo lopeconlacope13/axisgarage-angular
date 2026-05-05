@@ -99,16 +99,20 @@
     min-width: 16rem;
     border-bottom: none;
     border-right: 1px solid rgba(245, 245, 240, 0.06);
-    min-height: 100vh;
+    height: 100vh;
+    position: sticky;
+    top: 0;
     padding: 1.5rem;
     flex-direction: column;
     gap: 2rem;
+    overflow-y: auto;
   }
 
-  /* Navegación en columna (comportamiento original) */
+  /* Navegación en columna con scroll si hay muchos botones */
   .dashboard-sidebar nav {
     flex-direction: column;
     overflow-x: visible;
+    overflow-y: auto;
   }
 
   /* Muestra la tarjeta del usuario en desktop */

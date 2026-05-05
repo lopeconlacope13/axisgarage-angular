@@ -46,11 +46,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/legal/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent)
   },
-  {
-    path: 'contact',
-    loadComponent: () =>
-      import('./features/contact/contact.component').then(m => m.ContactComponent)
-  },
 
   // ── Catálogo público ───────────────────────────────────────────────────────
   {
