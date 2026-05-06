@@ -25,8 +25,10 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError(err => {
-      // Si el servidor rechaza el token (expirado o inválido), cerramos sesión
-      if (err.status === 401) {
+      // Solo cerramos sesión si el usuario tenía un token activo (sesión iniciada).
+      // Si no hay token, el 401 puede venir de un recurso que simplemente requiere
+      // autenticación para ciertas operaciones, y no debemos redirigir al home.
+      if (err.status === 401 && token) {
         auth.logout();
       }
       return throwError(() => err);
