@@ -91,6 +91,20 @@ export class VehicleCategoryDTO {
   description = '';
 }
 
+// ─── Location ─────────────────────────────────────────────────────────────────
+
+/** Ubicación física donde se puede recoger el vehículo (sede del atelier). */
+export class LocationDTO {
+  id          = 0;
+  name        = '';
+  city        = '';
+  address     = '';
+  postalCode  = '';
+  country     = '';
+  phone       = '';
+  email       = '';
+}
+
 // ─── Renter ───────────────────────────────────────────────────────────────────
 
 export class RenterDTO {

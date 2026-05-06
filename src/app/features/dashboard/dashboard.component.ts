@@ -12,7 +12,7 @@ import { ReviewService } from '../../core/services/review.service';
 import { InvoiceService } from '../../core/services/invoice.service';
 import { UserService } from '../../core/services/user.service';
 import { StatsService } from '../../core/services/stats.service';
-import { UserDTO, ReservationDTO, VehicleDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO, UserSummary } from '../../models/types';
+import { UserDTO, ReservationDTO, VehicleDTO, VehicleCategoryDTO, LocationDTO, RenterDTO, OwnerDTO, DamageReportDTO, ReviewDTO, InvoiceDTO, UserSummary } from '../../models/types';
 import { environment } from '../../../environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -547,6 +547,166 @@ export class DashboardComponent implements OnInit {
           this.photoUrl = `${environment.apiUrl.replace('/api', '')}/uploads/${updated.image}`;
         }
         // Notificamos a Angular para que re-renderice el avatar
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  // ─── Formulario de creación de vehículo ───────────────────────────────────
+
+  /** Controla si el formulario de creación está visible o no */
+  showCreateForm = false;
+
+  /** Listas de categorías y ubicaciones para los selectores del formulario */
+  categories: VehicleCategoryDTO[] = [];
+  locations:  LocationDTO[]         = [];
+
+  /**
+   * Datos del formulario de creación de vehículo.
+   * Se corresponden campo a campo con el VehicleDTO que espera el backend.
+   */
+  newVehicle = {
+    brand:          '',
+    model:          '',
+    productionYear: new Date().getFullYear(),
+    pricePerDay:    0,
+    engineType:     '',
+    horsePower:     0,
+    torqueNm:       0,
+    transmission:   '',
+    drivetrain:     '',
+    fuelType:       '',
+    zeroToHundred:  0,
+    description:    '',
+    available:      true,
+    categoryId:     0,
+    locationId:     0
+  };
+
+  /** Archivo de imagen principal seleccionado (opcional en la creación) */
+  newVehicleImageFile: File | null = null;
+
+  /** Mensaje de error de validación del formulario de creación */
+  createError   = '';
+  /** True mientras la petición al backend está en curso */
+  creating      = false;
+  /** True cuando el vehículo se ha creado correctamente (muestra mensaje de éxito) */
+  createSuccess = false;
+
+  /**
+   * Abre el formulario de creación y carga categorías/ubicaciones si aún no están.
+   * Separo la carga de catálogos en un método propio para que sea reutilizable.
+   */
+  openCreateForm(): void {
+    this.showCreateForm = true;
+    this.createError    = '';
+    this.createSuccess  = false;
+    // Solo cargamos categorías y ubicaciones la primera vez
+    if (!this.categories.length) {
+      this.vehicleSvc.getCategories().subscribe({
+        next: list => { this.categories = list; this.cdr.markForCheck(); }
+      });
+    }
+    if (!this.locations.length) {
+      this.vehicleSvc.getLocations().subscribe({
+        next: list => { this.locations = list; this.cdr.markForCheck(); }
+      });
+    }
+    this.cdr.markForCheck();
+  }
+
+  /** Cierra el formulario de creación y resetea su estado. */
+  closeCreateForm(): void {
+    this.showCreateForm     = false;
+    this.createError        = '';
+    this.createSuccess      = false;
+    this.newVehicleImageFile = null;
+    // Reseteamos el formulario a sus valores por defecto
+    this.newVehicle = {
+      brand: '', model: '', productionYear: new Date().getFullYear(),
+      pricePerDay: 0, engineType: '', horsePower: 0, torqueNm: 0,
+      transmission: '', drivetrain: '', fuelType: '', zeroToHundred: 0,
+      description: '', available: true, categoryId: 0, locationId: 0
+    };
+    this.cdr.markForCheck();
+  }
+
+  /**
+   * Captura el archivo de imagen seleccionado en el input file.
+   * Solo guardamos la referencia; se incluye en el FormData al enviar.
+   */
+  onNewVehicleImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    this.newVehicleImageFile = file ?? null;
+  }
+
+  /**
+   * Valida el formulario y envía el nuevo vehículo al backend.
+   * Construye un FormData con todos los campos (obligatorio porque el backend
+   * espera multipart/form-data para poder recibir también la imagen).
+   *
+   * Al crear correctamente, añade el vehículo al principio de la lista local
+   * y cierra el formulario.
+   */
+  submitCreateVehicle(): void {
+    this.createError   = '';
+    this.createSuccess = false;
+
+    // Validación mínima antes de llamar al backend
+    if (!this.newVehicle.brand.trim() || !this.newVehicle.model.trim()) {
+      this.createError = 'La marca y el modelo son obligatorios.';
+      this.cdr.markForCheck();
+      return;
+    }
+    if (!this.newVehicle.categoryId || !this.newVehicle.locationId) {
+      this.createError = 'Selecciona una categoría y una ubicación.';
+      this.cdr.markForCheck();
+      return;
+    }
+    if (this.newVehicle.pricePerDay <= 0) {
+      this.createError = 'El precio por día debe ser mayor que 0.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.creating = true;
+
+    // Construimos el FormData campo a campo (el backend usa @ModelAttribute)
+    const fd = new FormData();
+    fd.append('brand',          this.newVehicle.brand.trim());
+    fd.append('model',          this.newVehicle.model.trim());
+    fd.append('productionYear', String(this.newVehicle.productionYear));
+    fd.append('pricePerDay',    String(this.newVehicle.pricePerDay));
+    fd.append('engineType',     this.newVehicle.engineType.trim());
+    fd.append('horsePower',     String(this.newVehicle.horsePower));
+    fd.append('torqueNm',       String(this.newVehicle.torqueNm));
+    fd.append('transmission',   this.newVehicle.transmission.trim());
+    fd.append('drivetrain',     this.newVehicle.drivetrain.trim());
+    fd.append('fuelType',       this.newVehicle.fuelType.trim());
+    fd.append('zeroToHundred',  String(this.newVehicle.zeroToHundred));
+    fd.append('description',    this.newVehicle.description.trim());
+    fd.append('available',      String(this.newVehicle.available));
+    fd.append('categoryId',     String(this.newVehicle.categoryId));
+    fd.append('locationId',     String(this.newVehicle.locationId));
+
+    // Añadimos la imagen si el gestor ha seleccionado una
+    if (this.newVehicleImageFile) {
+      fd.append('imageFiles', this.newVehicleImageFile);
+    }
+
+    this.vehicleSvc.create(fd).subscribe({
+      next: created => {
+        // Añadimos el vehículo creado al principio de la lista (se ve de inmediato)
+        this.vehicles = [created, ...this.vehicles];
+        this.creating      = false;
+        this.createSuccess = true;
+        this.cdr.markForCheck();
+        // Cerramos el formulario tras 1.5 segundos para que el usuario vea el éxito
+        setTimeout(() => this.closeCreateForm(), 1500);
+      },
+      error: err => {
+        this.createError = err?.error ?? 'Error al crear el vehículo. Revisa los datos.';
+        this.creating    = false;
         this.cdr.markForCheck();
       }
     });

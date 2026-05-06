@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { VehicleDTO, Page } from '../../models/types';
+import { VehicleDTO, VehicleCategoryDTO, LocationDTO, Page } from '../../models/types';
 
 /**
  * Servicio para consumir el endpoint de vehículos.
@@ -79,5 +79,17 @@ export class VehicleService {
    */
   reorderImages(vehicleId: number, filenames: string[]): Observable<VehicleDTO> {
     return this.http.put<VehicleDTO>(`${this.base}/${vehicleId}/images/order`, filenames);
+  }
+
+  // ─── Catálogos auxiliares (para el formulario de creación) ────────────────
+
+  /** Obtiene todas las categorías de vehículos (ej: Hypercar, Supercar, Clásico). */
+  getCategories(): Observable<VehicleCategoryDTO[]> {
+    return this.http.get<VehicleCategoryDTO[]>(`${environment.apiUrl}/categories`);
+  }
+
+  /** Obtiene todas las ubicaciones disponibles (sedes del atelier). */
+  getLocations(): Observable<LocationDTO[]> {
+    return this.http.get<LocationDTO[]>(`${environment.apiUrl}/locations`);
   }
 }
