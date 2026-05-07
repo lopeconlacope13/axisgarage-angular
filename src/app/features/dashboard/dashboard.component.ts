@@ -482,48 +482,40 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // ─── Cambio de contraseña ─────────────────────────────────────────────────
+  // ─── Restablecimiento de contraseña por email ────────────────────────────
 
-  /** Contraseña actual introducida en el formulario */
-  currentPassword  = '';
-  /** Nueva contraseña introducida en el formulario */
-  newPassword      = '';
-  /** Confirmación de la nueva contraseña (debe coincidir con newPassword) */
-  confirmPassword  = '';
-  /** Mensaje de éxito tras cambiar la contraseña correctamente */
-  passwordMessage  = '';
-  /** Mensaje de error si la contraseña actual es incorrecta o las nuevas no coinciden */
-  passwordError    = '';
+  /** Mensaje de error al intentar enviar el email de restablecimiento */
+  passwordError        = '';
+  /** true mientras espera respuesta del backend */
+  passwordResetLoading = false;
+  /** true cuando el email de restablecimiento se envió correctamente */
+  passwordResetSent    = false;
 
   /**
-   * Envía la solicitud de cambio de contraseña al backend.
-   * Antes de llamar al servidor, comprueba que la nueva contraseña y la confirmación coincidan.
-   * Si no coinciden, muestra un error local sin llamar al backend.
+   * Solicita el restablecimiento de contraseña usando el email del usuario autenticado.
+   * El backend enviará un email con el enlace. No requiere conocer la contraseña actual.
    */
-  changePassword(): void {
-    // Limpiamos mensajes anteriores para no confundir al usuario
-    this.passwordMessage = '';
-    this.passwordError   = '';
+  resetPasswordFromDashboard(): void {
+    // Obtenemos el email del token JWT guardado en localStorage
+    const email = this.authSvc.getEmail();
+    if (!email) return;
 
-    // Validación local: las dos contraseñas nuevas deben ser idénticas
-    if (this.newPassword !== this.confirmPassword) {
-      this.passwordError = 'Las contraseñas no coinciden.';
-      this.cdr.markForCheck();
-      return;
-    }
+    this.passwordResetLoading = true;
+    this.passwordError        = '';
+    this.cdr.markForCheck();
 
-    // Llamamos al backend para verificar la contraseña actual y actualizar la nueva
-    this.authSvc.changePassword(this.currentPassword, this.newPassword).subscribe({
+    // Llamamos al endpoint público de recuperación de contraseña
+    this.authSvc.forgotPassword(email).subscribe({
       next: () => {
-        this.passwordMessage = 'Contraseña actualizada correctamente.';
-        // Limpiamos los campos del formulario tras el éxito
-        this.currentPassword  = '';
-        this.newPassword      = '';
-        this.confirmPassword  = '';
+        this.passwordResetSent    = true;
+        this.passwordResetLoading = false;
         this.cdr.markForCheck();
       },
       error: () => {
-        this.passwordError = 'Contraseña actual incorrecta.';
+        // El backend responde 200 incluso si el email no existe (seguridad anti-enumeración)
+        // Solo llegamos aquí si hay un error de red o servidor
+        this.passwordError        = 'Error al enviar el email. Inténtalo de nuevo.';
+        this.passwordResetLoading = false;
         this.cdr.markForCheck();
       }
     });

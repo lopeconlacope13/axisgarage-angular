@@ -220,41 +220,31 @@
           }
         </div>
 
-        <!-- Formulario de cambio de contraseña -->
+        <!-- Sección: restablecer contraseña por email -->
         <div class="glass-card p-8 password-card">
-          <h2 class="font-display text-lg font-semibold mb-6">Change <span class="italic">Password</span></h2>
+          <h2 class="font-display text-lg font-semibold mb-4">Reset <span class="italic">Password</span></h2>
+          <p style="color:var(--axis-gray);font-size:0.85rem;margin-bottom:1.5rem;line-height:1.6;">
+            Recibirás un enlace en tu email para establecer una nueva contraseña. El enlace caduca en 1 hora.
+          </p>
 
-          <!-- Mensaje de éxito -->
-          @if (passwordMessage) {
-            <p class="password-success-msg">{{ passwordMessage }}</p>
+          @if (passwordResetSent) {
+            <p style="color:var(--axis-gold);font-size:0.85rem;padding:0.75rem;border:1px solid rgba(184,149,42,0.3);border-radius:4px;background:rgba(184,149,42,0.05);">
+              Hemos enviado un enlace a tu email. Úsalo para cambiar tu contraseña.
+            </p>
+          } @else {
+            @if (passwordError) {
+              <p class="password-error-msg" aria-live="polite">{{ passwordError }}</p>
+            }
+            <button
+              class="btn-gold-outline"
+              style="width:100%;"
+              [disabled]="passwordResetLoading"
+              [style.opacity]="passwordResetLoading ? '0.5' : '1'"
+              [style.cursor]="passwordResetLoading ? 'not-allowed' : 'pointer'"
+              (click)="resetPasswordFromDashboard()">
+              {{ passwordResetLoading ? 'Enviando...' : 'Restablecer contraseña por email' }}
+            </button>
           }
-          <!-- Mensaje de error -->
-          @if (passwordError) {
-            <p class="password-error-msg" aria-live="polite">{{ passwordError }}</p>
-          }
-
-          <!-- Campo: contraseña actual -->
-          <div class="col-gap-sm">
-            <div>
-              <label class="eyebrow eyebrow-xs password-label">CURRENT PASSWORD</label>
-              <input type="password" placeholder="••••••••" [(ngModel)]="currentPassword"
-                class="input-dark input-full password-input" />
-            </div>
-            <div>
-              <label class="eyebrow eyebrow-xs password-label">NEW PASSWORD</label>
-              <input type="password" placeholder="••••••••" [(ngModel)]="newPassword"
-                class="input-dark input-full password-input" />
-            </div>
-            <div>
-              <label class="eyebrow eyebrow-xs password-label">CONFIRM NEW PASSWORD</label>
-              <input type="password" placeholder="••••••••" [(ngModel)]="confirmPassword"
-                class="input-dark input-full password-input" />
-            </div>
-          </div>
-
-          <button class="btn-gold" style="width:100%; margin-top:1.25rem;" (click)="changePassword()">
-            UPDATE PASSWORD
-          </button>
         </div>
 
       </div>
