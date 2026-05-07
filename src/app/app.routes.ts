@@ -73,6 +73,15 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
 
+  // ── Creación de vehículo (MANAGER y ADMIN) ───────────────────────────────
+  {
+    path: 'vehicles/new',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['MANAGER', 'ADMIN'] },
+    loadComponent: () =>
+      import('./features/vehicles/create/vehicle-create.component').then(m => m.VehicleCreateComponent)
+  },
+
   // ── Edición de vehículo (MANAGER y ADMIN) ────────────────────────────────
   {
     path: 'dashboard/vehicles/:id/edit',

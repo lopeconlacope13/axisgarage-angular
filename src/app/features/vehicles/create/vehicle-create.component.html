@@ -1,0 +1,253 @@
+<!-- ──────────────────────────────────────────────────────────────────────────
+     VEHICLE CREATE PAGE
+     Página de creación de vehículo. Solo accesible para MANAGER y ADMIN.
+     Misma estética glassmorphism que el resto del proyecto.
+────────────────────────────────────────────────────────────────────────── -->
+<div style="min-height:100vh;background:var(--axis-bg,#0a0a0a);padding:7rem 1.5rem 4rem;">
+  <div style="max-width:900px;margin:0 auto;">
+
+    <!-- ── Cabecera de página ────────────────────────────────────────────── -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="eyebrow" style="font-size:0.6rem;letter-spacing:0.18em;color:var(--axis-gold,#b8952a);margin-bottom:0.5rem;">
+        FLEET MANAGEMENT
+      </div>
+      <h1 class="font-display" style="font-size:2rem;font-weight:600;color:#f5f5f0;">
+        Add New <span style="font-style:italic;">Vehicle</span>
+      </h1>
+      <p style="margin-top:0.5rem;font-size:0.85rem;color:rgba(245,245,240,0.45);">
+        El vehículo quedará disponible en el catálogo al instante.
+      </p>
+    </div>
+
+    <!-- ── Formulario ────────────────────────────────────────────────────── -->
+    <div class="glass-card" style="padding:2rem 2.5rem;">
+
+      <!-- Grid de campos: 2 columnas en desktop, 1 en mobile -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem 1.5rem;">
+
+        <!-- Marca -->
+        <div>
+          <label for="vc-brand" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            BRAND *
+          </label>
+          <input id="vc-brand" type="text" [(ngModel)]="vehicle.brand" placeholder="Ferrari"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
+            aria-required="true">
+        </div>
+
+        <!-- Modelo -->
+        <div>
+          <label for="vc-model" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            MODEL *
+          </label>
+          <input id="vc-model" type="text" [(ngModel)]="vehicle.model" placeholder="F40"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
+            aria-required="true">
+        </div>
+
+        <!-- Año de producción -->
+        <div>
+          <label for="vc-year" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            PRODUCTION YEAR
+          </label>
+          <input id="vc-year" type="number" [(ngModel)]="vehicle.productionYear" min="1900" max="2100"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Precio por día -->
+        <div>
+          <label for="vc-price" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            PRICE / DAY (€) *
+          </label>
+          <input id="vc-price" type="number" [(ngModel)]="vehicle.pricePerDay" min="1" step="0.01"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
+            aria-required="true">
+        </div>
+
+        <!-- Categoría -->
+        <div>
+          <label for="vc-category" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            CATEGORY *
+          </label>
+          <select id="vc-category" [(ngModel)]="vehicle.categoryId"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;"
+            aria-required="true">
+            <option [value]="0" disabled>Select category...</option>
+            @for (cat of categories; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Ubicación -->
+        <div>
+          <label for="vc-location" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            LOCATION *
+          </label>
+          <select id="vc-location" [(ngModel)]="vehicle.locationId"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;"
+            aria-required="true">
+            <option [value]="0" disabled>Select location...</option>
+            @for (loc of locations; track loc.id) {
+              <option [value]="loc.id">{{ loc.name }} — {{ loc.city }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Tipo de motor -->
+        <div>
+          <label for="vc-engine" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            ENGINE TYPE
+          </label>
+          <input id="vc-engine" type="text" [(ngModel)]="vehicle.engineType" placeholder="V12 DOHC"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Potencia -->
+        <div>
+          <label for="vc-hp" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            HORSEPOWER (HP)
+          </label>
+          <input id="vc-hp" type="number" [(ngModel)]="vehicle.horsePower" min="0"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Torque -->
+        <div>
+          <label for="vc-torque" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            TORQUE (NM)
+          </label>
+          <input id="vc-torque" type="number" [(ngModel)]="vehicle.torqueNm" min="0"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Transmisión -->
+        <div>
+          <label for="vc-trans" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            TRANSMISSION
+          </label>
+          <select id="vc-trans" [(ngModel)]="vehicle.transmission"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;">
+            <option value="">Select...</option>
+            <option value="Manual">Manual</option>
+            <option value="Automatic">Automatic</option>
+            <option value="Semi-automatic">Semi-automatic</option>
+            <option value="PDK">PDK</option>
+            <option value="DCT">DCT</option>
+          </select>
+        </div>
+
+        <!-- Tracción -->
+        <div>
+          <label for="vc-drive" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            DRIVETRAIN
+          </label>
+          <select id="vc-drive" [(ngModel)]="vehicle.drivetrain"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;">
+            <option value="">Select...</option>
+            <option value="RWD">RWD</option>
+            <option value="AWD">AWD</option>
+            <option value="FWD">FWD</option>
+            <option value="4WD">4WD</option>
+          </select>
+        </div>
+
+        <!-- Combustible -->
+        <div>
+          <label for="vc-fuel" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            FUEL TYPE
+          </label>
+          <select id="vc-fuel" [(ngModel)]="vehicle.fuelType"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;">
+            <option value="">Select...</option>
+            <option value="Gasoline">Gasoline</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Electric">Electric</option>
+          </select>
+        </div>
+
+        <!-- 0-100 km/h -->
+        <div>
+          <label for="vc-zero" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            0–100 KM/H (S)
+          </label>
+          <input id="vc-zero" type="number" [(ngModel)]="vehicle.zeroToHundred" min="0" step="0.1"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Disponibilidad -->
+        <div style="display:flex;align-items:center;gap:0.75rem;padding-top:1.4rem;">
+          <input id="vc-available" type="checkbox" [(ngModel)]="vehicle.available"
+            style="width:1rem;height:1rem;accent-color:var(--axis-gold,#b8952a);cursor:pointer;">
+          <label for="vc-available" class="eyebrow eyebrow-xs" style="color:rgba(245,245,240,0.6);cursor:pointer;">
+            AVAILABLE FROM DAY ONE
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Descripción (campo ancho, fuera del grid) -->
+      <div style="margin-top:1.25rem;">
+        <label for="vc-desc" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+          DESCRIPTION
+        </label>
+        <textarea id="vc-desc" [(ngModel)]="vehicle.description" rows="3"
+          placeholder="Breve descripción del vehículo..."
+          style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;resize:vertical;font-family:inherit;">
+        </textarea>
+      </div>
+
+      <!-- Imagen principal (opcional) -->
+      <div style="margin-top:1rem;">
+        <label for="vc-image" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+          MAIN IMAGE (OPTIONAL)
+        </label>
+        <input id="vc-image" type="file" accept="image/*"
+          (change)="onImageSelected($event)"
+          style="font-size:0.8rem;color:rgba(245,245,240,0.6);cursor:pointer;">
+      </div>
+
+      <!-- ── Mensajes de error / éxito ──────────────────────────────────── -->
+      @if (errorMsg) {
+        <div role="alert"
+          style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:4px;color:rgba(239,68,68,0.9);font-size:0.8rem;">
+          {{ errorMsg }}
+        </div>
+      }
+      @if (success) {
+        <div role="status"
+          style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:4px;color:rgba(74,222,128,0.9);font-size:0.8rem;">
+          Vehículo creado correctamente. Redirigiendo al dashboard...
+        </div>
+      }
+
+      <!-- ── Botones de acción ───────────────────────────────────────────── -->
+      <div style="margin-top:1.75rem;display:flex;justify-content:flex-end;gap:0.75rem;">
+
+        <!-- Cancelar -->
+        <button
+          (click)="cancel()"
+          class="eyebrow"
+          style="font-size:0.65rem;letter-spacing:0.12em;padding:0.6rem 1.25rem;border:1px solid rgba(245,245,240,0.2);background:transparent;color:rgba(245,245,240,0.5);border-radius:4px;cursor:pointer;"
+          aria-label="Cancelar y volver al dashboard">
+          CANCEL
+        </button>
+
+        <!-- Crear -->
+        <button
+          (click)="submit()"
+          [disabled]="submitting"
+          class="eyebrow"
+          style="font-size:0.65rem;letter-spacing:0.12em;padding:0.6rem 1.5rem;border:1px solid var(--axis-gold,#b8952a);background:rgba(184,149,42,0.12);color:var(--axis-gold,#b8952a);border-radius:4px;cursor:pointer;transition:background 0.2s;"
+          [style.opacity]="submitting ? '0.6' : '1'"
+          [style.cursor]="submitting ? 'not-allowed' : 'pointer'"
+          aria-label="Crear vehículo y añadirlo a la flota">
+          {{ submitting ? 'SAVING...' : 'CREATE VEHICLE' }}
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
