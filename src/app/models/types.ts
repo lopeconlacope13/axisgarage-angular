@@ -131,6 +131,8 @@ export class ReservationDTO {
   renterId     = 0;
   vehicleModel = '';
   renterName   = '';
+  // Tipo de cobertura seleccionada en el checkout (STANDARD, PREMIUM, TOTAL)
+  coverageType?: string;
 }
 
 // ─── Coverage ─────────────────────────────────────────────────────────────────

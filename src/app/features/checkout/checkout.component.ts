@@ -232,12 +232,13 @@ export class CheckoutComponent implements OnInit {
       next: () => {
         // Perfil actualizado: procedemos a crear la reserva
         const nuevaReserva: Partial<ReservationDTO> = {
-          vehicleId:  this.vehicle?.id,
-          renterId:   this.renterId,
-          startDate:  this.start,
-          endDate:    this.end,
-          totalPrice: this.calculatedTotal,
-          status:     'CONFIRMED'
+          vehicleId:    this.vehicle?.id,
+          renterId:     this.renterId,
+          startDate:    this.start,
+          endDate:      this.end,
+          totalPrice:   this.calculatedTotal,
+          coverageType: this.coverage,
+          status:       'CONFIRMED'
         };
 
         this.reservationSvc.create(nuevaReserva).subscribe({
