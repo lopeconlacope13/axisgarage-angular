@@ -159,6 +159,41 @@ export class AuthService {
     return this.http.get<UserDTO>(`${environment.apiUrl}/user`);
   }
 
+  // ─── RECUPERACIÓN DE CONTRASEÑA ──────────────────────────────────────────
+
+  /**
+   * Solicita el envío de un email con el enlace para restablecer la contraseña.
+   * El backend responde siempre 200 OK aunque el email no exista (seguridad anti-enumeración).
+   * El enlace generado tiene una validez de 1 hora desde su creación.
+   *
+   * @param email Dirección de correo electrónico del usuario.
+   * @returns Observable con la respuesta en texto plano del backend.
+   */
+  forgotPassword(email: string): Observable<string> {
+    return this.http.post(
+      `${environment.apiUrl}/v1/forgot-password`,
+      { email },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), responseType: 'text' as const }
+    );
+  }
+
+  /**
+   * Restablece la contraseña usando el token recibido por email.
+   * El token tiene una validez de 1 hora desde su generación en el backend.
+   * Si el token ha caducado, el backend responde con 400 Bad Request.
+   *
+   * @param token       Token único generado por el backend y enviado al email del usuario.
+   * @param newPassword Nueva contraseña que el usuario quiere establecer.
+   * @returns Observable con la respuesta en texto plano del backend.
+   */
+  resetPassword(token: string, newPassword: string): Observable<string> {
+    return this.http.post(
+      `${environment.apiUrl}/v1/reset-password`,
+      { token, newPassword },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), responseType: 'text' as const }
+    );
+  }
+
   /**
    * Cambia la contraseña del usuario autenticado.
    * El JWT interceptor añade el token automáticamente, así que no hace falta adjuntarlo aquí.
