@@ -56,6 +56,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/legal/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent)
   },
+  {
+    path: 'data-deletion',
+    loadComponent: () =>
+      import('./features/legal/data-deletion/data-deletion.component').then(m => m.DataDeletionComponent)
+  },
 
   // ── Catálogo público ───────────────────────────────────────────────────────
   {

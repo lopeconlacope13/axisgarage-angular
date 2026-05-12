@@ -1,0 +1,71 @@
+.deletion-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 6rem 1.5rem 4rem;
+}
+
+.deletion-card {
+  max-width: 760px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(184, 149, 42, 0.15);
+  border-radius: 12px;
+  padding: 3rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.deletion-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--axis-gold, #b8952a);
+  margin-bottom: 0.5rem;
+}
+
+.deletion-subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(184, 149, 42, 0.1);
+  padding-bottom: 1.5rem;
+}
+
+.deletion-section {
+  margin-bottom: 2rem;
+}
+
+.deletion-section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.deletion-section p,
+.deletion-section li {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.deletion-section ol,
+.deletion-section ul {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gold-link {
+  color: var(--axis-gold, #b8952a);
+  text-decoration: none;
+}
+
+.gold-link:hover {
+  text-decoration: underline;
+}
