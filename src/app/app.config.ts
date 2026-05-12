@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([jwtInterceptor])),
-    provideTranslateService({ defaultLanguage: 'en' }),
+    provideTranslateService({ defaultLanguage: 'es' }),
     ...provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' })
   ]
 };
