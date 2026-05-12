@@ -58,6 +58,7 @@ export class OwnerDTO {
   lastName = '';
   email    = '';
   phone    = '';
+  address  = '';
 }
 
 export class VehicleDTO {
