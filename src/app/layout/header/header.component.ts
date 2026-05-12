@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   dropdownOpen = false;
   /** Controla si el menú móvil está abierto o cerrado */
   menuOpen     = false;
-  currentLang = 'en';
+  currentLang = 'es';
   private authSub?: Subscription;
 
   constructor(
@@ -59,7 +59,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // markForCheck() le indica que este componente necesita re-renderizarse.
       this.cdr.markForCheck();
     });
-    this.currentLang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    // Si ngx-translate no tiene ningún idioma activo, forzamos español.
+    // provideTranslateService({ defaultLanguage }) solo registra el fallback,
+    // pero NO llama translate.use() — por eso hay que hacerlo aquí explícitamente.
+    if (!this.translate.currentLang) {
+      this.translate.use('es');
+    }
+    this.currentLang = this.translate.currentLang || this.translate.defaultLang || 'es';
   }
 
   ngOnDestroy(): void {
