@@ -94,6 +94,21 @@
           </select>
         </div>
 
+        <!-- Propietario -->
+        <div>
+          <label for="vc-owner" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            OWNER *
+          </label>
+          <select id="vc-owner" [(ngModel)]="vehicle.ownerId"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;appearance:none;"
+            aria-required="true">
+            <option [value]="0" disabled>Select owner...</option>
+            @for (owner of owners; track owner.id) {
+              <option [value]="owner.id">{{ owner.name }} {{ owner.lastName }}</option>
+            }
+          </select>
+        </div>
+
         <!-- Tipo de motor -->
         <div>
           <label for="vc-engine" class="eyebrow eyebrow-xs" style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">

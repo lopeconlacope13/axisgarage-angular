@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
-import { VehicleCategoryDTO, LocationDTO } from '../../../models/types';
+import { OwnerService } from '../../../core/services/owner.service';
+import { VehicleCategoryDTO, LocationDTO, OwnerDTO } from '../../../models/types';
 
 /**
  * Página dedicada a la creación de un nuevo vehículo en el catálogo.
@@ -33,6 +34,8 @@ export class VehicleCreateComponent implements OnInit {
   categories: VehicleCategoryDTO[] = [];
   /** Ubicaciones disponibles cargadas desde GET /api/locations */
   locations: LocationDTO[] = [];
+  /** Propietarios disponibles cargados desde GET /api/owners */
+  owners: OwnerDTO[] = [];
 
   // ─── Datos del formulario ─────────────────────────────────────────────────
   /**
@@ -54,7 +57,8 @@ export class VehicleCreateComponent implements OnInit {
     description:    '',
     available:      true,
     categoryId:     0,
-    locationId:     0
+    locationId:     0,
+    ownerId:        0
   };
 
   /** Archivo de imagen principal seleccionado (opcional) */
@@ -70,17 +74,22 @@ export class VehicleCreateComponent implements OnInit {
 
   constructor(
     private vehicleSvc: VehicleService,
+    private ownerSvc:   OwnerService,
     private router:     Router,
     private cdr:        ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // Cargamos categorías y ubicaciones al entrar en la página
+    // Cargamos categorías, ubicaciones y propietarios al entrar en la página.
+    // Los tres son necesarios para los selectores del formulario.
     this.vehicleSvc.getCategories().subscribe({
       next: list => { this.categories = list; this.cdr.markForCheck(); }
     });
     this.vehicleSvc.getLocations().subscribe({
       next: list => { this.locations = list; this.cdr.markForCheck(); }
+    });
+    this.ownerSvc.getAll(0, 100).subscribe({
+      next: page => { this.owners = page.content; this.cdr.markForCheck(); }
     });
   }
 
@@ -118,6 +127,11 @@ export class VehicleCreateComponent implements OnInit {
       this.cdr.markForCheck();
       return;
     }
+    if (!this.vehicle.ownerId) {
+      this.errorMsg = 'Selecciona un propietario para el vehículo.';
+      this.cdr.markForCheck();
+      return;
+    }
     if (this.vehicle.pricePerDay <= 0) {
       this.errorMsg = 'El precio por día debe ser mayor que 0.';
       this.cdr.markForCheck();
@@ -144,6 +158,10 @@ export class VehicleCreateComponent implements OnInit {
     fd.append('available',      String(this.vehicle.available));
     fd.append('categoryId',     String(this.vehicle.categoryId));
     fd.append('locationId',     String(this.vehicle.locationId));
+    // El backend necesita ownerDTO.id para enlazar el propietario al vehículo.
+    // Se envía como 'ownerDTO.id' porque Spring usa @ModelAttribute que bindea
+    // campos anidados con notación de punto.
+    fd.append('ownerDTO.id',    String(this.vehicle.ownerId));
 
     // Añadimos la imagen solo si el gestor seleccionó una
     if (this.imageFile) {
