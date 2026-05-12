@@ -185,11 +185,15 @@ export class DashboardComponent implements OnInit {
         this.profileData = p;
         this.cdr.markForCheck();
 
-        // Tras cargar el perfil, cargamos también los datos de facturación del Renter
-        // (dni, phone, address) para mostrarlos en la sección de perfil.
-        // Usamos el email del JWT que ya tenemos en this.userEmail.
-        this.renterSvc.getByEmail(this.userEmail).subscribe({
-          next: r => { this.renterData = r; this.cdr.markForCheck(); }
+        // Cargamos (o creamos automáticamente) el perfil de Renter del usuario.
+        // Usamos ensure() en lugar de getByEmail() para que los usuarios nuevos
+        // obtengan su perfil creado automáticamente en el primer acceso al dashboard,
+        // evitando el error "Profile not found" que aparecía con getByEmail().
+        this.renterSvc.ensure().subscribe({
+          next: r => { this.renterData = r; this.cdr.markForCheck(); },
+          // Si por algún motivo ensure() falla, simplemente no mostramos datos de facturación.
+          // No bloqueamos el resto del perfil por este campo opcional.
+          error: () => { this.renterData = null; this.cdr.markForCheck(); }
         });
       }
     });
