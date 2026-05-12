@@ -63,6 +63,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/vehicles/catalog/catalog.component').then(m => m.CatalogComponent)
   },
+
+  // ── Creación de vehículo (MANAGER y ADMIN) — debe ir ANTES de vehicles/:id ──
+  {
+    path: 'vehicles/new',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['MANAGER', 'ADMIN'] },
+    loadComponent: () =>
+      import('./features/vehicles/create/vehicle-create.component').then(m => m.VehicleCreateComponent)
+  },
+
   {
     path: 'vehicles/:id',
     loadComponent: () =>
@@ -81,15 +91,6 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
-  },
-
-  // ── Creación de vehículo (MANAGER y ADMIN) ───────────────────────────────
-  {
-    path: 'vehicles/new',
-    canActivate: [authGuard, roleGuard],
-    data: { roles: ['MANAGER', 'ADMIN'] },
-    loadComponent: () =>
-      import('./features/vehicles/create/vehicle-create.component').then(m => m.VehicleCreateComponent)
   },
 
   // ── Edición de vehículo (MANAGER y ADMIN) ────────────────────────────────
