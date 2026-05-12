@@ -89,7 +89,13 @@ export class VehicleCreateComponent implements OnInit {
       next: list => { this.locations = list; this.cdr.markForCheck(); }
     });
     this.ownerSvc.getAll(0, 100).subscribe({
-      next: page => { this.owners = page.content; this.cdr.markForCheck(); }
+      next: page => { this.owners = page.content; this.cdr.markForCheck(); },
+      // Si el backend rechaza la petición (403, 401, 500...) mostramos
+      // el motivo en el banner de error del formulario en lugar de silenciarlo.
+      error: err  => {
+        this.errorMsg = 'No se pudieron cargar los propietarios. Comprueba tu sesión.';
+        this.cdr.markForCheck();
+      }
     });
   }
 
