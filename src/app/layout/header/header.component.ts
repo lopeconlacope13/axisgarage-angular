@@ -59,13 +59,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // markForCheck() le indica que este componente necesita re-renderizarse.
       this.cdr.markForCheck();
     });
-    // Si ngx-translate no tiene ningún idioma activo, forzamos español.
-    // provideTranslateService({ defaultLanguage }) solo registra el fallback,
-    // pero NO llama translate.use() — por eso hay que hacerlo aquí explícitamente.
-    if (!this.translate.currentLang) {
-      this.translate.use('es');
-    }
-    this.currentLang = this.translate.currentLang || this.translate.defaultLang || 'es';
+    // Leemos la preferencia de idioma guardada por el usuario.
+    // Si no hay nada en localStorage (primera visita), usamos español por defecto.
+    const savedLang = localStorage.getItem('axis-lang') || 'es';
+    this.translate.use(savedLang);
+    this.currentLang = savedLang;
   }
 
   ngOnDestroy(): void {
@@ -103,8 +101,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   switchLang(lang: string): void {
+    // Cambiamos el idioma activo en ngx-translate y lo guardamos en localStorage
+    // para que la preferencia se mantenga al recargar la página.
     this.translate.use(lang);
     this.currentLang = lang;
+    localStorage.setItem('axis-lang', lang);
+    this.cdr.markForCheck();
   }
 
   logout(): void {

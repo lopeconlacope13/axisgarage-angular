@@ -336,7 +336,7 @@
     "REVIEW_SUBMIT": "ENVIAR RESEÑA"
   },
   "AUTH": {
-    "LOGIN_TITLE": "Access Vault",
+    "LOGIN_TITLE": "Acceso Privado",
     "LOGIN_DESC": "Por favor, identifíquese para acceder.",
     "LOGIN_EMAIL": "Correo Privado",
     "LOGIN_PASS": "Clave de Acceso",

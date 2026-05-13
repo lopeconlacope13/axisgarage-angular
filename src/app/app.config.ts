@@ -22,9 +22,14 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideTranslateService({ defaultLanguage: 'es' }),
     ...provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
-    // Fuerza español como idioma activo antes de que Angular renderice cualquier componente.
-    // provideTranslateService({ defaultLanguage }) solo setea el fallback, no llama use().
-    // Sin esto, currentLang queda null y la app arranca en inglés.
-    provideAppInitializer(() => inject(TranslateService).use('es'))
+    // Aplica el idioma guardado por el usuario en localStorage.
+    // Si no existe preferencia (primera visita), usa español por defecto.
+    // provideTranslateService({ defaultLanguage }) solo registra el fallback,
+    // no llama translate.use() — sin esto currentLang queda null y la app
+    // podría renderizar claves en lugar de textos traducidos.
+    provideAppInitializer(() => {
+      const lang = localStorage.getItem('axis-lang') || 'es';
+      return inject(TranslateService).use(lang);
+    })
   ]
 };
