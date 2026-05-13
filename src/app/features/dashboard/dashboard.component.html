@@ -11,7 +11,7 @@
     <div class="dashboard-user-card col-gap-sm">
       <div>
         <div class="eyebrow eyebrow-xs text-gold sidebar-brand-eyebrow">AXIS GARAGE</div>
-        <div class="font-display text-lg font-semibold">Control Panel</div>
+        <div class="font-display text-lg font-semibold">{{ 'DASHBOARD.CONTROL_PANEL' | translate }}</div>
       </div>
 
       <!-- Avatar con email y rol del usuario autenticado -->
@@ -37,43 +37,43 @@
       <!-- Secciones para ROLE_USER -->
       @if (!isManager) {
         <button class="sidebar-btn" [class.active]="activeSection === 'profile'" (click)="setSection('profile')">
-          MY PROFILE
+          {{ 'DASHBOARD.NAV_MY_PROFILE' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'my-reservations'" (click)="setSection('my-reservations')">
-          MY RESERVATIONS
+          {{ 'DASHBOARD.NAV_MY_RESERVATIONS' | translate }}
         </button>
       }
 
       <!-- Secciones para ROLE_MANAGER y ROLE_ADMIN -->
       @if (isManager) {
         <button class="sidebar-btn" [class.active]="activeSection === 'overview'" (click)="setSection('overview')">
-          OVERVIEW
+          {{ 'DASHBOARD.NAV_OVERVIEW' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'reservations'" (click)="setSection('reservations')">
-          RESERVATIONS
+          {{ 'DASHBOARD.NAV_RESERVATIONS' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'fleet'" (click)="setSection('fleet')">
-          FLEET
+          {{ 'DASHBOARD.NAV_FLEET' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'clients'" (click)="setSection('clients')">
-          CLIENTS
+          {{ 'DASHBOARD.NAV_CLIENTS' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'damage-reports'" (click)="setSection('damage-reports')">
-          DAMAGE REPORTS
+          {{ 'DASHBOARD.NAV_DAMAGE_REPORTS' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'reviews'" (click)="setSection('reviews')">
-          REVIEWS
+          {{ 'DASHBOARD.NAV_REVIEWS' | translate }}
         </button>
         <button class="sidebar-btn" [class.active]="activeSection === 'invoices'" (click)="setSection('invoices')">
-          INVOICES
+          {{ 'DASHBOARD.NAV_INVOICES' | translate }}
         </button>
         <!-- Secciones exclusivas de ROLE_ADMIN -->
         @if (isAdmin) {
           <button class="sidebar-btn" [class.active]="activeSection === 'owners'" (click)="setSection('owners')">
-            OWNERS
+            {{ 'DASHBOARD.NAV_OWNERS' | translate }}
           </button>
           <button class="sidebar-btn" [class.active]="activeSection === 'users'" (click)="setSection('users')">
-            USERS
+            {{ 'DASHBOARD.NAV_USERS' | translate }}
           </button>
         }
       }
@@ -91,38 +91,39 @@
          Panel de inicio con KPIs: ingresos, reservas, flota y clientes.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'overview') {
-      <div class="eyebrow mb-2 text-gold">{{ isAdmin ? 'ADMINISTRATION' : 'MANAGEMENT' }}</div>
+      <div class="eyebrow mb-2 text-gold">{{ isAdmin ? ('DASHBOARD.EYEBROW_ADMIN' | translate) : ('DASHBOARD.EYEBROW_MANAGER' | translate) }}</div>
       <h1 class="font-display text-2xl font-semibold mb-8">
-        {{ isAdmin ? 'Admin' : 'Manager' }} <span class="italic">Overview</span>
+        {{ isAdmin ? ('DASHBOARD.OVERVIEW_TITLE_ADMIN' | translate) : ('DASHBOARD.OVERVIEW_TITLE_MANAGER' | translate) }}
+        <span class="italic">{{ 'DASHBOARD.OVERVIEW_ITALIC' | translate }}</span>
       </h1>
 
       <!-- KPIs -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
         <div class="glass-card p-6 kpi-revenue">
-          <div class="eyebrow mb-2 eyebrow-xs kpi-eyebrow">CONFIRMED REVENUE</div>
+          <div class="eyebrow mb-2 eyebrow-xs kpi-eyebrow">{{ 'DASHBOARD.REVENUE' | translate }}</div>
           <div class="font-display text-2xl font-bold text-gold">
             €{{ totalRevenue | number:'1.0-0' }}
           </div>
-          <div class="text-axis-gray text-xs mt-1">Total ingresos confirmados</div>
+          <div class="text-axis-gray text-xs mt-1">{{ 'DASHBOARD.REVENUE_SUB' | translate }}</div>
         </div>
 
         <div class="glass-card p-6 kpi-confirmed">
-          <div class="eyebrow mb-2 kpi-eyebrow">CONFIRMED RESERV.</div>
+          <div class="eyebrow mb-2 kpi-eyebrow">{{ 'DASHBOARD.CONFIRMED' | translate }}</div>
           <div class="font-display text-2xl font-bold">{{ confirmedCount }}</div>
-          <div class="text-axis-gray text-xs mt-1">Reservas activas</div>
+          <div class="text-axis-gray text-xs mt-1">{{ 'DASHBOARD.CONFIRMED_SUB' | translate }}</div>
         </div>
 
         <div class="glass-card p-6 kpi-cancelled">
-          <div class="eyebrow mb-2 kpi-eyebrow">CANCELLED</div>
+          <div class="eyebrow mb-2 kpi-eyebrow">{{ 'DASHBOARD.CANCELLED' | translate }}</div>
           <div class="font-display text-2xl font-bold kpi-cancelled-value">{{ cancelledCount }}</div>
-          <div class="text-axis-gray text-xs mt-1">Reservas canceladas</div>
+          <div class="text-axis-gray text-xs mt-1">{{ 'DASHBOARD.CANCELLED_SUB' | translate }}</div>
         </div>
 
         <div class="glass-card p-6 kpi-fleet">
-          <div class="eyebrow mb-2 kpi-eyebrow">AVAILABLE FLEET</div>
+          <div class="eyebrow mb-2 kpi-eyebrow">{{ 'DASHBOARD.FLEET' | translate }}</div>
           <div class="font-display text-2xl font-bold">{{ availableVehicles }}</div>
-          <div class="text-axis-gray text-xs mt-1">Vehículos disponibles</div>
+          <div class="text-axis-gray text-xs mt-1">{{ 'DASHBOARD.FLEET_SUB' | translate }}</div>
         </div>
 
       </div>
@@ -135,14 +136,14 @@
          Datos del perfil, cambio de foto de perfil y cambio de contraseña.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'profile') {
-      <div class="eyebrow mb-2 text-gold">ACCOUNT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Profile</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.PROFILE_EYEBROW' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.PROFILE_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.PROFILE_ITALIC' | translate }}</span></h1>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
         <!-- Bloque izquierdo: avatar + datos del perfil -->
         <div class="glass-card p-8">
-          <h2 class="font-display text-lg font-semibold mb-6">Identity</h2>
+          <h2 class="font-display text-lg font-semibold mb-6">{{ 'DASHBOARD.IDENTITY' | translate }}</h2>
 
           <!-- Avatar con botón de cambio de foto -->
           <div class="row-center-md mb-8">
@@ -156,7 +157,7 @@
             <div>
               <!-- El input[type=file] está oculto; el label actúa de botón -->
               <label class="btn-outline change-photo-btn">
-                CHANGE PHOTO
+                {{ 'DASHBOARD.CHANGE_PHOTO' | translate }}
                 <input type="file" accept="image/*" (change)="onPhotoSelected($event)" class="hidden">
               </label>
             </div>
@@ -166,19 +167,19 @@
           @if (profileData) {
             <div class="col-gap-sm">
               <div>
-                <div class="eyebrow eyebrow-xs field-label">USERNAME</div>
+                <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.USERNAME' | translate }}</div>
                 <div class="text-sm">{{ profileData.username }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs field-label">FULL NAME</div>
+                <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.FULL_NAME' | translate }}</div>
                 <div class="text-sm">{{ profileData.firstName }} {{ profileData.lastName }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs field-label">EMAIL</div>
+                <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.EMAIL' | translate }}</div>
                 <div class="text-sm">{{ userEmail }}</div>
               </div>
               <div>
-                <div class="eyebrow eyebrow-xs field-label">ACCESS LEVEL</div>
+                <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.ACCESS_LEVEL' | translate }}</div>
                 <div class="eyebrow text-gold field-role-value">{{ roleLabel }}</div>
               </div>
             </div>
@@ -191,28 +192,28 @@
           @if (renterData) {
             <div class="billing-details-section">
               <h3 class="billing-details-title">
-                Billing Details
+                {{ 'DASHBOARD.BILLING_TITLE' | translate }}
               </h3>
 
               <!-- Aviso si los datos de facturación son los valores placeholder por defecto.
                    Los datos reales se rellenan en el paso de Checkout al confirmar la reserva. -->
               @if (renterData.dni?.startsWith('PENDING-') || renterData.phone?.startsWith('900000')) {
                 <p class="billing-pending-note">
-                  &#9432; Los datos de facturación se actualizarán aquí automáticamente al completar tu primera reserva.
+                  {{ 'DASHBOARD.BILLING_PENDING' | translate }}
                 </p>
               }
 
               <div class="billing-fields-grid">
                 <div>
-                  <div class="eyebrow eyebrow-xs field-label">DNI</div>
+                  <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.DNI' | translate }}</div>
                   <div class="text-sm">{{ renterData.dni || '—' }}</div>
                 </div>
                 <div>
-                  <div class="eyebrow eyebrow-xs field-label">PHONE</div>
+                  <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.PHONE' | translate }}</div>
                   <div class="text-sm">{{ renterData.phone || '—' }}</div>
                 </div>
                 <div>
-                  <div class="eyebrow eyebrow-xs field-label">ADDRESS</div>
+                  <div class="eyebrow eyebrow-xs field-label">{{ 'DASHBOARD.ADDRESS' | translate }}</div>
                   <div class="text-sm">{{ renterData.address || '—' }}</div>
                 </div>
               </div>
@@ -222,14 +223,14 @@
 
         <!-- Sección: restablecer contraseña por email -->
         <div class="glass-card p-8 password-card">
-          <h2 class="font-display text-lg font-semibold mb-4">Reset <span class="italic">Password</span></h2>
+          <h2 class="font-display text-lg font-semibold mb-4">{{ 'DASHBOARD.RESET_PASSWORD_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.RESET_PASSWORD_ITALIC' | translate }}</span></h2>
           <p style="color:var(--axis-gray);font-size:0.85rem;margin-bottom:1.5rem;line-height:1.6;">
-            Recibirás un enlace en tu email para establecer una nueva contraseña. El enlace caduca en 1 hora.
+            {{ 'DASHBOARD.RESET_PASSWORD_DESC' | translate }}
           </p>
 
           @if (passwordResetSent) {
             <p style="color:var(--axis-gold);font-size:0.85rem;padding:0.75rem;border:1px solid rgba(184,149,42,0.3);border-radius:4px;background:rgba(184,149,42,0.05);">
-              Hemos enviado un enlace a tu email. Úsalo para cambiar tu contraseña.
+              {{ 'DASHBOARD.RESET_PASSWORD_SENT' | translate }}
             </p>
           } @else {
             @if (passwordError) {
@@ -242,7 +243,7 @@
               [style.opacity]="passwordResetLoading ? '0.5' : '1'"
               [style.cursor]="passwordResetLoading ? 'not-allowed' : 'pointer'"
               (click)="resetPasswordFromDashboard()">
-              {{ passwordResetLoading ? 'Enviando...' : 'Restablecer contraseña por email' }}
+              {{ passwordResetLoading ? ('DASHBOARD.RESET_PASSWORD_SENDING' | translate) : ('DASHBOARD.RESET_PASSWORD_BTN' | translate) }}
             </button>
           }
         </div>
@@ -255,8 +256,8 @@
          Historial de reservas del usuario autenticado.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'my-reservations') {
-      <div class="eyebrow mb-2 text-gold">MY GARAGE</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">My <span class="italic">Reservations</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.MY_RESERVATIONS_EYEBROW' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.MY_RESERVATIONS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.MY_RESERVATIONS_ITALIC' | translate }}</span></h1>
 
       @if (!myReservations.length) {
         <div class="glass-card p-12 text-center">
@@ -267,13 +268,13 @@
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
               <tr>
-                <th class="eyebrow text-left p-4">Ref.</th>
-                <th class="eyebrow text-left p-4">Vehicle</th>
-                <th class="eyebrow text-left p-4">Pick-Up</th>
-                <th class="eyebrow text-left p-4">Drop-Off</th>
-                <th class="eyebrow text-left p-4">Status</th>
-                <th class="eyebrow text-right p-4">Total</th>
-                <th class="eyebrow text-right p-4">Actions</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_REF' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_VEHICLE' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_PICKUP' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_DROPOFF' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_STATUS' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_TOTAL' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -307,7 +308,7 @@
                     }
                     <!-- Solo mostrar CANCEL si la reserva no está ya cancelada o completada -->
                     @if (r.status !== 'CANCELLED' && r.status !== 'COMPLETED') {
-                      <button class="eyebrow btn-cancel" (click)="cancelMyReservation(r)">CANCEL</button>
+                      <button class="eyebrow btn-cancel" (click)="cancelMyReservation(r)">{{ 'DASHBOARD.BTN_CANCEL' | translate }}</button>
                     }
                   </td>
                 </tr>
@@ -322,29 +323,29 @@
         <div class="review-modal-overlay" (click)="closeReviewForm()">
           <div class="glass-card review-modal-card" (click)="$event.stopPropagation()">
 
-            <div class="eyebrow text-gold mb-2 review-modal-eyebrow">LEAVE A REVIEW</div>
-            <h2 class="font-display text-xl font-semibold mb-6">Your <span class="italic">Experience</span></h2>
+            <div class="eyebrow text-gold mb-2 review-modal-eyebrow">{{ 'DASHBOARD.REVIEW_LEAVE_EYEBROW' | translate }}</div>
+            <h2 class="font-display text-xl font-semibold mb-6">{{ 'DASHBOARD.REVIEW_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.REVIEW_ITALIC' | translate }}</span></h2>
 
             <!-- Selector de puntuación (1-5 estrellas) -->
             <div class="mb-4">
-              <label class="review-label">RATING</label>
+              <label class="review-label">{{ 'DASHBOARD.REVIEW_RATING' | translate }}</label>
               <select class="input-dark w-full" [(ngModel)]="reviewForm.rating">
-                <option [value]="5">★★★★★ — Excepcional</option>
-                <option [value]="4">★★★★☆ — Muy bueno</option>
-                <option [value]="3">★★★☆☆ — Correcto</option>
-                <option [value]="2">★★☆☆☆ — Mejorable</option>
-                <option [value]="1">★☆☆☆☆ — Decepcionante</option>
+                <option [value]="5">{{ 'DASHBOARD.REVIEW_STAR_5' | translate }}</option>
+                <option [value]="4">{{ 'DASHBOARD.REVIEW_STAR_4' | translate }}</option>
+                <option [value]="3">{{ 'DASHBOARD.REVIEW_STAR_3' | translate }}</option>
+                <option [value]="2">{{ 'DASHBOARD.REVIEW_STAR_2' | translate }}</option>
+                <option [value]="1">{{ 'DASHBOARD.REVIEW_STAR_1' | translate }}</option>
               </select>
             </div>
 
             <!-- Área de texto para el comentario -->
             <div class="mb-4">
-              <label class="review-label">COMMENT</label>
+              <label class="review-label">{{ 'DASHBOARD.REVIEW_COMMENT' | translate }}</label>
               <textarea
                 class="input-dark w-full review-textarea"
                 rows="4"
                 [(ngModel)]="reviewForm.comment"
-                placeholder="Describe tu experiencia con el vehículo y el servicio..."></textarea>
+                [placeholder]="'DASHBOARD.REVIEW_COMMENT_PLACEHOLDER' | translate"></textarea>
             </div>
 
             <!-- Mensaje de error si el envío falla -->
@@ -368,24 +369,24 @@
          Todas las reservas del sistema con datos del vehículo y del cliente.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'reservations') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">All <span class="italic">Reservations</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_RESERVATIONS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_RESERVATIONS_ITALIC' | translate }}</span></h1>
 
       @if (loading) {
-        <div class="text-axis-gray">Loading...</div>
+        <div class="text-axis-gray">{{ 'DASHBOARD.LOADING' | translate }}</div>
       } @else {
         <div class="glass-card table-scroll-container">
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
               <tr>
-                <th class="eyebrow text-left p-4">ID</th>
-                <th class="eyebrow text-left p-4">Vehicle</th>
-                <th class="eyebrow text-left p-4">Client</th>
-                <th class="eyebrow text-left p-4">Pick-Up</th>
-                <th class="eyebrow text-left p-4">Drop-Off</th>
-                <th class="eyebrow text-left p-4">Status</th>
-                <th class="eyebrow text-right p-4">Total</th>
-                <th class="eyebrow text-right p-4">Actions</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_VEHICLE' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_CLIENT' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_PICKUP' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_DROPOFF' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_STATUS' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_TOTAL' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -402,7 +403,7 @@
                   <td class="p-4 text-right td-price">€{{ r.totalPrice | number:'1.0-0' }}</td>
                   <td class="p-4 text-right">
                     @if (r.status !== 'CANCELLED') {
-                      <button class="eyebrow btn-cancel" (click)="cancelReservation(r)">CANCEL</button>
+                      <button class="eyebrow btn-cancel" (click)="cancelReservation(r)">{{ 'DASHBOARD.BTN_CANCEL' | translate }}</button>
                     }
                   </td>
                 </tr>
@@ -418,11 +419,11 @@
          Catálogo completo de vehículos con disponibilidad y precio diario.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'fleet') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
 
       <!-- Cabecera de sección con botón "Add Vehicle" -->
       <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2rem;">
-        <h1 class="font-display text-2xl font-semibold">Fleet <span class="italic">Inventory</span></h1>
+        <h1 class="font-display text-2xl font-semibold">{{ 'DASHBOARD.SECTION_FLEET_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_FLEET_ITALIC' | translate }}</span></h1>
         <!-- Botón visible solo para MANAGER y ADMIN: navega a la página dedicada de creación -->
         @if (isManager) {
           <a
@@ -430,7 +431,7 @@
             class="eyebrow"
             style="font-size:0.65rem;letter-spacing:0.12em;padding:0.5rem 1.1rem;border:1px solid var(--axis-gold);background:rgba(184,149,42,0.08);color:var(--axis-gold);border-radius:4px;cursor:pointer;text-decoration:none;transition:background 0.2s;"
             aria-label="Ir a la página de creación de un nuevo vehículo">
-            + ADD VEHICLE
+            {{ 'DASHBOARD.BTN_ADD_VEHICLE' | translate }}
           </a>
         }
       </div>
@@ -439,14 +440,14 @@
         <table class="w-full text-sm">
           <thead class="border-b table-head-border">
             <tr>
-              <th class="eyebrow text-left p-4">ID</th>
-              <th class="eyebrow text-left p-4">Brand / Model</th>
-              <th class="eyebrow text-left p-4">Category</th>
-              <th class="eyebrow text-left p-4">Location</th>
-              <th class="eyebrow text-left p-4">HP</th>
-              <th class="eyebrow text-left p-4">Status</th>
-              <th class="eyebrow text-right p-4">€/Day</th>
-              <th class="eyebrow text-right p-4">Actions</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_BRAND_MODEL' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_CATEGORY' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_LOCATION' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_HP' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_STATUS' | translate }}</th>
+              <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_PRICE_DAY' | translate }}</th>
+              <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -460,7 +461,7 @@
                 <td class="p-4">
                   <span class="eyebrow text-xs"
                     [style.color]="v.available ? 'var(--axis-gold)' : 'rgba(239,68,68,0.7)'">
-                    {{ v.available ? 'AVAILABLE' : 'UNAVAILABLE' }}
+                    {{ v.available ? ('DASHBOARD.STATUS_AVAILABLE' | translate) : ('DASHBOARD.STATUS_UNAVAILABLE' | translate) }}
                   </span>
                 </td>
                 <td class="p-4 text-right td-price">{{ v.pricePerDay }}</td>
@@ -468,20 +469,20 @@
                   <button class="eyebrow"
                     style="font-size:0.6rem;background:none;border:1px solid var(--axis-gold-30);color:var(--axis-gold);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
                     (click)="navigateToEdit(v.id)">
-                    EDIT
+                    {{ 'DASHBOARD.BTN_EDIT' | translate }}
                   </button>
                   <button class="eyebrow"
                     style="font-size:0.6rem;background:none;cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;margin-right:0.3rem;"
                     [style.color]="v.available ? 'rgba(239,68,68,0.7)' : 'var(--axis-gold)'"
                     [style.border]="v.available ? '1px solid rgba(239,68,68,0.3)' : '1px solid var(--axis-gold-30)'"
                     (click)="toggleAvailability(v)">
-                    {{ v.available ? 'DISABLE' : 'ENABLE' }}
+                    {{ v.available ? ('DASHBOARD.BTN_DISABLE' | translate) : ('DASHBOARD.BTN_ENABLE' | translate) }}
                   </button>
                   @if (isAdmin) {
                     <button class="eyebrow"
                       style="font-size:0.6rem;background:none;border:1px solid rgba(239,68,68,0.4);color:rgba(239,68,68,0.85);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;"
                       (click)="deleteVehicle(v)">
-                      DELETE
+                      {{ 'DASHBOARD.BTN_DELETE' | translate }}
                     </button>
                   }
                 </td>
@@ -497,18 +498,18 @@
          Lista de clientes registrados en la plataforma.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'clients') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">Registered <span class="italic">Clients</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_CLIENTS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_CLIENTS_ITALIC' | translate }}</span></h1>
 
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
           <thead class="border-b table-head-border">
             <tr>
-              <th class="eyebrow text-left p-4">ID</th>
-              <th class="eyebrow text-left p-4">Name</th>
-              <th class="eyebrow text-left p-4">Email</th>
-              <th class="eyebrow text-left p-4">DNI</th>
-              <th class="eyebrow text-left p-4">Phone</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_NAME' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.EMAIL' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_DNI' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_PHONE' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -534,14 +535,14 @@
       <!-- Cabecera con botón "Registrar nuevo socio" -->
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
         <div>
-          <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
-          <h1 class="font-display text-2xl font-semibold">Vehicle <span class="italic">Owners</span></h1>
+          <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_ADMINISTRATION' | translate }}</div>
+          <h1 class="font-display text-2xl font-semibold">{{ 'DASHBOARD.SECTION_OWNERS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_OWNERS_ITALIC' | translate }}</span></h1>
         </div>
         <!-- Botón para acceder al formulario de registro de nuevo socio -->
         <a routerLink="/owners/new"
           class="btn-gold eyebrow"
           style="font-size:0.65rem;padding:0.55rem 1.1rem;text-decoration:none;align-self:center;">
-          + REGISTER PARTNER
+          {{ 'DASHBOARD.BTN_REGISTER_PARTNER' | translate }}
         </a>
       </div>
 
@@ -549,11 +550,11 @@
         <table class="w-full text-sm">
           <thead class="border-b table-head-border">
             <tr>
-              <th class="eyebrow text-left p-4">ID</th>
-              <th class="eyebrow text-left p-4">Name</th>
-              <th class="eyebrow text-left p-4">Email</th>
-              <th class="eyebrow text-left p-4">Phone</th>
-              <th class="eyebrow text-right p-4">Actions</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_NAME' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.EMAIL' | translate }}</th>
+              <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_PHONE' | translate }}</th>
+              <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -568,7 +569,7 @@
                   <button class="eyebrow"
                     style="font-size:0.6rem;background:none;border:1px solid rgba(239,68,68,0.4);color:rgba(239,68,68,0.85);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;"
                     (click)="deleteOwner(o)">
-                    DELETE
+                    {{ 'DASHBOARD.BTN_DELETE' | translate }}
                   </button>
                 </td>
               </tr>
@@ -583,22 +584,22 @@
          Vista de todos los partes de daños + formulario para crear nuevos.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'damage-reports') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">Damage <span class="italic">Reports</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_DAMAGE_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_DAMAGE_ITALIC' | translate }}</span></h1>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
         <!-- Formulario: nuevo parte de daños -->
         <div class="glass-card p-6">
-          <h2 class="font-display text-base font-semibold mb-4">New Report</h2>
+          <h2 class="font-display text-base font-semibold mb-4">{{ 'DASHBOARD.NEW_REPORT_TITLE' | translate }}</h2>
           <div class="col-gap-sm" style="gap:0.75rem;">
 
             <div>
-              <label class="eyebrow block mb-1 eyebrow-xs">RESERVATION</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">{{ 'DASHBOARD.NEW_REPORT_RESERVATION' | translate }}</label>
               <!-- Desplegable con todas las reservas disponibles -->
               <select class="input-dark w-full" [(ngModel)]="newReport.reservationId"
                 style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
-                <option [value]="0" disabled>— Select a reservation —</option>
+                <option [value]="0" disabled>{{ 'DASHBOARD.NEW_REPORT_SELECT' | translate }}</option>
                 @for (r of allReservations; track r.id) {
                   <option [value]="r.id">#{{ r.id }} — {{ r.vehicleModel }} — {{ r.renterName }}</option>
                 }
@@ -606,22 +607,22 @@
             </div>
 
             <div>
-              <label class="eyebrow block mb-1 eyebrow-xs">TYPE</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">{{ 'DASHBOARD.NEW_REPORT_TYPE' | translate }}</label>
               <select class="input-dark w-full" [(ngModel)]="newReport.type"
                 style="background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;appearance:none;">
-                <option value="PRE">PRE — Before rental</option>
-                <option value="POST">POST — After rental</option>
+                <option value="PRE">{{ 'DASHBOARD.NEW_REPORT_PRE' | translate }}</option>
+                <option value="POST">{{ 'DASHBOARD.NEW_REPORT_POST' | translate }}</option>
               </select>
             </div>
 
             <div>
-              <label class="eyebrow block mb-1 eyebrow-xs">DATE</label>
+              <label class="eyebrow block mb-1 eyebrow-xs">{{ 'DASHBOARD.NEW_REPORT_DATE' | translate }}</label>
               <input type="date" class="input-dark w-full" [(ngModel)]="newReport.reportedDate">
             </div>
 
             <div>
-              <label class="eyebrow block mb-1 eyebrow-xs">DESCRIPTION</label>
-              <textarea class="input-dark w-full" rows="3" placeholder="Describe the damage..."
+              <label class="eyebrow block mb-1 eyebrow-xs">{{ 'DASHBOARD.NEW_REPORT_DESCRIPTION' | translate }}</label>
+              <textarea class="input-dark w-full" rows="3" [placeholder]="'DASHBOARD.NEW_REPORT_PLACEHOLDER' | translate"
                 [(ngModel)]="newReport.description" style="resize:none;"></textarea>
             </div>
 
@@ -633,7 +634,7 @@
             }
 
             <button class="btn-gold w-full" style="font-size:0.7rem;" (click)="submitReport()">
-              SUBMIT REPORT
+              {{ 'DASHBOARD.BTN_SUBMIT_REPORT' | translate }}
             </button>
           </div>
         </div>
@@ -648,13 +649,13 @@
             <table class="w-full text-sm">
               <thead class="border-b table-head-border">
                 <tr>
-                  <th class="eyebrow text-left p-4">ID</th>
-                  <th class="eyebrow text-left p-4">Res.</th>
-                  <th class="eyebrow text-left p-4">Type</th>
-                  <th class="eyebrow text-left p-4">Date</th>
-                  <th class="eyebrow text-left p-4">Description</th>
+                  <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+                  <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_RES' | translate }}</th>
+                  <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_TYPE' | translate }}</th>
+                  <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_DATE' | translate }}</th>
+                  <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_DESCRIPTION' | translate }}</th>
                   @if (isAdmin) {
-                    <th class="eyebrow text-right p-4">Actions</th>
+                    <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
                   }
                 </tr>
               </thead>
@@ -677,7 +678,7 @@
                     </td>
                     @if (isAdmin) {
                       <td class="p-4 text-right">
-                        <button class="eyebrow btn-cancel" (click)="deleteReport(d.id)">DELETE</button>
+                        <button class="eyebrow btn-cancel" (click)="deleteReport(d.id)">{{ 'DASHBOARD.BTN_DELETE' | translate }}</button>
                       </td>
                     }
                   </tr>
@@ -695,25 +696,25 @@
          Tabla con todas las reseñas del sistema + opción de borrado.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'reviews') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">Client <span class="italic">Reviews</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_REVIEWS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_REVIEWS_ITALIC' | translate }}</span></h1>
 
       <div class="glass-card table-scroll-container">
         @if (loading) {
-          <div class="p-10 text-center text-axis-gray text-sm">Loading reviews...</div>
+          <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.LOADING_REVIEWS' | translate }}</div>
         } @else if (!reviews.length) {
           <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.NO_REVIEWS' | translate }}</div>
         } @else {
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
               <tr>
-                <th class="eyebrow text-left p-4">ID</th>
-                <th class="eyebrow text-left p-4">Client</th>
-                <th class="eyebrow text-left p-4">Vehicle</th>
-                <th class="eyebrow text-left p-4">Reservation</th>
-                <th class="eyebrow text-left p-4">Rating</th>
-                <th class="eyebrow text-left p-4">Comment</th>
-                <th class="eyebrow text-right p-4">Actions</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ID' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_CLIENT' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_VEHICLE' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_RESERVATION' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_RATING' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_COMMENT' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -734,7 +735,7 @@
                     {{ rv.comment }}
                   </td>
                   <td class="p-4 text-right">
-                    <button class="eyebrow btn-cancel" (click)="deleteReview(rv.id)">DELETE</button>
+                    <button class="eyebrow btn-cancel" (click)="deleteReview(rv.id)">{{ 'DASHBOARD.BTN_DELETE' | translate }}</button>
                   </td>
                 </tr>
               }
@@ -749,26 +750,26 @@
          Tabla con todas las facturas + botón de descarga de PDF por fila.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'invoices') {
-      <div class="eyebrow mb-2 text-gold">MANAGEMENT</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">Billing <span class="italic">& Invoices</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_MANAGEMENT' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_INVOICES_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_INVOICES_ITALIC' | translate }}</span></h1>
 
       <div class="glass-card table-scroll-container">
         @if (loading) {
-          <div class="p-10 text-center text-axis-gray text-sm">Loading invoices...</div>
+          <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.LOADING_INVOICES' | translate }}</div>
         } @else if (!invoices.length) {
           <div class="p-10 text-center text-axis-gray text-sm">{{ 'DASHBOARD.NO_INVOICES' | translate }}</div>
         } @else {
           <table class="w-full text-sm">
             <thead class="border-b table-head-border">
               <tr>
-                <th class="eyebrow text-left p-4">Nº Factura</th>
-                <th class="eyebrow text-left p-4">Reserva</th>
-                <th class="eyebrow text-left p-4">Fecha</th>
-                <th class="eyebrow text-left p-4">Método</th>
-                <th class="eyebrow text-right p-4">Base</th>
-                <th class="eyebrow text-right p-4">IVA</th>
-                <th class="eyebrow text-right p-4">Total</th>
-                <th class="eyebrow text-right p-4">PDF</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_INVOICE_NO' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_RESERVATION' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_ISSUE_DATE' | translate }}</th>
+                <th class="eyebrow text-left p-4">{{ 'DASHBOARD.TABLE_METHOD' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_BASE' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_TAX' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_TOTAL' | translate }}</th>
+                <th class="eyebrow text-right p-4">{{ 'DASHBOARD.TABLE_PDF' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -805,19 +806,19 @@
          ni sobre el propio usuario logueado.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'users' && isAdmin) {
-      <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">User <span class="italic">Management</span></h1>
+      <div class="eyebrow mb-2 text-gold">{{ 'DASHBOARD.SECTION_ADMINISTRATION' | translate }}</div>
+      <h1 class="font-display text-2xl font-semibold mb-8">{{ 'DASHBOARD.SECTION_USERS_TITLE' | translate }} <span class="italic">{{ 'DASHBOARD.SECTION_USERS_ITALIC' | translate }}</span></h1>
 
       <div class="glass-card p-0" style="overflow:hidden;">
         <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
           <thead>
             <tr style="border-bottom:1px solid rgba(201,161,74,0.2);">
               <!-- Cabeceras de la tabla de usuarios -->
-              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">NOMBRE</th>
-              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">EMAIL</th>
-              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ROL</th>
-              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ESTADO</th>
-              <th class="p-4 text-right eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">ACCIONES</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">{{ 'DASHBOARD.TABLE_NAME' | translate }}</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">{{ 'DASHBOARD.EMAIL' | translate }}</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">{{ 'DASHBOARD.TABLE_ROLE' | translate }}</th>
+              <th class="p-4 text-left eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">{{ 'DASHBOARD.TABLE_STATUS_COL' | translate }}</th>
+              <th class="p-4 text-right eyebrow" style="font-size:0.55rem;color:var(--axis-gold);">{{ 'DASHBOARD.TABLE_ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -854,11 +855,11 @@
                 <td class="p-4">
                   @if (u.enabled) {
                     <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(74,222,128,0.12);color:rgba(74,222,128,0.9);border:1px solid rgba(74,222,128,0.25);">
-                      ACTIVE
+                      {{ 'DASHBOARD.STATUS_ACTIVE' | translate }}
                     </span>
                   } @else {
                     <span style="font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(239,68,68,0.12);color:rgba(239,68,68,0.8);border:1px solid rgba(239,68,68,0.25);">
-                      DISABLED
+                      {{ 'DASHBOARD.STATUS_DISABLED' | translate }}
                     </span>
                   }
                 </td>
@@ -872,14 +873,14 @@
                       <button
                         (click)="toggleUserRole(u)"
                         style="font-size:0.6rem;letter-spacing:0.08em;padding:0.25rem 0.65rem;border:1px solid var(--axis-gold-35);background:transparent;color:rgba(201,161,74,0.8);border-radius:4px;cursor:pointer;margin-right:0.5rem;">
-                        {{ u.roles.includes('ROLE_MANAGER') ? '→ USER' : '→ MANAGER' }}
+                        {{ u.roles.includes('ROLE_MANAGER') ? ('DASHBOARD.BTN_TO_USER' | translate) : ('DASHBOARD.BTN_TO_MANAGER' | translate) }}
                       </button>
                     }
                     <!-- Botón eliminar: rojo, pide confirm() -->
                     <button
                       (click)="removeUser(u)"
                       style="font-size:0.6rem;letter-spacing:0.08em;padding:0.25rem 0.65rem;border:1px solid rgba(239,68,68,0.4);background:transparent;color:rgba(239,68,68,0.8);border-radius:4px;cursor:pointer;">
-                      DELETE
+                      {{ 'DASHBOARD.BTN_DELETE' | translate }}
                     </button>
                   }
                 </td>
