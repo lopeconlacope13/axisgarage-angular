@@ -1,0 +1,128 @@
+<!-- ──────────────────────────────────────────────────────────────────────────
+     OWNER CREATE PAGE
+     Página de registro de nuevo socio propietario (Private Partner).
+     Solo accesible para MANAGER y ADMIN.
+     Misma estética glassmorphism que el resto del proyecto.
+────────────────────────────────────────────────────────────────────────── -->
+<div style="min-height:100vh;background:var(--axis-bg,#0a0a0a);padding:7rem 1.5rem 4rem;">
+  <div style="max-width:680px;margin:0 auto;">
+
+    <!-- ── Cabecera de página ────────────────────────────────────────────── -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="eyebrow"
+        style="font-size:0.6rem;letter-spacing:0.18em;color:var(--axis-gold,#b8952a);margin-bottom:0.5rem;">
+        PRIVATE PARTNERS
+      </div>
+      <h1 class="font-display" style="font-size:2rem;font-weight:600;color:#f5f5f0;">
+        Register New <span style="font-style:italic;">Owner</span>
+      </h1>
+      <p style="margin-top:0.5rem;font-size:0.85rem;color:rgba(245,245,240,0.45);">
+        La incorporación de socios es selectiva. Solo el equipo de gestión puede acceder a esta sección.
+      </p>
+    </div>
+
+    <!-- ── Formulario ────────────────────────────────────────────────────── -->
+    <div class="glass-card" style="padding:2rem 2.5rem;">
+
+      <!-- Grid de campos: 2 columnas en desktop, 1 en mobile -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem 1.5rem;">
+
+        <!-- Nombre -->
+        <div>
+          <label for="oc-name" class="eyebrow eyebrow-xs"
+            style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            NAME *
+          </label>
+          <input id="oc-name" type="text" [(ngModel)]="owner.name" placeholder="James"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
+            aria-required="true">
+        </div>
+
+        <!-- Apellido -->
+        <div>
+          <label for="oc-lastname" class="eyebrow eyebrow-xs"
+            style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            LAST NAME *
+          </label>
+          <input id="oc-lastname" type="text" [(ngModel)]="owner.lastName" placeholder="Ashford"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
+            aria-required="true">
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="oc-email" class="eyebrow eyebrow-xs"
+            style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            EMAIL
+          </label>
+          <input id="oc-email" type="email" [(ngModel)]="owner.email" placeholder="j.ashford@example.com"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+          <label for="oc-phone" class="eyebrow eyebrow-xs"
+            style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            PHONE
+          </label>
+          <input id="oc-phone" type="tel" [(ngModel)]="owner.phone" placeholder="+34 600 000 000"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+        <!-- Dirección — ocupa las 2 columnas completas -->
+        <div style="grid-column:1 / -1;">
+          <label for="oc-address" class="eyebrow eyebrow-xs"
+            style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
+            ADDRESS
+          </label>
+          <input id="oc-address" type="text" [(ngModel)]="owner.address"
+            placeholder="Calle Serrano 12, Madrid"
+            style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
+        </div>
+
+      </div><!-- /grid -->
+
+      <!-- ── Mensaje de error ──────────────────────────────────────────────── -->
+      @if (errorMsg) {
+        <div role="alert"
+          style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:4px;color:rgba(239,68,68,0.9);font-size:0.8rem;">
+          {{ errorMsg }}
+        </div>
+      }
+
+      <!-- ── Mensaje de éxito ──────────────────────────────────────────────── -->
+      @if (success) {
+        <div role="status"
+          style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(184,149,42,0.08);border:1px solid rgba(184,149,42,0.3);border-radius:4px;color:var(--axis-gold,#b8952a);font-size:0.8rem;">
+          Socio registrado correctamente. Redirigiendo al dashboard...
+        </div>
+      }
+
+      <!-- ── Botones de acción ─────────────────────────────────────────────── -->
+      <div style="display:flex;gap:0.75rem;margin-top:1.75rem;justify-content:flex-end;">
+
+        <!-- Cancelar -->
+        <button
+          style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid rgba(245,245,240,0.15);color:rgba(245,245,240,0.55);cursor:pointer;padding:0.6rem 1.25rem;border-radius:3px;"
+          (click)="cancel()"
+          [disabled]="submitting"
+          type="button">
+          CANCEL
+        </button>
+
+        <!-- Registrar socio -->
+        <button class="btn-gold eyebrow"
+          style="font-size:0.7rem;padding:0.6rem 1.5rem;opacity:1;"
+          (click)="submit()"
+          [disabled]="submitting"
+          [style.opacity]="submitting ? '0.5' : '1'"
+          type="button">
+          {{ submitting ? 'REGISTERING...' : 'REGISTER PARTNER' }}
+        </button>
+
+      </div>
+
+    </div><!-- /glass-card -->
+
+  </div>
+</div>

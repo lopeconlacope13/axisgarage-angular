@@ -98,6 +98,15 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
 
+  // ── Registro de nuevo socio propietario (MANAGER y ADMIN) ───────────────
+  {
+    path: 'owners/new',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['MANAGER', 'ADMIN'] },
+    loadComponent: () =>
+      import('./features/owners/create/owner-create.component').then(m => m.OwnerCreateComponent)
+  },
+
   // ── Edición de vehículo (MANAGER y ADMIN) ────────────────────────────────
   {
     path: 'dashboard/vehicles/:id/edit',
