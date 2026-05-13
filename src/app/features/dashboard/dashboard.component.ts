@@ -249,6 +249,30 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Elimina un socio propietario tras confirmar con el gestor.
+   *
+   * Usamos window.confirm para simplicidad — el tribunal lo entiende
+   * de inmediato y no requiere un modal personalizado adicional.
+   * Tras eliminar, filtramos el array local para actualizar la tabla
+   * sin necesidad de recargar toda la lista desde el backend.
+   *
+   * @param owner El propietario a eliminar
+   */
+  deleteOwner(owner: OwnerDTO): void {
+    if (!confirm(`¿Eliminar al socio ${owner.name} ${owner.lastName}?`)) return;
+    this.ownerSvc.delete(owner.id).subscribe({
+      next: () => {
+        // Eliminamos el socio del array local para refrescar la tabla al instante
+        this.owners = this.owners.filter(o => o.id !== owner.id);
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        alert('No se pudo eliminar el socio. Comprueba que no tiene vehículos asignados.');
+      }
+    });
+  }
+
   /** Carga todos los partes de daños del sistema (MANAGER y ADMIN). */
   loadDamageReports(): void {
     this.damageReportSvc.getAll().subscribe({

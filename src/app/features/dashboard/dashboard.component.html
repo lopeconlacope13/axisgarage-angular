@@ -531,8 +531,19 @@
          Propietarios de los vehículos de la flota. Acceso exclusivo de admin.
     ──────────────────────────────────────────────────────────────────── -->
     @if (activeSection === 'owners') {
-      <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
-      <h1 class="font-display text-2xl font-semibold mb-8">Vehicle <span class="italic">Owners</span></h1>
+      <!-- Cabecera con botón "Registrar nuevo socio" -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
+        <div>
+          <div class="eyebrow mb-2 text-gold">ADMINISTRATION</div>
+          <h1 class="font-display text-2xl font-semibold">Vehicle <span class="italic">Owners</span></h1>
+        </div>
+        <!-- Botón para acceder al formulario de registro de nuevo socio -->
+        <a routerLink="/owners/new"
+          class="btn-gold eyebrow"
+          style="font-size:0.65rem;padding:0.55rem 1.1rem;text-decoration:none;align-self:center;">
+          + REGISTER PARTNER
+        </a>
+      </div>
 
       <div class="glass-card table-scroll-container">
         <table class="w-full text-sm">
@@ -542,6 +553,7 @@
               <th class="eyebrow text-left p-4">Name</th>
               <th class="eyebrow text-left p-4">Email</th>
               <th class="eyebrow text-left p-4">Phone</th>
+              <th class="eyebrow text-right p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -551,6 +563,14 @@
                 <td class="p-4 font-medium">{{ o.name }} {{ o.lastName }}</td>
                 <td class="p-4 text-axis-gray">{{ o.email }}</td>
                 <td class="p-4 text-axis-gray">{{ o.phone }}</td>
+                <td class="p-4 text-right">
+                  <!-- Botón eliminar: mismo estilo rojo que deleteVehicle -->
+                  <button class="eyebrow"
+                    style="font-size:0.6rem;background:none;border:1px solid rgba(239,68,68,0.4);color:rgba(239,68,68,0.85);cursor:pointer;padding:0.25rem 0.6rem;border-radius:3px;"
+                    (click)="deleteOwner(o)">
+                    DELETE
+                  </button>
+                </td>
               </tr>
             }
           </tbody>
