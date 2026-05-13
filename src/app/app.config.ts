@@ -1,9 +1,9 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, provideAppInitializer, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 /**
@@ -21,6 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideTranslateService({ defaultLanguage: 'es' }),
-    ...provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' })
+    ...provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
+    // Fuerza español como idioma activo antes de que Angular renderice cualquier componente.
+    // provideTranslateService({ defaultLanguage }) solo setea el fallback, no llama use().
+    // Sin esto, currentLang queda null y la app arranca en inglés.
+    provideAppInitializer(() => inject(TranslateService).use('es'))
   ]
 };
