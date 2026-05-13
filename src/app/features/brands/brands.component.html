@@ -6,7 +6,7 @@
     {{ 'BRANDS.SUBTITLE' | translate }}
   </p>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="brands-grid grid grid-cols-1 md:grid-cols-3 gap-4">
     @for (b of brands; track b.name) {
       <div class="glass-card p-6" style="display:flex;flex-direction:column;gap:0.5rem;">
         <!-- Logo de la marca — si el archivo no existe, se oculta automáticamente -->

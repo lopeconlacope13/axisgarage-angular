@@ -12,6 +12,23 @@
 
 /* ── TARJETA DE MARCA ── */
 
+/* Override de glass-card para las tarjetas de marca: fondo ligeramente más oscuro
+   y borde dorado muy sutil en reposo para mantener la coherencia con el resto del diseño */
+.brands-grid .glass-card {
+  background: var(--axis-gold-06);
+  border-color: var(--axis-border-gold);
+  /* Transición suave para el hover */
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+/* Hover: el borde dorado se vuelve más visible y la tarjeta sube ligeramente */
+.brands-grid .glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--axis-gold-40);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
 /* Contenedor del logo: fondo frosted sutil para que los logos destaquen sobre el negro */
 .brand-logo-wrap {
   height: 6rem;
