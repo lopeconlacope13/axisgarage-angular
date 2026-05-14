@@ -14,8 +14,13 @@ export class App implements OnInit {
   constructor(private translate: TranslateService) {}
 
   ngOnInit() {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
+    // Idioma de fallback: si una clave no existe en el idioma activo,
+    // ngx-translate busca la clave en el idioma por defecto antes de mostrar la clave en bruto.
+    this.translate.setDefaultLang('es');
+    // Cargamos la preferencia guardada por el usuario.
+    // Si no hay ninguna (primera visita), usamos español.
+    const lang = localStorage.getItem('axis-lang') || 'es';
+    this.translate.use(lang);
   }
 }
 
