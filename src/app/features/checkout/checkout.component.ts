@@ -105,7 +105,7 @@ export class CheckoutComponent implements OnInit {
       next: r => {
         this.renterId    = r.id!;
         this.renterEmail = r.email || this.renterEmail;
-        this.dni         = r.dni || '';
+        this.dni         = (r.dni && !r.dni.startsWith('PENDING-')) ? r.dni : '';
         this.phone       = r.phone || '';
         this.address     = r.address || '';
         this.dniValid    = validateDni(this.dni);

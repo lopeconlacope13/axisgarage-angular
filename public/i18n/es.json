@@ -129,6 +129,7 @@
     "CARD_HOLDER": "NOMBRE DEL TITULAR",
     "EXPIRY": "VENCIMIENTO",
     "CVV": "CVV",
+    "CARD_HOLDER_PLACEHOLDER": "NOMBRE APELLIDOS",
     "PAYPAL_DESC": "Serás redirigido al entorno seguro de PayPal para autorizar el pago de",
     "PAYPAL_DEMO": "DEMO — FLUJO SIMULADO",
     "SECURITY_NOTE": "Esta es una pasarela de demostración. No se realizará ningún cargo real. Los datos introducidos no se almacenan ni se procesan.",

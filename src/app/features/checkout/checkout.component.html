@@ -156,7 +156,7 @@
             <!-- Nombre del titular -->
             <div>
               <label for="cardHolder" class="eyebrow form-label">{{ 'CHECKOUT.CARD_HOLDER' | translate }}</label>
-              <input id="cardHolder" type="text" [(ngModel)]="cardHolder" placeholder="ÁLVARO LÓPEZ PÉREZ"
+              <input id="cardHolder" type="text" [(ngModel)]="cardHolder" [placeholder]="'CHECKOUT.CARD_HOLDER_PLACEHOLDER' | translate"
                 class="input-dark input-upper" />
             </div>
 

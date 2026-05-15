@@ -129,6 +129,7 @@
     "CARD_HOLDER": "CARD HOLDER",
     "EXPIRY": "EXPIRY",
     "CVV": "CVV",
+    "CARD_HOLDER_PLACEHOLDER": "JOHN DOE",
     "PAYPAL_DESC": "You will be redirected to PayPal's secure environment to authorize the payment of",
     "PAYPAL_DEMO": "DEMO — SIMULATED FLOW",
     "SECURITY_NOTE": "This is a demo gateway. No real charge will be made. Entered data is not stored or processed.",
