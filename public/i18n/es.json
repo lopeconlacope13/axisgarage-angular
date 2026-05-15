@@ -36,6 +36,11 @@
     "TITLE": "Nuestra",
     "TITLE_ITALIC": "Flota",
     "DAILY_FROM": "DESDE / DÍA",
+    "SEARCH_PLACEHOLDER": "Buscar por modelo… (911, Aventador, SF90)",
+    "LOADING": "Cargando...",
+    "RESERVE": "RESERVAR",
+    "PAGINATION_PREV": "← ANT",
+    "PAGINATION_NEXT": "SIG →",
     "AVAILABLE": "DISPONIBLE",
     "RESERVED": "RESERVADO",
     "VIEW": "VER",
@@ -363,7 +368,14 @@
     "NO_USERS": "No hay usuarios registrados en el sistema.",
     "REPORT_SUCCESS": "Parte registrado correctamente.",
     "REVIEW_CANCEL": "CANCELAR",
-    "REVIEW_SUBMIT": "ENVIAR RESEÑA"
+    "REVIEW_SUBMIT": "ENVIAR RESEÑA",
+    "BTN_REVIEW": "★ RESEÑA",
+    "BTN_PDF": "⬇ PDF"
+  },
+  "VEHICLE": {
+    "SPEC_HP": "CV",
+    "SPEC_ZERO_HUNDRED": "0-100",
+    "SPEC_ENGINE": "MOTOR"
   },
   "AUTH": {
     "LOGIN_TITLE": "Acceso Privado",
@@ -413,7 +425,10 @@
     "RESET_EXPIRED_BTN": "Solicitar nuevo enlace",
     "RESET_PASS_STRONG": "Contraseña segura",
     "RESET_PASS_WEAK": "Debe tener mayúscula, número y caracter especial",
-    "RESET_PASS_MISMATCH": "Las contraseñas no coinciden"
+    "RESET_PASS_MISMATCH": "Las contraseñas no coinciden",
+    "FORGOT_LINK": "¿Olvidaste tu contraseña?",
+    "REGISTER_PASS_STRONG": "✓ Contraseña segura",
+    "REGISTER_PASS_WEAK": "✗ Mínimo 1 mayúscula, 1 número y 1 símbolo"
   },
   "ATELIERS": {
     "EYEBROW": "NUESTRAS UBICACIONES",

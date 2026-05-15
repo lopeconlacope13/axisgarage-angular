@@ -102,14 +102,14 @@
       type="search"
       [value]="searchQuery"
       (input)="onSearch($any($event.target).value)"
-      placeholder="Buscar por modelo… (911, Aventador, SF90)"
+      [placeholder]="'CATALOG.SEARCH_PLACEHOLDER' | translate"
       class="search-input"
     />
   </div>
 
   <!-- Spinner mientras el backend responde -->
   @if (loading) {
-    <div class="text-axis-gray text-center py-20">Loading...</div>
+    <div class="text-axis-gray text-center py-20">{{ 'CATALOG.LOADING' | translate }}</div>
   } @else {
 
     <!-- Sin resultados -->
@@ -154,25 +154,25 @@
               <div class="catalog-card-specs">
                 <div class="catalog-spec-col">
                   <div class="catalog-spec-value">{{ v.horsePower }}</div>
-                  <div class="eyebrow catalog-spec-label">HP</div>
+                  <div class="eyebrow catalog-spec-label">{{ 'VEHICLE.SPEC_HP' | translate }}</div>
                 </div>
                 <div class="catalog-spec-col-mid">
                   <div class="catalog-spec-value">{{ v.zeroToHundred }}s</div>
-                  <div class="eyebrow catalog-spec-label">0-100</div>
+                  <div class="eyebrow catalog-spec-label">{{ 'VEHICLE.SPEC_ZERO_HUNDRED' | translate }}</div>
                 </div>
                 <div class="catalog-spec-col">
                   <div class="catalog-spec-value">{{ v.engineType }}</div>
-                  <div class="eyebrow catalog-spec-label">ENGINE</div>
+                  <div class="eyebrow catalog-spec-label">{{ 'VEHICLE.SPEC_ENGINE' | translate }}</div>
                 </div>
               </div>
 
               <!-- Precio y botón de reserva -->
               <div class="catalog-card-footer">
                 <div>
-                  <div class="eyebrow catalog-price-label">DAILY FROM</div>
+                  <div class="eyebrow catalog-price-label">{{ 'CATALOG.DAILY_FROM' | translate }}</div>
                   <div class="catalog-price">€{{ v.pricePerDay }}</div>
                 </div>
-                <a [routerLink]="['/vehicles', v.id]" class="btn-gold catalog-reserve-btn">RESERVE</a>
+                <a [routerLink]="['/vehicles', v.id]" class="btn-gold catalog-reserve-btn">{{ 'CATALOG.RESERVE' | translate }}</a>
               </div>
             </div>
 
@@ -194,7 +194,7 @@
             class="pagination-nav-btn"
             [style.opacity]="currentPage === 0 ? '0.3' : '1'"
             [style.cursor]="currentPage === 0 ? 'not-allowed' : 'pointer'">
-            ← PREV
+            {{ 'CATALOG.PAGINATION_PREV' | translate }}
           </button>
 
           <!-- Un botón por cada número de página -->
@@ -214,7 +214,7 @@
             class="pagination-nav-btn"
             [style.opacity]="currentPage === totalPages - 1 ? '0.3' : '1'"
             [style.cursor]="currentPage === totalPages - 1 ? 'not-allowed' : 'pointer'">
-            NEXT →
+            {{ 'CATALOG.PAGINATION_NEXT' | translate }}
           </button>
 
         </div>

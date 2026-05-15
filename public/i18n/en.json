@@ -36,6 +36,11 @@
     "TITLE": "Our",
     "TITLE_ITALIC": "Fleet",
     "DAILY_FROM": "DAILY FROM",
+    "SEARCH_PLACEHOLDER": "Search by model… (911, Aventador, SF90)",
+    "LOADING": "Loading...",
+    "RESERVE": "RESERVE",
+    "PAGINATION_PREV": "← PREV",
+    "PAGINATION_NEXT": "NEXT →",
     "AVAILABLE": "AVAILABLE",
     "RESERVED": "RESERVED",
     "VIEW": "VIEW",
@@ -363,7 +368,14 @@
     "NO_USERS": "No users registered in the system.",
     "REPORT_SUCCESS": "Report submitted successfully.",
     "REVIEW_CANCEL": "CANCEL",
-    "REVIEW_SUBMIT": "SUBMIT REVIEW"
+    "REVIEW_SUBMIT": "SUBMIT REVIEW",
+    "BTN_REVIEW": "★ REVIEW",
+    "BTN_PDF": "⬇ PDF"
+  },
+  "VEHICLE": {
+    "SPEC_HP": "HP",
+    "SPEC_ZERO_HUNDRED": "0-100",
+    "SPEC_ENGINE": "ENGINE"
   },
   "AUTH": {
     "LOGIN_TITLE": "Access Vault",
@@ -413,7 +425,10 @@
     "RESET_EXPIRED_BTN": "Request a new link",
     "RESET_PASS_STRONG": "Strong password",
     "RESET_PASS_WEAK": "Must contain an uppercase letter, a number and a special character",
-    "RESET_PASS_MISMATCH": "Passwords do not match"
+    "RESET_PASS_MISMATCH": "Passwords do not match",
+    "FORGOT_LINK": "Forgot your password?",
+    "REGISTER_PASS_STRONG": "✓ Strong password",
+    "REGISTER_PASS_WEAK": "✗ Min. 1 uppercase, 1 number and 1 symbol"
   },
   "ATELIERS": {
     "EYEBROW": "OUR LOCATIONS",

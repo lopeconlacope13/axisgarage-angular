@@ -294,7 +294,7 @@
                       <button
                         (click)="openReviewForm(r.id)"
                         style="font-size:0.6rem;letter-spacing:0.1em;padding:0.4rem 0.8rem;min-height:36px;border:1px solid rgba(184,149,42,0.4);background:transparent;color:rgba(184,149,42,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;">
-                        ★ REVIEW
+                        {{ 'DASHBOARD.BTN_REVIEW' | translate }}
                       </button>
                     }
                     <!-- Descarga de factura PDF para reservas confirmadas o completadas -->
@@ -303,7 +303,7 @@
                         (click)="downloadInvoicePdf(r.id)"
                         [disabled]="invoiceDownloadingId === r.id"
                         style="font-size:0.6rem;letter-spacing:0.1em;padding:0.4rem 0.8rem;min-height:36px;border:1px solid var(--axis-gold-30);background:transparent;color:rgba(201,161,74,0.8);border-radius:4px;cursor:pointer;margin-right:0.4rem;">
-                        {{ invoiceDownloadingId === r.id ? '...' : '⬇ PDF' }}
+                        {{ invoiceDownloadingId === r.id ? '...' : ('DASHBOARD.BTN_PDF' | translate) }}
                       </button>
                     }
                     <!-- Solo mostrar CANCEL si la reserva no está ya cancelada o completada -->

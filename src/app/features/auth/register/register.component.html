@@ -132,7 +132,7 @@
         @if (password.length > 0) {
           <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;">
             <span style="font-size:0.7rem;" [style.color]="passwordIsStrong ? '#86efac' : '#fca5a5'">
-              {{ passwordIsStrong ? '✓ Contraseña segura' : '✗ Mínimo 1 mayúscula, 1 número y 1 símbolo' }}
+              {{ passwordIsStrong ? ('AUTH.REGISTER_PASS_STRONG' | translate) : ('AUTH.REGISTER_PASS_WEAK' | translate) }}
             </span>
           </div>
         }
