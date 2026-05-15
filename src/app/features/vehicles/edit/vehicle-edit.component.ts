@@ -7,6 +7,7 @@ import {
 import { CommonModule }    from '@angular/common';
 import { FormsModule }     from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService }  from '../../../core/services/vehicle.service';
 import { VehicleDTO }      from '../../../models/types';
 import { environment }     from '../../../../environments/environment';
@@ -35,7 +36,7 @@ import { environment }     from '../../../../environments/environment';
 @Component({
   selector: 'app-vehicle-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './vehicle-edit.component.html',
   styleUrl: './vehicle-edit.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OwnerService } from '../../../core/services/owner.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Página de registro de un nuevo socio propietario (Private Partner).
@@ -18,7 +19,7 @@ import { OwnerService } from '../../../core/services/owner.service';
 @Component({
   selector: 'app-owner-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './owner-create.component.html',
   // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
   changeDetection: ChangeDetectionStrategy.OnPush

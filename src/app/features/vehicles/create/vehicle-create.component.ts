@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { OwnerService } from '../../../core/services/owner.service';
 import { VehicleCategoryDTO, LocationDTO, OwnerDTO } from '../../../models/types';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Página dedicada a la creación de un nuevo vehículo en el catálogo.
@@ -22,7 +23,7 @@ import { VehicleCategoryDTO, LocationDTO, OwnerDTO } from '../../../models/types
 @Component({
   selector: 'app-vehicle-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './vehicle-create.component.html',
   // OnPush: Angular solo re-renderiza cuando llamamos markForCheck()
   changeDetection: ChangeDetectionStrategy.OnPush
