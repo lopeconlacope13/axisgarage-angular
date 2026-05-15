@@ -11,13 +11,13 @@
     <div style="margin-bottom:2.5rem;">
       <div class="eyebrow"
         style="font-size:0.6rem;letter-spacing:0.18em;color:var(--axis-gold,#b8952a);margin-bottom:0.5rem;">
-        PRIVATE PARTNERS
+        {{ 'OWNER_CREATE.EYEBROW' | translate }}
       </div>
       <h1 class="font-display" style="font-size:2rem;font-weight:600;color:#f5f5f0;">
-        Register New <span style="font-style:italic;">Owner</span>
+        {{ 'OWNER_CREATE.TITLE' | translate }} <span style="font-style:italic;">{{ 'OWNER_CREATE.TITLE_ITALIC' | translate }}</span>
       </h1>
       <p style="margin-top:0.5rem;font-size:0.85rem;color:rgba(245,245,240,0.45);">
-        La incorporación de socios es selectiva. Solo el equipo de gestión puede acceder a esta sección.
+        {{ 'OWNER_CREATE.SUBTITLE' | translate }}
       </p>
     </div>
 
@@ -31,7 +31,7 @@
         <div>
           <label for="oc-name" class="eyebrow eyebrow-xs"
             style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
-            NAME *
+            {{ 'OWNER_CREATE.LABEL_NAME' | translate }} *
           </label>
           <input id="oc-name" type="text" [(ngModel)]="owner.name" placeholder="James"
             style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
@@ -42,7 +42,7 @@
         <div>
           <label for="oc-lastname" class="eyebrow eyebrow-xs"
             style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
-            LAST NAME *
+            {{ 'OWNER_CREATE.LABEL_LASTNAME' | translate }} *
           </label>
           <input id="oc-lastname" type="text" [(ngModel)]="owner.lastName" placeholder="Ashford"
             style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;"
@@ -53,7 +53,7 @@
         <div>
           <label for="oc-email" class="eyebrow eyebrow-xs"
             style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
-            EMAIL
+            {{ 'OWNER_CREATE.LABEL_EMAIL' | translate }}
           </label>
           <input id="oc-email" type="email" [(ngModel)]="owner.email" placeholder="j.ashford@example.com"
             style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
@@ -63,7 +63,7 @@
         <div>
           <label for="oc-phone" class="eyebrow eyebrow-xs"
             style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
-            PHONE
+            {{ 'OWNER_CREATE.LABEL_PHONE' | translate }}
           </label>
           <input id="oc-phone" type="tel" [(ngModel)]="owner.phone" placeholder="+34 600 000 000"
             style="width:100%;background:#111;color:#f5f5f0;border:1px solid rgba(245,245,240,0.1);border-radius:4px;padding:0.5rem 0.75rem;font-size:0.875rem;">
@@ -73,7 +73,7 @@
         <div style="grid-column:1 / -1;">
           <label for="oc-address" class="eyebrow eyebrow-xs"
             style="display:block;margin-bottom:0.4rem;color:rgba(245,245,240,0.6);">
-            ADDRESS
+            {{ 'OWNER_CREATE.LABEL_ADDRESS' | translate }}
           </label>
           <input id="oc-address" type="text" [(ngModel)]="owner.address"
             placeholder="Calle Serrano 12, Madrid"
@@ -94,7 +94,7 @@
       @if (success) {
         <div role="status"
           style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(184,149,42,0.08);border:1px solid rgba(184,149,42,0.3);border-radius:4px;color:var(--axis-gold,#b8952a);font-size:0.8rem;">
-          Socio registrado correctamente. Redirigiendo al dashboard...
+          {{ 'OWNER_CREATE.SUCCESS_MSG' | translate }}
         </div>
       }
 
@@ -107,7 +107,7 @@
           (click)="cancel()"
           [disabled]="submitting"
           type="button">
-          CANCEL
+          {{ 'OWNER_CREATE.BTN_CANCEL' | translate }}
         </button>
 
         <!-- Registrar socio -->
@@ -117,7 +117,7 @@
           [disabled]="submitting"
           [style.opacity]="submitting ? '0.5' : '1'"
           type="button">
-          {{ submitting ? 'REGISTERING...' : 'REGISTER PARTNER' }}
+          {{ submitting ? ('OWNER_CREATE.BTN_SUBMITTING' | translate) : ('OWNER_CREATE.BTN_SUBMIT' | translate) }}
         </button>
 
       </div>

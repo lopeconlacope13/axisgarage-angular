@@ -4,7 +4,7 @@
   <!-- ── Estado de carga ─────────────────────────────────────── -->
   @if (loading) {
     <div style="text-align:center;padding:4rem 0;color:var(--axis-gray);">
-      <span class="eyebrow">LOADING VEHICLE...</span>
+      <span class="eyebrow">{{ 'VEHICLE_EDIT.LOADING' | translate }}</span>
     </div>
   }
 
@@ -13,7 +13,7 @@
     <div class="glass-card" style="padding:2rem;text-align:center;">
       <p style="color:rgba(239,68,68,0.85);margin-bottom:1rem;">{{ error }}</p>
       <a routerLink="/dashboard" class="btn-outline" style="font-size:0.7rem;padding:0.5rem 1rem;">
-        ← BACK TO DASHBOARD
+        {{ 'VEHICLE_EDIT.BACK_BTN' | translate }}
       </a>
     </div>
   }
@@ -23,14 +23,14 @@
 
     <!-- Breadcrumb -->
     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:2.5rem;">
-      <a routerLink="/dashboard" class="breadcrumb-link eyebrow">← FLEET</a>
+      <a routerLink="/dashboard" class="breadcrumb-link eyebrow">{{ 'VEHICLE_EDIT.BREADCRUMB_FLEET' | translate }}</a>
       <span class="breadcrumb-sep eyebrow">·</span>
-      <span class="eyebrow text-gold">EDIT VEHICLE</span>
+      <span class="eyebrow text-gold">{{ 'VEHICLE_EDIT.BREADCRUMB_CURRENT' | translate }}</span>
     </div>
 
     <!-- Título de la página -->
     <div style="margin-bottom:2.5rem;">
-      <div class="eyebrow text-gold" style="margin-bottom:0.4rem;">EDITING</div>
+      <div class="eyebrow text-gold" style="margin-bottom:0.4rem;">{{ 'VEHICLE_EDIT.EYEBROW' | translate }}</div>
       <h1 class="font-display text-2xl font-semibold">
         {{ vehicle.brand }} <em>{{ vehicle.model }}</em>
       </h1>
@@ -43,7 +43,7 @@
 
         <!-- Precio por día -->
         <div>
-          <label class="eyebrow form-label" for="editPrice">PRICE PER DAY (€)</label>
+          <label class="eyebrow form-label" for="editPrice">{{ 'VEHICLE_EDIT.LABEL_PRICE' | translate }}</label>
           <input
             type="number"
             id="editPrice"
@@ -54,7 +54,7 @@
 
         <!-- Caballos de vapor -->
         <div>
-          <label class="eyebrow form-label" for="editHp">HORSE POWER</label>
+          <label class="eyebrow form-label" for="editHp">{{ 'VEHICLE_EDIT.LABEL_HP' | translate }}</label>
           <input
             type="number"
             id="editHp"
@@ -65,7 +65,7 @@
 
         <!-- Año de producción -->
         <div>
-          <label class="eyebrow form-label" for="editYear">PRODUCTION YEAR</label>
+          <label class="eyebrow form-label" for="editYear">{{ 'VEHICLE_EDIT.LABEL_YEAR' | translate }}</label>
           <input
             type="number"
             id="editYear"
@@ -77,15 +77,15 @@
 
         <!-- Estado (solo lectura) -->
         <div>
-          <label class="eyebrow form-label">STATUS</label>
+          <label class="eyebrow form-label">{{ 'VEHICLE_EDIT.LABEL_STATUS' | translate }}</label>
           <div class="input-dark" style="opacity:0.6;cursor:not-allowed;">
-            {{ vehicle.available ? 'AVAILABLE' : 'UNAVAILABLE' }}
+            {{ vehicle.available ? ('VEHICLE_EDIT.STATUS_AVAILABLE' | translate) : ('VEHICLE_EDIT.STATUS_UNAVAILABLE' | translate) }}
           </div>
         </div>
 
         <!-- Descripción (2 columnas) -->
         <div style="grid-column:1 / -1;">
-          <label class="eyebrow form-label" for="editDesc">DESCRIPTION</label>
+          <label class="eyebrow form-label" for="editDesc">{{ 'VEHICLE_EDIT.LABEL_DESCRIPTION' | translate }}</label>
           <textarea
             id="editDesc"
             rows="4"
@@ -112,13 +112,13 @@
           [disabled]="saving"
           [style.opacity]="saving ? '0.6' : '1'"
           style="padding:0.7rem 1.75rem;font-size:0.7rem;letter-spacing:0.12em;">
-          {{ saving ? 'SAVING...' : 'SAVE CHANGES' }}
+          {{ saving ? ('VEHICLE_EDIT.BTN_SAVING' | translate) : ('VEHICLE_EDIT.BTN_SAVE' | translate) }}
         </button>
         <a
           routerLink="/dashboard"
           class="btn-outline"
           style="padding:0.7rem 1.5rem;font-size:0.7rem;letter-spacing:0.12em;">
-          CANCEL
+          {{ 'VEHICLE_EDIT.BTN_CANCEL' | translate }}
         </a>
       </div>
     </div>
@@ -129,7 +129,7 @@
       <!-- Cabecera de la galería -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
         <div>
-          <div class="eyebrow text-gold" style="margin-bottom:0.25rem;">VEHICLE GALLERY</div>
+          <div class="eyebrow text-gold" style="margin-bottom:0.25rem;">{{ 'VEHICLE_EDIT.GALLERY_TITLE' | translate }}</div>
           <p style="font-size:0.8rem;color:var(--axis-gray);">
             {{ vehicle.images.length }} {{ vehicle.images.length === 1 ? 'image' : 'images' }}
           </p>
@@ -143,7 +143,7 @@
             [disabled]="savingOrder"
             [style.opacity]="savingOrder ? '0.6' : '1'"
             style="padding:0.5rem 1rem;font-size:0.65rem;letter-spacing:0.1em;">
-            {{ savingOrder ? 'SAVING...' : 'SAVE ORDER' }}
+            {{ savingOrder ? ('VEHICLE_EDIT.BTN_SAVING' | translate) : ('VEHICLE_EDIT.BTN_SAVE_ORDER' | translate) }}
           </button>
         }
 
@@ -160,7 +160,7 @@
           for="imageFileInput"
           class="btn-outline"
           style="cursor:pointer;padding:0.5rem 1rem;font-size:0.65rem;letter-spacing:0.1em;">
-          ADD IMAGE
+          {{ 'VEHICLE_EDIT.BTN_ADD_IMAGE' | translate }}
         </label>
       </div>
 
@@ -188,7 +188,7 @@
       } @else {
         <!-- Mensaje cuando no hay imágenes -->
         <div style="text-align:center;padding:2.5rem 0;opacity:0.4;">
-          <p class="eyebrow" style="font-size:0.7rem;">NO IMAGES UPLOADED</p>
+          <p class="eyebrow" style="font-size:0.7rem;">{{ 'VEHICLE_EDIT.NO_IMAGES' | translate }}</p>
         </div>
       }
 
