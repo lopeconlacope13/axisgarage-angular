@@ -25,9 +25,9 @@
 
     <!-- Enlace de vuelta al catálogo para contexto de navegación -->
     <div class="row-center-sm mb-8">
-      <a routerLink="/vehicles" class="breadcrumb-link">← FLEET</a>
+      <a routerLink="/vehicles" class="breadcrumb-link">{{ 'CHECKOUT.BREADCRUMB_FLEET' | translate }}</a>
       <span class="breadcrumb-sep">·</span>
-      <span class="eyebrow breadcrumb-current">CHECKOUT</span>
+      <span class="eyebrow breadcrumb-current">{{ 'CHECKOUT.BREADCRUMB_CURRENT' | translate }}</span>
     </div>
 
     <!-- Cabecera -->
@@ -58,43 +58,43 @@
         <!-- Billing Details: DNI + Address (solo si faltan datos reales) -->
         @if (needsBillingDetails) {
           <div class="billing-block">
-            <h3 class="billing-title">DATOS DE FACTURACIÓN</h3>
+            <h3 class="billing-title">{{ 'CHECKOUT.BILLING_TITLE' | translate }}</h3>
 
             <!-- DNI -->
             <div class="billing-field">
-              <label for="dni" class="eyebrow form-label">DNI / NIE</label>
+              <label for="dni" class="eyebrow form-label">{{ 'CHECKOUT.DNI_LABEL' | translate }}</label>
               <input id="dni" type="text" [(ngModel)]="dni" (ngModelChange)="onDniInput()"
                 placeholder="12345678Z" maxlength="9"
                 class="input-dark"
                 [style.borderColor]="dni && !dniValid ? '#e74c3c' : dniValid ? '#27ae60' : ''" />
               @if (dni && !dniValid) {
-                <span class="dni-hint dni-invalid">DNI no válido</span>
+                <span class="dni-hint dni-invalid">{{ 'CHECKOUT.DNI_INVALID' | translate }}</span>
               }
               @if (dniValid) {
-                <span class="dni-hint dni-valid">DNI válido</span>
+                <span class="dni-hint dni-valid">{{ 'CHECKOUT.DNI_VALID' | translate }}</span>
               }
             </div>
 
             <!-- Teléfono -->
             <div class="billing-field">
-              <label for="phone" class="eyebrow form-label">TELÉFONO</label>
+              <label for="phone" class="eyebrow form-label">{{ 'CHECKOUT.PHONE_LABEL' | translate }}</label>
               <input id="phone" type="tel" [(ngModel)]="phone" (ngModelChange)="onPhoneInput()"
                 placeholder="612345678" maxlength="9"
                 class="input-dark"
                 [style.borderColor]="phone && !phoneValid ? '#e74c3c' : phoneValid ? '#27ae60' : ''" />
               @if (phone && !phoneValid) {
-                <span class="dni-hint dni-invalid">Teléfono no válido</span>
+                <span class="dni-hint dni-invalid">{{ 'CHECKOUT.PHONE_INVALID' | translate }}</span>
               }
               @if (phoneValid) {
-                <span class="dni-hint dni-valid">Teléfono válido</span>
+                <span class="dni-hint dni-valid">{{ 'CHECKOUT.PHONE_VALID' | translate }}</span>
               }
             </div>
 
             <!-- Address con autocomplete OSM -->
             <div class="billing-field address-field">
-              <label for="address" class="eyebrow form-label">DOMICILIO FISCAL</label>
+              <label for="address" class="eyebrow form-label">{{ 'CHECKOUT.ADDRESS_LABEL' | translate }}</label>
               <input id="address" type="text" [formControl]="addressControl"
-                placeholder="Escribe tu dirección..."
+                [placeholder]="'CHECKOUT.ADDRESS_PLACEHOLDER' | translate"
                 class="input-dark" />
               @if (addressSuggestions.length > 0) {
                 <ul class="suggestions-list">
@@ -168,7 +168,7 @@
                   maxlength="5" class="input-dark input-mono" />
               </div>
               <div>
-                <label for="cardCvv" class="eyebrow form-label">CVV</label>
+                <label for="cardCvv" class="eyebrow form-label">{{ 'CHECKOUT.CVV_LABEL' | translate }}</label>
                 <input id="cardCvv" type="password" [(ngModel)]="cardCvv" placeholder="•••"
                   maxlength="4" class="input-dark input-mono" />
               </div>
@@ -257,11 +257,11 @@
             </div>
             <div class="row-between">
               <span class="text-muted summary-label">{{ 'CHECKOUT.DURATION' | translate }}</span>
-              <span class="summary-value">{{ days }} día{{ days !== 1 ? 's' : '' }}</span>
+              <span class="summary-value">{{ days }} {{ 'CHECKOUT.DAYS' | translate }}</span>
             </div>
             <div class="row-between">
               <span class="text-muted summary-label">{{ 'CHECKOUT.DAILY_RATE' | translate }}</span>
-              <span class="summary-value">€{{ vehicle.pricePerDay }}/día</span>
+              <span class="summary-value">€{{ vehicle.pricePerDay }}/{{ 'CHECKOUT.DAY_ABBR' | translate }}</span>
             </div>
             <div class="row-between">
               <span class="text-muted summary-label">{{ 'CHECKOUT.COVERAGE' | translate }}</span>
@@ -303,41 +303,41 @@
 
         <!-- Condiciones de la cobertura contratada -->
         <div class="glass-card coverage-card">
-          <div class="eyebrow eyebrow-xs mb-4 coverage-eyebrow">CONDICIONES DE COBERTURA</div>
+          <div class="eyebrow eyebrow-xs mb-4 coverage-eyebrow">{{ 'CHECKOUT.COVERAGE_CONDITIONS_TITLE' | translate }}</div>
 
           @if (coverage === 'STANDARD') {
             <p class="coverage-level-title">STANDARD</p>
             <ul class="coverage-list">
-              <li class="coverage-item-ok">✓ Responsabilidad civil ilimitada</li>
-              <li class="coverage-item-ok">✓ Daños a terceros cubiertos</li>
-              <li class="coverage-item-no">✗ Franquicia propia: 50.000 €</li>
-              <li class="coverage-item-no">✗ Robo no cubierto</li>
-              <li class="coverage-item-no">✗ Neumáticos y llantas no cubiertos</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_STD_CIVIL' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_STD_THIRD' | translate }}</li>
+              <li class="coverage-item-no">{{ 'CHECKOUT.COVERAGE_STD_EXCESS' | translate }}</li>
+              <li class="coverage-item-no">{{ 'CHECKOUT.COVERAGE_STD_THEFT' | translate }}</li>
+              <li class="coverage-item-no">{{ 'CHECKOUT.COVERAGE_STD_TYRES' | translate }}</li>
             </ul>
           }
 
           @if (coverage === 'PREMIUM') {
             <p class="coverage-level-title">PREMIUM</p>
             <ul class="coverage-list">
-              <li class="coverage-item-ok">✓ Responsabilidad civil ilimitada</li>
-              <li class="coverage-item-ok">✓ Daños a terceros cubiertos</li>
-              <li class="coverage-item-ok">✓ Daños propios cubiertos (franquicia 5.000 €)</li>
-              <li class="coverage-item-ok">✓ Robo cubierto (franquicia 5.000 €)</li>
-              <li class="coverage-item-ok">✓ Asistencia en carretera 24h</li>
-              <li class="coverage-item-no">✗ Neumáticos y llantas no cubiertos</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_PREM_CIVIL' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_PREM_THIRD' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_PREM_OWN' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_PREM_THEFT' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_PREM_ROADSIDE' | translate }}</li>
+              <li class="coverage-item-no">{{ 'CHECKOUT.COVERAGE_PREM_TYRES' | translate }}</li>
             </ul>
           }
 
           @if (coverage === 'TOTAL') {
             <p class="coverage-level-title">TOTAL PROTECTION</p>
             <ul class="coverage-list">
-              <li class="coverage-item-ok">✓ Responsabilidad civil ilimitada</li>
-              <li class="coverage-item-ok">✓ Daños a terceros cubiertos</li>
-              <li class="coverage-item-ok">✓ Daños propios sin franquicia</li>
-              <li class="coverage-item-ok">✓ Robo sin franquicia</li>
-              <li class="coverage-item-ok">✓ Neumáticos y llantas cubiertos</li>
-              <li class="coverage-item-ok">✓ Asistencia en carretera 24h</li>
-              <li class="coverage-item-ok">✓ Conductor adicional incluido</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_CIVIL' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_THIRD' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_OWN' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_THEFT' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_TYRES' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_ROADSIDE' | translate }}</li>
+              <li class="coverage-item-ok">{{ 'CHECKOUT.COVERAGE_TOTAL_DRIVER' | translate }}</li>
             </ul>
           }
 
