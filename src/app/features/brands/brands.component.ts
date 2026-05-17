@@ -16,19 +16,19 @@ import { TranslateModule } from '@ngx-translate/core';
 export class BrandsComponent {
 
   brands = [
-    { name: 'Aston Martin', origin: 'GAYDON, ENGLAND',        tagline: 'British elegance with a racing soul.',                             logoUrl: '/assets/brands/aston-martin.svg' },
-    { name: 'Audi',         origin: 'INGOLSTADT, GERMANY',    tagline: 'Vorsprung durch Technik. Progress through technology.',             logoUrl: '/assets/brands/audi.png' },
-    { name: 'BMW',          origin: 'MUNICH, GERMANY',        tagline: 'The ultimate driving machine. No further explanation needed.',      logoUrl: '/assets/brands/bmw.png' },
-    { name: 'Bentley',      origin: 'CREWE, ENGLAND',         tagline: 'Grand touring in absolute silence and absolute power.',             logoUrl: '/assets/brands/bentley.png' },
-    { name: 'Bugatti',      origin: 'MOLSHEIM, FRANCE',       tagline: 'Nothing else matters at 400 km/h.',                               logoUrl: '/assets/brands/bugatti.png' },
-    { name: 'Ferrari',      origin: 'MARANELLO, ITALY',       tagline: 'The prancing horse. Pure mechanical theatre, nothing more.',        logoUrl: '/assets/brands/ferrari.png' },
-    { name: 'Jeep',         origin: 'TOLEDO, USA',            tagline: 'Go anywhere. Do anything. Leave no terrain behind.',               logoUrl: '/assets/brands/jeep.png' },
-    { name: 'Lamborghini',  origin: 'SANT\'AGATA, ITALY',     tagline: 'Aggressive, angular, unapologetic. The anti-Ferrari.',              logoUrl: '/assets/brands/lamborghini.png' },
-    { name: 'McLaren',      origin: 'WOKING, ENGLAND',        tagline: 'Born from Formula 1. Built for the road. Barely.',                 logoUrl: '/assets/brands/mclaren.png' },
-    { name: 'Mercedes',     origin: 'STUTTGART, GERMANY',     tagline: 'The best or nothing. A century of uncompromising excellence.',      logoUrl: '/assets/brands/mercedes.png' },
-    { name: 'Nissan',       origin: 'YOKOHAMA, JAPAN',        tagline: 'Innovation that excites. Engineering that endures.',                logoUrl: '/assets/brands/nissan.png' },
-    { name: 'Porsche',      origin: 'STUTTGART, GERMANY',     tagline: 'Precision engineering meets timeless restraint.',                   logoUrl: '/assets/brands/porsche.png' },
-    { name: 'Range Rover',  origin: 'SOLIHULL, ENGLAND',      tagline: 'Above and beyond. Luxury without limits, terrain without borders.', logoUrl: '/assets/brands/land-rover.svg' },
-    { name: 'Rolls-Royce',  origin: 'GOODWOOD, ENGLAND',      tagline: 'The world\'s most coveted motor car. No debate.',                  logoUrl: '/assets/brands/rolls%20royce.png' },
+    { name: 'Aston Martin', originKey: 'BRANDS.ASTON_MARTIN_ORIGIN', taglineKey: 'BRANDS.ASTON_MARTIN_TAGLINE', logoUrl: '/assets/brands/aston-martin.svg' },
+    { name: 'Audi',         originKey: 'BRANDS.AUDI_ORIGIN',         taglineKey: 'BRANDS.AUDI_TAGLINE',         logoUrl: '/assets/brands/audi.png' },
+    { name: 'BMW',          originKey: 'BRANDS.BMW_ORIGIN',          taglineKey: 'BRANDS.BMW_TAGLINE',          logoUrl: '/assets/brands/bmw.png' },
+    { name: 'Bentley',      originKey: 'BRANDS.BENTLEY_ORIGIN',      taglineKey: 'BRANDS.BENTLEY_TAGLINE',      logoUrl: '/assets/brands/bentley.png' },
+    { name: 'Bugatti',      originKey: 'BRANDS.BUGATTI_ORIGIN',      taglineKey: 'BRANDS.BUGATTI_TAGLINE',      logoUrl: '/assets/brands/bugatti.png' },
+    { name: 'Ferrari',      originKey: 'BRANDS.FERRARI_ORIGIN',      taglineKey: 'BRANDS.FERRARI_TAGLINE',      logoUrl: '/assets/brands/ferrari.png' },
+    { name: 'Jeep',         originKey: 'BRANDS.JEEP_ORIGIN',         taglineKey: 'BRANDS.JEEP_TAGLINE',         logoUrl: '/assets/brands/jeep.png' },
+    { name: 'Lamborghini',  originKey: 'BRANDS.LAMBORGHINI_ORIGIN',  taglineKey: 'BRANDS.LAMBORGHINI_TAGLINE',  logoUrl: '/assets/brands/lamborghini.png' },
+    { name: 'McLaren',      originKey: 'BRANDS.MCLAREN_ORIGIN',      taglineKey: 'BRANDS.MCLAREN_TAGLINE',      logoUrl: '/assets/brands/mclaren.png' },
+    { name: 'Mercedes',     originKey: 'BRANDS.MERCEDES_ORIGIN',     taglineKey: 'BRANDS.MERCEDES_TAGLINE',     logoUrl: '/assets/brands/mercedes.png' },
+    { name: 'Nissan',       originKey: 'BRANDS.NISSAN_ORIGIN',       taglineKey: 'BRANDS.NISSAN_TAGLINE',       logoUrl: '/assets/brands/nissan.png' },
+    { name: 'Porsche',      originKey: 'BRANDS.PORSCHE_ORIGIN',      taglineKey: 'BRANDS.PORSCHE_TAGLINE',      logoUrl: '/assets/brands/porsche.png' },
+    { name: 'Range Rover',  originKey: 'BRANDS.RANGE_ROVER_ORIGIN',  taglineKey: 'BRANDS.RANGE_ROVER_TAGLINE',  logoUrl: '/assets/brands/land-rover.svg' },
+    { name: 'Rolls-Royce',  originKey: 'BRANDS.ROLLS_ROYCE_ORIGIN',  taglineKey: 'BRANDS.ROLLS_ROYCE_TAGLINE',  logoUrl: '/assets/brands/rolls%20royce.png' },
   ];
 }

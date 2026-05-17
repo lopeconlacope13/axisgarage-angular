@@ -16,8 +16,8 @@
                onerror="this.style.display='none'">
         </div>
         <div class="font-display text-lg font-semibold brand-name">{{ b.name }}</div>
-        <div class="eyebrow brand-origin">{{ b.origin }}</div>
-        <p class="text-axis-gray text-sm" style="line-height:1.6;margin-top:0.25rem;">{{ b.tagline }}</p>
+        <div class="eyebrow brand-origin">{{ b.originKey | translate }}</div>
+        <p class="text-axis-gray text-sm" style="line-height:1.6;margin-top:0.25rem;">{{ b.taglineKey | translate }}</p>
       </div>
     }
   </div>
