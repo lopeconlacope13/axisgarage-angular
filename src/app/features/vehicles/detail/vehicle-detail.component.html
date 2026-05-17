@@ -177,12 +177,12 @@
 
           <div>
             <label class="eyebrow form-label form-label-muted">{{ 'DETAIL.PICK_UP' | translate }}</label>
-            <input type="date" class="input-dark input-full" [(ngModel)]="startDate" />
+            <input type="date" class="input-dark input-full" [(ngModel)]="startDate" [min]="today" />
           </div>
 
           <div>
             <label class="eyebrow form-label form-label-muted">{{ 'DETAIL.DROP_OFF' | translate }}</label>
-            <input type="date" class="input-dark input-full" [(ngModel)]="endDate" />
+            <input type="date" class="input-dark input-full" [(ngModel)]="endDate" [min]="startDate || today" />
           </div>
 
         </div>

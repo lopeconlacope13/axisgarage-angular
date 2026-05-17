@@ -31,6 +31,8 @@ export class VehicleDetailComponent implements OnInit {
   selectedCoverage: 'STANDARD' | 'PREMIUM' | 'TOTAL' = 'STANDARD';
   startDate  = '';
   endDate    = '';
+  /** Fecha de hoy en formato YYYY-MM-DD — usada como mínimo en los selectores de fecha */
+  today = new Date().toISOString().split('T')[0];
   loading    = false;
   /** Mensaje de error de validación antes de ir al checkout */
   errorMsg   = '';
